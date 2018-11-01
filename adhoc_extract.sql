@@ -59,7 +59,7 @@ SELECT eventId, o.personId,
         WHEN o.personId IS NOT NULL THEN best
         WHEN eventId IN ('333mbf', '333mbo') THEN FLOOR(best / 10000000) * 10000000
         WHEN eventId IN ('333fm') THEN FLOOR(best / 100) * 100
-        ELSE FLOOR(best / 10) * 10
+        ELSE FLOOR(best / 100) * 100
     END AS modifiedBest
 FROM wca.ranksaverage r
 INNER JOIN persons p ON p.id = r.personId AND p.year < 1979
