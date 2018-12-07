@@ -16,25 +16,25 @@
 
 
 /* 
-   Simple count of oldies from "ranksaverage" and "rankssingle"
+   Simple count of oldies from "RanksAverage" and "RanksSingle"
 
    1) Use a simple year check to pick out the 40 year olds - i.e. year < 1979 (not really worried about Nov/Dec 1978 being wrong)
 */
 
 SELECT eventId, COUNT(*)
-FROM wca.ranksaverage r
-INNER JOIN persons p ON p.id = r.personId AND p.year < 1979
+FROM RanksAverage r
+INNER JOIN Persons p ON p.id = r.personId AND p.year < 1979
 GROUP BY eventId
 ORDER BY eventId;
 
 SELECT eventId, COUNT(*)
-FROM wca.rankssingle r
-INNER JOIN persons p ON p.id = r.personId AND p.year < 1979
+FROM RanksSingle r
+INNER JOIN Persons p ON p.id = r.personId AND p.year < 1979
 GROUP BY eventId
 ORDER BY eventId;
 
 /* 
-   Extract AGGREGATED oldies from "ranksaverage"
+   Extract AGGREGATED oldies from "RanksAverage"
    
    1) Output counts of oldies rather than WCA IDs
    2) Leave "best" unchanged for known oldies, regardless of event - i.e. best
@@ -47,8 +47,8 @@ ORDER BY eventId;
 SELECT eventId,
     FLOOR(best / 100) * 100 AS modifiedBest,
     COUNT(*)
-FROM wca.ranksaverage r
-INNER JOIN persons p ON p.id = r.personId AND p.year < 1979
+FROM RanksAverage r
+INNER JOIN Persons p ON p.id = r.personId AND p.year < 1979
 WHERE evenitId IN ('222', '333', '444', '555', '666', '777')
 GROUP BY eventId, modifiedBest
 ORDER BY eventId, modifiedBest;
@@ -56,8 +56,8 @@ ORDER BY eventId, modifiedBest;
 SELECT eventId,
     FLOOR(best / 100) * 100 AS modifiedBest,
     COUNT(*)
-FROM wca.ranksaverage r
-INNER JOIN persons p ON p.id = r.personId AND p.year < 1979
+FROM RanksAverage r
+INNER JOIN Persons p ON p.id = r.personId AND p.year < 1979
 WHERE evenitId IN ('333oh', '333ft', '333bf', '444bf', '555bf')
 GROUP BY eventId, modifiedBest
 ORDER BY eventId, modifiedBest;
@@ -65,8 +65,8 @@ ORDER BY eventId, modifiedBest;
 SELECT eventId,
     FLOOR(best / 100) * 100 AS modifiedBest,
     COUNT(*)
-FROM wca.ranksaverage r
-INNER JOIN persons p ON p.id = r.personId AND p.year < 1979
+FROM RanksAverage r
+INNER JOIN Persons p ON p.id = r.personId AND p.year < 1979
 WHERE evenitId IN ('pyram', 'skewb', 'clock', 'sq1', 'minx')
 GROUP BY eventId, modifiedBest
 ORDER BY eventId, modifiedBest;
@@ -78,14 +78,14 @@ SELECT eventId,
         ELSE FLOOR(best / 100) * 100
     END) AS modifiedBest,
     COUNT(*)
-FROM wca.ranksaverage r
-INNER JOIN persons p ON p.id = r.personId AND p.year < 1979
+FROM RanksAverage r
+INNER JOIN Persons p ON p.id = r.personId AND p.year < 1979
 WHERE evenitId IN ('333mbf', '333mbo', '333fm')
 GROUP BY eventId, modifiedBest
 ORDER BY eventId, modifiedBest;
 
 /* 
-   Extract AGGREGATED oldies from "rankssingle"
+   Extract AGGREGATED oldies from "RanksSingle"
    
    1) Output counts of oldies rather than WCA IDs
    2) Leave "best" unchanged for known oldies, regardless of event - i.e. best
@@ -98,8 +98,8 @@ ORDER BY eventId, modifiedBest;
 SELECT eventId,
     FLOOR(best / 100) * 100 AS modifiedBest,
     COUNT(*)
-FROM wca.rankssingle r
-INNER JOIN persons p ON p.id = r.personId AND p.year < 1979
+FROM RanksSingle r
+INNER JOIN Persons p ON p.id = r.personId AND p.year < 1979
 WHERE evenitId IN ('222', '333', '444', '555', '666', '777')
 GROUP BY eventId, modifiedBest
 ORDER BY eventId, modifiedBest;
@@ -107,8 +107,8 @@ ORDER BY eventId, modifiedBest;
 SELECT eventId,
     FLOOR(best / 100) * 100 AS modifiedBest,
     COUNT(*)
-FROM wca.rankssingle r
-INNER JOIN persons p ON p.id = r.personId AND p.year < 1979
+FROM RanksSingle r
+INNER JOIN Persons p ON p.id = r.personId AND p.year < 1979
 WHERE evenitId IN ('333oh', '333ft', '333bf', '444bf', '555bf')
 GROUP BY eventId, modifiedBest
 ORDER BY eventId, modifiedBest;
@@ -116,8 +116,8 @@ ORDER BY eventId, modifiedBest;
 SELECT eventId,
     FLOOR(best / 100) * 100 AS modifiedBest,
     COUNT(*)
-FROM wca.rankssingle r
-INNER JOIN persons p ON p.id = r.personId AND p.year < 1979
+FROM RanksSingle r
+INNER JOIN Persons p ON p.id = r.personId AND p.year < 1979
 WHERE evenitId IN ('pyram', 'skewb', 'clock', 'sq1', 'minx')
 GROUP BY eventId, modifiedBest
 ORDER BY eventId, modifiedBest;
@@ -129,8 +129,8 @@ SELECT eventId,
         ELSE FLOOR(best / 100) * 100
     END) AS modifiedBest,
     COUNT(*)
-FROM wca.rankssingle r
-INNER JOIN persons p ON p.id = r.personId AND p.year < 1979
+FROM RanksSingle r
+INNER JOIN Persons p ON p.id = r.personId AND p.year < 1979
 WHERE evenitId IN ('333mbf', '333mbo', '333fm')
 GROUP BY eventId, modifiedBest
 ORDER BY eventId, modifiedBest;
