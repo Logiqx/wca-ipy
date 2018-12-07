@@ -45,6 +45,33 @@ ORDER BY eventId;
 */
 
 SELECT eventId,
+    FLOOR(best / 100) * 100 AS modifiedBest,
+    COUNT(*)
+FROM wca.ranksaverage r
+INNER JOIN persons p ON p.id = r.personId AND p.year < 1979
+WHERE evenitId IN ('222', '333', '444', '555', '666', '777')
+GROUP BY eventId, modifiedBest
+ORDER BY eventId, modifiedBest;
+
+SELECT eventId,
+    FLOOR(best / 100) * 100 AS modifiedBest,
+    COUNT(*)
+FROM wca.ranksaverage r
+INNER JOIN persons p ON p.id = r.personId AND p.year < 1979
+WHERE evenitId IN ('333oh', '333ft', '333bf', '444bf', '555bf')
+GROUP BY eventId, modifiedBest
+ORDER BY eventId, modifiedBest;
+
+SELECT eventId,
+    FLOOR(best / 100) * 100 AS modifiedBest,
+    COUNT(*)
+FROM wca.ranksaverage r
+INNER JOIN persons p ON p.id = r.personId AND p.year < 1979
+WHERE evenitId IN ('pyram', 'skewb', 'clock', 'sq1', 'minx')
+GROUP BY eventId, modifiedBest
+ORDER BY eventId, modifiedBest;
+
+SELECT eventId,
     (CASE
         WHEN eventId IN ('333mbf', '333mbo') THEN FLOOR(best / 10000000) * 10000000
         WHEN eventId IN ('333fm') THEN FLOOR(best / 100) * 100
@@ -53,6 +80,7 @@ SELECT eventId,
     COUNT(*)
 FROM wca.ranksaverage r
 INNER JOIN persons p ON p.id = r.personId AND p.year < 1979
+WHERE evenitId IN ('333mbf', '333mbo', '333fm')
 GROUP BY eventId, modifiedBest
 ORDER BY eventId, modifiedBest;
 
@@ -68,6 +96,33 @@ ORDER BY eventId, modifiedBest;
 */
 
 SELECT eventId,
+    FLOOR(best / 100) * 100 AS modifiedBest,
+    COUNT(*)
+FROM wca.rankssingle r
+INNER JOIN persons p ON p.id = r.personId AND p.year < 1979
+WHERE evenitId IN ('222', '333', '444', '555', '666', '777')
+GROUP BY eventId, modifiedBest
+ORDER BY eventId, modifiedBest;
+
+SELECT eventId,
+    FLOOR(best / 100) * 100 AS modifiedBest,
+    COUNT(*)
+FROM wca.rankssingle r
+INNER JOIN persons p ON p.id = r.personId AND p.year < 1979
+WHERE evenitId IN ('333oh', '333ft', '333bf', '444bf', '555bf')
+GROUP BY eventId, modifiedBest
+ORDER BY eventId, modifiedBest;
+
+SELECT eventId,
+    FLOOR(best / 100) * 100 AS modifiedBest,
+    COUNT(*)
+FROM wca.rankssingle r
+INNER JOIN persons p ON p.id = r.personId AND p.year < 1979
+WHERE evenitId IN ('pyram', 'skewb', 'clock', 'sq1', 'minx')
+GROUP BY eventId, modifiedBest
+ORDER BY eventId, modifiedBest;
+
+SELECT eventId,
     (CASE
         WHEN eventId IN ('333mbf', '333mbo') THEN FLOOR(best / 10000000) * 10000000
         WHEN eventId IN ('333fm') THEN best
@@ -76,5 +131,6 @@ SELECT eventId,
     COUNT(*)
 FROM wca.rankssingle r
 INNER JOIN persons p ON p.id = r.personId AND p.year < 1979
+WHERE evenitId IN ('333mbf', '333mbo', '333fm')
 GROUP BY eventId, modifiedBest
 ORDER BY eventId, modifiedBest;
