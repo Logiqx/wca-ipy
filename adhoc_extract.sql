@@ -44,7 +44,7 @@ INSERT INTO oldies (personId) VALUES
 ('2018DOYL02'), ('2018GUTI13'), ('2018PRAT13'), ('2018SALM01'), ('2018VILJ02');
 
 /* 
-   Extract ANONYMISED oldies from "ranksaverage"
+   Extract ANONYMISED oldies from "RanksAverage"
    
    1) Only output the WCA ID of known oldies, output NULL for unknown oldies - i.e. o.personId
    2) Leave "best" unchanged for known oldies, regardless of event - i.e. best
@@ -61,13 +61,13 @@ SELECT eventId, o.personId,
         WHEN eventId IN ('333fm') THEN FLOOR(best / 100) * 100
         ELSE FLOOR(best / 100) * 100
     END) AS modifiedBest
-FROM wca.ranksaverage r
-INNER JOIN persons p ON p.id = r.personId AND p.year < 1979
+FROM RanksAverage r
+INNER JOIN Persons p ON p.id = r.personId AND p.year < 1979
 LEFT JOIN oldies o ON o.personId = r.personId
 ORDER BY eventId, worldRank;
 
 /* 
-   Extract ANONYMISED oldies from "rankssingle"
+   Extract ANONYMISED oldies from "RanksSingle"
    
    1) Only output the WCA ID of known oldies, output NULL for unknown oldies - i.e. i.e. o.personId
    2) Leave "best" unchanged for known oldies, regardless of event - i.e. best
@@ -84,7 +84,7 @@ SELECT eventId, o.personId,
         WHEN eventId IN ('333fm') THEN best
         ELSE FLOOR(best / 100) * 100
     END) AS modifiedBest
-FROM wca.rankssingle r
-INNER JOIN persons p ON p.id = r.personId AND p.year < 1979
+FROM RanksSingle r
+INNER JOIN Persons p ON p.id = r.personId AND p.year < 1979
 LEFT JOIN oldies o ON o.personId = r.personId
 ORDER BY eventId, worldRank;
