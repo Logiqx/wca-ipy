@@ -45,11 +45,11 @@ ORDER BY eventId;
 */
 
 SELECT eventId,
-    CASE
+    (CASE
         WHEN eventId IN ('333mbf', '333mbo') THEN FLOOR(best / 10000000) * 10000000
         WHEN eventId IN ('333fm') THEN FLOOR(best / 100) * 100
         ELSE FLOOR(best / 100) * 100
-    END AS modifiedBest,
+    END) AS modifiedBest,
     COUNT(*)
 FROM wca.ranksaverage r
 INNER JOIN persons p ON p.id = r.personId AND p.year < 1979
@@ -68,11 +68,11 @@ ORDER BY eventId, modifiedBest;
 */
 
 SELECT eventId,
-    CASE
+    (CASE
         WHEN eventId IN ('333mbf', '333mbo') THEN FLOOR(best / 10000000) * 10000000
         WHEN eventId IN ('333fm') THEN best
         ELSE FLOOR(best / 100) * 100
-    END AS modifiedBest,
+    END) AS modifiedBest,
     COUNT(*)
 FROM wca.rankssingle r
 INNER JOIN persons p ON p.id = r.personId AND p.year < 1979
