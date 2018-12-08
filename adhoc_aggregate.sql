@@ -49,7 +49,7 @@ SELECT eventId,
     COUNT(*)
 FROM RanksAverage r
 INNER JOIN Persons p ON p.id = r.personId AND p.year < 1979
-WHERE evenitId IN ('222', '333', '444', '555', '666', '777')
+WHERE eventId IN ('222', '333', '444', '555', '666', '777')
 GROUP BY eventId, modifiedBest
 ORDER BY eventId, modifiedBest;
 
@@ -58,7 +58,7 @@ SELECT eventId,
     COUNT(*)
 FROM RanksAverage r
 INNER JOIN Persons p ON p.id = r.personId AND p.year < 1979
-WHERE evenitId IN ('333oh', '333ft', '333bf', '444bf', '555bf')
+WHERE eventId IN ('333oh', '333ft', '333bf', '444bf', '555bf')
 GROUP BY eventId, modifiedBest
 ORDER BY eventId, modifiedBest;
 
@@ -67,7 +67,7 @@ SELECT eventId,
     COUNT(*)
 FROM RanksAverage r
 INNER JOIN Persons p ON p.id = r.personId AND p.year < 1979
-WHERE evenitId IN ('pyram', 'skewb', 'clock', 'sq1', 'minx')
+WHERE eventId IN ('pyram', 'skewb', 'clock', 'sq1', 'minx')
 GROUP BY eventId, modifiedBest
 ORDER BY eventId, modifiedBest;
 
@@ -80,7 +80,7 @@ SELECT eventId,
     COUNT(*)
 FROM RanksAverage r
 INNER JOIN Persons p ON p.id = r.personId AND p.year < 1979
-WHERE evenitId IN ('333mbf', '333mbo', '333fm')
+WHERE eventId IN ('333mbf', '333mbo', '333fm')
 GROUP BY eventId, modifiedBest
 ORDER BY eventId, modifiedBest;
 
@@ -100,7 +100,7 @@ SELECT eventId,
     COUNT(*)
 FROM RanksSingle r
 INNER JOIN Persons p ON p.id = r.personId AND p.year < 1979
-WHERE evenitId IN ('222', '333', '444', '555', '666', '777')
+WHERE eventId IN ('222', '333', '444', '555', '666', '777')
 GROUP BY eventId, modifiedBest
 ORDER BY eventId, modifiedBest;
 
@@ -109,7 +109,7 @@ SELECT eventId,
     COUNT(*)
 FROM RanksSingle r
 INNER JOIN Persons p ON p.id = r.personId AND p.year < 1979
-WHERE evenitId IN ('333oh', '333ft', '333bf', '444bf', '555bf')
+WHERE eventId IN ('333oh', '333ft', '333bf', '444bf', '555bf')
 GROUP BY eventId, modifiedBest
 ORDER BY eventId, modifiedBest;
 
@@ -118,7 +118,7 @@ SELECT eventId,
     COUNT(*)
 FROM RanksSingle r
 INNER JOIN Persons p ON p.id = r.personId AND p.year < 1979
-WHERE evenitId IN ('pyram', 'skewb', 'clock', 'sq1', 'minx')
+WHERE eventId IN ('pyram', 'skewb', 'clock', 'sq1', 'minx')
 GROUP BY eventId, modifiedBest
 ORDER BY eventId, modifiedBest;
 
@@ -131,6 +131,6 @@ SELECT eventId,
     COUNT(*)
 FROM RanksSingle r
 INNER JOIN Persons p ON p.id = r.personId AND p.year < 1979
-WHERE evenitId IN ('333mbf', '333mbo', '333fm')
+WHERE eventId IN ('333mbf', '333mbo', '333fm')
 GROUP BY eventId, modifiedBest
 ORDER BY eventId, modifiedBest;
