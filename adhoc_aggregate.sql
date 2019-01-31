@@ -32,19 +32,28 @@ GROUP BY eventId;
    Extract AGGREGATED oldies from "RanksAverage"
    
    1) Output counts of oldies rather than WCA IDs
-   2) Truncate results to the nearest second - i.e. FLOOR(best / 100)
+   2) Truncate MBF to "points" only - i.e. FLOOR(best / 10000000)
+   3) Truncate FMC "average" to the nearest move - i.e. FLOOR(best / 100)
+   4) Truncate everything else to the nearest second - i.e. FLOOR(best / 100)
 */
 
-SELECT eventId, FLOOR(best_average / 100) AS modified_average, COUNT(*) AS num_persons
+SELECT eventId,
+  (
+    CASE
+      WHEN eventId IN ('333mbf', '333mbo') THEN FLOOR(best_average / 10000000)
+      WHEN eventId IN ('333fm') THEN FLOOR(best_average / 100)
+      ELSE FLOOR(best_average / 100)
+    END
+  ) AS modified_average, COUNT(*) AS num_persons
 FROM
 (
   SELECT eventId, personId, MIN(best) AS best_single, MIN(average) AS best_average
   FROM
   (
     SELECT r.eventId, r.personId, r.best, r.average,
-        TIMESTAMPDIFF(YEAR,
-            DATE_FORMAT(CONCAT(p.year, "-", p.month, "-", p.day), "%Y-%m-%d"),
-            DATE_FORMAT(CONCAT(c.year, "-", c.month, "-", c.day), "%Y-%m-%d")) AS age_at_comp
+      TIMESTAMPDIFF(YEAR,
+        DATE_FORMAT(CONCAT(p.year, "-", p.month, "-", p.day), "%Y-%m-%d"),
+        DATE_FORMAT(CONCAT(c.year, "-", c.month, "-", c.day), "%Y-%m-%d")) AS age_at_comp
     FROM Results AS r
     INNER JOIN Competitions AS c ON r.competitionId = c.id
     INNER JOIN Persons AS p ON r.personId = p.id AND p.year > 0 AND p.year <= YEAR(CURDATE()) - 40
@@ -59,19 +68,28 @@ GROUP BY eventId, modified_average;
    Extract AGGREGATED oldies from "RanksSingle"
    
    1) Output counts of oldies rather than WCA IDs
-   2) Truncate results to the nearest second - i.e. FLOOR(best / 100)
+   2) Truncate MBF to "points" only - i.e. FLOOR(best / 10000000)
+   3) Leave FMC "single" as a move count - i.e. best
+   4) Truncate everything else to the nearest second - i.e. FLOOR(best / 100)
 */
 
-SELECT eventId, FLOOR(best_single / 100) AS modified_single, COUNT(*) AS num_persons
+SELECT eventId,
+  (
+    CASE
+      WHEN eventId IN ('333mbf', '333mbo') THEN FLOOR(best_single / 10000000)
+      WHEN eventId IN ('333fm') THEN best_single
+      ELSE FLOOR(best_single / 100)
+    END
+  ) AS modified_single, COUNT(*) AS num_persons
 FROM
-(
+(   
   SELECT eventId, personId, MIN(best) AS best_single, MIN(average) AS best_average
   FROM
   (
     SELECT r.eventId, r.personId, r.best, r.average,
-        TIMESTAMPDIFF(YEAR,
-            DATE_FORMAT(CONCAT(p.year, "-", p.month, "-", p.day), "%Y-%m-%d"),
-            DATE_FORMAT(CONCAT(c.year, "-", c.month, "-", c.day), "%Y-%m-%d")) AS age_at_comp
+      TIMESTAMPDIFF(YEAR,
+        DATE_FORMAT(CONCAT(p.year, "-", p.month, "-", p.day), "%Y-%m-%d"),
+        DATE_FORMAT(CONCAT(c.year, "-", c.month, "-", c.day), "%Y-%m-%d")) AS age_at_comp
     FROM Results AS r
     INNER JOIN Competitions AS c ON r.competitionId = c.id
     INNER JOIN Persons AS p ON r.personId = p.id AND p.year > 0 AND p.year <= YEAR(CURDATE()) - 40
