@@ -35,8 +35,6 @@ ORDER BY eventId;
    
    1) Output counts of oldies rather than WCA IDs
    2) Truncate results to the nearest second - i.e. FLOOR(best / 100)
-   3) Age check does not work properly on non-leap year birthdays
-   4) Optimisations pending
 */
 
 SELECT eventId, FLOOR(best_average / 100) AS modified_average, COUNT(*) AS num_persons
@@ -46,9 +44,9 @@ FROM
   FROM
   (
     SELECT r.eventId, r.personId, r.best, r.average,
-        FLOOR(DATEDIFF(
-            DATE_FORMAT(CONCAT(c.year, "-", c.month, "-", c.day), "%Y-%m-%d"),
-            DATE_FORMAT(CONCAT(p.year, "-", p.month, "-", p.day), "%Y-%m-%d")) / 365.25) AS age_at_comp
+        TIMESTAMPDIFF(YEAR,
+            DATE_FORMAT(CONCAT(p.year, "-", p.month, "-", p.day), "%Y-%m-%d"),
+            DATE_FORMAT(CONCAT(c.year, "-", c.month, "-", c.day), "%Y-%m-%d")) AS age_at_comp
     FROM Results AS r
     INNER JOIN Competitions AS c ON r.competitionId = c.id
     INNER JOIN Persons AS p ON r.personId = p.id AND p.year > 0 AND p.year <= YEAR(CURDATE()) - 40
@@ -65,8 +63,6 @@ ORDER BY eventId, modified_average;
    
    1) Output counts of oldies rather than WCA IDs
    2) Truncate results to the nearest second - i.e. FLOOR(best / 100)
-   3) Age check does not work properly on non-leap year birthdays
-   4) Optimisations pending
 */
 
 SELECT eventId, FLOOR(best_single / 100) AS modified_single, COUNT(*) AS num_persons
@@ -76,9 +72,9 @@ FROM
   FROM
   (
     SELECT r.eventId, r.personId, r.best, r.average,
-        FLOOR(DATEDIFF(
-            DATE_FORMAT(CONCAT(c.year, "-", c.month, "-", c.day), "%Y-%m-%d"),
-            DATE_FORMAT(CONCAT(p.year, "-", p.month, "-", p.day), "%Y-%m-%d")) / 365.25) AS age_at_comp
+        TIMESTAMPDIFF(YEAR,
+            DATE_FORMAT(CONCAT(p.year, "-", p.month, "-", p.day), "%Y-%m-%d"),
+            DATE_FORMAT(CONCAT(c.year, "-", c.month, "-", c.day), "%Y-%m-%d")) AS age_at_comp
     FROM Results AS r
     INNER JOIN Competitions AS c ON r.competitionId = c.id
     INNER JOIN Persons AS p ON r.personId = p.id AND p.year > 0 AND p.year <= YEAR(CURDATE()) - 40
