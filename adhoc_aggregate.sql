@@ -20,15 +20,13 @@ SELECT eventId, COUNT(*) AS num_persons,
   SUM(TIMESTAMPDIFF(YEAR, DATE_FORMAT(CONCAT(p.year, "-", p.month, "-", p.day), "%Y-%m-%d"), CURDATE()) >= 40) AS num_oldies
 FROM RanksAverage r
 INNER JOIN Persons p ON p.id = r.personId
-GROUP BY eventId
-ORDER BY eventId;
+GROUP BY eventId;
 
 SELECT eventId, COUNT(*) AS num_persons,
   SUM(TIMESTAMPDIFF(YEAR, DATE_FORMAT(CONCAT(p.year, "-", p.month, "-", p.day), "%Y-%m-%d"), CURDATE()) >= 40) AS num_oldies
 FROM RanksSingle r
 INNER JOIN Persons p ON p.id = r.personId
-GROUP BY eventId
-ORDER BY eventId;
+GROUP BY eventId;
 
 /* 
    Extract AGGREGATED oldies from "RanksAverage"
@@ -50,13 +48,12 @@ FROM
     FROM Results AS r
     INNER JOIN Competitions AS c ON r.competitionId = c.id
     INNER JOIN Persons AS p ON r.personId = p.id AND p.year > 0 AND p.year <= YEAR(CURDATE()) - 40
+    WHERE average > 0
     HAVING age_at_comp >= 40
   ) tmp_results
-  WHERE average > 0
   GROUP BY eventId, personId
 ) tmp_persons
-GROUP BY eventId, modified_average
-ORDER BY eventId, modified_average;
+GROUP BY eventId, modified_average;
 
 /* 
    Extract AGGREGATED oldies from "RanksSingle"
@@ -78,10 +75,9 @@ FROM
     FROM Results AS r
     INNER JOIN Competitions AS c ON r.competitionId = c.id
     INNER JOIN Persons AS p ON r.personId = p.id AND p.year > 0 AND p.year <= YEAR(CURDATE()) - 40
+    WHERE best > 0
     HAVING age_at_comp >= 40
   ) tmp_results
-  WHERE best > 0
   GROUP BY eventId, personId
 ) tmp_persons
-GROUP BY eventId, modified_single
-ORDER BY eventId, modified_single;
+GROUP BY eventId, modified_single;
