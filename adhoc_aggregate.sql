@@ -51,9 +51,10 @@ FROM
             DATE_FORMAT(CONCAT(p.year, "-", p.month, "-", p.day), "%Y-%m-%d")) / 365.25) AS age_at_comp
     FROM Results AS r
     INNER JOIN Competitions AS c ON r.competitionId = c.id
-    INNER JOIN Persons AS p ON r.personId = p.id AND p.year > 0
+    INNER JOIN Persons AS p ON r.personId = p.id AND p.year > 0 AND p.year <= YEAR(CURDATE()) - 40
+    HAVING age_at_comp >= 40
   ) tmp_results
-  WHERE average > 0 AND age_at_comp >= 40
+  WHERE average > 0
   GROUP BY eventId, personId
 ) tmp_persons
 GROUP BY eventId, modified_average
@@ -80,9 +81,10 @@ FROM
             DATE_FORMAT(CONCAT(p.year, "-", p.month, "-", p.day), "%Y-%m-%d")) / 365.25) AS age_at_comp
     FROM Results AS r
     INNER JOIN Competitions AS c ON r.competitionId = c.id
-    INNER JOIN Persons AS p ON r.personId = p.id AND p.year > 0
+    INNER JOIN Persons AS p ON r.personId = p.id AND p.year > 0 AND p.year <= YEAR(CURDATE()) - 40
+    HAVING age_at_comp >= 40
   ) tmp_results
-  WHERE best > 0 AND age_at_comp >= 40
+  WHERE best > 0
   GROUP BY eventId, personId
 ) tmp_persons
 GROUP BY eventId, modified_single
