@@ -68,7 +68,7 @@ ORDER BY eventId, modified_average;
    4) Optimisations pending
 */
 
-SELECT eventId, FLOOR(best_average / 100) AS modified_average, COUNT(*) AS num_persons
+SELECT eventId, FLOOR(best_single / 100) AS modified_single, COUNT(*) AS num_persons
 FROM
 (
   SELECT eventId, personId, MIN(best) AS best_single, MIN(average) AS best_average
@@ -82,8 +82,8 @@ FROM
     INNER JOIN Competitions AS c ON r.competitionId = c.id
     INNER JOIN Persons AS p ON r.personId = p.id AND p.year > 0
   ) tmp_results
-  WHERE average > 0 AND age_at_comp >= 40
+  WHERE best > 0 AND age_at_comp >= 40
   GROUP BY eventId, personId
 ) tmp_persons
-GROUP BY eventId, modified_average
-ORDER BY eventId, modified_average;
+GROUP BY eventId, modified_single
+ORDER BY eventId, modified_single;
