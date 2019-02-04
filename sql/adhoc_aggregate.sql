@@ -64,6 +64,19 @@ FROM
 ) tmp_persons
 GROUP BY eventId, modified_average;
 
+-- Similar extract but for all competitors, regardless of age
+
+SELECT eventId,
+  (
+    CASE
+      WHEN eventId IN ('333mbf', '333mbo') THEN FLOOR(best / 10000000)
+      WHEN eventId IN ('333fm') THEN FLOOR(best / 100)
+      ELSE FLOOR(best / 100)
+    END
+  ) AS modified_average, COUNT(*) AS num_persons
+FROM RanksAverage
+GROUP BY eventId, modified_average;
+
 /* 
    Extract AGGREGATED oldies from "RanksSingle"
    
@@ -98,4 +111,17 @@ FROM
   ) tmp_results
   GROUP BY eventId, personId
 ) tmp_persons
+GROUP BY eventId, modified_single;
+
+-- Similar extract but for all competitors, regardless of age
+
+SELECT eventId,
+  (
+    CASE
+      WHEN eventId IN ('333mbf', '333mbo') THEN FLOOR(best / 10000000)
+      WHEN eventId IN ('333fm') THEN best
+      ELSE FLOOR(best / 100)
+    END
+  ) AS modified_single, COUNT(*) AS num_persons
+FROM RanksSingle
 GROUP BY eventId, modified_single;
