@@ -57,8 +57,6 @@ INSERT INTO oldies (personId) VALUES
 SELECT eventId, o.personId,
     (CASE
         WHEN o.personId IS NOT NULL THEN best
-        WHEN eventId IN ('333mbf', '333mbo') THEN FLOOR(best / 10000000) * 10000000
-        WHEN eventId IN ('333fm') THEN FLOOR(best / 100) * 100
         ELSE FLOOR(best / 100) * 100
     END) AS modifiedBest
 FROM RanksAverage r

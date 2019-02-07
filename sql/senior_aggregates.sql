@@ -1,9 +1,9 @@
 /* 
     Script:   Aggregated Over 40's Rankings
-    Date:     2019-01-31
+    Date:     2019-02-07
     Author:   Michael George / 2015GEOR02
    
-    Purpose:  Unofficial rankings for the Over 40's exist on GitHub but they are known to be incomplete - https://github.com/Logiqx/wca-ipy.
+    Purpose:  Unofficial rankings for the Over-40's exist on GitHub but they are known to be incomplete - https://github.com/Logiqx/wca-ipy.
               This extract will be used to provide participants of the unofficial rankings with a more comprehensive view of how they rank against their peers.
               The data will help us to ascertain how many people are missing from the unofficial rankings and provide general stats for the Over 40's in comp.
             
@@ -13,38 +13,13 @@
 
 
 /* 
-   Simple counts of oldies present in "RanksAverage" and "RanksSingle"
-*/
-
-SELECT eventId, COUNT(*) AS num_persons,
-  SUM(TIMESTAMPDIFF(YEAR, DATE_FORMAT(CONCAT(p.year, "-", p.month, "-", p.day), "%Y-%m-%d"), CURDATE()) >= 40) AS num_oldies
-FROM RanksAverage r
-INNER JOIN Persons p ON p.id = r.personId
-GROUP BY eventId;
-
-SELECT eventId, COUNT(*) AS num_persons,
-  SUM(TIMESTAMPDIFF(YEAR, DATE_FORMAT(CONCAT(p.year, "-", p.month, "-", p.day), "%Y-%m-%d"), CURDATE()) >= 40) AS num_oldies
-FROM RanksSingle r
-INNER JOIN Persons p ON p.id = r.personId
-GROUP BY eventId;
-
-/* 
-   Extract AGGREGATED oldies from "RanksAverage"
+   Extract AGGREGATED seniors from "RanksAverage"
    
-   1) Output counts of oldies rather than WCA IDs
-   2) Truncate MBF to "points" only - i.e. FLOOR(best / 10000000)
-   3) Truncate FMC "average" to the nearest move - i.e. FLOOR(best / 100)
-   4) Truncate everything else to the nearest second - i.e. FLOOR(best / 100)
+   1) Output counts of seniors rather than WCA IDs
+   2) Truncate everything to the nearest second - i.e. FLOOR(best / 100)
 */
 
-SELECT eventId,
-  (
-    CASE
-      WHEN eventId IN ('333mbf', '333mbo') THEN FLOOR(best_average / 10000000)
-      WHEN eventId IN ('333fm') THEN FLOOR(best_average / 100)
-      ELSE FLOOR(best_average / 100)
-    END
-  ) AS modified_average, COUNT(*) AS num_persons
+SELECT eventId, FLOOR(best_average / 100) AS modified_average, COUNT(*) AS num_persons
 FROM
 (
   SELECT eventId, personId, MIN(best) AS best_single, MIN(average) AS best_average
@@ -64,23 +39,10 @@ FROM
 ) tmp_persons
 GROUP BY eventId, modified_average;
 
--- Similar extract but for all competitors, regardless of age
-
-SELECT eventId,
-  (
-    CASE
-      WHEN eventId IN ('333mbf', '333mbo') THEN FLOOR(best / 10000000)
-      WHEN eventId IN ('333fm') THEN FLOOR(best / 100)
-      ELSE FLOOR(best / 100)
-    END
-  ) AS modified_average, COUNT(*) AS num_persons
-FROM RanksAverage
-GROUP BY eventId, modified_average;
-
 /* 
-   Extract AGGREGATED oldies from "RanksSingle"
+   Extract AGGREGATED seniors from "RanksSingle"
    
-   1) Output counts of oldies rather than WCA IDs
+   1) Output counts of seniors rather than WCA IDs
    2) Truncate MBF to "points" only - i.e. FLOOR(best / 10000000)
    3) Leave FMC "single" as a move count - i.e. best
    4) Truncate everything else to the nearest second - i.e. FLOOR(best / 100)
@@ -111,17 +73,4 @@ FROM
   ) tmp_results
   GROUP BY eventId, personId
 ) tmp_persons
-GROUP BY eventId, modified_single;
-
--- Similar extract but for all competitors, regardless of age
-
-SELECT eventId,
-  (
-    CASE
-      WHEN eventId IN ('333mbf', '333mbo') THEN FLOOR(best / 10000000)
-      WHEN eventId IN ('333fm') THEN best
-      ELSE FLOOR(best / 100)
-    END
-  ) AS modified_single, COUNT(*) AS num_persons
-FROM RanksSingle
 GROUP BY eventId, modified_single;
