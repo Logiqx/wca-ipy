@@ -24,9 +24,9 @@ events = \
 # Create dictionary of events
 eventsDict = {}
 for event in events:
-	eventsDict[event[0]] = (event[1:])
+    eventsDict[event[0]] = (event[1:])
 
-	
+
 def formatTime(seconds):
     '''Intelligently convert seconds to hours, minutes and seconds'''
     if seconds >= 3600:
@@ -36,7 +36,7 @@ def formatTime(seconds):
     else:
         return str(seconds)
 
-		
+
 def decodeTime(result):
     '''Intelligently convert hours, minutes and seconds to seconds'''
     seconds = 0
