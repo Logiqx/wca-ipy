@@ -207,8 +207,8 @@ ORDER BY personName;
    Extract senior results (averages)
 */
 
-SELECT eventId, personId, personName, c.name AS countryName, IFNULL(username, '?') AS username, MIN(average) AS best_average
-INTO OUTFILE 'best_averages.csv' FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
+SELECT eventId, personId, MIN(average) AS best_average
+INTO OUTFILE 'partial_senior_averages.csv' FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
 FROM
 (
   SELECT r.eventId, r.personId, r.average, p.name AS personName, p.countryId, p.username,
@@ -221,7 +221,6 @@ FROM
   WHERE average > 0
   HAVING age_at_comp >= 40
 ) tmp_results
-INNER JOIN Countries AS c ON tmp_results.countryId = c.id
 GROUP BY eventId, personId
 ORDER BY eventId, best_average;
 
@@ -229,8 +228,8 @@ ORDER BY eventId, best_average;
    Extract senior results (singles)
 */
 
-SELECT eventId, personId, personName, c.name AS countryName, IFNULL(username, '?') AS username, MIN(best) AS best_single
-INTO OUTFILE 'best_singles.csv' FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
+SELECT eventId, personId, MIN(best) AS best_single
+INTO OUTFILE 'partial_senior_singles.csv' FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
 FROM
 (
   SELECT r.eventId, r.personId, r.best, p.name AS personName, p.countryId, p.username,
@@ -243,6 +242,5 @@ FROM
   WHERE best > 0
   HAVING age_at_comp >= 40
 ) tmp_results
-INNER JOIN Countries AS c ON tmp_results.countryId = c.id
 GROUP BY eventId, personId
 ORDER BY eventId, best_single;
