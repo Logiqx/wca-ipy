@@ -27,22 +27,17 @@ for event in events:
     eventsDict[event[0]] = (event[1:])
 
 
-def formatTime(seconds):
+def formatTime(seconds, centiseconds = None):
     '''Intelligently convert seconds to hours, minutes and seconds'''
+
     if seconds >= 3600:
-        return str(seconds / 3600) + ':' + str(seconds % 3600 / 60).zfill(2) + ':' + str(seconds % 60).zfill(2)
+        result = str(seconds / 3600) + ':' + str(seconds % 3600 / 60).zfill(2) + ':' + str(seconds % 60).zfill(2)
     elif seconds >= 60:
-        return str(seconds / 60) + ':' + str(seconds % 60).zfill(2)
+        result = str(seconds / 60) + ':' + str(seconds % 60).zfill(2)
     else:
-        return str(seconds)
+        result = str(seconds)
 
+    if centiseconds is not None:
+        result += "." + str(centiseconds).zfill(2)
 
-def decodeTime(result):
-    '''Intelligently convert hours, minutes and seconds to seconds'''
-    seconds = 0
-    parts = result.split(':')
-
-    for part in parts:
-        seconds = seconds * 60 + int(part)
-
-    return seconds
+    return result
