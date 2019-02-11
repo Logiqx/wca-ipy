@@ -194,7 +194,7 @@ SET p.username = pe.username;
    Extract seniors
 */
 
-SELECT p.name AS personName, c.name AS country, p.id AS personId, IFNULL(p.username, '?') AS username,
+SELECT p.id AS personId, p.name AS personName, c.name AS country, IFNULL(p.username, '?') AS username,
   (CASE WHEN p.year < 1900 THEN '?' ELSE p.year END) AS year
 INTO OUTFILE 'seniors.csv' FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
 FROM Persons AS p
