@@ -11,16 +11,16 @@
    Create temporary table using data from the unofficial rankings
 */
 
-DROP TEMPORARY TABLE IF EXISTS personsextra;
+DROP TEMPORARY TABLE IF EXISTS PersonsExtra;
 
-CREATE TEMPORARY TABLE personsextra
+CREATE TEMPORARY TABLE PersonsExtra
 (
      `id` varchar(10) CHARACTER SET latin1 NULL,
      `dob` date,
      `username` varchar(30) CHARACTER SET latin1 NULL
 );
 
-INSERT INTO personsextra (id, dob, username)
+INSERT INTO PersonsExtra (id, dob, username)
 VALUES
 ('1982FRID01', '1964-12-31', NULL), -- YOB taken from Wikipedia
 ('1982PETR01', '1960-11-04', 'Lars Petrus'), -- Located on Speedsolving.com Wiki + Wikipedia 2017-11-25
@@ -151,7 +151,7 @@ VALUES
 */
 
 -- Columns as per the private WCA database
-ALTER TABLE PERSONS
+ALTER TABLE Persons
 ADD COLUMN
 (
     `year` SMALLINT(5),
@@ -161,20 +161,20 @@ ADD COLUMN
 );
 
 -- Default values
-UPDATE persons AS p
+UPDATE Persons AS p
 SET p.year = 0,
     p.month = 0,
     p.day = 0;
 
 -- Use DOB if it is known (or approximated)
-UPDATE persons AS p
+UPDATE Persons AS p
 INNER JOIN PersonsExtra AS pe ON pe.id = p.id AND pe.dob IS NOT NULL
 SET p.year = DATE_FORMAT(pe.dob, "%Y"),
     p.month = DATE_FORMAT(pe.dob, "%m"),
     p.day = DATE_FORMAT(pe.dob, "%d");
 
 -- Use 19th century if DOB is unknown
-UPDATE persons AS p
+UPDATE Persons AS p
 INNER JOIN PersonsExtra AS pe ON pe.id = p.id AND pe.dob IS NULL
 SET p.year = 1899,
     p.month = 12,
@@ -186,7 +186,7 @@ FROM Persons AS p
 GROUP BY p.year;
 
 -- Use username if it is known
-UPDATE persons AS p
+UPDATE Persons AS p
 INNER JOIN PersonsExtra AS pe ON pe.id = p.id AND pe.username IS NOT NULL
 SET p.username = pe.username;
 
@@ -194,7 +194,7 @@ SET p.username = pe.username;
    Extract seniors
 */
 
-SELECT p.name as personName, c.name AS country, p.id AS personId, IFNULL(p.username, '?') AS username,
+SELECT p.name AS personName, c.name AS country, p.id AS personId, IFNULL(p.username, '?') AS username,
   (CASE WHEN p.year < 1900 THEN '?' ELSE p.year END) AS year
 INTO OUTFILE 'seniors.csv' FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
 FROM Persons AS p
