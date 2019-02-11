@@ -17,6 +17,7 @@
 */
 
 SELECT eventId, FLOOR(best / 100) AS modified_average, COUNT(*) AS num_persons
+INTO OUTFILE 'wca_averages.csv' FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
 FROM RanksAverage
 GROUP BY eventId, modified_average;
 
@@ -37,5 +38,6 @@ SELECT eventId,
       ELSE FLOOR(best / 100)
     END
   ) AS modified_single, COUNT(*) AS num_persons
+INTO OUTFILE 'wca_singles.csv' FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
 FROM RanksSingle
 GROUP BY eventId, modified_single;

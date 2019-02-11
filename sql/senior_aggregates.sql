@@ -13,19 +13,20 @@
 
 
 /* 
-   Extract AGGREGATED seniors from "RanksAverage"
+   Extract AGGREGATED senior results (averages)
    
    1) Output counts of seniors rather than WCA IDs
    2) Truncate everything to the nearest second - i.e. FLOOR(best / 100)
 */
 
 SELECT eventId, FLOOR(best_average / 100) AS modified_average, COUNT(*) AS num_persons
+INTO OUTFILE 'senior_averages.csv' FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
 FROM
 (
-  SELECT eventId, personId, MIN(best) AS best_single, MIN(average) AS best_average
+  SELECT eventId, personId, MIN(average) AS best_average
   FROM
   (
-    SELECT r.eventId, r.personId, r.best, r.average,
+    SELECT r.eventId, r.personId, r.average,
       TIMESTAMPDIFF(YEAR,
         DATE_FORMAT(CONCAT(p.year, "-", p.month, "-", p.day), "%Y-%m-%d"),
         DATE_FORMAT(CONCAT(c.year, "-", c.month, "-", c.day), "%Y-%m-%d")) AS age_at_comp
@@ -40,7 +41,7 @@ FROM
 GROUP BY eventId, modified_average;
 
 /* 
-   Extract AGGREGATED seniors from "RanksSingle"
+   Extract AGGREGATED senior results (singles)
    
    1) Output counts of seniors rather than WCA IDs
    2) Truncate MBF to "points" only - i.e. FLOOR(best / 10000000)
@@ -56,12 +57,13 @@ SELECT eventId,
       ELSE FLOOR(best_single / 100)
     END
   ) AS modified_single, COUNT(*) AS num_persons
+INTO OUTFILE 'senior_singles.csv' FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
 FROM
 (   
-  SELECT eventId, personId, MIN(best) AS best_single, MIN(average) AS best_average
+  SELECT eventId, personId, MIN(best) AS best_single
   FROM
   (
-    SELECT r.eventId, r.personId, r.best, r.average,
+    SELECT r.eventId, r.personId, r.best,
       TIMESTAMPDIFF(YEAR,
         DATE_FORMAT(CONCAT(p.year, "-", p.month, "-", p.day), "%Y-%m-%d"),
         DATE_FORMAT(CONCAT(c.year, "-", c.month, "-", c.day), "%Y-%m-%d")) AS age_at_comp

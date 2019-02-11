@@ -20,9 +20,9 @@ DROP TEMPORARY TABLE IF EXISTS personsextra;
 
 CREATE TEMPORARY TABLE personsextra
 (
-     id varchar(10) CHARACTER SET latin1 NULL,
-     dob date,
-     username varchar(30) CHARACTER SET latin1 NULL
+     `id` varchar(10) CHARACTER SET latin1 NULL,
+     `dob` date,
+     `username` varchar(30) CHARACTER SET latin1 NULL
 );
 
 INSERT INTO personsextra (id, dob, username)
@@ -160,8 +160,9 @@ ALTER TABLE PERSONS
 ADD COLUMN
 (
     `year` SMALLINT(5),
+    `year` SMALLINT(5),
     `month` SMALLINT(5),
-    `day` SMALLINT(5)
+    `username` varchar(30) CHARACTER SET latin1 NULL
 );
 
 -- Default values
@@ -177,32 +178,95 @@ SET p.year = DATE_FORMAT(pe.dob, "%Y"),
     p.month = DATE_FORMAT(pe.dob, "%m"),
     p.day = DATE_FORMAT(pe.dob, "%d");
 
--- Use 40 years prior to the first WCA competition if DOB is unknown
+-- Use 19th century if DOB is unknown
 UPDATE persons AS p
 INNER JOIN PersonsExtra AS pe ON pe.id = p.id AND pe.dob IS NULL
-SET p.year = 1963,
-    p.month = 8,
-    p.day = 23;
+SET p.year = 1899,
+    p.month = 12,
+    p.day = 31;
 
 -- Check years
 SELECT p.year, COUNT(*)
 FROM Persons AS p
 GROUP BY p.year;
 
+-- Use username if it is known
+UPDATE persons AS p
+INNER JOIN PersonsExtra AS pe ON pe.id = p.id AND pe.username IS NOT NULL
+SET p.username = pe.username;
+
 /* 
-   Extract AGGREGATED seniors from "RanksAverage"
+   Extract seniors
+*/
+
+SELECT p.name as personName, c.name AS country, p.id AS personId, IFNULL(p.username, '?') AS username,
+  (CASE WHEN p.year < 1900 THEN '?' ELSE p.year END) AS year
+INTO OUTFILE 'seniors.csv' FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
+FROM Persons AS p
+INNER JOIN Countries AS c ON p.countryId = c.id
+WHERE p.subid = 1
+AND p.year > 0 AND p.year <= YEAR(CURDATE()) - 40
+ORDER BY personName;
+
+/* 
+   Extract senior results (averages)
+*/
+
+SELECT eventId, personId, personName, c.name AS countryName, IFNULL(username, '?') AS username, MIN(average) AS best_average
+INTO OUTFILE 'best_averages.csv' FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
+FROM
+(
+  SELECT r.eventId, r.personId, r.average, p.name AS personName, p.countryId, p.username,
+    TIMESTAMPDIFF(YEAR,
+      DATE_FORMAT(CONCAT(p.year, "-", p.month, "-", p.day), "%Y-%m-%d"),
+      DATE_FORMAT(CONCAT(c.year, "-", c.month, "-", c.day), "%Y-%m-%d")) AS age_at_comp
+  FROM Results AS r
+  INNER JOIN Competitions AS c ON r.competitionId = c.id
+  INNER JOIN Persons AS p ON r.personId = p.id AND p.subid = 1 AND p.year > 0 AND p.year <= YEAR(CURDATE()) - 40
+  WHERE average > 0
+  HAVING age_at_comp >= 40
+) tmp_results
+INNER JOIN Countries AS c ON tmp_results.countryId = c.id
+GROUP BY eventId, personId
+ORDER BY eventId, best_average;
+
+/* 
+   Extract senior results (singles)
+*/
+
+SELECT eventId, personId, personName, c.name AS countryName, IFNULL(username, '?') AS username, MIN(best) AS best_single
+INTO OUTFILE 'best_singles.csv' FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
+FROM
+(
+  SELECT r.eventId, r.personId, r.best, p.name AS personName, p.countryId, p.username,
+    TIMESTAMPDIFF(YEAR,
+      DATE_FORMAT(CONCAT(p.year, "-", p.month, "-", p.day), "%Y-%m-%d"),
+      DATE_FORMAT(CONCAT(c.year, "-", c.month, "-", c.day), "%Y-%m-%d")) AS age_at_comp
+  FROM Results AS r
+  INNER JOIN Competitions AS c ON r.competitionId = c.id
+  INNER JOIN Persons AS p ON r.personId = p.id AND p.year > 0 AND p.year <= YEAR(CURDATE()) - 40
+  WHERE best > 0
+  HAVING age_at_comp >= 40
+) tmp_results
+INNER JOIN Countries AS c ON tmp_results.countryId = c.id
+GROUP BY eventId, personId
+ORDER BY eventId, best_single;
+
+/* 
+   Extract AGGREGATED senior results (averages)
    
    1) Output counts of seniors rather than WCA IDs
    2) Truncate everything to the nearest second - i.e. FLOOR(best / 100)
 */
 
 SELECT eventId, FLOOR(best_average / 100) AS modified_average, COUNT(*) AS num_persons
+INTO OUTFILE 'known_averages.csv' FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
 FROM
 (
-  SELECT eventId, personId, MIN(best) AS best_single, MIN(average) AS best_average
+  SELECT eventId, personId, MIN(average) AS best_average
   FROM
   (
-    SELECT r.eventId, r.personId, r.best, r.average,
+    SELECT r.eventId, r.personId, r.average,
       TIMESTAMPDIFF(YEAR,
         DATE_FORMAT(CONCAT(p.year, "-", p.month, "-", p.day), "%Y-%m-%d"),
         DATE_FORMAT(CONCAT(c.year, "-", c.month, "-", c.day), "%Y-%m-%d")) AS age_at_comp
@@ -217,7 +281,7 @@ FROM
 GROUP BY eventId, modified_average;
 
 /* 
-   Extract AGGREGATED seniors from "RanksSingle"
+   Extract AGGREGATED senior results (singles)
    
    1) Output counts of seniors rather than WCA IDs
    2) Truncate MBF to "points" only - i.e. FLOOR(best / 10000000)
@@ -233,12 +297,13 @@ SELECT eventId,
       ELSE FLOOR(best_single / 100)
     END
   ) AS modified_single, COUNT(*) AS num_persons
+INTO OUTFILE 'known_singles.csv' FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
 FROM
 (   
-  SELECT eventId, personId, MIN(best) AS best_single, MIN(average) AS best_average
+  SELECT eventId, personId, MIN(best) AS best_single
   FROM
   (
-    SELECT r.eventId, r.personId, r.best, r.average,
+    SELECT r.eventId, r.personId, r.best,
       TIMESTAMPDIFF(YEAR,
         DATE_FORMAT(CONCAT(p.year, "-", p.month, "-", p.day), "%Y-%m-%d"),
         DATE_FORMAT(CONCAT(c.year, "-", c.month, "-", c.day), "%Y-%m-%d")) AS age_at_comp
