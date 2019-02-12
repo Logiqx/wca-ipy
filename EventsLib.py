@@ -30,6 +30,8 @@ for event in events:
 def formatResult(event, result, subX = False, showFractions = False):
     '''Intelligently convert result to appropriate format - e.g. HH:MM:SS.SS'''
 
+    result = int(result)
+
     if (subX):
         result += 100
 
