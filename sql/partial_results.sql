@@ -222,7 +222,7 @@ FROM
   HAVING age_at_comp >= 40
 ) tmp_results
 GROUP BY eventId, personId
-ORDER BY eventId, best_average;
+ORDER BY eventId, best_average, personId;
 
 /* 
    Extract senior results (singles)
@@ -243,4 +243,4 @@ FROM
   HAVING age_at_comp >= 40
 ) tmp_results
 GROUP BY eventId, personId
-ORDER BY eventId, best_single;
+ORDER BY eventId, best_single, personId;
