@@ -7,7 +7,7 @@ events = \
     ('555', '5x5x5 Cube', '40', 'time', 240, 480, 600),
     ('666', '6x6x6 Cube', '50', 'time', 360, 600, 720),
     ('777', '7x7x7 Cube', '60', 'time', 480, 600, 900),
-    ('333bf', '3x3x3 Blindfolded', '70', 'time', 240, 480, 600),
+    ('333bf', '3x3x3 Blindfolded', '70', 'time', 240, 360, 600),
     ('333fm', '3x3x3 Fewest Moves', '80', 'number', 60, 60, 60),
     ('333oh', '3x3x3 One-Handed', '90', 'time', 120, 240, 360),
     ('333ft', '3x3x3 With Feet', '100', 'time', 240, 360, 480),
