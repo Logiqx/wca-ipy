@@ -155,8 +155,8 @@ ALTER TABLE Persons
 ADD COLUMN
 (
     `year` SMALLINT(5),
-    `year` SMALLINT(5),
     `month` SMALLINT(5),
+    `day` SMALLINT(5),
     `username` varchar(30) CHARACTER SET latin1 NULL
 );
 
