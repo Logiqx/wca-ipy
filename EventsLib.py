@@ -28,7 +28,7 @@ for event in events:
     eventsDict[event[0]] = (event[1:])
 
 
-def formatResult(event, result, subX = False, showFractions = False):
+def formatResult(event, result, showFractions = False):
     '''Intelligently convert result to appropriate format - e.g. HH:MM:SS.SS'''
 
     def formatTime(seconds):
@@ -43,9 +43,6 @@ def formatResult(event, result, subX = False, showFractions = False):
     result = int(result)
 
     if event[3] == 'time':
-        if (subX):
-            result += 100
-            
         seconds = result / 100
         formattedResult = formatTime(seconds)
 
@@ -63,9 +60,6 @@ def formatResult(event, result, subX = False, showFractions = False):
         formattedResult = '%d/%d in %s' % (solved, attempted, formatTime(seconds))
 
     else:
-        if (subX):
-            result += 100
-
         formattedResult = str(result / 100)
 
         if showFractions:
