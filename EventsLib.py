@@ -9,7 +9,7 @@ events = \
     ('777', '7x7x7 Cube', '60', 'time', 540, 780, 1020),
     ('333bf', '3x3x3 Blindfolded', '70', 'time', 300, 480, 600),
     ('333fm', '3x3x3 Fewest Moves', '80', 'number', 60, 60, 60),
-    ('333oh', '3x3x3 One-Handed', '90', 'time', 120, 300, 360),
+    ('333oh', '3x3x3 One-Handed', '90', 'time', 180, 300, 360),
     ('333ft', '3x3x3 With Feet', '100', 'time', 300, 420, 480),
     ('clock', 'Clock', '110', 'time', 60, 120, 120),
     ('minx', 'Megaminx', '120', 'time', 300, 420, 480),
