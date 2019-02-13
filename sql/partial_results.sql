@@ -190,10 +190,7 @@ UPDATE Persons AS p
 INNER JOIN PersonsExtra AS pe ON pe.id = p.id AND pe.username IS NOT NULL
 SET p.username = pe.username;
 
-/* 
-   Extract seniors
-*/
-
+-- Extract seniors
 SELECT p.id AS personId, p.name AS personName, c.name AS country, IFNULL(p.username, '?') AS username,
   (CASE WHEN p.year < 1900 THEN '?' ELSE p.year END) AS year
 INTO OUTFILE 'seniors.csv' FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
@@ -203,10 +200,7 @@ WHERE p.subid = 1
 AND p.year > 0 AND p.year <= YEAR(CURDATE()) - 40
 ORDER BY personName;
 
-/* 
-   Extract senior results (averages)
-*/
-
+-- Extract senior results (averages)
 SELECT eventId, personId, MIN(average) AS best_average
 INTO OUTFILE 'partial_senior_averages.csv' FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
 FROM
@@ -224,10 +218,7 @@ FROM
 GROUP BY eventId, personId
 ORDER BY eventId, best_average, personId;
 
-/* 
-   Extract senior results (singles)
-*/
-
+-- Extract senior results (singles)
 SELECT eventId, personId, MIN(best) AS best_single
 INTO OUTFILE 'partial_senior_singles.csv' FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
 FROM
