@@ -1,11 +1,11 @@
 # List of recognised events
 events = \
 [
-    ('333', '3x3x3 Cube', '10', 'time', 180, 360, 360),
+    ('333', '3x3x3 Cube', '10', 'time', 180, 360, 480),
     ('222', '2x2x2 Cube', '20', 'time', 60, 120, 180),
-    ('444', '4x4x4 Cube', '30', 'time', 180, 360, 360),
-    ('555', '5x5x5 Cube', '40', 'time', 240, 480, 480),
-    ('666', '6x6x6 Cube', '50', 'time', 360, 600, 600),
+    ('444', '4x4x4 Cube', '30', 'time', 180, 360, 480),
+    ('555', '5x5x5 Cube', '40', 'time', 240, 480, 600),
+    ('666', '6x6x6 Cube', '50', 'time', 360, 600, 720),
     ('777', '7x7x7 Cube', '60', 'time', 540, 600, 900),
     ('333bf', '3x3x3 Blindfolded', '70', 'time', 240, 480, 600),
     ('333fm', '3x3x3 Fewest Moves', '80', 'number', 60, 60, 60),
@@ -13,9 +13,9 @@ events = \
     ('333ft', '3x3x3 With Feet', '100', 'time', 240, 360, 480),
     ('clock', 'Clock', '110', 'time', 60, 120, 120),
     ('minx', 'Megaminx', '120', 'time', 240, 480, 480),
-    ('pyram', 'Pyraminx', '130', 'time', 60, 120, 180),
-    ('skewb', 'Skewb', '140', 'time', 60, 120, 120),
-    ('sq1', 'Square-1', '150', 'time', 120, 240, 240),
+    ('pyram', 'Pyraminx', '130', 'time', 60, 120, 240),
+    ('skewb', 'Skewb', '140', 'time', 60, 120, 180),
+    ('sq1', 'Square-1', '150', 'time', 120, 240, 300),
     ('444bf', '4x4x4 Blindfolded', '160', 'time', 0, 0, 0),
     ('555bf', '5x5x5 Blindfolded', '170', 'time', 0, 0, 0),
     ('333mbf', '3x3x3 Multi-Blind', '180', 'multi', 0, 0, 0)
