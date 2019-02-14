@@ -11,7 +11,7 @@ events = \
     ('333fm', '3x3x3 Fewest Moves', '80', 'number', 60, 120, 180),
     ('333oh', '3x3x3 One-Handed', '90', 'time', 90, 180, 240),
     ('333ft', '3x3x3 With Feet', '100', 'time', 270, 420, 540),
-    ('clock', 'Clock', '110', 'time', 40, 120, 180),
+    ('clock', 'Clock', '110', 'time', 50, 120, 180),
     ('minx', 'Megaminx', '120', 'time', 300, 420, 480),
     ('pyram', 'Pyraminx', '130', 'time', 30, 120, 180),
     ('skewb', 'Skewb', '140', 'time', 40, 120, 180),
