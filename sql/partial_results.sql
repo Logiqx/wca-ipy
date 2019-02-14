@@ -49,6 +49,7 @@ VALUES
 ('2005KOSE01', '1974-11-18', 'Fumiki'), -- DOB provided by Fumiki on Speedsolving.com 2018-10-30
 ('2005KURO02', NULL, NULL), -- provided by qqwref on Speedsolving.com 2015-07-15
 ('2005PARI01', NULL, NULL), -- provided by qqwref on Speedsolving.com 2015-07-15
+('2005SUSE01', '1978-06-05', NULL), -- found DOB on Facebook profile 2019-02-14
 ('2005THOM01', '1965-07-04', NULL),  -- Provided by Ron via Facebook Messenger 2018-10-31
 ('2005TOMI01', NULL, NULL), -- provided by qqwref on Speedsolving.com 2015-07-15
 ('2005TOMO01', '1933-12-31', NULL), -- approximated year from age
@@ -75,6 +76,7 @@ VALUES
 ('2009JOHN07', '1955-12-31', 'rjohnson_8ball'), -- approximated year from age
 ('2009PARE02', NULL, 'Luis'),
 ('2009TIRA01', '1971-12-31', 'superti'), -- approximated year from age
+('2010STAS01', NULL, NULL), -- random find on WCA delegates page 2019-02-14
 ('2010HEIL02', NULL, NULL), -- Suggested by Ron via Facebook Messenger 2018-10-31
 ('2010SPIE01', '1963-12-31', 'JoSpies'),
 ('2011BOIS01', NULL, NULL),  -- Provided by Ron via Facebook Messenger 2018-10-31
