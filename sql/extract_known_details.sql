@@ -7,8 +7,7 @@
 */
 
 -- Extract seniors
-SELECT p.id AS personId, p.name AS personName, c.name AS country, IFNULL(p.username, '?') AS username,
-  (CASE WHEN p.year < 1900 THEN '?' ELSE p.year END) AS year
+SELECT p.id AS personId, p.name AS personName, c.name AS country, IFNULL(p.username, '?') AS username
 INTO OUTFILE 'known_senior_details.csv' FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
 FROM Persons AS p
 INNER JOIN Countries AS c ON p.countryId = c.id
