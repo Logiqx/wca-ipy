@@ -26,7 +26,7 @@ VALUES
 ('1982PETR01', '1960-11-04', 'Lars Petrus'), -- Located on Speedsolving.com Wiki + Wikipedia 2017-11-25
 ('1982RAZO01', '1965-03-02', 'guusrs'), -- Located on Speedsolving.com Wiki 2017-11-25
 ('2003AKIM01', '1965-12-18', NULL), -- Provided by Ron via Facebook Messenger 2018-10-31
-('2003BARR01', NULL, NULL), -- Over-40 PB average for 3x3 is 21.44, provided by qqwref on Speedsolving.com 2015-07-15
+('2003BARR01', '1972-05-04', NULL), -- Provided by qqwref on Speedsolving.com 2015-07-15, 1972-05-04 is an appropriate DOB for Couve Cubing 2012
 ('2003BLON01', '1969-12-31', 'Michiel van der Blonk'),
 ('2003BRUC01', '1967-04-20', 'Ron'), -- Located on Speedsolving.com Wiki 2017-11-25
 ('2003DENN01', '1960-12-28', 'Ton'), -- Provided by Ron via Facebook Messenger 2018-10-31
@@ -35,7 +35,7 @@ VALUES
 ('2004BOSS01', NULL, NULL), -- provided by qqwref on Speedsolving.com 2015-07-15
 ('2004FEDE01', NULL, NULL), -- provided by qqwref on Speedsolving.com 2015-07-15
 ('2004FERN01', '1970-01-01', 'ernesto'), -- Fake DOB to include recent clock results
-('2004MASA01', NULL, 'noiusli'),
+('2004MASA01', '1961-06-14', 'noiusli'), -- DOB found at https://www.facebook.com/jesus.masanet/about
 ('2004MCGA01', '1949-12-31', 'Bill'),
 ('2004ROUX01', '1971-01-20', 'gogozerg'), -- Located on Speedsolving.com Wiki + Wikipedia 2017-07-24
 ('2004ZIJD01', '1960-01-07', NULL),  -- Provided by Ron via Facebook Messenger 2018-10-31
@@ -49,7 +49,7 @@ VALUES
 ('2005KOSE01', '1974-11-18', 'Fumiki'), -- DOB provided by Fumiki on Speedsolving.com 2018-10-30
 ('2005KURO02', NULL, NULL), -- provided by qqwref on Speedsolving.com 2015-07-15
 ('2005PARI01', NULL, NULL), -- provided by qqwref on Speedsolving.com 2015-07-15
-('2005SUSE01', '1978-06-05', NULL), -- found DOB on Facebook profile 2019-02-14
+('2005SUSE01', '1978-06-05', NULL), -- DOB found at https://www.facebook.com/yuji.suse.9/about
 ('2005THOM01', '1965-07-04', NULL),  -- Provided by Ron via Facebook Messenger 2018-10-31
 ('2005TOMI01', NULL, NULL), -- provided by qqwref on Speedsolving.com 2015-07-15
 ('2005TOMO01', '1933-12-31', NULL), -- approximated year from age
@@ -70,7 +70,7 @@ VALUES
 ('2007SANC01', '1974-01-01', 'Cabezuelo'), -- Fake DOB to include FMC
 ('2008BERG04', '1950-12-31', 'MatsBergsten'),
 ('2008COUR01', '1970-12-31', 'TMOY'),
-('2008ERSK01', NULL, 'MichaelErskine'),
+('2008ERSK01', '1970-01-03', 'MichaelErskine'), -- DOB found at https://www.facebook.com/msemtd/about
 ('2008GOUB01', NULL, NULL), -- provided by qqwref on Speedsolving.com 2015-07-15
 ('2008LIDS01', '1972-12-31', 'Lid'),
 ('2009JOHN07', '1955-12-31', 'rjohnson_8ball'), -- approximated year from age
