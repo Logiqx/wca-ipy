@@ -8,6 +8,5 @@ Notes:
 
 * "WCA" columns relate to all competitors, regardless of age.
 * "Senior" columns relate to all of the Over-40's, based on their age at the start of the competition.
-* "Known" columns relate to all of the people in the [Partial Over-40's Rankings](Over%2040s%20Rankings.md)
-
+* "Known" columns relate to all of the people in the [Partial Over-40's Rankings](Partial%20Rankings.md)
 
