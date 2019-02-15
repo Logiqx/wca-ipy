@@ -4,7 +4,7 @@ This project started on the [SpeedSolving.com](https://www.speedsolving.com/foru
 
 The list of names is incomplete and investigations show that it only covers around 7% of the Over-40's. Most of the fastest people are included but a few are still missing.
 
-If you would like your name to be added then either contact me via Speedsolving.com or [Facebook](https://www.facebook.com/michael.george.545).
+If you would like your name to be added then either contact me via [Speedsolving.com](https://www.speedsolving.com/forum/members/logiqx.17180/) or [Facebook](https://www.facebook.com/michael.george.545).
 
 A <a href="https://cubing.mikeg.me.uk/oldies">dynamic page</a> listing personal records is also available but it does not factor in age at the time of the result(s).
 
