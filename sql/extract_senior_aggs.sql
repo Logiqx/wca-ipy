@@ -35,9 +35,9 @@ FROM
     INNER JOIN Persons AS p ON r.personId = p.id AND p.year > 0 AND p.year <= YEAR(CURDATE()) - 40
     WHERE average > 0
     HAVING age_at_comp >= 40
-  ) tmp_results
+  ) AS tmp_results
   GROUP BY eventId, personId
-) tmp_persons
+) AS tmp_persons
 GROUP BY eventId, modified_average;
 
 /* 
@@ -72,7 +72,7 @@ FROM
     INNER JOIN Persons AS p ON r.personId = p.id AND p.year > 0 AND p.year <= YEAR(CURDATE()) - 40
     WHERE best > 0
     HAVING age_at_comp >= 40
-  ) tmp_results
+  ) AS tmp_results
   GROUP BY eventId, personId
-) tmp_persons
+) AS tmp_persons
 GROUP BY eventId, modified_single;
