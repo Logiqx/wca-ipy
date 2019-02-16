@@ -6,5 +6,5 @@ The list of names is incomplete and investigations show that it only covers arou
 
 If you would like your name to be added then either contact me via [Speedsolving.com](https://www.speedsolving.com/forum/members/logiqx.17180/) or [Facebook](https://www.facebook.com/michael.george.545).
 
-A <a href="https://cubing.mikeg.me.uk/oldies">dynamic page</a> listing personal records is also available but it does not factor in age at the time of the result(s).
+A [dynamic page](https://cubing.mikeg.me.uk/oldies) listing personal records is also available but it does not factor in age at the time of the result(s).
 
