@@ -10,7 +10,7 @@ events = \
     ('333bf', '3x3x3 Blindfolded', '70', 'time', 180, 360, 360),
     ('333fm', '3x3x3 Fewest Moves', '80', 'number', 60, 60, 60),
     ('333oh', '3x3x3 One-Handed', '90', 'time', 90, 120, 120),
-    ('333ft', '3x3x3 With Feet', '100', 'time', 240, 300, 300),
+    ('333ft', '3x3x3 With Feet', '100', 'time', 180, 300, 300),
     ('clock', 'Clock', '110', 'time', 50, 60, 60),
     ('minx', 'Megaminx', '120', 'time', 240, 360, 360),
     ('pyram', 'Pyraminx', '130', 'time', 30, 60, 60),
