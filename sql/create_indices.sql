@@ -1,6 +1,6 @@
 /* 
     Script:   Apply Indices
-	Created:  2019-02-15
+    Created:  2019-02-15
     Author:   Michael George / 2015GEOR02
    
     Purpose:  Apply basic indices to the main tables for improved query performance
