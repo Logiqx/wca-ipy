@@ -2,7 +2,7 @@
 
 This project started on the [SpeedSolving.com](https://www.speedsolving.com/forum/threads/how-fast-are-the-over-40s-in-competitions.54128/) forum.
 
-The list of names is incomplete and investigations show that it only covers around 7% of the Over-40's. Most of the fastest people are included but a few are still missing.
+The list of names is incomplete but includes almost 10% of the Over-40's. Most of the fastest people are included but a few are known to be missing.
 
 If you would like your name to be added then either contact me via [Speedsolving.com](https://www.speedsolving.com/forum/members/logiqx.17180/) or [Facebook](https://www.facebook.com/michael.george.545).
 
