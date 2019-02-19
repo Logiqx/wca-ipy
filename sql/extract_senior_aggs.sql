@@ -9,7 +9,6 @@
               All consolidated results are modified using truncation / reduction of precision.
 */
 
-
 /* 
    Extract AGGREGATED senior results (averages)
    
