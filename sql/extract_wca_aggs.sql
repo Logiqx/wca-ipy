@@ -5,7 +5,7 @@
    
     Purpose:  This extract will be used to create overall percentile rankings.
             
-    Approach: All consolidated results are modified using truncation / reduction of precision. This is typically to the nearest second.
+    Approach: All consolidated results are modified using truncation / reduction of precision.
 */
 
 

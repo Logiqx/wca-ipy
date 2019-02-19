@@ -3,12 +3,10 @@
     Created:  2019-02-07
     Author:   Michael George / 2015GEOR02
    
-    Purpose:  Unofficial rankings for the Over-40's exist on GitHub but they are known to be incomplete - https://github.com/Logiqx/wca-ipy.
-              This extract will be used to provide participants of the unofficial rankings with a more comprehensive view of how they rank against their peers.
-              The data will help us to ascertain how many people are missing from the unofficial rankings and provide general stats for the Over 40's in comp.
+    Purpose:  Provide a comprehensive view of the Over-40's performances in competition.
             
-    Approach: The extract will not disclose any WCA IDs, regardless of whether they already appear in the unoffical rankings on GitHub.
-              All consolidated results are modified using truncation / reduction of precision. This is typically to the nearest second.
+    Approach: The extract will not disclose any WCA IDs, regardless of whether they are already known.
+              All consolidated results are modified using truncation / reduction of precision.
 */
 
 
@@ -32,7 +30,7 @@ FROM
         DATE_FORMAT(CONCAT(c.year, "-", c.month, "-", c.day), "%Y-%m-%d")) AS age_at_comp
     FROM Results AS r
     INNER JOIN Competitions AS c ON r.competitionId = c.id
-    INNER JOIN Persons AS p ON r.personId = p.id AND p.year > 0 AND p.year <= YEAR(CURDATE()) - 40
+    INNER JOIN Persons AS p ON r.personId = p.id AND p.subid = 1 AND p.year > 0 AND p.year <= YEAR(CURDATE()) - 40
     WHERE average > 0
     HAVING age_at_comp >= 40
   ) AS tmp_results
@@ -69,7 +67,7 @@ FROM
         DATE_FORMAT(CONCAT(c.year, "-", c.month, "-", c.day), "%Y-%m-%d")) AS age_at_comp
     FROM Results AS r
     INNER JOIN Competitions AS c ON r.competitionId = c.id
-    INNER JOIN Persons AS p ON r.personId = p.id AND p.year > 0 AND p.year <= YEAR(CURDATE()) - 40
+    INNER JOIN Persons AS p ON r.personId = p.id AND p.subid = 1 AND p.year > 0 AND p.year <= YEAR(CURDATE()) - 40
     WHERE best > 0
     HAVING age_at_comp >= 40
   ) AS tmp_results
