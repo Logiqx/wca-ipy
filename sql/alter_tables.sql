@@ -1,0 +1,17 @@
+/* 
+    Script:   Alter Persons Table
+    Created:  2019-02-19
+    Author:   Michael George / 2015GEOR02
+   
+    Purpose:  Add YMD and username columns to the "Persons" table
+*/
+
+-- Add columns as per the non-public WCA database
+ALTER TABLE Persons
+ADD COLUMN
+(
+    `year` SMALLINT(5),
+    `month` SMALLINT(5),
+    `day` SMALLINT(5),
+    `username` varchar(30) CHARACTER SET latin1 NULL
+);
