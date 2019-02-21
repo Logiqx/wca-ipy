@@ -40,8 +40,7 @@ To summarise:
 * Propose that results be hidden when people have not provided consent
 * Propose that "rank" should be based on all results so that it will be a true representation
 * Do NOT propose for senior rankings to be regarded as official records
-​* Do NOT propose for senior rankings to be shown on personal profiles
-
+* Do NOT propose for senior rankings to be shown on personal profiles
 
 
 ## Data Protection / Data Privacy
