@@ -28,7 +28,9 @@ The nucleus of this proposal is an enhancement to the [Rankings](https://www.wor
 
 Unlike the sports above where people compete directly against each other, WCA age categories do not need to be restricted to precise 5 year bandings and do not require an upper age limit for each category.
 
-This proposal is to implement categories for 30+, 35+, 40+ right up to 85+. 
+This proposal is to implement categories for 30+, 40+, 50+, 60+, 70+ and 80+.
+
+TODO - How many people are in these categories?
 
 The existing layout for results / rankings can be retained (rank, person, result, citizen of, competition, result details) but they should only be shown when consent has been given by the competitor. The legal reasons surrounding consent are described in the data protection section of this document.
 
@@ -36,7 +38,7 @@ The numerical "rank" should be based on the results of everyone in the age categ
 
 To summarise:
 
-* Propose the addition of "age category" on the existing results page - 30+, 35+, 40+ ... 85+
+* Propose the addition of "age category" on the existing results page - 30+, 40+, 50+, 60+, 70+ and 80+
 * Propose that results be hidden when people have not provided consent
 * Propose that "rank" should be based on all results so that it will be a true representation
 * Do NOT propose for senior rankings to be regarded as official records
