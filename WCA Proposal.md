@@ -4,7 +4,7 @@
 
 There is a thriving community of senior cubers and the chart below shows how official 3x3x3 averages of the over-40's compare to the overall WCA community when drawn to the same scale.
 
-![alt text](img/3x3x3.png "3x3x3")
+![alt text](img/3x3x3_v2.png "3x3x3")
 
 It is quite striking how the gradients of the leading edges (just left of the apexes) are nearly identical. There is a consistent separation of about 6 seconds which clearly indicates that the over-40's are unable to achieve the times of the younger members in the community. Whether this disparity is due to somewhat limited time to practice, slower rate of learning, reduced dexterity, slower reflexes or failing eyesight is unclear but it is probably due to a combination of these factors.
 
