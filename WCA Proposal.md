@@ -6,15 +6,15 @@ There is a thriving community of senior cubers and the chart below shows how off
 
 ![alt text](img/3x3x3.png "3x3x3")
 
-It is quite striking how the gradients of the leading edges (just left of the apexes) are nearly identical. There is a consistent separation of about 6 seconds which clearly indicates that the over-40's are unable to achieve the times of the younger members in the community. Whether this disparity is due to somewhat limited time to practice, slower rate of learning, reduced dexterity or slower reflexes is unclear but it is probably due to a combination of these factors.
+It is quite striking how the gradients of the leading edges (just left of the apexes) are nearly identical. There is a consistent separation of about 6 seconds which clearly indicates that the over-40's are unable to achieve the times of the younger members in the community. Whether this disparity is due to somewhat limited time to practice, slower rate of learning, reduced dexterity, slower reflexes or failing eyesight is unclear but it is probably due to a combination of these factors.
 
 Knowing that they can't realistically compete with the younger competitors the senior members of the community are extremely keen to see how they rank against their peers. To this end there have been several pieces of analysis in recent years:
 
-​	[Partial Rankings](https://github.com/Logiqx/wca-ipy/blob/master/Partial%20Rankings.md) was only intended to be a one-off but has been maintained since 2015
+​	[Partial Rankings](Partial%20Rankings.md) was only intended to be a one-off but has been maintained since 2015
 
-​	[Percentile rankings](https://github.com/Logiqx/wca-ipy/blob/master/Percentile%20Rankings.md) shows how times are distributed for the WCA community and the over-40's
+​	[Percentile rankings](Percentile%20Rankings.md) shows how times are distributed for the WCA community and the over-40's
 
-​	[Representative Rankings](https://github.com/Logiqx/wca-ipy/blob/master/Senior%20Rankings.md) adds anonymised counts to the partial rankings, thus showing all over-40's
+​	[Representative Rankings](Senior%20Rankings.md) adds anonymised counts to the partial rankings, thus showing all over-40's
 
 Whilst these projects are extremely popular with the senior members of the community they have their limitations and it makes sense to provide up-to-date senior rankings on the WCA website.
 
@@ -88,7 +88,7 @@ References
 
 ## Technical Thoughts
 
-The expectation / hope is that much of the code and underlying data used by the "Rankings" page is already suitable for the additional "Age category" option. The [Representative Rankings](https://github.com/Logiqx/wca-ipy/blob/master/Senior%20Rankings.md) mentioned earlier rely upon a [data extract](https://github.com/Logiqx/wca-ipy/blob/master/sql/extract_senior_details.sql) which calculates competitor age at the time of the competition. The SQL used for the data extract is probably worth a quick glance, especially regarding the use of TIMESTAMPDIFF().
+The expectation / hope is that much of the code and underlying data used by the "Rankings" page is already suitable for the additional "Age category" option. The [Representative Rankings](Senior%20Rankings.md) mentioned earlier rely upon a [data extract](extract_senior_details.sql) which calculates competitor age at the time of the competition. The SQL used for the data extract is probably worth a quick glance, especially regarding the use of TIMESTAMPDIFF().
 
 It is likely to be beneficial if "age at comp" is created as an actual column on the "Results" table. This would reduce unnecessarily joins with the "Competitions" and "Persons" table when viewing the rankings, except when checking whether consent has been given by the competitor. It would likely make sense to have this column added to the "Results" table for improved query performance in a number of scenarios.
 
