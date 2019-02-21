@@ -10,27 +10,21 @@ It is quite striking how the gradients of the leading edges (just left of the ap
 
 Knowing that they can't realistically compete with the younger competitors the senior members of the community are extremely keen to see how they rank against their peers. To this end there have been several pieces of analysis in recent years:
 
-​	[Partial Over-40's Rankings](Partial%20Rankings.md) was only intended to be a one-off but has been maintained since 2015
-
-​	[Percentile rankings](Percentile%20Rankings.md) shows how times are distributed for the WCA community and the over-40's
-
-​	[Representative Over-40's Rankings](Senior%20Rankings.md) adds anonymised counts to the partial rankings, thus showing all over-40's
+​* [Partial Over-40's Rankings](Partial%20Rankings.md) was only intended to be a one-off but has been maintained since 2015
+​* [Percentile rankings](Percentile%20Rankings.md) shows how times are distributed for the WCA community and the over-40's
+* [Representative Over-40's Rankings](Senior%20Rankings.md) adds anonymised counts to the partial rankings, thus showing all over-40's
 
 Whilst these projects are extremely popular with the senior members of the community they have their limitations and it makes sense to provide up-to-date senior rankings on the WCA website.
-
 
 
 ## Proposal
 
 The nucleus of this proposal is an enhancement to the [Rankings](https://www.worldcubeassociation.org/results/events.php) page on the WCA website. In addition to the current dropdowns (event, region, year, show) it is proposed that "age category" be added for the seniors. Many sports use five year increments for their masters / seniors, typically from age 35 upwards:
 
-​	[Athletics](https://en.wikipedia.org/wiki/Masters_athletics#Age_categories) - 35, 40, 45 ... 100
-
-​	[Cycling](https://www.britishcycling.org.uk/road/article/roadst_Road-Categories_Classifications) - 35, 40, 45 ... 75
-
-​	[Tennis](https://www.itftennis.com/seniors/rankings/singles-rankings.aspx) - 35, 40, 45 ... 85
-
-​	[Rowing](http://www.worldrowing.com/masters/) - 27, 36, 43, 50, 55, 60 ... 80, 83, 86, 89 - slightly different but 50 to 80 are in 5 year increments
+* [Athletics](https://en.wikipedia.org/wiki/Masters_athletics#Age_categories) - 35, 40, 45 ... 100
+* [Cycling](https://www.britishcycling.org.uk/road/article/roadst_Road-Categories_Classifications) - 35, 40, 45 ... 75
+* [Tennis](https://www.itftennis.com/seniors/rankings/singles-rankings.aspx) - 35, 40, 45 ... 85
+* [Rowing](http://www.worldrowing.com/masters/) - 27, 36, 43, 50, 55, 60 ... 80, 83, 86, 89 - slightly different but 50 to 80 are in 5 year increments
 
 Unlike the sports above where people compete directly against each other, WCA age categories do not need to be restricted to precise 5 year bandings and do not require an upper age limit for each category.
 
@@ -42,16 +36,11 @@ The numerical "rank" should be based on the results of everyone in the age categ
 
 To summarise:
 
-​	Propose the addition of "age category" on the existing results page - 30+, 35+, 40+ ... 85+
-
-​	Propose that results be hidden when people have not provided consent
-
-​	Propose that "rank" should be based on all results so that it will be a true representation
-
-​	Do NOT propose for senior rankings to be regarded as official records
-
-​	Do NOT propose for senior rankings to be shown on personal profiles
-
+* Propose the addition of "age category" on the existing results page - 30+, 35+, 40+ ... 85+
+* Propose that results be hidden when people have not provided consent
+* Propose that "rank" should be based on all results so that it will be a true representation
+* Do NOT propose for senior rankings to be regarded as official records
+​* Do NOT propose for senior rankings to be shown on personal profiles
 
 
 ## Data Protection / Data Privacy
@@ -80,10 +69,9 @@ One final point to consider is what should be done for deceased people who can't
 
 References
 
-​	https://www.gdpreu.org/the-regulation/key-concepts/personal-data/
-​	https://www.gdpreu.org/the-regulation/key-concepts/consent/
-​	https://www.gdpreu.org/faq/
-
+* https://www.gdpreu.org/the-regulation/key-concepts/personal-data/
+* https://www.gdpreu.org/the-regulation/key-concepts/consent/
+* https://www.gdpreu.org/faq/
 
 
 ## Technical Thoughts
@@ -95,4 +83,3 @@ It is likely to be beneficial if "age at comp" is created as an actual column on
 If an "age at comp" column is added it can be bulk populated for historical results and either populated at the time of new results being inserted or as a periodic batch process to update recent results. It would also need to be updated when a competitors date of birth is changed / updated.
 
 Important: The "age at comp" column should not be included on the public export of the database, regardless of who has consented to their name and results appearing in the senior rankings. There is little to no use of exporting the ages of people who have provided their consent as it would only be present for some of the results in the database.
-
