@@ -43,6 +43,7 @@ To summarise:
 ​* Do NOT propose for senior rankings to be shown on personal profiles
 
 
+
 ## Data Protection / Data Privacy
 
 GDPR compliance should be regarded as the benchmark when it comes to data protection. Article 6 describes the six lawful purposes under which data may be collected and processed, including:
