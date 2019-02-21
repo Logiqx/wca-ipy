@@ -76,7 +76,7 @@ References
 
 ## Technical Thoughts
 
-The expectation / hope is that much of the code and underlying data used by the "Rankings" page is already suitable for the additional "Age category" option. The [Representative Rankings](Senior%20Rankings.md) mentioned earlier rely upon a [data extract](extract_senior_details.sql) which calculates competitor age at the time of the competition. The SQL used for the data extract is probably worth a quick glance, especially regarding the use of TIMESTAMPDIFF().
+The expectation / hope is that much of the code and underlying data used by the "Rankings" page is already suitable for the additional "Age category" option. The [Representative Rankings](Senior%20Rankings.md) mentioned earlier rely upon a [data extract](sql/extract_senior_details.sql) which calculates competitor age at the time of the competition. The SQL used for the data extract is probably worth a quick glance, especially regarding the use of TIMESTAMPDIFF().
 
 It is likely to be beneficial if "age at comp" is created as an actual column on the "Results" table. This would reduce unnecessarily joins with the "Competitions" and "Persons" table when viewing the rankings, except when checking whether consent has been given by the competitor. It would likely make sense to have this column added to the "Results" table for improved query performance in a number of scenarios.
 
