@@ -6,7 +6,7 @@ There is a thriving community of senior cubers and the chart below shows how off
 
 ![alt text](img/3x3x3_v2.png "3x3x3")
 
-It is quite striking how the gradients of the leading edges (just left of the apexes) are nearly identical. There is a consistent separation of about 6 seconds which clearly indicates that the over-40's are unable to achieve the times of the younger members in the community. Whether this disparity is due to somewhat limited time to practice, slower rate of learning, reduced dexterity, slower reflexes or failing eyesight is unclear but it is probably due to a combination of these factors.
+It is quite striking how the gradients of the leading edges (just left of the apexes) are nearly identical. There is a consistent separation of about 6 seconds which clearly indicates that the over-40's are unable to achieve the times of the younger members in the community. Whether this disparity is due to limited time for practice, slower rate of learning, reduced dexterity, slower reflexes or failing eyesight is unclear but it is probably due to a combination of all these factors.
 
 Knowing that they can't realistically compete with the younger competitors the senior members of the community are extremely keen to see how they rank against their peers. To this end there have been several pieces of analysis in recent years:
 
@@ -19,16 +19,16 @@ Whilst these projects are extremely popular with the senior members of the commu
 
 ## Proposal
 
-The nucleus of this proposal is an enhancement to the [Rankings](https://www.worldcubeassociation.org/results/events.php) page on the WCA website. In addition to the current dropdowns (event, region, year, show) it is proposed that "age category" be added for the seniors. Many sports use five year increments for their masters / seniors, typically from age 35 upwards:
+The nucleus of this proposal is an enhancement to the [Rankings](https://www.worldcubeassociation.org/results/events.php) page on the WCA website. In addition to the current dropdowns (event, region, year, show) it is proposed that "age category" be added for the seniors. Many sports use five year increments for their masters / seniors, typically from age 30 or 35 upwards:
 
 * [Athletics](https://en.wikipedia.org/wiki/Masters_athletics#Age_categories) - 35, 40, 45 ... 100
-* [Cycling](https://www.britishcycling.org.uk/road/article/roadst_Road-Categories_Classifications) - 35, 40, 45 ... 75
+* [Cycling](https://www.britishcycling.org.uk/road/article/roadst_Road-Categories_Classifications) - 30, 35, 40, 45 ... 75
 * [Tennis](https://www.itftennis.com/seniors/rankings/singles-rankings.aspx) - 35, 40, 45 ... 85
-* [Rowing](http://www.worldrowing.com/masters/) - 27, 36, 43, 50, 55, 60 ... 80, 83, 86, 89 - slightly different but 50 to 80 are in 5 year increments
+* [Rowing](http://www.worldrowing.com/masters/) - (27, 36, 43), 50, 55, 60 ... 80, (83, 86, 89) - slightly different but 50 to 80 are in 5 year increments
 
-Unlike the sports above where people compete directly against each other, WCA age categories do not need to be restricted to precise 5 year bandings and do not require an upper age limit for each category.
+Unlike the sports above where people compete directly against each other, WCA age categories do not need to be restricted to specific bandings and do not require an upper age limit for each category.
 
-This proposal is to implement categories for 30+, 40+, 50+, 60+, 70+ and 80+.
+This proposal is to implement categories for 30+, 40+, 50+, 60+, 70+ and 80+. The results of a 51 year old are intended to appear in the 30+, 40+ and 50+ categories.
 
 TODO - How many people are in these categories?
 
@@ -55,7 +55,7 @@ This lawful purpose applies to the collection and processing of any personal dat
 
 It is important that unambiguous consent is provided for the processing of all data by WCA, including a description of how date of birth will be used. The recommended approach is to provide the relevant consent (e.g. tick boxes) on the "Privacy Policy" page as well on the "Edit profile" page.
 
-Date of birth is classified as personally identifiable Information (PII) and as such should be well protected. It should be made clear that there is no requirement within this proposal for DOB or age to shown be shown on the "Rankings" page of the website or in the public database export.
+Date of birth is classified as personally identifiable information (PII) and as such should be well protected. It should be made clear that there is no requirement within this proposal for DOB or age to shown be shown on the "Rankings" page of the website or in the public database export.
 
 It must be made clear within the privacy policy that DOB will be used for the age based rankings but that explicit consent must be provided for personal results to be shown in the rankings. The following question could be presented to anyone approaching the age of 30:
 
@@ -80,8 +80,8 @@ References
 
 The expectation / hope is that much of the code and underlying data used by the "Rankings" page is already suitable for the additional "Age category" option. The [Representative Rankings](Senior%20Rankings.md) mentioned earlier rely upon a [data extract](sql/extract_senior_details.sql) which calculates competitor age at the time of the competition. The SQL used for the data extract is probably worth a quick glance, especially regarding the use of TIMESTAMPDIFF().
 
-It is likely to be beneficial if "age at comp" is created as an actual column on the "Results" table. This would reduce unnecessarily joins with the "Competitions" and "Persons" table when viewing the rankings, except when checking whether consent has been given by the competitor. It would likely make sense to have this column added to the "Results" table for improved query performance in a number of scenarios.
+It is likely to be beneficial if "ageAtComp" is created as an actual column on the "Results" table. This would avoid unnecessarily joins with the "Competitions" and "Persons" table when viewing the rankings, except when checking whether consent has been given by the competitor. It would likely make sense to have this column added to the "Results" table for improved query performance in a number of scenarios, allowing queries to use a simple "where" clause such as "ageAtComp >= 40".
 
-If an "age at comp" column is added it can be bulk populated for historical results and either populated at the time of new results being inserted or as a periodic batch process to update recent results. It would also need to be updated when a competitors date of birth is changed / updated.
+If an "ageAtComp" column is added it can be bulk populated for historical results and either populated at the time of new results being inserted or as a periodic batch process to update recent results. It would also need to be updated when a competitors date of birth is changed / updated. The additional field should contain the actual age in years (rather than a specific age category) and should not be shared with the public.
 
-Important: The "age at comp" column should not be included on the public export of the database, regardless of who has consented to their name and results appearing in the senior rankings. There is little to no use of exporting the ages of people who have provided their consent as it would only be present for some of the results in the database.
+Important: The "ageAtComp" column should not be included on the public export of the database, regardless of who has consented to their name and results appearing in the senior rankings. There is little to no use of exporting the ages of people who have provided their consent as it would only be present for some of the results in the database.
