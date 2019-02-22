@@ -9,7 +9,7 @@
 SELECT age_band, COUNT(DISTINCT personId)
 FROM
 (
-  SELECT personId, FLOOR(age_at_comp / 5) * 5 AS age_band
+  SELECT DISTINCT personId, FLOOR(age_at_comp / 5) * 5 AS age_band
   FROM
   (
     SELECT r.personId,
@@ -22,6 +22,5 @@ FROM
     WHERE best > 0
     HAVING age_at_comp >= 20
   ) AS tmp_results
-  GROUP BY personId, age_band
 ) AS tmp_persons
 GROUP BY age_band;
