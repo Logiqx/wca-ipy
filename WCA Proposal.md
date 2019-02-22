@@ -43,6 +43,8 @@ To summarise:
 * Propose that "rank" should be based on all results so that it will be a true representation
 * Do NOT propose for senior rankings to be regarded as official records
 * Do NOT propose for senior rankings to be shown on personal profiles
+* Do NOT propose for age or date of birth to be shown on the website
+* Do NOT propose for age or date of birth to be included in the public export of the database
 
 
 ## Data Protection / Data Privacy
@@ -55,7 +57,7 @@ This lawful purpose applies to the collection and processing of any personal dat
 
 It is important that unambiguous consent is provided for the processing of all data by WCA, including a description of how date of birth will be used. The recommended approach is to provide the relevant consent (e.g. tick boxes) on the "Privacy Policy" page as well on the "Edit profile" page.
 
-Date of birth is classified as personally identifiable information (PII) and as such should be well protected. It should be made clear that there is no requirement within this proposal for DOB or age to shown be shown on the "Rankings" page of the website or in the public database export.
+Date of birth is classified as personally identifiable information (PII) and as such should be well protected. It should be made clear that there is no requirement within this proposal for DOB or age to be shown on the "Rankings" page of the website or in the public database export.
 
 It must be made clear within the privacy policy that DOB will be used for the age based rankings but that explicit consent must be provided for personal results to be shown in the rankings. The following question could be presented to anyone approaching the age of 30:
 
