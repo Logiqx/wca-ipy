@@ -63,7 +63,7 @@ It must be made clear within the privacy policy that DOB will be used for the ag
 
 ​	e.g. *"Do you wish to have your name and results shown in the senior rankings, age 30 upwards? Yes / No"*
 
-Note: It is important for existing members and new members to be asked for their consent and it should be easy to withdraw consent at a later date. This could be done from within the "Privacy Policy" page and / or the "Preferences" tab of "Edit Profile". Some existing WCA members may have signed a privacy policy which allows the default to be assumed as "yes" whereas some members will have to start with a default of "no".
+Note: It is important for existing members and new members to be asked for their consent and it should be easy to withdraw consent at a later date. This could be done from within the "Privacy Policy" page and / or the "Preferences" tab of the "Edit profile" page. Some existing WCA members may have signed a privacy policy which allows the default to be assumed as "yes" whereas some members will have to start with a default of "no".
 
 For the sake of simplicity, providing consent will apply to all competition results; past, present and future.
 
