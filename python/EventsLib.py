@@ -33,9 +33,9 @@ def formatResult(event, result, showFractions = False):
 
     def formatTime(seconds):
         if seconds >= 3600:
-            formattedTime = str(seconds / 3600) + ':' + str(seconds % 3600 / 60).zfill(2) + ':' + str(seconds % 60).zfill(2)
+            formattedTime = str(seconds // 3600) + ':' + str(seconds % 3600 // 60).zfill(2) + ':' + str(seconds % 60).zfill(2)
         elif seconds >= 60:
-            formattedTime = str(seconds / 60) + ':' + str(seconds % 60).zfill(2)
+            formattedTime = str(seconds // 60) + ':' + str(seconds % 60).zfill(2)
         else:
             formattedTime = str(seconds)
         return formattedTime
@@ -43,7 +43,7 @@ def formatResult(event, result, showFractions = False):
     result = int(result)
 
     if event[3] == 'time':
-        seconds = result / 100
+        seconds = result // 100
         formattedResult = formatTime(seconds)
 
         if showFractions:
@@ -51,8 +51,8 @@ def formatResult(event, result, showFractions = False):
             formattedResult += "." + str(centiseconds).zfill(2)
 
     elif event[3] == 'multi':
-        difference = 99 - result / 10000000
-        seconds = result % 10000000 / 100
+        difference = 99 - result // 10000000
+        seconds = result % 10000000 // 100
         missed = result % 100
         solved = difference + missed
         attempted = solved + missed
@@ -60,7 +60,7 @@ def formatResult(event, result, showFractions = False):
         formattedResult = '%d/%d in %s' % (solved, attempted, formatTime(seconds))
 
     else:
-        formattedResult = str(result / 100)
+        formattedResult = str(result // 100)
 
         if showFractions:
             formattedResult += "." + str(result % 100).zfill(2)
