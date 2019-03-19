@@ -17,7 +17,7 @@
 */
 
 SELECT eventId, FLOOR(best_average / 100) AS modified_average, COUNT(*) AS num_persons
-INTO OUTFILE 'senior_averages_agg.csv' FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
+INTO OUTFILE '/home/jovyan/work/wca-ipy/data/private/senior_averages_agg.csv' FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
 FROM
 (
   SELECT eventId, personId, MIN(average) AS best_average
@@ -35,7 +35,8 @@ FROM
   ) AS tmp_results
   GROUP BY eventId, personId
 ) AS tmp_persons
-GROUP BY eventId, modified_average;
+GROUP BY eventId, modified_average
+ORDER BY eventId, modified_average;
 
 /* 
    Extract AGGREGATED senior results (singles)
@@ -54,7 +55,7 @@ SELECT eventId,
       ELSE FLOOR(best_single / 100)
     END
   ) AS modified_single, COUNT(*) AS num_persons
-INTO OUTFILE 'senior_singles_agg.csv' FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
+INTO OUTFILE '/home/jovyan/work/wca-ipy/data/private/senior_singles_agg.csv' FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
 FROM
 (   
   SELECT eventId, personId, MIN(best) AS best_single
@@ -72,4 +73,5 @@ FROM
   ) AS tmp_results
   GROUP BY eventId, personId
 ) AS tmp_persons
-GROUP BY eventId, modified_single;
+GROUP BY eventId, modified_single
+ORDER BY eventId, modified_single;

@@ -16,9 +16,10 @@
 */
 
 SELECT eventId, FLOOR(best / 100) AS modified_average, COUNT(*) AS num_persons
-INTO OUTFILE 'wca_averages_agg.csv' FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
+INTO OUTFILE '/home/jovyan/work/wca-ipy/data/private/wca_averages_agg.csv' FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
 FROM RanksAverage
-GROUP BY eventId, modified_average;
+GROUP BY eventId, modified_average
+ORDER BY eventId, modified_average;
 
 /* 
    Extract AGGREGATED results from "RanksSingle"
@@ -37,6 +38,7 @@ SELECT eventId,
       ELSE FLOOR(best / 100)
     END
   ) AS modified_single, COUNT(*) AS num_persons
-INTO OUTFILE 'wca_singles_agg.csv' FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
+INTO OUTFILE '/home/jovyan/work/wca-ipy/data/private/wca_singles_agg.csv' FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
 FROM RanksSingle
-GROUP BY eventId, modified_single;
+GROUP BY eventId, modified_single
+ORDER BY eventId, modified_single;
