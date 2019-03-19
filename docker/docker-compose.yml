@@ -1,0 +1,22 @@
+version: '2'
+services:
+  jupyter:
+    build:
+      context: .
+      dockerfile: Dockerfile-jupyter
+    ports:
+      - "8888:8888"
+    volumes:
+      - ..:/home/jovyan/work/wca-ipy
+    depends_on:
+      - mysql
+  mysql:
+    build:
+      context: .
+      dockerfile: Dockerfile-mysql
+    ports:
+      - "3306:3306"
+    volumes:
+      - ..:/home/jovyan/work/wca-ipy
+    environment:
+      - MYSQL_RANDOM_ROOT_PASSWORD=true

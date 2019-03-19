@@ -1,0 +1,5 @@
+# Use an official MySQL image as a parent image
+FROM mysql:8.0.15
+
+# Copy the custom config
+COPY mysql/conf.d/docker.cnf /etc/mysql/conf.d/

@@ -1,0 +1,16 @@
+# Use an official Jupyter image as a parent image
+FROM jupyter/minimal-notebook:0d96d93393f7
+
+# Use root for apt-get
+USER root
+
+# Install MySQL client
+RUN sudo apt-get update && apt-get install -y \
+    mysql-client
+
+# Use joyvan for Jupyter
+USER jovyan
+
+# Install Python packages
+RUN pip install beautifulsoup4
+RUN pip install lxml

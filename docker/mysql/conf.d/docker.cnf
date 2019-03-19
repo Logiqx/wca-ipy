@@ -1,0 +1,4 @@
+[mysqld]
+skip-host-cache
+skip-name-resolve
+secure-file-priv= /home/jovyan/work/wca-ipy/data
