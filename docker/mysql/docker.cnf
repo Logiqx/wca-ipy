@@ -1,0 +1,5 @@
+[mysqld]
+skip-host-cache
+skip-name-resolve
+innodb_buffer_pool_size=2G
+secure-file-priv=/home/jovyan/work/wca-ipy/data

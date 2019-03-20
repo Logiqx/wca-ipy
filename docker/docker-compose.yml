@@ -1,22 +1,28 @@
-version: '2'
+version: '3'
 services:
-  jupyter:
+  notebook:
     build:
-      context: .
-      dockerfile: Dockerfile-jupyter
+      context: ./notebook
+      args:
+        NOTEBOOK_VERSION: ${NOTEBOOK_VERSION}
     ports:
       - "8888:8888"
     volumes:
-      - ..:/home/jovyan/work/wca-ipy
+      - ${PROJECT_ROOT}:/home/jovyan/work
     depends_on:
       - mysql
   mysql:
     build:
-      context: .
-      dockerfile: Dockerfile-mysql
+      context: ./mysql
+      args:
+        MYSQL_VERSION: ${MYSQL_VERSION}
+    environment:
+      MYSQL_RANDOM_ROOT_PASSWORD: "true"
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
     ports:
       - "3306:3306"
     volumes:
-      - ..:/home/jovyan/work/wca-ipy
-    environment:
-      - MYSQL_RANDOM_ROOT_PASSWORD=true
+      - ${PROJECT_ROOT}:/home/jovyan/work
+      - db:/var/lib/mysql
+volumes:
+    db:

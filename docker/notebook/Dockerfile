@@ -1,0 +1,9 @@
+ARG NOTEBOOK_VERSION=""
+FROM jupyter/minimal-notebook:${NOTEBOOK_VERSION:-latest}
+
+RUN pip install beautifulsoup4 lxml
+
+# Ideally apt-get would use sudo but it requires the jovyan password
+USER root
+RUN apt-get update && apt-get install -y mysql-client
+USER jovyan
