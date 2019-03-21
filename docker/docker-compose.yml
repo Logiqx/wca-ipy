@@ -1,16 +1,5 @@
 version: '3'
 services:
-  notebook:
-    build:
-      context: ./notebook
-      args:
-        NOTEBOOK_VERSION: ${NOTEBOOK_VERSION}
-    ports:
-      - "8888:8888"
-    volumes:
-      - ${PROJECT_ROOT}:/home/jovyan/work
-    depends_on:
-      - mysql
   mysql:
     build:
       context: ./mysql
@@ -24,5 +13,16 @@ services:
     volumes:
       - ${PROJECT_ROOT}:/home/jovyan/work
       - db:/var/lib/mysql
+  notebook:
+    build:
+      context: ./notebook
+      args:
+        NOTEBOOK_VERSION: ${NOTEBOOK_VERSION}
+    ports:
+      - "8888:8888"
+    volumes:
+      - ${PROJECT_ROOT}:/home/jovyan/work
+    depends_on:
+      - mysql
 volumes:
     db:
