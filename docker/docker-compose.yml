@@ -5,6 +5,7 @@ services:
       context: ./mysql
       args:
         MYSQL_VERSION: ${MYSQL_VERSION}
+    image: ${COMPOSE_PROJECT_NAME:-wca}_mysql:${PROJECT_MYSQL_VERSION:-latest}-mysql-${MYSQL_VERSION:-latest}
     environment:
       MYSQL_DATABASE: ${MYSQL_DATABASE}
       MYSQL_RANDOM_ROOT_PASSWORD: "true"
@@ -18,6 +19,7 @@ services:
       context: ./notebook
       args:
         NOTEBOOK_VERSION: ${NOTEBOOK_VERSION}
+    image: ${COMPOSE_PROJECT_NAME:-wca}_notebook:${PROJECT_NOTEBOOK_VERSION:-latest}-${NOTEBOOK_VERSION:-latest}
     ports:
       - "8888:8888"
     volumes:
