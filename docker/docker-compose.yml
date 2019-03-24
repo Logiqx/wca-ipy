@@ -1,11 +1,8 @@
 version: '3'
 services:
   mysql:
-    build:
-      context: ./mysql
-      args:
-        MYSQL_VERSION: ${MYSQL_VERSION}
-    image: ${COMPOSE_PROJECT_NAME:-wca}_mysql:${PROJECT_MYSQL_VERSION:-latest}-mysql-${MYSQL_VERSION:-latest}
+    image: mysql:${MYSQL_VERSION}
+    command: --innodb_buffer_pool_size=2G --secure-file-priv=/home/jovyan/work/wca-ipy/data
     environment:
       MYSQL_DATABASE: ${MYSQL_DATABASE}
       MYSQL_RANDOM_ROOT_PASSWORD: "true"
