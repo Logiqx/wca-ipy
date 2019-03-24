@@ -3,19 +3,28 @@
     Created:  2019-02-15
     Author:   Michael George / 2015GEOR02
    
-    Purpose:  Apply basic indices to the main tables for improved query performance
+    Purpose:  Apply indices to the main tables for improved query performance
 */
 
--- Create indices
-CREATE INDEX Person_id ON Persons (id);
-CREATE INDEX Results_personId ON Results (personId);
-CREATE INDEX RanksAverage_personId ON RanksAverage (personId);
-CREATE INDEX RanksSingle_personId ON RanksSingle (personId);
-CREATE UNIQUE INDEX Competitions_id ON Competitions (id);
+-- Add primary keys
+ALTER TABLE Competitions ADD PRIMARY KEY(id);
+ALTER TABLE Persons ADD PRIMARY KEY(id, subid);
+
+-- Create unique indices
+CREATE UNIQUE INDEX RanksAverage_eventId_personId ON RanksAverage (eventId, personId);
+CREATE UNIQUE INDEX RanksAverage_personId_eventId ON RanksAverage (personId, eventId);
+CREATE UNIQUE INDEX RanksSingle_eventId_personId ON RanksSingle (eventId, personId);
+CREATE UNIQUE INDEX RanksSingle_personId_eventId ON RanksSingle (personId, eventId);
+
+-- Create non-unique indices
+CREATE INDEX Results_eventId_personId ON Results (eventId, personId);
+CREATE INDEX Results_personId_eventId ON Results (personId, eventId);
+CREATE INDEX Scrambles_eventId ON Scrambles (eventId);
 
 -- Update statistics
+ANALYZE TABLE Competitions;
 ANALYZE TABLE Persons;
-ANALYZE TABLE Results;
 ANALYZE TABLE RanksAverage;
 ANALYZE TABLE RanksSingle;
-ANALYZE TABLE Competitions;
+ANALYZE TABLE Results;
+ANALYZE TABLE Scrambles;
