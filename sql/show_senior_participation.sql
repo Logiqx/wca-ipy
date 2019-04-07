@@ -8,7 +8,7 @@
 
 -- Senior competitors with official averages
 
-SELECT DISTINCT eventId, COUNT(DISTINCT personId) AS num_averages
+SELECT eventId, COUNT(DISTINCT personId) AS num_averages
 FROM
 (
   SELECT r.eventId, r.personId,
@@ -26,7 +26,7 @@ ORDER BY num_averages DESC;
 
 -- Senior competitors with official singles
 
-SELECT DISTINCT eventId, COUNT(DISTINCT personId) as num_singles
+SELECT eventId, COUNT(DISTINCT personId) as num_singles
 FROM
 (
   SELECT r.eventId, r.personId,
