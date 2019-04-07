@@ -7,6 +7,8 @@
 */
 
 -- Add primary keys
+ALTER TABLE championships ADD PRIMARY KEY(id);
+ALTER TABLE Countries ADD PRIMARY KEY(id);
 ALTER TABLE Competitions ADD PRIMARY KEY(id);
 ALTER TABLE Persons ADD PRIMARY KEY(id, subid);
 
@@ -22,6 +24,8 @@ CREATE INDEX Results_personId_eventId ON Results (personId, eventId);
 CREATE INDEX Scrambles_eventId ON Scrambles (eventId);
 
 -- Update statistics
+ANALYZE TABLE championships;
+ANALYZE TABLE Countries;
 ANALYZE TABLE Competitions;
 ANALYZE TABLE Persons;
 ANALYZE TABLE RanksAverage;
