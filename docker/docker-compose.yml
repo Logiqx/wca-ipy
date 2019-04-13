@@ -1,8 +1,8 @@
 version: '3'
 services:
-  mysql:
-    image: mysql:${MYSQL_VERSION}
-    command: --innodb_buffer_pool_size=2G --secure-file-priv=/home/jovyan/work/wca-ipy/data
+  mariadb:
+    image: mariadb:10.3
+    command: --innodb-buffer-pool-size=2G --innodb-log-file-size=128M --innodb-flush-method=O_DIRECT_NO_FSYNC --secure-file-priv=/home/jovyan/work/wca-ipy/data
     environment:
       MYSQL_DATABASE: ${MYSQL_DATABASE}
       MYSQL_RANDOM_ROOT_PASSWORD: "true"
@@ -10,7 +10,7 @@ services:
       - "3306:3306"
     volumes:
       - ${PROJECT_ROOT}:/home/jovyan/work
-      - db:/var/lib/mysql
+      - mariadb:/var/lib/mysql
   notebook:
     build:
       context: ./notebook
@@ -22,6 +22,6 @@ services:
     volumes:
       - ${PROJECT_ROOT}:/home/jovyan/work
     depends_on:
-      - mysql
+      - mariadb
 volumes:
-  db:
+  mariadb:
