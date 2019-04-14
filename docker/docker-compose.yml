@@ -1,7 +1,7 @@
 version: '3'
 services:
   mariadb:
-    image: mariadb:10.3
+    image: mariadb:${MARIADB_VERSION:-latest}
     command: --secure-file-priv=/home/jovyan/work/wca-ipy/data
     environment:
       MYSQL_DATABASE: ${MYSQL_DATABASE}
