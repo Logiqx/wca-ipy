@@ -21,7 +21,6 @@ CREATE UNIQUE INDEX RanksSingle_personId_eventId ON RanksSingle (personId, event
 -- Create non-unique indices
 CREATE INDEX Results_eventId_personId ON Results (eventId, personId);
 CREATE INDEX Results_personId_eventId ON Results (personId, eventId);
-CREATE INDEX Scrambles_eventId ON Scrambles (eventId);
 
 -- Update statistics
 ANALYZE TABLE championships;
@@ -31,4 +30,3 @@ ANALYZE TABLE Persons;
 ANALYZE TABLE RanksAverage;
 ANALYZE TABLE RanksSingle;
 ANALYZE TABLE Results;
-ANALYZE TABLE Scrambles;
