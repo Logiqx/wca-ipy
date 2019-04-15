@@ -1,6 +1,6 @@
 [mysqld]
 innodb_buffer_pool_size        = 2G
-innodb_flush_method            = O_DIRECT_NO_FSYNC
-innodb_flush_log_at_trx_commit = 2
 innodb_log_file_size           = 512M
+innodb_flush_log_at_trx_commit = 2
+innodb_flush_method            = O_DIRECT_NO_FSYNC
 secure_file_priv               =
