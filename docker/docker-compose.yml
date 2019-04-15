@@ -2,7 +2,6 @@ version: '3'
 services:
   mariadb:
     image: mariadb:${MARIADB_VERSION:-latest}
-    command: --secure-file-priv=/home/jovyan/work/wca-ipy/data
     environment:
       MYSQL_DATABASE: ${MYSQL_DATABASE}
       MYSQL_RANDOM_ROOT_PASSWORD: "true"
