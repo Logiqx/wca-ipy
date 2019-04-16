@@ -59,15 +59,15 @@ SHOW GLOBAL STATUS LIKE 'innodb_os_log_written';
 SHOW GLOBAL STATUS LIKE 'innodb_data_fsyncs';
 
 -- InnoDB Buffer Pool Usage
-SELECT CONCAT(FORMAT(DataPages * 100.0 / TotalPages, 2), ' %') AS BufferPoolDataPercentage
+SELECT CONCAT(FORMAT(pages_data * 100.0 / pages_total, 2), ' %') AS buffer_pool_pct_used
 FROM
 (
-	SELECT variable_value DataPages
+	SELECT variable_value AS pages_data
 	FROM information_schema.global_status
 	WHERE variable_name = 'Innodb_buffer_pool_pages_data'
-) AS A,
+) AS t1,
 (
-	SELECT variable_value TotalPages
+	SELECT variable_value AS pages_total
 	FROM information_schema.global_status
 	WHERE variable_name = 'Innodb_buffer_pool_pages_total'
-) AS B;
+) AS t2;
