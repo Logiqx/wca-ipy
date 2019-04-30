@@ -6,7 +6,7 @@
     Purpose:  Apply indices to the main tables for improved query performance
 */
 
--- Add primary keys
+-- Add primary keys (i.e. store physical records in a clustered index, sorted by the PK)
 ALTER TABLE championships ADD PRIMARY KEY(id);
 ALTER TABLE Countries ADD PRIMARY KEY(id);
 ALTER TABLE Competitions ADD PRIMARY KEY(id);
@@ -21,12 +21,3 @@ CREATE UNIQUE INDEX RanksSingle_personId_eventId ON RanksSingle (personId, event
 -- Create non-unique indices
 CREATE INDEX Results_eventId_personId ON Results (eventId, personId);
 CREATE INDEX Results_personId_eventId ON Results (personId, eventId);
-
--- Update statistics
-ANALYZE TABLE championships;
-ANALYZE TABLE Countries;
-ANALYZE TABLE Competitions;
-ANALYZE TABLE Persons;
-ANALYZE TABLE RanksAverage;
-ANALYZE TABLE RanksSingle;
-ANALYZE TABLE Results;
