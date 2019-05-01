@@ -160,7 +160,7 @@ class PartialResults:
 # 
 # Process all three sets of results simultaneously
 
-# In[4]:
+# In[42]:
 
 
 class EventAnalysis:
@@ -303,7 +303,7 @@ class EventAnalysis:
                         results = '%s' % result
 
                     html += '    <tr>'
-                    html += '<td>%s</td>' % (rank if seniorResult[0] == 1 else '%d-%d' % (rank, seniorResult[1]))
+                    html += '<td>%s</td>' % (rank if seniorResult[0] == 1 else '%d-%d' % (rank, rank + seniorResult[0] - 1))
                     html += '<td>%s</td>' % persons
                     html += '<td>%s</td>' % results
                     html += '</tr>\n'
@@ -322,7 +322,7 @@ class EventAnalysis:
 # 
 # Process the events one-by-one
 
-# In[6]:
+# In[43]:
 
 
 with open('Senior_Rankings.md', 'r') as f:
