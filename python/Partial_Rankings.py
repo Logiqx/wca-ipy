@@ -148,7 +148,7 @@ class PartialResults:
 # In[3]:
 
 
-with open('Partial Rankings.md', 'r') as f:
+with open('Partial_Rankings.md', 'r') as f:
     html = ''.join(f.readlines())
 
 partialResults = PartialResults()
@@ -168,7 +168,7 @@ for event in events:
     partialResults.readResults('known_senior_singles', event)
     html += partialResults.listResults()
     
-with open("../Partial Rankings.md", 'w') as f:
+with open("../Partial_Rankings.md", 'w') as f:
     f.write(html)
 
 

@@ -325,7 +325,7 @@ class EventAnalysis:
 # In[10]:
 
 
-with open('Senior Rankings.md', 'r') as f:
+with open('Senior_Rankings.md', 'r') as f:
     html = ''.join(f.readlines())
 
 eventAnalysis = EventAnalysis()
@@ -339,7 +339,7 @@ for event in events:
     eventAnalysis.readResults(event)
     html += eventAnalysis.listResults()
     
-with open("../Senior Rankings.md", 'w') as f:
+with open("../Senior_Rankings.md", 'w') as f:
     f.write(html)
 
 

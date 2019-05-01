@@ -273,7 +273,7 @@ class EventAnalysis:
 # In[4]:
 
 
-with open('Percentile Rankings.md', 'r') as f:
+with open('Percentile_Rankings.md', 'r') as f:
     html = ''.join(f.readlines())
 
 html += '<h2>%s</h2>\n\n' % 'Official Averages'
@@ -286,7 +286,7 @@ for event in events:
     html += eventAnalysis.getHtml()
     print()
 
-with open("../Percentile Rankings.md", 'w') as f:
+with open("../Percentile_Rankings.md", 'w') as f:
     f.write(html)
 
 
