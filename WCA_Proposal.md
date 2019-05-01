@@ -10,9 +10,9 @@ It is quite striking how the gradients of the leading edges (just left of the ap
 
 Knowing that they can't realistically compete with the younger competitors the senior members of the community are extremely keen to see how they rank against their peers. To this end there have been several pieces of analysis in recent years:
 
-* [Partial Over-40's Rankings](Partial%20Rankings.md) was only intended to be a one-off but has been maintained since 2015
-* [Percentile Rankings](Percentile%20Rankings.md) shows how times are distributed for the WCA community and the over-40's
-* [Representative Over-40's Rankings](Senior%20Rankings.md) adds anonymised counts to the partial rankings, thus showing all over-40's
+* [Partial Over-40's Rankings](Partial_Rankings.md) was only intended to be a one-off but has been maintained since 2015
+* [Percentile Rankings](Percentile_Rankings.md) shows how times are distributed for the WCA community and the over-40's
+* [Representative Over-40's Rankings](Senior_Rankings.md) adds anonymised counts to the partial rankings, thus showing all over-40's
 
 Whilst these projects are extremely popular with the senior members of the community they have their limitations and it makes sense to provide up-to-date senior rankings on the WCA website.
 
@@ -80,7 +80,7 @@ References
 
 ## Technical Thoughts
 
-The expectation / hope is that much of the code and underlying data used by the "Rankings" page is already suitable for the additional "Age category" option. The [Representative Rankings](Senior%20Rankings.md) mentioned earlier rely upon a [data extract](sql/extract_senior_details.sql) which calculates competitor age at the time of the competition. The SQL used for the data extract is probably worth a quick glance, especially regarding the use of TIMESTAMPDIFF().
+The expectation / hope is that much of the code and underlying data used by the "Rankings" page is already suitable for the additional "Age category" option. The [Representative Rankings](Senior_Rankings.md) mentioned earlier rely upon a [data extract](sql/extract_senior_details.sql) which calculates competitor age at the time of the competition. The SQL used for the data extract is probably worth a quick glance, especially regarding the use of TIMESTAMPDIFF().
 
 It is likely to be beneficial if "ageAtComp" is created as an actual column on the "Results" table. This would avoid unnecessarily joins with the "Competitions" and "Persons" table when viewing the rankings, except when checking whether consent has been given by the competitor. It would likely make sense to have this column added to the "Results" table for improved query performance in a number of scenarios, allowing queries to use a simple "where" clause such as "ageAtComp >= 40".
 
