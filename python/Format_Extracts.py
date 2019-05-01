@@ -13,7 +13,7 @@
 # 
 # Update the connection details for your MySQL environment.
 
-# In[21]:
+# In[7]:
 
 
 hostname = "mariadb"
@@ -26,7 +26,7 @@ password = "R00tP4ss"
 # 
 # Simple function to run a SQL script
 
-# In[22]:
+# In[8]:
 
 
 # Use the OS library to execute mysql script
@@ -42,11 +42,28 @@ def runSqlScript(source):
         print('%s returned %d' % (source, result))
 
 
+# ## Big BLD Means
+# 
+# Calculate Mo3 for 4BLD and 5BLD
+
+# In[9]:
+
+
+# Start time in fractional seconds
+pc1 = time.perf_counter()
+
+runSqlScript('../sql/apply_bld_means.sql')
+
+pc2 = time.perf_counter()
+
+print("Big BLD means applied in %0.2f seconds" % (pc2 - pc1))
+
+
 # ## Apply DOB
 # 
 # Apply date of birth where known or approximated
 
-# In[23]:
+# In[3]:
 
 
 # Start time in fractional seconds
@@ -63,7 +80,7 @@ print("DOBs applied in %0.2f seconds" % (pc2 - pc1))
 # 
 # Extract data from database for subsequent analysis - percentiles, rankings, etc
 
-# In[24]:
+# In[4]:
 
 
 # Remove previous extracts
@@ -94,7 +111,7 @@ print("Extracts completed in %0.2f seconds" % (pc2 - pc1))
 # 
 # Note: All of the output files can be made public due to the application of time limits / cutoffs
 
-# In[25]:
+# In[5]:
 
 
 import os, csv
@@ -241,7 +258,7 @@ def preparePeople(basename, subfolder):
 # 
 # Prepare all of the CSV files
 
-# In[26]:
+# In[6]:
 
 
 # Process known seniors from local database export

@@ -196,14 +196,4 @@ pc2 = time.perf_counter()
 print("Indexing completed in %0.2f seconds" % (pc2 - pc1))
 
 
-# ## Big BLD Means
-# 
-# Calculate Mo3 for 4BLD and 5BLD
-
-# In[6]:
-
-
-runSqlScript('../sql/apply_bld_means.sql')
-
-
 # # All Done!
