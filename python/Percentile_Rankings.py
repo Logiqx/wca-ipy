@@ -7,7 +7,7 @@
 # 
 # Link: https://www.speedsolving.com/forum/showthread.php?54128-How-fast-are-the-over-40-s-in-competitions
 
-# In[1]:
+# In[6]:
 
 
 from EventsLib import *
@@ -17,7 +17,7 @@ from EventsLib import *
 # 
 # Read event data from CSV into memory, prior to processing
 
-# In[2]:
+# In[7]:
 
 
 import os, csv
@@ -40,7 +40,7 @@ class EventResults:
         self.total = 0
 
         # Read rows using the CSV reader
-        fn = os.path.join('..', 'data', 'public', basename, self.event[0] + '.csv')
+        fn = os.path.join('..', 'data', 'public', 'ready', basename, self.event[0] + '.csv')
         with open(fn, 'r') as f:
             csvReader = csv.reader(f)
 
@@ -73,7 +73,7 @@ class EventResults:
 # 
 # Process all three sets of results simultaneously
 
-# In[3]:
+# In[8]:
 
 
 class EventAnalysis:
@@ -270,7 +270,7 @@ class EventAnalysis:
 # 
 # Process the events one-by-one
 
-# In[4]:
+# In[9]:
 
 
 with open('Percentile_Rankings.md', 'r') as f:
@@ -288,6 +288,8 @@ for event in events:
 
 with open("../Percentile_Rankings.md", 'w') as f:
     f.write(html)
+
+print('Percentile Rankings updated!')
 
 
 # In[ ]:

@@ -7,7 +7,7 @@
 # 
 # Link: https://www.speedsolving.com/forum/showthread.php?54128-How-fast-are-the-over-40-s-in-competitions
 
-# In[1]:
+# In[5]:
 
 
 from EventsLib import *
@@ -17,7 +17,7 @@ from EventsLib import *
 # 
 # Read event data from CSV into memory, prior to processing
 
-# In[2]:
+# In[6]:
 
 
 import os, csv
@@ -39,7 +39,7 @@ class PartialResults:
         self.persons = {}
 
         # Read rows using the CSV reader
-        fn = os.path.join('..', 'data', 'public', basename + '.csv')
+        fn = os.path.join('..', 'data', 'public', 'ready', basename + '.csv')
         with open(fn, 'r') as f:
             csvReader = csv.reader(f)
             
@@ -89,7 +89,7 @@ class PartialResults:
             self.fmSingle = False
 
         # Read rows using the CSV reader
-        fn = os.path.join('..', 'data', 'public', basename, event[0] + '.csv')
+        fn = os.path.join('..', 'data', 'public', 'ready', basename, event[0] + '.csv')
         with open(fn, 'r') as f:
             csvReader = csv.reader(f)
             
@@ -145,7 +145,7 @@ class PartialResults:
 # 
 # Process the events one-by-one
 
-# In[3]:
+# In[7]:
 
 
 with open('Partial_Rankings.md', 'r') as f:
@@ -171,10 +171,12 @@ for event in events:
 with open("../Partial_Rankings.md", 'w') as f:
     f.write(html)
 
+print('Partial Rankings updated!')
+
 
 # # All Done!
 
-# In[4]:
+# In[8]:
 
 
 ids = partialResults.ids

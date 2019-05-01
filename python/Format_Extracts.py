@@ -13,7 +13,7 @@
 # 
 # Update the connection details for your MySQL environment.
 
-# In[2]:
+# In[21]:
 
 
 hostname = "mariadb"
@@ -26,7 +26,7 @@ password = "R00tP4ss"
 # 
 # Simple function to run a SQL script
 
-# In[3]:
+# In[22]:
 
 
 # Use the OS library to execute mysql script
@@ -46,7 +46,7 @@ def runSqlScript(source):
 # 
 # Apply date of birth where known or approximated
 
-# In[5]:
+# In[23]:
 
 
 # Start time in fractional seconds
@@ -63,9 +63,14 @@ print("DOBs applied in %0.2f seconds" % (pc2 - pc1))
 # 
 # Extract data from database for subsequent analysis - percentiles, rankings, etc
 
-# In[12]:
+# In[24]:
 
 
+# Remove previous extracts
+import os, glob
+for f in glob.glob(os.path.join('..', 'data', 'public', 'extract', '*.csv')):
+    os.remove(f)
+    
 # Start time in fractional seconds
 pc1 = time.perf_counter()
 
@@ -89,7 +94,7 @@ print("Extracts completed in %0.2f seconds" % (pc2 - pc1))
 # 
 # Note: All of the output files can be made public due to the application of time limits / cutoffs
 
-# In[13]:
+# In[25]:
 
 
 import os, csv
@@ -99,7 +104,7 @@ from EventsLib import *
 def writeResults(basename, event, eventResults):
     """Write event results from memory to CSV"""
 
-    fn = os.path.join('..', 'data', 'public', basename, event + '.csv')
+    fn = os.path.join('..', 'data', 'public', 'ready', basename, event + '.csv')
     with open(fn, 'w') as f:
         csvWriter = csv.writer(f, quoting = csv.QUOTE_MINIMAL, lineterminator = os.linesep)
         for eventResult in eventResults:
@@ -113,7 +118,7 @@ def prepareCounts(basename, subfolder):
     for event in events:
         writeResults(basename, event[0], [])
         
-    fn = os.path.join('..', 'data', 'private', subfolder, basename + '.csv')
+    fn = os.path.join('..', 'data', subfolder, basename + '.csv')
     with open(fn, 'r') as f:
         csvReader = csv.reader(f)
         
@@ -185,7 +190,7 @@ def prepareCounts(basename, subfolder):
 def prepareResults(basename, subfolder):
     """Split file into individual events"""
     
-    fn = os.path.join('..', 'data', 'private', subfolder, basename + '.csv')
+    fn = os.path.join('..', 'data', subfolder, basename + '.csv')
     with open(fn, 'r') as f:
         csvReader = csv.reader(f)
         
@@ -218,14 +223,14 @@ def preparePeople(basename, subfolder):
     rows = []
     
     # Read rows using the CSV reader
-    fn = os.path.join('..', 'data', 'private', subfolder, basename + '.csv')
+    fn = os.path.join('..', 'data', subfolder, basename + '.csv')
     with open(fn, 'r') as f:
         csvReader = csv.reader(f)
         for inputRow in csvReader:
             rows.append(inputRow)
 
     # Write rows using the CSV writer
-    fn = os.path.join('..', 'data', 'public', basename + '.csv')
+    fn = os.path.join('..', 'data', 'public', 'ready', basename + '.csv')
     with open(fn, 'w') as f:
         csvWriter = csv.writer(f, quoting = csv.QUOTE_MINIMAL, lineterminator = os.linesep)
         for row in rows:
@@ -234,27 +239,27 @@ def preparePeople(basename, subfolder):
 
 # # Format Extracts
 # 
-# Prepare all of the CSV files, reading from the "private" folder and writing to the "public" folder
+# Prepare all of the CSV files
 
-# In[14]:
+# In[26]:
 
 
 # Process known seniors from local database export
-extract_date = 'latest'
-preparePeople('known_senior_details', extract_date)
-prepareResults('known_senior_averages', extract_date)
-prepareResults('known_senior_singles', extract_date)
-prepareCounts('known_senior_averages_agg', extract_date)
-prepareCounts('known_senior_averages_delta', extract_date)
-prepareCounts('known_senior_singles_agg', extract_date)
-prepareCounts('wca_averages_agg', extract_date)
-prepareCounts('wca_singles_agg', extract_date)
-print("Processed known seniors for %s" % extract_date)
+public_dir = os.path.join('public', 'extract')
+preparePeople('known_senior_details', public_dir)
+prepareResults('known_senior_averages', public_dir)
+prepareResults('known_senior_singles', public_dir)
+prepareCounts('known_senior_averages_agg', public_dir)
+prepareCounts('known_senior_averages_delta', public_dir)
+prepareCounts('known_senior_singles_agg', public_dir)
+prepareCounts('wca_averages_agg', public_dir)
+prepareCounts('wca_singles_agg', public_dir)
+print("Processed known seniors in %s" % public_dir)
 
 # Process data from remote database export (provided by WCA results team)
-extract_date = '2019-02-01.0'
-prepareCounts('senior_averages_agg', extract_date)
-print("Processed all seniors for %s" % extract_date)
+private_dir = os.path.join('private', '2019-02-01')
+prepareCounts('senior_averages_agg', private_dir)
+print("Processed all seniors in %s" % private_dir)
 
 
 # In[ ]:
