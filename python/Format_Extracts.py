@@ -42,23 +42,6 @@ def runSqlScript(source):
         print('%s returned %d' % (source, result))
 
 
-# ## Big BLD Means
-# 
-# Calculate Mo3 for 4BLD and 5BLD
-
-# In[9]:
-
-
-# Start time in fractional seconds
-pc1 = time.perf_counter()
-
-runSqlScript('../sql/apply_bld_means.sql')
-
-pc2 = time.perf_counter()
-
-print("Big BLD means applied in %0.2f seconds" % (pc2 - pc1))
-
-
 # ## Apply DOB
 # 
 # Apply date of birth where known or approximated
