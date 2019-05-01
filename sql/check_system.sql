@@ -6,6 +6,15 @@
     Purpose:  Check server configuration and status
 */
 
+-- TODO - temp tables
+SELECT @@tmp_table_size / 1024 / 1024; -- 32 MB -> 512MB
+SELECT @@max_heap_table_size / 1024 / 1024; -- 32 MB -> 512MB
+SHOW GLOBAL STATUS LIKE 'created_tmp_%tables'; -- Note that this command in itself creates a temporary table
+
+-- TODO - query cache
+show variables like 'have_query_cache';
+show variables like 'query_cache_%' ;
+
 -- InnoDB Buffer Pool
 SELECT @@innodb_buffer_pool_size / 1024 / 1024; -- 128 MB -> 2048 MB
 SHOW VARIABLES LIKE 'innodb_buffer_pool_instances'; -- 8

@@ -22,13 +22,24 @@ username = "root"
 password = "R00tP4ss"
 
 
-# ## Common Libraries
+# ## Generic SQL Function
+# 
+# Simple function to run a SQL script
 
-# In[2]:
+# In[5]:
 
+
+# Use the OS library to execute mysql script
+import os
 
 # Time module used for performance counters
 import time
+
+def runSqlScript(source):   
+    cmd = 'mysql --host=%s --database=%s --user=%s --password=%s --execute="source %s" --default-character-set=utf8' % (hostname, database, username, password, source)
+    result = os.system(cmd)
+    if result != 0:
+        print('%s returned %d' % (source, result))
 
 
 # ## Download the HTML
@@ -148,23 +159,6 @@ pc2 = time.perf_counter()
 print("Extract completed in %0.2f seconds" % (pc2 - pc1))
 
 
-# ## Generic SQL Function
-# 
-# Simple function to run a SQL script
-
-# In[5]:
-
-
-# Use the OS library to execute mysql script
-import os
-
-def runSqlScript(source):   
-    cmd = 'mysql --host=%s --database=%s --user=%s --password=%s --execute="source %s" --default-character-set=utf8' % (hostname, database, username, password, source)
-    result = os.system(cmd)
-    if result != 0:
-        print('%s returned %d' % (source, result))
-
-
 # ## Populate the WCA Database
 # 
 # Note: The actual database is expected to exist already
@@ -200,6 +194,16 @@ runSqlScript('../sql/create_indices.sql')
 pc2 = time.perf_counter()
 
 print("Indexing completed in %0.2f seconds" % (pc2 - pc1))
+
+
+# ## Big BLD Means
+# 
+# Calculate Mo3 for 4BLD and 5BLD
+
+# In[6]:
+
+
+runSqlScript('../sql/apply_bld_means.sql')
 
 
 # # All Done!

@@ -7,7 +7,7 @@
 # 
 # Link: https://www.speedsolving.com/forum/showthread.php?54128-How-fast-are-the-over-40-s-in-competitions
 
-# In[5]:
+# In[2]:
 
 
 from EventsLib import *
@@ -17,7 +17,7 @@ from EventsLib import *
 # 
 # Read event data from CSV into memory, prior to processing
 
-# In[6]:
+# In[3]:
 
 
 import os, csv
@@ -159,7 +159,7 @@ html += partialResults.listPersons()
 
 html += '<h2>%s</h2>\n\n' % 'Official Averages'
 for event in events:
-    if event[4] > 0:
+    if event[3] != 'multi':
         partialResults.readResults('known_senior_averages', event)
         html += partialResults.listResults()
     
@@ -176,7 +176,7 @@ print('Partial Rankings updated!')
 
 # # All Done!
 
-# In[8]:
+# In[ ]:
 
 
 ids = partialResults.ids
