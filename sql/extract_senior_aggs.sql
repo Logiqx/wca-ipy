@@ -17,7 +17,7 @@
 */
 
 SELECT eventId, FLOOR(best_average / 100) AS modified_average, COUNT(*) AS num_persons
-INTO OUTFILE '/home/jovyan/work/wca-ipy/data/private/latest/known_senior_averages_agg.csv' FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
+INTO OUTFILE '/home/jovyan/work/wca-ipy/data/public/extract/known_senior_averages_agg.csv' FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
 FROM
 (
   SELECT eventId, personId, MIN(average) AS best_average
@@ -55,7 +55,7 @@ SELECT eventId,
       ELSE FLOOR(best_single / 100)
     END
   ) AS modified_single, COUNT(*) AS num_persons
-INTO OUTFILE '/home/jovyan/work/wca-ipy/data/private/latest/known_senior_singles_agg.csv' FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
+INTO OUTFILE '/home/jovyan/work/wca-ipy/data/public/extract/known_senior_singles_agg.csv' FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
 FROM
 (   
   SELECT eventId, personId, MIN(best) AS best_single
