@@ -80,7 +80,7 @@ WHERE b.eventId IS NULL;
 -- Step 2: Select differences and new records
 
 SELECT *
-INTO OUTFILE '/home/jovyan/work/wca-ipy/data/private/known_senior_averages_delta.csv' FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
+INTO OUTFILE '/home/jovyan/work/wca-ipy/data/private/latest/known_senior_averages_delta.csv' FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
 FROM
 (
   SELECT b.eventId, b.modified_average, IFNULL(n.num_persons, 0) - b.num_persons AS diff_of_averages
