@@ -8,3 +8,5 @@ If you would like your name to be added then either contact me via [Speedsolving
 
 A [dynamic page](https://cubing.mikeg.me.uk/oldies) listing personal records is also available but it does not factor in age at the time of the result(s).
 
+Tip: Best viewed in landscape mode on mobile phones and some tablets.
+
