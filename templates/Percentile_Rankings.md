@@ -1,6 +1,6 @@
 # Percentile Rankings
 
-![alt text](img/logo.png "logo")
+![alt text](img/logo_bw.png "logo")
 
 This project started on the [SpeedSolving.com](https://www.speedsolving.com/forum/threads/how-fast-are-the-over-40s-in-competitions.54128/) forum.
 
