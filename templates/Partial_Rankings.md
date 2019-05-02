@@ -1,6 +1,6 @@
 # Partial Over-40's Rankings
 
-![alt text](img/logo_bw.jpg "logo")
+![alt text](img/logo.jpg "logo")
 
 This project started on the [SpeedSolving.com](https://www.speedsolving.com/forum/threads/how-fast-are-the-over-40s-in-competitions.54128/) forum.
 
