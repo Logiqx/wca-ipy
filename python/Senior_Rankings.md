@@ -1,5 +1,7 @@
 # Representative Over-40's Rankings
 
+![alt text](img/logo.png "logo")
+
 This project started on the [SpeedSolving.com](https://www.speedsolving.com/forum/threads/how-fast-are-the-over-40s-in-competitions.54128/) forum.
 
 The rankings below were created from the [Partial Over-40's Rankings](Partial_Rankings.md) and anonymised [data](sql/extract_senior_aggs.sql) from the WCA database.

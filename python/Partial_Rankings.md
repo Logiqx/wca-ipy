@@ -1,5 +1,7 @@
 # Partial Over-40's Rankings
 
+![alt text](img/logo.png "logo")
+
 This project started on the [SpeedSolving.com](https://www.speedsolving.com/forum/threads/how-fast-are-the-over-40s-in-competitions.54128/) forum.
 
 The list of names is incomplete but includes almost 10% of the Over-40's. Most of the fastest people are included but a few are known to be missing.
