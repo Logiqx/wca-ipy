@@ -26,7 +26,7 @@ password = "R00tP4ss"
 # 
 # Simple function to run a SQL script
 
-# In[5]:
+# In[2]:
 
 
 # Use the OS library to execute mysql script
@@ -92,7 +92,7 @@ for link in links:
     if href.endswith(".sql.zip"):
         
         # Record the SQL and exit the loop
-        zip_fn = href
+        zip_fn = os.path.join('..', '..', 'wca-exports', href)
         zip_url = base_url + href
         break
         
@@ -163,7 +163,7 @@ print("Extract completed in %0.2f seconds" % (pc2 - pc1))
 # 
 # Note: The actual database is expected to exist already
 
-# In[8]:
+# In[7]:
 
 
 # Start time in fractional seconds
@@ -181,7 +181,7 @@ print("Load completed in %0.2f seconds" % (pc2 - pc1))
 # 
 # Alter tables and create table indices
 
-# In[9]:
+# In[8]:
 
 
 # Start time in fractional seconds
