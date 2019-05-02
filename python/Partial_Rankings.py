@@ -7,7 +7,7 @@
 # 
 # Link: https://www.speedsolving.com/forum/showthread.php?54128-How-fast-are-the-over-40-s-in-competitions
 
-# In[2]:
+# In[1]:
 
 
 from EventsLib import *
@@ -17,7 +17,7 @@ from EventsLib import *
 # 
 # Read event data from CSV into memory, prior to processing
 
-# In[3]:
+# In[2]:
 
 
 import os, csv
@@ -145,10 +145,10 @@ class PartialResults:
 # 
 # Process the events one-by-one
 
-# In[7]:
+# In[3]:
 
 
-with open('Partial_Rankings.md', 'r') as f:
+with open(os.path.join('..', 'templates', 'Partial_Rankings.md'), 'r') as f:
     html = ''.join(f.readlines())
 
 partialResults = PartialResults()
@@ -168,7 +168,7 @@ for event in events:
     partialResults.readResults('known_senior_singles', event)
     html += partialResults.listResults()
     
-with open("../Partial_Rankings.md", 'w') as f:
+with open(os.path.join('..', 'docs', 'Partial_Rankings.md'), 'w') as f:
     f.write(html)
 
 print('Partial Rankings updated!')
@@ -176,12 +176,12 @@ print('Partial Rankings updated!')
 
 # # All Done!
 
-# In[ ]:
+# In[5]:
 
 
 ids = partialResults.ids
 ids.sort()
-print(','.join(id for id in ids) + ' = ' + str(len(ids)) + ' competitors')
+print('WCA Ids = ' + ','.join(id for id in ids) + ' = ' + str(len(ids)) + ' competitors')
 
 
 # In[ ]:

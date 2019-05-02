@@ -160,7 +160,7 @@ class PartialResults:
 # 
 # Process all three sets of results simultaneously
 
-# In[42]:
+# In[4]:
 
 
 class EventAnalysis:
@@ -322,10 +322,10 @@ class EventAnalysis:
 # 
 # Process the events one-by-one
 
-# In[43]:
+# In[5]:
 
 
-with open('Senior_Rankings.md', 'r') as f:
+with open(os.path.join('..', 'templates', 'Senior_Rankings.md'), 'r') as f:
     html = ''.join(f.readlines())
 
 eventAnalysis = EventAnalysis()
@@ -339,7 +339,7 @@ for event in events:
     eventAnalysis.readResults(event)
     html += eventAnalysis.listResults()
     
-with open("../Senior_Rankings.md", 'w') as f:
+with open(os.path.join('..', 'docs', 'Senior_Rankings.md'), 'w') as f:
     f.write(html)
     
 print('Representative Rankings updated!')

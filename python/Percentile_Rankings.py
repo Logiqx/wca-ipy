@@ -7,7 +7,7 @@
 # 
 # Link: https://www.speedsolving.com/forum/showthread.php?54128-How-fast-are-the-over-40-s-in-competitions
 
-# In[6]:
+# In[29]:
 
 
 from EventsLib import *
@@ -17,7 +17,7 @@ from EventsLib import *
 # 
 # Read event data from CSV into memory, prior to processing
 
-# In[7]:
+# In[30]:
 
 
 import os, csv
@@ -73,7 +73,7 @@ class EventResults:
 # 
 # Process all three sets of results simultaneously
 
-# In[8]:
+# In[31]:
 
 
 class EventAnalysis:
@@ -86,6 +86,7 @@ class EventAnalysis:
         self.seniorResults = None
         self.knownResults = None
         self.limit = 0
+        self.verbose = False
 
 
     def readResults(self, event):
@@ -256,8 +257,9 @@ class EventAnalysis:
                         html += '</tr>\n'
 
                     if i in (self.event[4], self.event[5], self.event[6]):
-                        print('sub-%s = %s' % (formatResult(self.event, i * 100), debug))
-
+                        if self.verbose:
+                            print('%s, sub-%s = %s' % (self.event[1], formatResult(self.event, i * 100), debug))
+                    
                     debug = str(wcaResult[1:] + seniorResult[1:] + knownResult[1:])
 
             html += '  </table>\n'
@@ -270,23 +272,21 @@ class EventAnalysis:
 # 
 # Process the events one-by-one
 
-# In[9]:
+# In[32]:
 
 
-with open('Percentile_Rankings.md', 'r') as f:
+with open(os.path.join('..', 'templates', 'Percentile_Rankings.md'), 'r') as f:
     html = ''.join(f.readlines())
 
 html += '<h2>%s</h2>\n\n' % 'Official Averages'
 
 for event in events:
-    print(event[1])
     eventAnalysis = EventAnalysis()
     eventAnalysis.readResults(event)
     eventAnalysis.checkSanity()
     html += eventAnalysis.getHtml()
-    print()
 
-with open("../Percentile_Rankings.md", 'w') as f:
+with open(os.path.join('..', 'docs', 'Percentile_Rankings.md'), 'w') as f:
     f.write(html)
 
 print('Percentile Rankings updated!')

@@ -4,7 +4,7 @@
 
 This project started on the [SpeedSolving.com](https://www.speedsolving.com/forum/threads/how-fast-are-the-over-40s-in-competitions.54128/) forum.
 
-The statistics below have been calculated using anonymised [data](sql/extract_senior_aggs.sql) from the WCA database.
+The statistics below have been calculated using anonymised [data](https://github.com/Logiqx/wca-ipy/blob/master/sql/extract_senior_aggs.sql) from the WCA database.
 
 Notes:
 
