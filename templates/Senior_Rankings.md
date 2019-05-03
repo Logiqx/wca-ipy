@@ -12,6 +12,5 @@ Notes:
 
 - The anonymised data was a one-off extract on 2019-02-01 so the results for unknown seniors are getting stale.
 - The anonymised data was only for official averages so I cannot produce similar rankings for singles, sorry!
-
-Tip: Best viewed in landscape mode on mobile phones and some tablets.
+- Best viewed in landscape mode on mobile phones and some tablets.
 
