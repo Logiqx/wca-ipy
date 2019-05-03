@@ -196,4 +196,4 @@ pc2 = time.perf_counter()
 print("Indexing completed in %0.2f seconds" % (pc2 - pc1))
 
 
-# # All Done!
+# ## All Done!

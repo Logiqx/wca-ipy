@@ -2,9 +2,11 @@
 
 ![alt text](img/logo.jpg "logo")
 
-This project started on the [SpeedSolving.com](https://www.speedsolving.com/forum/threads/how-fast-are-the-over-40s-in-competitions.54128/) forum.
+This [project](https://github.com/Logiqx/wca-ipy) started on the [SpeedSolving.com](https://www.speedsolving.com/forum/threads/how-fast-are-the-over-40s-in-competitions.54128/) forum.
 
-The rankings below were created from the [Partial Over-40's Rankings](Partial_Rankings.md) and anonymised [data](https://github.com/Logiqx/wca-ipy/blob/master/sql/extract_senior_aggs.sql) from the WCA database.
+Unofficial rankings for the senior cubing community are produced from official WCA competition results.
+
+The rankings below were created from the [Partial Over-40's Rankings](Partial_Rankings.md) and supplementary anonymised [data](https://github.com/Logiqx/wca-ipy/blob/master/sql/extract_senior_aggs.sql) from the WCA database.
 
 If you would like your name to be added then either contact me via [Speedsolving.com](https://www.speedsolving.com/forum/members/logiqx.17180/) or [Facebook](https://www.facebook.com/michael.george.545).
 

@@ -345,8 +345,4 @@ with open(os.path.join('..', 'docs', 'Senior_Rankings.md'), 'w') as f:
 print('Representative Rankings updated!')
 
 
-# In[ ]:
-
-
-
-
+# ## All Done!

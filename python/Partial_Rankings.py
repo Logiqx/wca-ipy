@@ -145,7 +145,7 @@ class PartialResults:
 # 
 # Process the events one-by-one
 
-# In[3]:
+# In[17]:
 
 
 with open(os.path.join('..', 'templates', 'Partial_Rankings.md'), 'r') as f:
@@ -156,6 +156,11 @@ partialResults = PartialResults()
 html += '<h2>%s</h2>\n\n' % 'Official Competitors'
 partialResults.readPersons('known_senior_details')
 html += partialResults.listPersons()
+
+ids = partialResults.ids
+ids.sort()
+idsCsv = ','.join(id for id in ids)
+html = html.replace("wcaids=", "wcaids=" + idsCsv)
 
 html += '<h2>%s</h2>\n\n' % 'Official Averages'
 for event in events:
@@ -174,18 +179,4 @@ with open(os.path.join('..', 'docs', 'Partial_Rankings.md'), 'w') as f:
 print('Partial Rankings updated!')
 
 
-# # All Done!
-
-# In[5]:
-
-
-ids = partialResults.ids
-ids.sort()
-print('WCA Ids = ' + ','.join(id for id in ids) + ' = ' + str(len(ids)) + ' competitors')
-
-
-# In[ ]:
-
-
-
-
+# ## All Done!

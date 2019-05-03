@@ -292,8 +292,4 @@ with open(os.path.join('..', 'docs', 'Percentile_Rankings.md'), 'w') as f:
 print('Percentile Rankings updated!')
 
 
-# In[ ]:
-
-
-
-
+# ## All Done!

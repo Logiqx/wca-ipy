@@ -13,7 +13,7 @@
 # 
 # Update the connection details for your MySQL environment.
 
-# In[7]:
+# In[1]:
 
 
 hostname = "mariadb"
@@ -26,7 +26,7 @@ password = "R00tP4ss"
 # 
 # Simple function to run a SQL script
 
-# In[8]:
+# In[2]:
 
 
 # Use the OS library to execute mysql script
@@ -56,7 +56,7 @@ runSqlScript('../sql/apply_known_dob.sql')
 
 pc2 = time.perf_counter()
 
-print("DOBs applied in %0.2f seconds" % (pc2 - pc1))
+# print("DOBs applied in %0.2f seconds" % (pc2 - pc1))
 
 
 # ## Run Extracts
@@ -82,7 +82,7 @@ runSqlScript('../sql/extract_wca_aggs.sql')
 # End time in fractional seconds
 pc2 = time.perf_counter()
 
-print("Extracts completed in %0.2f seconds" % (pc2 - pc1))
+# print("Extracts completed in %0.2f seconds" % (pc2 - pc1))
 
 
 # ## Generic Processing
@@ -237,7 +237,7 @@ def preparePeople(basename, subfolder):
             csvWriter.writerow(row)
 
 
-# # Format Extracts
+# ## Format Extracts
 # 
 # Prepare all of the CSV files
 
@@ -254,16 +254,12 @@ prepareCounts('known_senior_averages_delta', public_dir)
 prepareCounts('known_senior_singles_agg', public_dir)
 prepareCounts('wca_averages_agg', public_dir)
 prepareCounts('wca_singles_agg', public_dir)
-print("Processed known seniors in %s" % public_dir)
 
 # Process data from remote database export (provided by WCA results team)
 private_dir = os.path.join('private', '2019-02-01')
 prepareCounts('senior_averages_agg', private_dir)
-print("Processed all seniors in %s" % private_dir)
+
+print('Extracts formatted!')
 
 
-# In[ ]:
-
-
-
-
+# ## All Done!
