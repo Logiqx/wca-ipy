@@ -1,4 +1,4 @@
-docker exec wca_notebook_1 sh -c "cd work/wca-ipy/python; ./Format_Extracts.py"
-docker exec wca_notebook_1 sh -c "cd work/wca-ipy/python; ./Percentile_Rankings.py"
-docker exec wca_notebook_1 sh -c "cd work/wca-ipy/python; ./Senior_Rankings.py"
-docker exec wca_notebook_1 sh -c "cd work/wca-ipy/python; ./Partial_Rankings.py"
+docker exec wca_notebook_1 sh -c "cd work/wca-ipy/python; jupyter nbconvert --to notebook --execute --inplace ./Format_Extracts.ipynb"
+docker exec wca_notebook_1 sh -c "cd work/wca-ipy/python; jupyter nbconvert --to notebook --execute --inplace ./Percentile_Rankings.ipynb"
+docker exec wca_notebook_1 sh -c "cd work/wca-ipy/python; jupyter nbconvert --to notebook --execute --inplace ./Senior_Rankings.ipynb"
+docker exec wca_notebook_1 sh -c "cd work/wca-ipy/python; jupyter nbconvert --to notebook --execute --inplace ./Partial_Rankings.ipynb"
