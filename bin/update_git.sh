@@ -1,2 +1,2 @@
-git commit -m "Refresh reports" ../*Rankings.md ../data ../python
+git commit -m "Refresh reports" ../data ../docs ../python
 git push
