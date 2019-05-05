@@ -72,13 +72,11 @@ volumes:
   mariadbtest:
 ```
 
-The service configuration will be described in the sections below.
-
 
 
 #### Image Tag
 
-The official image is being used from [Docker Hub](https://hub.docker.com/_/mariadb) and the [release](https://downloads.mariadb.org/mariadb/+releases/) is specified in the .env file.
+The official image from [Docker Hub](https://hub.docker.com/_/mariadb) is being used and the [release](https://downloads.mariadb.org/mariadb/+releases/) is specified in the .env file.
 
 ```sh
 MARIADB_VERSION=10.3
@@ -88,7 +86,7 @@ MARIADB_VERSION=10.3
 
 ##### MYSQL_DATABASE
 
-The database name is specified in .env and will be created automatically on start-up.
+The database  is created automatically on start-up and the name is specified in .env file.
 
 ```sh
 MYSQL_DATABASE=wca
@@ -96,7 +94,7 @@ MYSQL_DATABASE=wca
 
 ##### MYSQL_RANDOM_ROOT_PASSWORD
 
-The root user will be assigned a random password on start-up. It can be found in the Docker logs.
+The root user is assigned a random password on start-up and can be found in the Docker logs.
 
 ```sh
 $ docker logs wca_mariadb_1 2>&1 | grep -i generated
@@ -105,17 +103,23 @@ GENERATED ROOT PASSWORD: ahM2dei1EDaid8ah5TeRai6laiQu6eeK
 
 ##### MYSQL_USER
 
-The WCA user will be created automatically with the password in mysql_password.txt.
+The WCA user is created automatically on start-up and the name is specified in .env file.
 
 ```sh
 MYSQL_USER=wca
+```
+
+The default password is specified in mysql_password.txt and is supplied to the container as a "secret".
+
+```
+change.me
 ```
 
 #### Secrets
 
 [Docker Secrets](https://docs.docker.com/engine/swarm/secrets/) are used to provide the initial password for the WCA user mentioned earlier.
 
-They may be overkill in this instance but it is certainly better practice than using an environment variable.
+It may be overkill in this instance but it secrets are more appropriate for passwords than standard environment variables.
 
 #### Ports
 
