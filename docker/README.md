@@ -180,14 +180,15 @@ The section below provides some basic pointers as to what is required in the way
 
 #### Setup
 
-Docker For Windows
+##### Docker For Windows
 
-​	Settings -> Shared Drives -> C
+Settings -> Shared Drives -> C
 
-Share C: Drive
+##### Share C: Drive
 
-​	Right-click C: -> Properties -> Sharing -> Share...
+Right-click C: -> Properties -> Sharing -> Share...
 
-Anti-Virus Exclusion
+##### Anti-Virus Exclusion
 
-​	Norton -> Settings -> Firewall -> Configure Public Network Exceptions -> File and Printer Sharing
+Norton -> Settings -> Firewall -> Configure Public Network Exceptions -> File and Printer Sharing
+
