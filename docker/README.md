@@ -167,3 +167,27 @@ local               wca_mariadb
 ## Jupter Notebook
 
 TODO
+
+
+
+## Docker for Windows
+
+### Bind Mounts
+
+This project uses bind mounts which can initially be a little tricky to get working on Windows.
+
+The section below provides some basic pointers as to what is required in the way of setup.
+
+#### Setup
+
+Docker For Windows
+
+​	Settings -> Shared Drives -> C
+
+Share C: Drive
+
+​	Right-click C: -> Properties -> Sharing -> Share...
+
+Anti-Virus Exclusion
+
+​	Norton -> Settings -> Firewall -> Configure Public Network Exceptions -> File and Printer Sharing
