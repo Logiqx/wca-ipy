@@ -78,7 +78,7 @@ volumes:
 
 The official image from [Docker Hub](https://hub.docker.com/_/mariadb) is being used and the [release](https://downloads.mariadb.org/mariadb/+releases/) is specified in the .env file.
 
-```sh
+```ini
 MARIADB_VERSION=10.3
 ```
 
@@ -88,7 +88,7 @@ MARIADB_VERSION=10.3
 
 The database  is created automatically on start-up and the name is specified in .env file.
 
-```sh
+```ini
 MYSQL_DATABASE=wca
 ```
 
@@ -105,13 +105,13 @@ GENERATED ROOT PASSWORD: ahM2dei1EDaid8ah5TeRai6laiQu6eeK
 
 The WCA user is created automatically on start-up and the name is specified in .env file.
 
-```sh
+```ini
 MYSQL_USER=wca
 ```
 
 The default password is specified in mysql_password.txt and is supplied to the container as a "secret".
 
-```
+```ini
 change.me
 ```
 
@@ -131,7 +131,7 @@ The default port 3306 is being exposed to the host machine for tools such as [My
 
 A [bind mount](https://docs.docker.com/storage/bind-mounts/) for $PROJECT_ROOT allows directories to be shared between MariaDB and Jupyter Notebook.
 
-```sh
+```ini
 PROJECT_ROOT=../..
 ```
 
