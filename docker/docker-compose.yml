@@ -1,10 +1,14 @@
-version: '3'
+version: '3.1'
 services:
   mariadb:
     image: mariadb:${MARIADB_VERSION:-latest}
     environment:
       MYSQL_DATABASE: ${MYSQL_DATABASE}
       MYSQL_RANDOM_ROOT_PASSWORD: "true"
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD_FILE: /run/secrets/mysql_password
+    secrets:
+      - mysql_password
     ports:
       - "3306:3306"
     volumes:
@@ -17,11 +21,19 @@ services:
       args:
         NOTEBOOK_VERSION: ${NOTEBOOK_VERSION}
     image: ${COMPOSE_PROJECT_NAME:-wca}_notebook:${PROJECT_NOTEBOOK_VERSION:-latest}-${NOTEBOOK_VERSION:-latest}
+    environment:
+      MYSQL_HOSTNAME: mariadb
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
     ports:
       - "8888:8888"
     volumes:
       - ${PROJECT_ROOT}:/home/jovyan/work
+      - ./mysql/.my.cnf:/home/jovyan/.my.cnf
     depends_on:
       - mariadb
+secrets:
+  mysql_password:
+    file: ./mysql_password.txt
 volumes:
   mariadb:
