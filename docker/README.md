@@ -11,18 +11,28 @@ This project uses [Docker](https://www.docker.com/) to spin up the [MariaDB](htt
 
 The use of [Docker Compose](https://docs.docker.com/compose/) means that the Docker containers can be quickly created / destroyed and started / paused / stopped from the command line.
 
-The MariaDB and Jupyter Notebook services are defined with docker-compose.yml and the associated .env file. Docker Compose files are self-documenting but it will still be described within this document.
+The MariaDB and Jupyter Notebook services are defined with docker-compose.yml and the associated .env file. Docker Compose files are generally self-documenting but this one will be documented for the sake of clarity.
 
 To create the required Docker images, volumes, networks and containers and start the services:
 
 ```sh
-docker-compose up -d
+$ docker-compose up -d
+```
+
+To list the containers for the services:
+
+```sh
+$ docker-compose ps
+     Name                  Command              State           Ports
+------------------------------------------------------------------------------
+wca_mariadb_1    docker-entrypoint.sh mysqld    Up      0.0.0.0:3306->3306/tcp
+wca_notebook_1   tini -g -- start-notebook.sh   Up      0.0.0.0:8888->8888/tcp
 ```
 
 To stop the services and destroy the containers:
 
 ```sh
-docker-compose down
+$ docker-compose down
 ```
 
 Other useful commands include "start", "pause" and "stop"
