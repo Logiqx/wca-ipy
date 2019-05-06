@@ -41,13 +41,11 @@ Other useful commands include "start", "pause" and "stop"
 
 ## MariaDB
 
- [MariaDB](https://mariadb.org/) is being used as an alternative to [MySQL](https://www.mysql.com/) because it generally performs better for this project.
-
-
+[MariaDB](https://mariadb.org/) is being used as an alternative to [MySQL](https://www.mysql.com/) because it generally performs better for this project.
 
 ### Docker Service
 
-The Docker service is defined in docker-compose.yml:
+The Docker service is defined in docker-compose.yml.
 
 ```yaml
 mariadb:
@@ -72,13 +70,12 @@ volumes:
   mariadbtest:
 ```
 
-
-
 #### Image Tag
 
 The official image from [Docker Hub](https://hub.docker.com/_/mariadb) is being used and the [release](https://downloads.mariadb.org/mariadb/+releases/) is specified in the .env file.
 
 ```ini
+# Desired version of MariaDB (Official Docker image)
 MARIADB_VERSION=10.3
 ```
 
@@ -89,6 +86,7 @@ MARIADB_VERSION=10.3
 The database  is created automatically on start-up and the name is specified in .env file.
 
 ```ini
+# Database to create on startup
 MYSQL_DATABASE=wca
 ```
 
@@ -106,6 +104,7 @@ GENERATED ROOT PASSWORD: ahM2dei1EDaid8ah5TeRai6laiQu6eeK
 The WCA user is created automatically on start-up and the name is specified in .env file.
 
 ```ini
+# User to create on startup
 MYSQL_USER=wca
 ```
 
@@ -119,7 +118,7 @@ change.me
 
 [Docker Secrets](https://docs.docker.com/engine/swarm/secrets/) are used to provide the initial password for the WCA user mentioned earlier.
 
-It may be overkill in this instance but it secrets are more appropriate for passwords than standard environment variables.
+It may be overkill in this instance but secrets are more appropriate for passwords than standard environment variables.
 
 #### Ports
 
@@ -132,10 +131,11 @@ The default port 3306 is being exposed to the host machine for tools such as [My
 A [bind mount](https://docs.docker.com/storage/bind-mounts/) for $PROJECT_ROOT allows directories to be shared between MariaDB and Jupyter Notebook.
 
 ```ini
+# Location of the bind mount for /home/jovyan/work
 PROJECT_ROOT=../..
 ```
 
-Note: $PROJECT_ROOT is defined as ../.. so that a number of similar / related projects can be accessed.
+Note: $PROJECT_ROOT is defined as ../.. so that a number of related projects can be accessed.
 
 ##### MariaDB Configuration
 
@@ -166,7 +166,131 @@ local               wca_mariadb
 
 ## Jupter Notebook
 
-TODO
+[Jupter Notebooks](https://jupyter.org/) are popular amongst Data Scientists as a Python IDE and presentation tool.
+
+The [base notebook](https://jupyter-docker-stacks.readthedocs.io/en/latest/using/selecting.html#core-stacks) is used for this project because the larger development stacks are not required.
+
+
+### Docker Service
+
+The Docker service is defined in docker-compose.yml.
+
+```yaml
+notebook:
+  build:
+    context: ./notebook
+    args:
+      NOTEBOOK_VERSION: ${NOTEBOOK_VERSION}
+  image: ${COMPOSE_PROJECT_NAME:-wca}_notebook:${PROJECT_NOTEBOOK_VERSION:-latest}-${NOTEBOOK_VERSION:-latest}
+  environment:
+    MYSQL_HOSTNAME: mariadb
+    MYSQL_DATABASE: ${MYSQL_DATABASE}
+    MYSQL_USER: ${MYSQL_USER}
+  ports:
+    - "8888:8888"
+  volumes:
+    - ${PROJECT_ROOT}:/home/jovyan/work
+    - ./mysql/.my.cnf:/home/jovyan/.my.cnf
+  depends_on:
+    - mariadb
+```
+
+#### Build
+
+A custom notebook image is built from notebook/Dockerfile and is a derivative of the base notebook image on [Docker Hub](https://hub.docker.com/r/jupyter/base-notebook/).
+```dockerfile
+ARG NOTEBOOK_VERSION
+FROM jupyter/base-notebook:${NOTEBOOK_VERSION:-latest}
+
+RUN pip install beautifulsoup4 lxml
+
+USER root
+RUN apt-get update && apt-get install -y --no-install-recommends mysql-client
+USER jovyan
+```
+
+The custom notebook image includes the following additional components:
+
+1) The Python Library [Beautiful Soup](https://www.crummy.com/software/BeautifulSoup/) is used for parsing HTML.
+2) The MySQL [Command-Line Client](https://dev.mysql.com/doc/refman/5.7/en/mysql.html) is used to execute SQL scripts.
+
+#### Image Tag
+
+The custom image is tagged using a combination of the following variables from the .env file.
+
+```ini
+# Desired version of Jupyter Notebook
+NOTEBOOK_VERSION=c39518a3252f
+
+# Tag for the custom notebook image
+PROJECT_NOTEBOOK_VERSION=1.0
+```
+
+The custom image can be listed from the command line.
+
+```sh
+$ docker image ls wca_notebook
+REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE
+wca_notebook        1.0-c39518a3252f    0422cfc20927        About an hour ago   909MB
+```
+
+##### MYSQL_HOSTNAME
+
+The database hostname should match the MariaDB service name in docker-compose.yml.
+
+```ini
+MYSQL_HOSTNAME=mariadb
+```
+
+##### MYSQL_DATABASE
+
+The database name is shared with the MariaDB service and is specified in the .env file.
+
+```ini
+# Database to create on startup
+MYSQL_DATABASE=wca
+```
+
+##### MYSQL_USER
+
+The WCA user name is shared with the MariaDB service and is specified in the .env file.
+
+```ini
+# User to create on startup
+MYSQL_USER=wca
+```
+
+#### Ports
+
+The default port 8888 is being exposed to the host machine for web browser access.
+
+#### Volumes
+
+##### Work Folder
+
+A [bind mount](https://docs.docker.com/storage/bind-mounts/) for $PROJECT_ROOT allows directories to be shared between Jupyter Notebook and MariaDB.
+
+```ini
+# Location of the bind mount for /home/jovyan/work
+PROJECT_ROOT=../..
+```
+
+Note: $PROJECT_ROOT is defined as ../.. so that a number of related projects can be accessed.
+
+##### MySQL Configuration
+
+A bind mount is used for .my.cnf which is the MariaDB client configuration, primarily the user password.
+
+```ini
+[client]
+password=change.me
+```
+
+#### Dependencies
+
+The Jupyter notebooks run SQL against the MariaDB database so a dependency has been declared.
+
+This isn't entirely necessary but it does provide some documentation benefits.
 
 
 
