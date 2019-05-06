@@ -139,7 +139,7 @@ Note: $PROJECT_ROOT is defined as ../.. so that a number of related projects can
 
 ##### MariaDB Configuration
 
-A bind mount is used for wca.cnf which is the MariaDB configuration, primarily performance related.
+A bind mount is used for wca.cnf which is the MariaDB server configuration, primarily performance related.
 
 ```ini
 [mysqld]
@@ -234,6 +234,8 @@ REPOSITORY          TAG                 IMAGE ID            CREATED             
 wca_notebook        1.0-c39518a3252f    0422cfc20927        About an hour ago   909MB
 ```
 
+#### Environment Variables
+
 ##### MYSQL_HOSTNAME
 
 The database hostname should match the MariaDB service name in docker-compose.yml.
@@ -290,6 +292,15 @@ The Jupyter notebooks run SQL against the MariaDB database so a service dependen
 
 This isn't entirely necessary but it does provide some documentation benefits.
 
+### Access Token
+
+A random access token is generated on start-up and can be found in the Docker logs.
+
+```sh
+$ docker logs wca_notebook_1 2>&1 | grep token
+[I 08:10:33.842 NotebookApp] http://(14f9a3503875 or 127.0.0.1):8888/?token=d7d8bf386490342fd934486e681b20643c1b148e1c86795c
+        http://(14f9a3503875 or 127.0.0.1):8888/?token=d7d8bf386490342fd934486e681b20643c1b148e1c86795c
+```
 
 
 ## Docker for Windows
