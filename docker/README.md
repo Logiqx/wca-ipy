@@ -39,6 +39,42 @@ Other useful commands include "start", "pause" and "stop"
 
 
 
+## Docker Swarm
+
+As an alternative to Docker Compose the services can be deployed with Docker Swarm.
+
+To initialise the swarm:
+
+```
+$ docker swarm init
+Swarm initialized: current node (nkgp43na417b4o9ybqyny6btw) is now a manager.
+```
+
+Since Docker Swarm does not support .env files, Docker Compose is required as a pre-processor:
+
+```
+$ docker-compose config | docker stack deploy -c - wca
+                       or
+$ docker stack deploy -c <(docker-compose config) wca
+```
+
+To list the services / tasks in the stack:
+
+```
+$ docker stack services wca
+...
+$ docker stack ps wca
+...
+```
+
+To remove the stack:
+
+```
+$ docker stack rm wca
+```
+
+
+
 ## Docker Services
 
 ### MariaDB
