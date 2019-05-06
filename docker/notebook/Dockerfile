@@ -1,5 +1,5 @@
 ARG NOTEBOOK_VERSION
-FROM jupyter/minimal-notebook:${NOTEBOOK_VERSION:-latest}
+FROM jupyter/base-notebook:${NOTEBOOK_VERSION:-latest}
 
 RUN pip install beautifulsoup4 lxml
 
