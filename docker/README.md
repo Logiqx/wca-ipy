@@ -15,13 +15,13 @@ The MariaDB and Jupyter Notebook services are defined with docker-compose.yml an
 
 To create the required Docker images, volumes, networks and containers and start the services:
 
-```sh
+```
 $ docker-compose up -d
 ```
 
 To list the containers for the services:
 
-```sh
+```
 $ docker-compose ps
      Name                  Command              State           Ports
 ------------------------------------------------------------------------------
@@ -31,7 +31,7 @@ wca_notebook_1   tini -g -- start-notebook.sh   Up      0.0.0.0:8888->8888/tcp
 
 To stop the services and destroy the containers:
 
-```sh
+```
 $ docker-compose down
 ```
 
@@ -94,7 +94,7 @@ MYSQL_DATABASE=wca
 
 The root user is assigned a random password on start-up and can be found in the Docker logs.
 
-```sh
+```
 $ docker logs wca_mariadb_1 2>&1 | grep -i generated
 GENERATED ROOT PASSWORD: ahM2dei1EDaid8ah5TeRai6laiQu6eeK
 ```
@@ -156,7 +156,7 @@ secure_file_priv               =
 
 A named [volume](https://docs.docker.com/storage/volumes/) is used for the MariaDB data directory. This ensures that users and databases are persisted even when Docker containers are destroyed and re-created.
 
-```sh
+```
 $ docker volume ls
 DRIVER              VOLUME NAME
 local               wca_mariadb
@@ -228,7 +228,7 @@ PROJECT_NOTEBOOK_VERSION=1.0
 
 The custom image can be identified from the command line.
 
-```sh
+```
 $ docker image ls wca_notebook
 REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE
 wca_notebook        1.0-c39518a3252f    0422cfc20927        About an hour ago   909MB
@@ -296,10 +296,9 @@ This isn't entirely necessary but it does provide some documentation benefits.
 
 A random access token is generated on start-up and can be found in the Docker logs.
 
-```sh
+```
 $ docker logs wca_notebook_1 2>&1 | grep token
-[I 08:10:33.842 NotebookApp] http://(14f9a3503875 or 127.0.0.1):8888/?token=d7d8bf386490342fd934486e681b20643c1b148e1c86795c
-        http://(14f9a3503875 or 127.0.0.1):8888/?token=d7d8bf386490342fd934486e681b20643c1b148e1c86795c
+http://(14f9a3503875 or 127.0.0.1):8888/?token=d7d8bf386490342fd934486e681b20643c1b148e1c86795c
 ```
 
 
