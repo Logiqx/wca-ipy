@@ -39,11 +39,11 @@ Other useful commands include "start", "pause" and "stop"
 
 
 
-## MariaDB
+## Docker Services
+
+### MariaDB
 
 [MariaDB](https://mariadb.org/) is being used as an alternative to [MySQL](https://www.mysql.com/) because it generally performs better for this project.
-
-### Docker Service
 
 The Docker service is defined in docker-compose.yml.
 
@@ -126,16 +126,16 @@ The default port 3306 is being exposed to the host machine for tools such as [My
 
 #### Volumes
 
-##### Work Folder
+##### Project Root
 
-A [bind mount](https://docs.docker.com/storage/bind-mounts/) for $PROJECT_ROOT allows directories to be shared between MariaDB and Jupyter Notebook.
+A [bind mount](https://docs.docker.com/storage/bind-mounts/) at PROJECT_ROOT allows directories to be shared between MariaDB and Jupyter Notebooks.
 
 ```ini
 # Location of the bind mount for /home/jovyan/work
 PROJECT_ROOT=../..
 ```
 
-Note: $PROJECT_ROOT is defined as ../.. so that a number of related projects can be accessed.
+Note: PROJECT_ROOT is defined as ../.. so that a number of related projects can be accessed.
 
 ##### MariaDB Configuration
 
@@ -164,14 +164,9 @@ local               wca_mariadb
 
 
 
-## Jupter Notebook
+### Jupter Notebook
 
 [Jupter Notebooks](https://jupyter.org/) are popular amongst Data Scientists as a Python IDE and presentation tool.
-
-The [base notebook](https://jupyter-docker-stacks.readthedocs.io/en/latest/using/selecting.html#core-stacks) is used for this project because the larger development stacks are not required.
-
-
-### Docker Service
 
 The Docker service is defined in docker-compose.yml.
 
@@ -195,9 +190,9 @@ notebook:
     - mariadb
 ```
 
-#### Build
+#### Image Build
 
-A custom notebook image is built from notebook/Dockerfile and is a derivative of the image on [Docker Hub](https://hub.docker.com/r/jupyter/base-notebook/).
+A custom notebook image is built from notebook/Dockerfile and is a derivative of the image on [Docker Hub](https://hub.docker.com/r/jupyter/base-notebook/). The [base notebook](https://jupyter-docker-stacks.readthedocs.io/en/latest/using/selecting.html#core-stacks) is used for this project because the larger development stacks are not required.
 ```dockerfile
 ARG NOTEBOOK_VERSION
 FROM jupyter/base-notebook:${NOTEBOOK_VERSION:-latest}
@@ -234,6 +229,15 @@ REPOSITORY          TAG                 IMAGE ID            CREATED             
 wca_notebook        1.0-c39518a3252f    0422cfc20927        About an hour ago   909MB
 ```
 
+#### Access Token
+
+A random access token is generated on start-up and can be found in the Docker logs.
+
+```
+$ docker logs wca_notebook_1 2>&1 | grep token
+http://(14f9a3503875 or 127.0.0.1):8888/?token=d7d8bf386490342fd934486e681b20643c1b148e1c86795c
+```
+
 #### Environment Variables
 
 ##### MYSQL_HOSTNAME
@@ -266,16 +270,16 @@ The default port 8888 is being exposed to the host machine for web browser acces
 
 #### Volumes
 
-##### Work Folder
+##### Project Root
 
-A [bind mount](https://docs.docker.com/storage/bind-mounts/) for $PROJECT_ROOT allows directories to be shared between Jupyter Notebook and MariaDB.
+A [bind mount](https://docs.docker.com/storage/bind-mounts/) at PROJECT_ROOT allows directories to be shared between Jupyter Notebooks and MariaDB.
 
 ```ini
 # Location of the bind mount for /home/jovyan/work
 PROJECT_ROOT=../..
 ```
 
-Note: $PROJECT_ROOT is defined as ../.. so that a number of related projects can be accessed.
+Note: PROJECT_ROOT is defined as ../.. so that a number of related projects can be accessed.
 
 ##### MySQL Configuration
 
@@ -292,14 +296,6 @@ The Jupyter notebooks run SQL against the MariaDB database so a service dependen
 
 This isn't entirely necessary but it does provide some documentation benefits.
 
-### Access Token
-
-A random access token is generated on start-up and can be found in the Docker logs.
-
-```
-$ docker logs wca_notebook_1 2>&1 | grep token
-http://(14f9a3503875 or 127.0.0.1):8888/?token=d7d8bf386490342fd934486e681b20643c1b148e1c86795c
-```
 
 
 ## Docker for Windows
