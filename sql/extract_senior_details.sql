@@ -10,7 +10,7 @@
 SELECT p.id AS personId, p.name AS personName, c.name AS country, IFNULL(s.username, '?') AS username
 INTO OUTFILE '/home/jovyan/work/wca-ipy/data/public/extract/known_senior_details.csv' FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
 FROM Persons AS p
-INNER JOIN Seniors AS s ON s.id = p.id
+INNER JOIN Seniors AS s ON s.personId = p.id
 INNER JOIN Countries AS c ON p.countryId = c.id
 WHERE p.subid = 1
 AND p.year > 0 AND p.year <= YEAR(CURDATE()) - 40
