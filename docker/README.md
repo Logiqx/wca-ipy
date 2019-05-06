@@ -197,7 +197,7 @@ notebook:
 
 #### Build
 
-A custom notebook image is built from notebook/Dockerfile and is a derivative of the base notebook image on [Docker Hub](https://hub.docker.com/r/jupyter/base-notebook/).
+A custom notebook image is built from notebook/Dockerfile and is a derivative of the image on [Docker Hub](https://hub.docker.com/r/jupyter/base-notebook/).
 ```dockerfile
 ARG NOTEBOOK_VERSION
 FROM jupyter/base-notebook:${NOTEBOOK_VERSION:-latest}
@@ -226,7 +226,7 @@ NOTEBOOK_VERSION=c39518a3252f
 PROJECT_NOTEBOOK_VERSION=1.0
 ```
 
-The custom image can be listed from the command line.
+The custom image can be identified from the command line.
 
 ```sh
 $ docker image ls wca_notebook
@@ -247,7 +247,6 @@ MYSQL_HOSTNAME=mariadb
 The database name is shared with the MariaDB service and is specified in the .env file.
 
 ```ini
-# Database to create on startup
 MYSQL_DATABASE=wca
 ```
 
@@ -256,7 +255,6 @@ MYSQL_DATABASE=wca
 The WCA user name is shared with the MariaDB service and is specified in the .env file.
 
 ```ini
-# User to create on startup
 MYSQL_USER=wca
 ```
 
@@ -288,7 +286,7 @@ password=change.me
 
 #### Dependencies
 
-The Jupyter notebooks run SQL against the MariaDB database so a dependency has been declared.
+The Jupyter notebooks run SQL against the MariaDB database so a service dependency has been declared.
 
 This isn't entirely necessary but it does provide some documentation benefits.
 
