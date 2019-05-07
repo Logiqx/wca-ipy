@@ -32,7 +32,7 @@ FROM
         DATE_FORMAT(CONCAT(c.year, "-", c.month, "-", c.day), "%Y-%m-%d")) AS age_at_comp
     FROM wca_20190130.Results AS r
     INNER JOIN wca_20190130.Competitions AS c ON r.competitionId = c.id
-    INNER JOIN wca.Persons AS p ON r.personId = p.id AND p.subid = 1 AND p.year > 0 AND p.year <= YEAR(CURDATE()) - 40
+    INNER JOIN Persons AS p ON r.personId = p.id AND p.subid = 1 AND p.year > 0 AND p.year <= YEAR(CURDATE()) - 40
     WHERE average > 0
     HAVING age_at_comp >= 40
   ) AS tmp_results
@@ -55,9 +55,9 @@ FROM
       TIMESTAMPDIFF(YEAR,
         DATE_FORMAT(CONCAT(p.year, "-", p.month, "-", p.day), "%Y-%m-%d"),
         DATE_FORMAT(CONCAT(c.year, "-", c.month, "-", c.day), "%Y-%m-%d")) AS age_at_comp
-    FROM wca.Results AS r
-    INNER JOIN wca.Competitions AS c ON r.competitionId = c.id
-    INNER JOIN wca.Persons AS p ON r.personId = p.id AND p.subid = 1 AND p.year > 0 AND p.year <= YEAR(CURDATE()) - 40
+    FROM Results AS r
+    INNER JOIN Competitions AS c ON r.competitionId = c.id
+    INNER JOIN Persons AS p ON r.personId = p.id AND p.subid = 1 AND p.year > 0 AND p.year <= YEAR(CURDATE()) - 40
     WHERE average > 0
     HAVING age_at_comp >= 40
   ) AS tmp_results
