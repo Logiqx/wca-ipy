@@ -8,7 +8,7 @@ It provides unofficial rankings for the senior cubing community produced from of
 
 Currently Available:
 
-* [Partial Over-40's Rankings](Partial_Rankings.md) was only intended to be a one-off but has been maintained since 2015
+* [Partial Over-40's Rankings](Partial_Rankings.md) contains around 10% of the over-40's and has been maintained since 2015
 * [Representative Over-40's Rankings](Senior_Rankings.md) adds anonymised counts to the partial rankings, thus showing all over-40's
 * [Percentile Rankings](Percentile_Rankings.md) shows how times are distributed for the WCA community and the over-40's
 
