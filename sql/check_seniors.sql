@@ -29,10 +29,10 @@ cte2 AS
     WHERE p.subid = 1
 	GROUP BY p.countryId
 )
-SELECT cte1.countryId, ROUND(100.0 * cte1.numPersons / cte2.numPersons, 2) AS pctOfPersons
+SELECT cte1.countryId, cte1.numPersons AS numSeniorsCountry, cte2.numPersons AS numPersonsCountry, ROUND(100.0 * cte1.numPersons / cte2.numPersons, 2) AS pctSeniors
 FROM cte1
 JOIN cte2 ON cte2.countryId = cte1.countryId
-ORDER BY pctOfPersons DESC;
+ORDER BY pctSeniors DESC;
 
 /*
     Possible embassadors
