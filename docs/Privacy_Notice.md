@@ -33,7 +33,7 @@ We currently collect and process the following information:
 
 ### How we get the information and why we have it
 
-Most of the personal information we process is provided to us directly by you for one of the following reason:
+Most of the personal information we process is provided to us directly by you for the following reason:
 
 - Request to be added to the senior rankings
 
