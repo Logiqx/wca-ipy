@@ -25,7 +25,7 @@ Facebook: <https://www.facebook.com/michael.george.545>
 
 We currently collect and process the following information:
 
-- Public information from the WCA results export; name, nationality, gender and competition results
+- Public information from the WCA; name, nationality, gender and competition results
 
 - Additional information (where provided); full date of birth or partial date of birth (e.g. year + month or year)
 
