@@ -1,6 +1,6 @@
-# wca-ipy
-
 ![alt text](img/logo.jpg "logo")
+
+# wca-ipy
 
 This [project](https://github.com/Logiqx/wca-ipy) started on the [SpeedSolving.com](https://www.speedsolving.com/forum/threads/how-fast-are-the-over-40s-in-competitions.54128/) forum.
 

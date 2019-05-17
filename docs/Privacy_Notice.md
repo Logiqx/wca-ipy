@@ -1,8 +1,6 @@
-## Privacy Notice
-
 ![alt text](img/logo.jpg "logo")
 
-
+## Privacy Notice
 
 ### Background
 
@@ -18,9 +16,9 @@ Maintainer: Michael George
 
 GitHub: <https://github.com/Logiqx>
 
-Facebook: <https://www.facebook.com/michael.george.545>
-
 Speedsolving: <https://www.speedsolving.com/members/logiqx.17180/>
+
+Facebook: <https://www.facebook.com/michael.george.545>
 
 
 
@@ -28,9 +26,9 @@ Speedsolving: <https://www.speedsolving.com/members/logiqx.17180/>
 
 We currently collect and process the following information:
 
-- Public information from the WCA results [export](https://www.worldcubeassociation.org/results/misc/export.html); name, nationality, gender and competition results
+- Public information from the WCA results export; name, nationality, gender and competition results
 
-- Additional information where provided; full date of birth or partial date of birth (e.g. year + month or year)
+- Additional information (where provided); full date of birth or partial date of birth (e.g. year + month or year)
 
 
 
@@ -43,14 +41,14 @@ Most of the personal information we process is provided to us directly by you fo
 We also receive personal information indirectly, from the following sources in the following scenarios:
 
 - Request to be added to the senior rankings via a friend or family member
-- Activity within the WCA, Facebook or Speedsolving.com
+- Activity within the WCA, Speedsolving.com or Facebook
 
 
 Under the General Data Protection Regulation (GDPR), the lawful bases we rely on for processing this information are:
 
 **(a) Your consent**. You are able to remove your consent at any time. You can do this by contacting the maintainer of this project.
 
-**(f) We have a legitimate interest.** Legitimate interests are with respect the broader societal benefits. We balance the interests of the senior cubing community against the individuals in the rankings. We carefully consider whether individuals might not reasonably expect this processing, or if it would cause them unjustified harm.
+**(f) We have a legitimate interest.** Legitimate interests are with respect broader societal benefits. We balance the interests of the senior cubing community against the individuals in the rankings. We carefully consider whether individuals might not reasonably expect this processing, or if it would cause them unjustified harm.
 
 
 
@@ -58,7 +56,7 @@ Under the General Data Protection Regulation (GDPR), the lawful bases we rely on
 
 We use the information that we have in order to maintain unofficial rankings for the senior cubing community, produced from official WCA competition results.
 
-We may share this information with the WCA or any other body where it is in the interests of the senior cubing community.
+We may share information with the WCA or any other individual / body where it is in the interests of the senior cubing community.
 
 
 
@@ -66,7 +64,7 @@ We may share this information with the WCA or any other body where it is in the 
 
 Your information is stored on a single laptop and securely backed using [Carbonite](https://www.carbonite.com/).
 
-We keep your information for as long as your remain a member of the WCA. We will then dispose your information via manual removal process.
+We keep your information for as long as your remain a member of the WCA. We will dispose your information via manual removal process, once your WCA profile is removed.
 
 
 

@@ -1,6 +1,6 @@
-# Partial Over-40's Rankings
-
 ![alt text](img/logo.jpg "logo")
+
+# Partial Over-40's Rankings
 
 These are unofficial rankings for the senior cubing community produced from official WCA competition results.
 
