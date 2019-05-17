@@ -63,7 +63,7 @@ We may share information with the WCA or any other individual / body where it is
 
 Your information is stored on a single laptop and securely backed using [Carbonite](https://www.carbonite.com/).
 
-We keep your information for as long as your remain a member of the WCA. We will dispose your information via manual removal process, once your WCA profile is removed.
+We keep your information for as long as your remain a member of the WCA. We will dispose your information via a manual removal process, if your WCA profile is removed.
 
 
 
