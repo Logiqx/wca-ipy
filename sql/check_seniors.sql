@@ -92,6 +92,19 @@ AND dob IS NOT NULL -- beware these records!
 ORDER BY DOB desc;
 
 /*
+    Everyone
+*/
+
+-- All prople ordered by country
+SELECT id, name, countryId, dob, username, comment
+FROM Seniors
+JOIN Persons ON id = personId AND subid = 1
+WHERE comment NOT LIKE 'Provided%'
+AND comment NOT LIKE 'Found%'
+AND comment NOT LIKE 'Contacted%'
+ORDER BY countryId, comment, personId;
+
+/*
     Review comments
 */
 
