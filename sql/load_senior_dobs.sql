@@ -17,7 +17,8 @@ CREATE TABLE Seniors
      PRIMARY KEY (`personId`)
 );
 
-LOAD DATA INFILE '/home/jovyan/work/wca-ipy/data/private/load/seniors.csv' INTO TABLE Seniors FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"';
+LOAD DATA INFILE '/home/jovyan/work/wca-ipy/data/private/load/seniors.csv'
+INTO TABLE Seniors FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"';
 
 -- Start with default YMD of zero
 UPDATE Persons AS p
