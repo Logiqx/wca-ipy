@@ -74,7 +74,7 @@ ORDER BY countryId, id;
 */
 
 -- Copy / paste of code in extract_senior_details.sql
-SELECT DISTINCT s.personId, personName, countryId, s.dob, comment
+SELECT DISTINCT s.personId, personName, countryId, s.dob, username, comment
 FROM
 (
   SELECT r.eventId, r.personId, r.average, p.name AS personName, p.countryId,
