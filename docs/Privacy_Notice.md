@@ -1,11 +1,14 @@
 ## Privacy Notice
 
+![alt text](img/logo.jpg "logo")
+
+
+
 ### Background
 
 This project  provides unofficial rankings for the senior cubing community produced from official WCA competition results.
 
 We aim to collect and process your data in a responsible manner, giving due respect to your personal privacy.
-
 
 
 
@@ -19,7 +22,7 @@ Facebook: <https://www.facebook.com/michael.george.545>
 
 Speedsolving: <https://www.speedsolving.com/members/logiqx.17180/>
 
- 
+
 
 ### What type of information we have
 
@@ -29,7 +32,7 @@ We currently collect and process the following information:
 
 - Additional information where provided; full date of birth or partial date of birth (e.g. year + month or year)
 
- 
+
 
 ### How we get the information and why we have it
 
@@ -53,11 +56,11 @@ Under the General Data Protection Regulation (GDPR), the lawful bases we rely on
 
 ### What we do with the information we have
 
-We use the information that we have in order to maintain unofficial rankings for the senior cubing community, produced from official WCA competition results. 
+We use the information that we have in order to maintain unofficial rankings for the senior cubing community, produced from official WCA competition results.
 
 We may share this information with the WCA or any other body where it is in the interests of the senior cubing community.
 
- 
+
 
 ### How we store your information
 
@@ -65,19 +68,19 @@ Your information is stored on a single laptop and securely backed using [Carboni
 
 We keep your information for as long as your remain a member of the WCA. We will then dispose your information via manual removal process.
 
- 
+
 
 ### Your data protection rights
 
 Under data protection law, you have rights including:
 
-**Your right of access** - You have the right to ask us for copies of your personal information. 
+**Your right of access** - You have the right to ask us for copies of your personal information.
 
-**Your right to rectification** - You have the right to ask us to rectify information you think is inaccurate. You also have the right to ask us to complete information you think is incomplete. 
+**Your right to rectification** - You have the right to ask us to rectify information you think is inaccurate. You also have the right to ask us to complete information you think is incomplete.
 
-**Your right to erasure** - You have the right to ask us to erase your personal information in certain circumstances. 
+**Your right to erasure** - You have the right to ask us to erase your personal information in certain circumstances.
 
-**Your right to restriction of processing** - You have the right to ask us to restrict the processing of your information in certain circumstances. 
+**Your right to restriction of processing** - You have the right to ask us to restrict the processing of your information in certain circumstances.
 
 **Your right to object to processing** - You have the the right to object to the processing of your personal data in certain circumstances.
 
