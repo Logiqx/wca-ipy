@@ -58,7 +58,7 @@ LEFT JOIN cte c17 ON c17.id = c19.id and c17.year = 2017
 WHERE c19.year = 2019;
 
 /*
-    Over-50's
+    Possible Over-50's
 */
 
 -- Copy / paste of code in extract_senior_details.sql
@@ -71,9 +71,9 @@ FROM
       DATE_FORMAT(CONCAT(c.year, "-", c.month, "-", c.day), "%Y-%m-%d")) AS age_at_comp
   FROM Results AS r
   INNER JOIN Competitions AS c ON r.competitionId = c.id
-  INNER JOIN Persons AS p ON r.personId = p.id AND p.subid = 1 AND p.year > 1900 AND p.year <= YEAR(CURDATE()) - 50
+  INNER JOIN Persons AS p ON r.personId = p.id AND p.subid = 1 AND p.year > 1900 AND p.year <= YEAR(CURDATE()) - 49
   WHERE average > 0
-  HAVING age_at_comp >= 50
+  HAVING age_at_comp >= 49
 ) AS tmp_results
 JOIN Seniors s ON s.personId = tmp_results.personId
 ORDER BY DOB desc;
