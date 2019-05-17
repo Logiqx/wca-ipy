@@ -62,7 +62,7 @@ WHERE c19.year = 2019;
 */
 
 -- Copy / paste of code in extract_senior_details.sql
-SELECT DISTINCT personId, personName, countryId
+SELECT DISTINCT s.personId, personName, countryId, s.dob, comment
 FROM
 (
   SELECT r.eventId, r.personId, r.average, p.name AS personName, p.countryId,
@@ -75,7 +75,8 @@ FROM
   WHERE average > 0
   HAVING age_at_comp >= 50
 ) AS tmp_results
-ORDER BY personId;
+JOIN Seniors s ON s.personId = tmp_results.personId
+ORDER BY DOB desc;
 
 /*
     Review comments
