@@ -1,5 +1,4 @@
 ![alt text](img/logo.jpg "logo")
-
 ## Privacy Notice
 
 ### Background

@@ -1,6 +1,5 @@
 ![alt text](img/logo.jpg "logo")
-
-# Representative Over-40's Rankings
+## Representative Over-40's Rankings
 
 These are unofficial rankings for the senior cubing community produced from official WCA competition results.
 
