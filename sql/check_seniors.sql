@@ -58,6 +58,18 @@ LEFT JOIN cte c17 ON c17.id = c19.id and c17.year = 2017
 WHERE c19.year = 2019;
 
 /*
+    Delegates
+*/
+
+SELECT DISTINCT p.id, p.name, p.countryId, s.username, s.dob, s.comment
+FROM Seniors s
+JOIN Persons p ON p.id = s.personId AND p.subid = 1
+JOIN Results r ON r.personId = p.id
+JOIN Competitions c ON c.id = r.competitionId AND c.year >= YEAR(CURDATE()) - 1
+JOIN wca_dev.users u ON u.wca_id = s.personId AND delegate_status IS NOT NULL
+ORDER BY countryId, id;
+
+/*
     Possible Over-50's
 */
 
