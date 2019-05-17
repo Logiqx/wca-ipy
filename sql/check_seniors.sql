@@ -83,11 +83,12 @@ FROM
       DATE_FORMAT(CONCAT(c.year, "-", c.month, "-", c.day), "%Y-%m-%d")) AS age_at_comp
   FROM Results AS r
   INNER JOIN Competitions AS c ON r.competitionId = c.id
-  INNER JOIN Persons AS p ON r.personId = p.id AND p.subid = 1 AND p.year > 1900 AND p.year <= YEAR(CURDATE()) - 49
+  INNER JOIN Persons AS p ON r.personId = p.id AND p.subid = 1 AND p.year > 1900 AND p.year <= YEAR(CURDATE()) - 50
   WHERE average > 0
-  HAVING age_at_comp >= 49
+  HAVING age_at_comp >= 50
 ) AS tmp_results
 JOIN Seniors s ON s.personId = tmp_results.personId
+AND dob IS NOT NULL -- beware these records!
 ORDER BY DOB desc;
 
 /*
