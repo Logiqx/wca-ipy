@@ -95,7 +95,7 @@ You can also complain to the ICO if you are unhappy with how we have used your d
 
 The ICO’s address:
 
-> Information Commissioner’s Office
+Information Commissioner’s Office
 Wycliffe House
 Water Lane
 Wilmslow
