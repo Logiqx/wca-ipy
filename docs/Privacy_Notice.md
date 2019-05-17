@@ -3,7 +3,7 @@
 
 ### Background
 
-This project  provides unofficial rankings for the senior cubing community produced from official WCA competition results.
+This project  provides unofficial rankings for the senior cubing community, produced from official WCA competition results.
 
 We aim to collect and process your data in a responsible manner, giving due respect to your personal privacy.
 
