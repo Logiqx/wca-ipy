@@ -63,7 +63,6 @@ FROM
   HAVING age_at_comp >= 50
 ) AS tmp_results
 JOIN Seniors s ON s.personId = tmp_results.personId
-AND dob IS NOT NULL -- beware these records!
 ORDER BY DOB desc;
 
 /*

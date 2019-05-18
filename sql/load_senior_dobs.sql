@@ -36,6 +36,6 @@ SET p.year = DATE_FORMAT(s.dob, "%Y"),
 -- Use 19th century for any seniors where DOB is unknown
 UPDATE Persons AS p
 INNER JOIN Seniors AS s ON s.personId = p.id AND s.dob IS NULL
-SET p.year = LEFT(personId, 4) - 40,
+SET p.year = 1900,
     p.month = 1,
     p.day = 1;
