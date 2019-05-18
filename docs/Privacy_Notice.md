@@ -13,11 +13,11 @@ We aim to collect and process your data in a responsible manner, giving due resp
 
 Maintainer: Michael George
 
-GitHub: <https://github.com/Logiqx>
+GitHub: [Logiqx](https://github.com/Logiqx)
 
-Speedsolving: <https://www.speedsolving.com/members/logiqx.17180/>
+Facebook: [michael.george.545](https://www.facebook.com/michael.george.545)
 
-Facebook: <https://www.facebook.com/michael.george.545>
+Speedsolving.com: [Logiqx](https://www.speedsolving.com/members/logiqx.17180/)
 
 
 

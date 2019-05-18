@@ -11,4 +11,9 @@ Currently Available:
 * [Representative Over-40's Rankings](Senior_Rankings.md) adds anonymised counts to the partial rankings, thus showing all over-40's
 * [Percentile Rankings](Percentile_Rankings.md) shows how times are distributed for the WCA community and the over-40's
 
+Useful links for the senior cubing community:
+
+* [Senior Cubers Worldwide](https://www.facebook.com/groups/1604105099735401) on Facebook
+* [Older Cubers Discussions](https://speedsolving.com/threads/older-cubers-discussions.37405/) on SpeedSolving.com
+
 You can also view our [Privacy Notice](Privacy_Notice.md).
