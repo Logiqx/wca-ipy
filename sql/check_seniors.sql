@@ -48,7 +48,7 @@ JOIN Persons p ON id = personId AND subid = 1
 ORDER BY countryId, comment, personId;
 
 /*
-    Possible Over-50's
+    Over-50's
 */
 
 -- Copy / paste of code in extract_senior_details.sql
@@ -75,7 +75,7 @@ ORDER BY DOB desc;
 */
 
 -- All people without a DOB
-SELECT DISTINCT 'Over-40',
+SELECT DISTINCT 'Missing DOB',
 	TIMESTAMPDIFF(YEAR, s.dob, DATE_FORMAT(CONCAT(LEFT(s.personId, 4), "-01-01"), "%Y-%m-%d")) AS ageAtComp,
 	TIMESTAMPDIFF(YEAR, s.dob, NOW()) AS ageToday,
 	id, name, countryId, dob, username, comment
