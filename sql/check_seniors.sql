@@ -124,6 +124,20 @@ GROUP BY id
 ORDER BY comment, countryId;
 
 /*
+    Fake DOB
+*/
+
+-- All people without a DOB
+SELECT 'Missing DOB', ROUND(MIN(average) / 100.0, 2) AS best333,
+	id, name, countryId, dob, username, comment
+FROM Seniors s
+JOIN Persons p ON id = personId AND subid = 1
+JOIN Results AS r ON r.personId = p.id AND r.eventId = '333' AND r.average > 0
+WHERE comment like '%fake%'
+GROUP BY id
+ORDER BY comment, countryId;
+
+/*
     Delegates
 */
 
