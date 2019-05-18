@@ -40,7 +40,8 @@ ORDER BY pctSeniors DESC;
 
 -- Copy / paste of code in extract_senior_details.sql
 SELECT DISTINCT 'Over-40',
-	MAX(age_at_comp) AS ageAtComp,
+	TIMESTAMPDIFF(YEAR, s.dob, DATE_FORMAT(CONCAT(LEFT(s.personId, 4), "-01-01"), "%Y-%m-%d")) AS ageFirstComp,
+	MAX(age_at_comp) AS ageLastComp,
 	TIMESTAMPDIFF(YEAR, s.dob, NOW()) AS ageToday,
 	s.personId, personName, countryId, s.dob, username, comment
 FROM
@@ -56,7 +57,7 @@ FROM
 ) AS tmp_results
 JOIN Seniors s ON s.personId = tmp_results.personId
 GROUP BY s.personId
-ORDER BY ageAtComp DESC, DOB desc;
+ORDER BY ageFirstComp DESC, DOB desc;
 
 /*
     Over-50's
@@ -64,7 +65,8 @@ ORDER BY ageAtComp DESC, DOB desc;
 
 -- Copy / paste of code in extract_senior_details.sql
 SELECT DISTINCT 'Over-50',
-	MAX(age_at_comp) AS ageAtComp,
+	TIMESTAMPDIFF(YEAR, s.dob, DATE_FORMAT(CONCAT(LEFT(s.personId, 4), "-01-01"), "%Y-%m-%d")) AS ageFirstComp,
+	MAX(age_at_comp) AS ageLastComp,
 	TIMESTAMPDIFF(YEAR, s.dob, NOW()) AS ageToday,
 	s.personId, personName, countryId, s.dob, username, comment
 FROM
@@ -80,7 +82,7 @@ FROM
 ) AS tmp_results
 JOIN Seniors s ON s.personId = tmp_results.personId
 GROUP BY s.personId
-ORDER BY ageAtComp DESC, DOB desc;
+ORDER BY ageFirstComp DESC, DOB desc;
 
 /*
     Over-60's
@@ -88,7 +90,8 @@ ORDER BY ageAtComp DESC, DOB desc;
 
 -- Copy / paste of code in extract_senior_details.sql
 SELECT DISTINCT 'Over-60',
-	MAX(age_at_comp) AS ageAtComp,
+	TIMESTAMPDIFF(YEAR, s.dob, DATE_FORMAT(CONCAT(LEFT(s.personId, 4), "-01-01"), "%Y-%m-%d")) AS ageFirstComp,
+	MAX(age_at_comp) AS ageLastComp,
 	TIMESTAMPDIFF(YEAR, s.dob, NOW()) AS ageToday,
 	s.personId, personName, countryId, s.dob, username, comment
 FROM
@@ -104,7 +107,7 @@ FROM
 ) AS tmp_results
 JOIN Seniors s ON s.personId = tmp_results.personId
 GROUP BY s.personId
-ORDER BY ageAtComp DESC, DOB desc;
+ORDER BY ageFirstComp DESC, DOB desc;
 
 /*
     Missing DOB
@@ -125,7 +128,7 @@ ORDER BY comment, countryId;
 */
 
 SELECT DISTINCT 'Delegate',
-	TIMESTAMPDIFF(YEAR, s.dob, DATE_FORMAT(CONCAT(LEFT(s.personId, 4), "-01-01"), "%Y-%m-%d")) AS ageAtComp,
+	TIMESTAMPDIFF(YEAR, s.dob, DATE_FORMAT(CONCAT(LEFT(s.personId, 4), "-01-01"), "%Y-%m-%d")) AS ageFirstComp,
 	TIMESTAMPDIFF(YEAR, s.dob, NOW()) AS ageToday,
 	delegate_status, p.id, p.name, p.countryId, s.username, s.dob, s.comment
 FROM Seniors s
@@ -152,7 +155,7 @@ WITH cte AS
 	ORDER BY p.countryId, c.year DESC, COUNT(DISTINCT competitionId) DESC
 )
 SELECT 'Embassador?',
-	TIMESTAMPDIFF(YEAR, c19.dob, DATE_FORMAT(CONCAT(LEFT(c19.id, 4), "-01-01"), "%Y-%m-%d")) AS ageAtComp,
+	TIMESTAMPDIFF(YEAR, c19.dob, DATE_FORMAT(CONCAT(LEFT(c19.id, 4), "-01-01"), "%Y-%m-%d")) AS ageFirstComp,
 	TIMESTAMPDIFF(YEAR, c19.dob, NOW()) AS ageToday,
 	c19.id, c19.name, c19.countryId, c19.username, -- c19.dob, c19.comment,
 	c19.numComps as numComps2019, IFNULL(c18.numComps, 0) AS numComps2018, IFNULL(c17.numComps, 0) AS numComps2017
@@ -167,7 +170,7 @@ WHERE c19.year = 2019;
 
 -- Check for non-standard comments
 SELECT 'Non-standard',
-	TIMESTAMPDIFF(YEAR, s.dob, DATE_FORMAT(CONCAT(LEFT(s.personId, 4), "-01-01"), "%Y-%m-%d")) AS ageAtComp,
+	TIMESTAMPDIFF(YEAR, s.dob, DATE_FORMAT(CONCAT(LEFT(s.personId, 4), "-01-01"), "%Y-%m-%d")) AS ageFirstComp,
 	TIMESTAMPDIFF(YEAR, s.dob, NOW()) AS ageToday,
 	id, name, countryId, dob, username, comment
 FROM Seniors s
@@ -177,7 +180,7 @@ AND comment NOT LIKE 'Found%' AND comment NOT LIKE 'Spotted%' AND comment NOT LI
 
 -- "Provided" indicates that the person (or someone on their behalf) pro-actively provided their information
 SELECT 'Provided #1',
-	TIMESTAMPDIFF(YEAR, s.dob, DATE_FORMAT(CONCAT(LEFT(s.personId, 4), "-01-01"), "%Y-%m-%d")) AS ageAtComp,
+	TIMESTAMPDIFF(YEAR, s.dob, DATE_FORMAT(CONCAT(LEFT(s.personId, 4), "-01-01"), "%Y-%m-%d")) AS ageFirstComp,
 	TIMESTAMPDIFF(YEAR, s.dob, NOW()) AS ageToday,
 	id, name, countryId, dob, username, comment
 FROM Seniors s
@@ -188,7 +191,7 @@ ORDER BY comment, countryId, personId;
 
 	-- Some people have provided multiple names
 	SELECT 'Provided #2',
-    	TIMESTAMPDIFF(YEAR, s.dob, DATE_FORMAT(CONCAT(LEFT(s.personId, 4), "-01-01"), "%Y-%m-%d")) AS ageAtComp,
+		TIMESTAMPDIFF(YEAR, s.dob, DATE_FORMAT(CONCAT(LEFT(s.personId, 4), "-01-01"), "%Y-%m-%d")) AS ageFirstComp,
 		TIMESTAMPDIFF(YEAR, s.dob, NOW()) AS ageToday,
 		id, name, countryId, dob, username, comment
 	FROM Seniors s
@@ -199,7 +202,7 @@ ORDER BY comment, countryId, personId;
 
 -- People contacted on Facebook
 SELECT 'Contacted',
-	TIMESTAMPDIFF(YEAR, s.dob, DATE_FORMAT(CONCAT(LEFT(s.personId, 4), "-01-01"), "%Y-%m-%d")) AS ageAtComp,
+	TIMESTAMPDIFF(YEAR, s.dob, DATE_FORMAT(CONCAT(LEFT(s.personId, 4), "-01-01"), "%Y-%m-%d")) AS ageFirstComp,
 	TIMESTAMPDIFF(YEAR, s.dob, NOW()) AS ageToday,
 	id, name, countryId, dob, username, comment
 FROM Seniors s
@@ -209,7 +212,7 @@ ORDER BY comment, countryId, personId;
 
 -- People I added after meeting them at a competition
 SELECT 'First',
-	TIMESTAMPDIFF(YEAR, s.dob, DATE_FORMAT(CONCAT(LEFT(s.personId, 4), "-01-01"), "%Y-%m-%d")) AS ageAtComp,
+	TIMESTAMPDIFF(YEAR, s.dob, DATE_FORMAT(CONCAT(LEFT(s.personId, 4), "-01-01"), "%Y-%m-%d")) AS ageFirstComp,
 	TIMESTAMPDIFF(YEAR, s.dob, NOW()) AS ageToday,
 	id, name, countryId, dob, username, comment
 FROM Seniors s
@@ -219,7 +222,7 @@ ORDER BY comment, countryId, personId;
 
 -- DOB / YOB that I found on the internet - Facebook, Wikipedia, Speedsolving, etc
 SELECT 'Found',
-	TIMESTAMPDIFF(YEAR, s.dob, DATE_FORMAT(CONCAT(LEFT(s.personId, 4), "-01-01"), "%Y-%m-%d")) AS ageAtComp,
+	TIMESTAMPDIFF(YEAR, s.dob, DATE_FORMAT(CONCAT(LEFT(s.personId, 4), "-01-01"), "%Y-%m-%d")) AS ageFirstComp,
 	TIMESTAMPDIFF(YEAR, s.dob, NOW()) AS ageToday,
 	id, name, countryId, dob, username, comment
 FROM Seniors s
@@ -229,7 +232,7 @@ ORDER BY comment, countryId, personId;
 
 -- People that I spotted on the internet - Facebook, Speedsolving, etc
 SELECT 'Spotted',
-	TIMESTAMPDIFF(YEAR, s.dob, DATE_FORMAT(CONCAT(LEFT(s.personId, 4), "-01-01"), "%Y-%m-%d")) AS ageAtComp,
+	TIMESTAMPDIFF(YEAR, s.dob, DATE_FORMAT(CONCAT(LEFT(s.personId, 4), "-01-01"), "%Y-%m-%d")) AS ageFirstComp,
 	TIMESTAMPDIFF(YEAR, s.dob, NOW()) AS ageToday,
 	id, name, countryId, dob, username, comment
 FROM Seniors s
@@ -239,7 +242,7 @@ ORDER BY comment, countryId, personId;
 
 -- Speculative additions - friends of friends, etc.
 SELECT 'Speculative',
-	TIMESTAMPDIFF(YEAR, s.dob, DATE_FORMAT(CONCAT(LEFT(s.personId, 4), "-01-01"), "%Y-%m-%d")) AS ageAtComp,
+	TIMESTAMPDIFF(YEAR, s.dob, DATE_FORMAT(CONCAT(LEFT(s.personId, 4), "-01-01"), "%Y-%m-%d")) AS ageFirstComp,
 	TIMESTAMPDIFF(YEAR, s.dob, NOW()) AS ageToday,
 	id, name, countryId, dob, username, comment
 FROM Seniors s
