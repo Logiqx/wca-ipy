@@ -72,6 +72,20 @@ JOIN Seniors s ON s.personId = tmp_results.personId
 ORDER BY DOB desc;
 
 /*
+    Missing DOB
+*/
+
+-- All people without a DOB
+SELECT DISTINCT 'Over-40',
+	TIMESTAMPDIFF(YEAR, s.dob, DATE_FORMAT(CONCAT(LEFT(s.personId, 4), "-01-01"), "%Y-%m-%d")) AS ageAtComp,
+	TIMESTAMPDIFF(YEAR, s.dob, NOW()) AS ageToday,
+	id, name, countryId, dob, username, comment
+FROM Seniors s
+JOIN Persons p ON id = personId AND subid = 1
+WHERE dob IS NULL
+ORDER BY comment, personId;
+
+/*
     Delegates
 */
 
