@@ -12,8 +12,17 @@ INTO OUTFILE '/home/jovyan/work/wca-ipy/data/public/extract/known_senior_details
 FROM Persons AS p
 INNER JOIN Seniors AS s ON s.personId = p.id
 INNER JOIN Countries AS c ON p.countryId = c.id
-WHERE p.subid = 1
-AND p.year > 0 AND p.year <= YEAR(CURDATE()) - 40
+WHERE p.subid = 1 AND p.year > 0 AND p.year <= YEAR(CURDATE()) - 40
+AND EXISTS
+(
+  SELECT TIMESTAMPDIFF(YEAR,
+      DATE_FORMAT(CONCAT(p.year, "-", p.month, "-", p.day), "%Y-%m-%d"),
+      DATE_FORMAT(CONCAT(c.year, "-", c.month, "-", c.day), "%Y-%m-%d")) AS age_at_comp
+  FROM Results AS r
+  INNER JOIN Competitions AS c ON r.competitionId = c.id
+  WHERE r.personId = p.id
+  HAVING age_at_comp >= 40
+)
 ORDER BY personName;
 
 -- Extract senior results (averages)
