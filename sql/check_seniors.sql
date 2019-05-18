@@ -113,7 +113,7 @@ ORDER BY ageFirstComp DESC, DOB desc;
     Missing DOB
 */
 
--- All people without a DOB
+-- All people with a faked DOB
 SELECT 'Missing DOB', ROUND(MIN(average) / 100.0, 2) AS best333,
 	id, name, countryId, dob, username, comment
 FROM Seniors s
