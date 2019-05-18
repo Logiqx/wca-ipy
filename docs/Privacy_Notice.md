@@ -13,10 +13,8 @@ We aim to collect and process your data in a responsible manner, giving due resp
 
 Maintainer: Michael George
 
-GitHub: [Logiqx](https://github.com/Logiqx)
-
-Facebook: [michael.george.545](https://www.facebook.com/michael.george.545)
-
+GitHub: [Logiqx](https://github.com/Logiqx)  
+Facebook: [michael.george.545](https://www.facebook.com/michael.george.545)  
 Speedsolving.com: [Logiqx](https://www.speedsolving.com/members/logiqx.17180/)
 
 
@@ -26,7 +24,6 @@ Speedsolving.com: [Logiqx](https://www.speedsolving.com/members/logiqx.17180/)
 We currently collect and process the following information:
 
 - Public information from the WCA; name, nationality, gender and competition results
-
 - Additional information (where provided); full date of birth or partial date of birth (e.g. year and month or year alone)
 
 
