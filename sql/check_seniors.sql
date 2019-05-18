@@ -111,14 +111,14 @@ ORDER BY ageAtComp DESC, DOB desc;
 */
 
 -- All people without a DOB
-SELECT DISTINCT 'Missing DOB',
-	TIMESTAMPDIFF(YEAR, s.dob, DATE_FORMAT(CONCAT(LEFT(s.personId, 4), "-01-01"), "%Y-%m-%d")) AS ageAtComp,
-	TIMESTAMPDIFF(YEAR, s.dob, NOW()) AS ageToday,
+SELECT 'Missing DOB', ROUND(MIN(average) / 100.0, 2) AS best333,
 	id, name, countryId, dob, username, comment
 FROM Seniors s
 JOIN Persons p ON id = personId AND subid = 1
+JOIN Results AS r ON r.personId = p.id AND r.eventId = '333' AND r.average > 0
 WHERE dob IS NULL
-ORDER BY comment, personId;
+GROUP BY id
+ORDER BY comment, countryId;
 
 /*
     Delegates
