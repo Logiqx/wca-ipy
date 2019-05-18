@@ -38,14 +38,25 @@ ORDER BY pctSeniors DESC;
     Everyone
 */
 
--- All people ordered by country
+-- Copy / paste of code in extract_senior_details.sql
 SELECT DISTINCT 'Over-40',
-	TIMESTAMPDIFF(YEAR, s.dob, DATE_FORMAT(CONCAT(LEFT(s.personId, 4), "-01-01"), "%Y-%m-%d")) AS ageAtComp,
+	MAX(age_at_comp) AS ageAtComp,
 	TIMESTAMPDIFF(YEAR, s.dob, NOW()) AS ageToday,
-	id, name, countryId, dob, username, comment
-FROM Seniors s
-JOIN Persons p ON id = personId AND subid = 1
-ORDER BY countryId, comment, personId;
+	s.personId, personName, countryId, s.dob, username, comment
+FROM
+(
+  SELECT r.eventId, r.personId, r.average, p.name AS personName, p.countryId,
+    TIMESTAMPDIFF(YEAR,
+      DATE_FORMAT(CONCAT(p.year, "-", p.month, "-", p.day), "%Y-%m-%d"),
+      DATE_FORMAT(CONCAT(c.year, "-", c.month, "-", c.day), "%Y-%m-%d")) AS age_at_comp
+  FROM Results AS r
+  INNER JOIN Competitions AS c ON r.competitionId = c.id
+  INNER JOIN Persons AS p ON r.personId = p.id AND p.subid = 1 AND p.year > 1900 AND p.year <= YEAR(CURDATE()) - 40
+  HAVING age_at_comp >= 40
+) AS tmp_results
+JOIN Seniors s ON s.personId = tmp_results.personId
+GROUP BY s.personId
+ORDER BY ageAtComp DESC, DOB desc;
 
 /*
     Over-50's
@@ -53,7 +64,7 @@ ORDER BY countryId, comment, personId;
 
 -- Copy / paste of code in extract_senior_details.sql
 SELECT DISTINCT 'Over-50',
-	TIMESTAMPDIFF(YEAR, s.dob, DATE_FORMAT(CONCAT(LEFT(s.personId, 4), "-01-01"), "%Y-%m-%d")) AS ageAtComp,
+	MAX(age_at_comp) AS ageAtComp,
 	TIMESTAMPDIFF(YEAR, s.dob, NOW()) AS ageToday,
 	s.personId, personName, countryId, s.dob, username, comment
 FROM
@@ -68,7 +79,32 @@ FROM
   HAVING age_at_comp >= 50
 ) AS tmp_results
 JOIN Seniors s ON s.personId = tmp_results.personId
-ORDER BY DOB desc;
+GROUP BY s.personId
+ORDER BY ageAtComp DESC, DOB desc;
+
+/*
+    Over-60's
+*/
+
+-- Copy / paste of code in extract_senior_details.sql
+SELECT DISTINCT 'Over-60',
+	MAX(age_at_comp) AS ageAtComp,
+	TIMESTAMPDIFF(YEAR, s.dob, NOW()) AS ageToday,
+	s.personId, personName, countryId, s.dob, username, comment
+FROM
+(
+  SELECT r.eventId, r.personId, r.average, p.name AS personName, p.countryId,
+    TIMESTAMPDIFF(YEAR,
+      DATE_FORMAT(CONCAT(p.year, "-", p.month, "-", p.day), "%Y-%m-%d"),
+      DATE_FORMAT(CONCAT(c.year, "-", c.month, "-", c.day), "%Y-%m-%d")) AS age_at_comp
+  FROM Results AS r
+  INNER JOIN Competitions AS c ON r.competitionId = c.id
+  INNER JOIN Persons AS p ON r.personId = p.id AND p.subid = 1 AND p.year > 1900 AND p.year <= YEAR(CURDATE()) - 60
+  HAVING age_at_comp >= 60
+) AS tmp_results
+JOIN Seniors s ON s.personId = tmp_results.personId
+GROUP BY s.personId
+ORDER BY ageAtComp DESC, DOB desc;
 
 /*
     Missing DOB
