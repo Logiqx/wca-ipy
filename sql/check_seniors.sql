@@ -39,9 +39,12 @@ ORDER BY pctSeniors DESC;
 */
 
 -- All people ordered by country
-SELECT 'Senior', id, name, countryId, dob, username, comment
-FROM Seniors
-JOIN Persons ON id = personId AND subid = 1
+SELECT DISTINCT 'Over-40',
+	TIMESTAMPDIFF(YEAR, s.dob, DATE_FORMAT(CONCAT(LEFT(s.personId, 4), "-01-01"), "%Y-%m-%d")) AS ageAtComp,
+	TIMESTAMPDIFF(YEAR, s.dob, NOW()) AS ageToday,
+	id, name, countryId, dob, username, comment
+FROM Seniors s
+JOIN Persons p ON id = personId AND subid = 1
 ORDER BY countryId, comment, personId;
 
 /*
@@ -49,7 +52,10 @@ ORDER BY countryId, comment, personId;
 */
 
 -- Copy / paste of code in extract_senior_details.sql
-SELECT DISTINCT 'Over-50', s.personId, personName, countryId, s.dob, username, comment
+SELECT DISTINCT 'Over-50',
+	TIMESTAMPDIFF(YEAR, s.dob, DATE_FORMAT(CONCAT(LEFT(s.personId, 4), "-01-01"), "%Y-%m-%d")) AS ageAtComp,
+	TIMESTAMPDIFF(YEAR, s.dob, NOW()) AS ageToday,
+	s.personId, personName, countryId, s.dob, username, comment
 FROM
 (
   SELECT r.eventId, r.personId, r.average, p.name AS personName, p.countryId,
@@ -69,7 +75,10 @@ ORDER BY DOB desc;
     Delegates
 */
 
-SELECT DISTINCT 'Delegate', delegate_status, p.id, p.name, p.countryId, s.username, s.dob, s.comment
+SELECT DISTINCT 'Delegate',
+	TIMESTAMPDIFF(YEAR, s.dob, DATE_FORMAT(CONCAT(LEFT(s.personId, 4), "-01-01"), "%Y-%m-%d")) AS ageAtComp,
+	TIMESTAMPDIFF(YEAR, s.dob, NOW()) AS ageToday,
+	delegate_status, p.id, p.name, p.countryId, s.username, s.dob, s.comment
 FROM Seniors s
 JOIN Persons p ON p.id = s.personId AND p.subid = 1
 JOIN Results r ON r.personId = p.id
@@ -93,7 +102,10 @@ WITH cte AS
 	HAVING COUNT(DISTINCT competitionId) >= 2
 	ORDER BY p.countryId, c.year DESC, COUNT(DISTINCT competitionId) DESC
 )
-SELECT 'Embassador?', c19.id, c19.name, c19.countryId, c19.username, -- c19.dob, c19.comment,
+SELECT 'Embassador?',
+	TIMESTAMPDIFF(YEAR, c19.dob, DATE_FORMAT(CONCAT(LEFT(c19.id, 4), "-01-01"), "%Y-%m-%d")) AS ageAtComp,
+	TIMESTAMPDIFF(YEAR, c19.dob, NOW()) AS ageToday,
+	c19.id, c19.name, c19.countryId, c19.username, -- c19.dob, c19.comment,
 	c19.numComps as numComps2019, IFNULL(c18.numComps, 0) AS numComps2018, IFNULL(c17.numComps, 0) AS numComps2017
 FROM cte AS c19
 LEFT JOIN cte c18 ON c18.id = c19.id and c18.year = 2018
@@ -105,59 +117,83 @@ WHERE c19.year = 2019;
 */
 
 -- Check for non-standard comments
-SELECT 'Non-standard', id, name, countryId, dob, username, comment
-FROM Seniors
+SELECT 'Non-standard',
+	TIMESTAMPDIFF(YEAR, s.dob, DATE_FORMAT(CONCAT(LEFT(s.personId, 4), "-01-01"), "%Y-%m-%d")) AS ageAtComp,
+	TIMESTAMPDIFF(YEAR, s.dob, NOW()) AS ageToday,
+	id, name, countryId, dob, username, comment
+FROM Seniors s
 JOIN Persons ON id = personId AND subid = 1
 WHERE comment NOT LIKE 'Provided%' AND comment NOT LIKE 'Contacted%' AND comment NOT LIKE 'First%'
 AND comment NOT LIKE 'Found%' AND comment NOT LIKE 'Spotted%' AND comment NOT LIKE 'Speculative%';
 
 -- "Provided" indicates that the person (or someone on their behalf) pro-actively provided their information
-SELECT 'Provided #1', id, name, countryId, dob, username, comment
-FROM Seniors
+SELECT 'Provided #1',
+	TIMESTAMPDIFF(YEAR, s.dob, DATE_FORMAT(CONCAT(LEFT(s.personId, 4), "-01-01"), "%Y-%m-%d")) AS ageAtComp,
+	TIMESTAMPDIFF(YEAR, s.dob, NOW()) AS ageToday,
+	id, name, countryId, dob, username, comment
+FROM Seniors s
 JOIN Persons ON id = personId AND subid = 1
 WHERE comment LIKE 'Provided%'
 AND NOT (comment LIKE '%qqwref%' OR comment LIKE '%Ron van Bruchem%' OR comment LIKE '%Andy Nicholls%')
 ORDER BY comment, countryId, personId;
 
 	-- Some people have provided multiple names
-	SELECT 'Provided #2', id, name, countryId, dob, username, comment
-	FROM Seniors
+	SELECT 'Provided #2',
+    	TIMESTAMPDIFF(YEAR, s.dob, DATE_FORMAT(CONCAT(LEFT(s.personId, 4), "-01-01"), "%Y-%m-%d")) AS ageAtComp,
+		TIMESTAMPDIFF(YEAR, s.dob, NOW()) AS ageToday,
+		id, name, countryId, dob, username, comment
+	FROM Seniors s
 	JOIN Persons ON id = personId AND subid = 1
 	WHERE comment LIKE 'Provided%'
 	AND (comment LIKE '%qqwref%' OR comment LIKE '%Ron van Bruchem%' OR comment LIKE '%Andy Nicholls%')
 	ORDER BY comment, countryId, personId;
 
 -- People contacted on Facebook
-SELECT 'Contacted', id, name, countryId, dob, username, comment
-FROM Seniors
+SELECT 'Contacted',
+	TIMESTAMPDIFF(YEAR, s.dob, DATE_FORMAT(CONCAT(LEFT(s.personId, 4), "-01-01"), "%Y-%m-%d")) AS ageAtComp,
+	TIMESTAMPDIFF(YEAR, s.dob, NOW()) AS ageToday,
+	id, name, countryId, dob, username, comment
+FROM Seniors s
 JOIN Persons ON id = personId AND subid = 1
 WHERE comment LIKE 'Contacted%'
 ORDER BY comment, countryId, personId;
 
 -- People I added after meeting them at a competition
-SELECT 'First', id, name, countryId, dob, username, comment
-FROM Seniors
+SELECT 'First',
+	TIMESTAMPDIFF(YEAR, s.dob, DATE_FORMAT(CONCAT(LEFT(s.personId, 4), "-01-01"), "%Y-%m-%d")) AS ageAtComp,
+	TIMESTAMPDIFF(YEAR, s.dob, NOW()) AS ageToday,
+	id, name, countryId, dob, username, comment
+FROM Seniors s
 JOIN Persons ON id = personId AND subid = 1
 WHERE comment LIKE 'First%'
 ORDER BY comment, countryId, personId;
 
 -- DOB / YOB that I found on the internet - Facebook, Wikipedia, Speedsolving, etc
-SELECT 'Found', id, name, countryId, dob, username, comment
-FROM Seniors
+SELECT 'Found',
+	TIMESTAMPDIFF(YEAR, s.dob, DATE_FORMAT(CONCAT(LEFT(s.personId, 4), "-01-01"), "%Y-%m-%d")) AS ageAtComp,
+	TIMESTAMPDIFF(YEAR, s.dob, NOW()) AS ageToday,
+	id, name, countryId, dob, username, comment
+FROM Seniors s
 JOIN Persons ON id = personId AND subid = 1
 WHERE comment LIKE 'Found%'
 ORDER BY comment, countryId, personId;
 
 -- People that I spotted on the internet - Facebook, Speedsolving, etc
-SELECT 'Spotted', id, name, countryId, dob, username, comment
-FROM Seniors
+SELECT 'Spotted',
+	TIMESTAMPDIFF(YEAR, s.dob, DATE_FORMAT(CONCAT(LEFT(s.personId, 4), "-01-01"), "%Y-%m-%d")) AS ageAtComp,
+	TIMESTAMPDIFF(YEAR, s.dob, NOW()) AS ageToday,
+	id, name, countryId, dob, username, comment
+FROM Seniors s
 JOIN Persons ON id = personId AND subid = 1
 WHERE comment LIKE 'Spotted%'
 ORDER BY comment, countryId, personId;
 
 -- Speculative additions - friends of friends, etc.
-SELECT 'Speculative', id, name, countryId, dob, username, comment
-FROM Seniors
+SELECT 'Speculative',
+	TIMESTAMPDIFF(YEAR, s.dob, DATE_FORMAT(CONCAT(LEFT(s.personId, 4), "-01-01"), "%Y-%m-%d")) AS ageAtComp,
+	TIMESTAMPDIFF(YEAR, s.dob, NOW()) AS ageToday,
+	id, name, countryId, dob, username, comment
+FROM Seniors s
 JOIN Persons ON id = personId AND subid = 1
 WHERE comment LIKE 'Speculative%'
 ORDER BY countryId, comment, personId;
