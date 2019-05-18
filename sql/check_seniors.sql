@@ -113,7 +113,7 @@ ORDER BY ageFirstComp DESC, DOB desc;
     Missing DOB
 */
 
--- All people with a faked DOB
+-- All people without a DOB
 SELECT 'Missing DOB', ROUND(MIN(average) / 100.0, 2) AS best333,
 	id, name, countryId, dob, username, comment
 FROM Seniors s
@@ -127,8 +127,8 @@ ORDER BY comment, countryId;
     Fake DOB
 */
 
--- All people without a DOB
-SELECT 'Missing DOB', ROUND(MIN(average) / 100.0, 2) AS best333,
+-- All people with a fake DOB
+SELECT 'Fake DOB', ROUND(MIN(average) / 100.0, 2) AS best333,
 	id, name, countryId, dob, username, comment
 FROM Seniors s
 JOIN Persons p ON id = personId AND subid = 1
