@@ -7,7 +7,7 @@
 */
 
 -- Extract seniors
-SELECT DISTINCT t.personId, personName, c.name AS country, IFNULL(s.username, '?') AS username, ageCategory
+SELECT t.personId, personName, c.name AS country, IFNULL(s.username, '?') AS username, MAX(ageCategory)
 INTO OUTFILE '/home/jovyan/work/wca-ipy/data/public/extract/known_senior_details.csv' FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
 FROM
 (
@@ -22,7 +22,8 @@ FROM
 ) AS t
 INNER JOIN Seniors AS s ON s.personId = t.personId
 INNER JOIN Countries AS c ON c.id = t.countryId
-ORDER BY personName, ageCategory;
+GROUP BY personId
+ORDER BY personName, ageCategory DESC;
 
 -- Extract senior results (averages)
 SELECT eventId, personId, MIN(average) AS bestAverage, ageCategory

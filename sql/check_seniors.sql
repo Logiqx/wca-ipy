@@ -225,13 +225,14 @@ SELECT 'Embassador',  p.id, p.name, p.countryId,
 	MAX(c19.age_at_comp) AS ageLastComp,
 	TIMESTAMPDIFF(YEAR, c19.dob, DATE_FORMAT(CONCAT(LEFT(c19.id, 4), "-01-01"), "%Y-%m-%d")) AS ageFirstComp,
 	TIMESTAMPDIFF(YEAR, c19.dob, NOW()) AS ageToday,
-	c19.numComps as numComps2019, IFNULL(c18.numComps, 0) AS numComps2018, IFNULL(c17.numComps, 0) AS numComps2017
+	c19.numComps as numComps2019, IFNULL(c18.numComps, 0) AS numComps2018, IFNULL(c17.numComps, 0) AS numComps2017,
+	s.username, s.comment
 FROM Seniors s
 JOIN Persons p ON id = personId AND subid = 1
 LEFT JOIN cte c19 ON c19.id = s.personId and c19.year = 2019
 LEFT JOIN cte c18 ON c18.id = s.personId and c18.year = 2018
 LEFT JOIN cte c17 ON c17.id = s.personId and c17.year = 2017
-WHERE c19.numComps >= 2
+WHERE c18.numComps >= 8
 GROUP BY s.personId
 ORDER BY p.countryId;
 
