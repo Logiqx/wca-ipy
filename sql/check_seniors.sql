@@ -38,12 +38,11 @@ ORDER BY pctSeniors DESC;
     Everyone
 */
 
--- Copy / paste of code in extract_senior_details.sql
-SELECT DISTINCT 'Over-40',
+SELECT DISTINCT 'Everyone', s.personId, personName, countryId, accuracy, dob,
 	MAX(age_at_comp) AS ageLastComp,
-	TIMESTAMPDIFF(YEAR, s.dob, DATE_FORMAT(CONCAT(LEFT(s.personId, 4), "-01-01"), "%Y-%m-%d")) AS ageFirstComp,
 	TIMESTAMPDIFF(YEAR, s.dob, NOW()) AS ageToday,
-	s.personId, personName, countryId, s.dob, username, comment
+	TIMESTAMPDIFF(YEAR, s.dob, DATE_FORMAT(CONCAT(LEFT(s.personId, 4), "-01-01"), "%Y-%m-%d")) AS ageFirstComp,
+	username, comment
 FROM
 (
   SELECT r.eventId, r.personId, r.average, p.name AS personName, p.countryId,
@@ -52,23 +51,21 @@ FROM
       DATE_FORMAT(CONCAT(c.year, "-", c.month, "-", c.day), "%Y-%m-%d")) AS age_at_comp
   FROM Results AS r
   INNER JOIN Competitions AS c ON r.competitionId = c.id
-  INNER JOIN Persons AS p ON r.personId = p.id AND p.subid = 1 AND p.year > 1900 AND p.year <= YEAR(CURDATE()) - 40
-  HAVING age_at_comp >= 40
+  INNER JOIN Persons AS p ON r.personId = p.id AND p.subid = 1 AND p.year > 0
 ) AS tmp_results
 JOIN Seniors s ON s.personId = tmp_results.personId
 GROUP BY s.personId
-ORDER BY ageLastComp, ageFirstComp, ageToday;
+ORDER BY ageLastComp, ageToday, ageFirstComp;
 
 /*
     Over-50's
 */
 
--- Copy / paste of code in extract_senior_details.sql
-SELECT DISTINCT 'Over-50',
+SELECT DISTINCT 'Over-50', s.personId, personName, countryId, accuracy, s.dob,
 	MAX(age_at_comp) AS ageLastComp,
-	TIMESTAMPDIFF(YEAR, s.dob, DATE_FORMAT(CONCAT(LEFT(s.personId, 4), "-01-01"), "%Y-%m-%d")) AS ageFirstComp,
 	TIMESTAMPDIFF(YEAR, s.dob, NOW()) AS ageToday,
-	s.personId, personName, countryId, s.dob, username, comment
+	TIMESTAMPDIFF(YEAR, s.dob, DATE_FORMAT(CONCAT(LEFT(s.personId, 4), "-01-01"), "%Y-%m-%d")) AS ageFirstComp,
+	username, comment
 FROM
 (
   SELECT r.eventId, r.personId, r.average, p.name AS personName, p.countryId,
@@ -77,23 +74,23 @@ FROM
       DATE_FORMAT(CONCAT(c.year, "-", c.month, "-", c.day), "%Y-%m-%d")) AS age_at_comp
   FROM Results AS r
   INNER JOIN Competitions AS c ON r.competitionId = c.id
-  INNER JOIN Persons AS p ON r.personId = p.id AND p.subid = 1 AND p.year > 1900 AND p.year <= YEAR(CURDATE()) - 50
-  HAVING age_at_comp >= 50
+  INNER JOIN Persons AS p ON r.personId = p.id AND p.subid = 1 AND p.year > 1900
 ) AS tmp_results
 JOIN Seniors s ON s.personId = tmp_results.personId
+-- WHERE accuracy NOT IN ('D', 'M')
 GROUP BY s.personId
-ORDER BY ageLastComp, ageFirstComp, ageToday;
+HAVING ageLastComp >= 50
+ORDER BY ageLastComp, ageToday, ageFirstComp;
 
 /*
     Over-60's
 */
 
--- Copy / paste of code in extract_senior_details.sql
-SELECT DISTINCT 'Over-60',
+SELECT DISTINCT 'Over-60', s.personId, personName, countryId, accuracy, s.dob,
 	MAX(age_at_comp) AS ageLastComp,
-	TIMESTAMPDIFF(YEAR, s.dob, DATE_FORMAT(CONCAT(LEFT(s.personId, 4), "-01-01"), "%Y-%m-%d")) AS ageFirstComp,
 	TIMESTAMPDIFF(YEAR, s.dob, NOW()) AS ageToday,
-	s.personId, personName, countryId, s.dob, username, comment
+	TIMESTAMPDIFF(YEAR, s.dob, DATE_FORMAT(CONCAT(LEFT(s.personId, 4), "-01-01"), "%Y-%m-%d")) AS ageFirstComp,
+	username, comment
 FROM
 (
   SELECT r.eventId, r.personId, r.average, p.name AS personName, p.countryId,
@@ -102,69 +99,109 @@ FROM
       DATE_FORMAT(CONCAT(c.year, "-", c.month, "-", c.day), "%Y-%m-%d")) AS age_at_comp
   FROM Results AS r
   INNER JOIN Competitions AS c ON r.competitionId = c.id
-  INNER JOIN Persons AS p ON r.personId = p.id AND p.subid = 1 AND p.year > 1900 AND p.year <= YEAR(CURDATE()) - 60
-  HAVING age_at_comp >= 60
+  INNER JOIN Persons AS p ON r.personId = p.id AND p.subid = 1 AND p.year > 1900
 ) AS tmp_results
 JOIN Seniors s ON s.personId = tmp_results.personId
 GROUP BY s.personId
-ORDER BY ageLastComp, ageFirstComp, ageToday;
+HAVING ageLastComp >= 60
+ORDER BY ageLastComp, ageToday, ageFirstComp;
+
+/*
+    Precisions
+*/
+
+SELECT accuracy, COUNT(*)
+FROM Seniors
+WHERE accuracy IS NOT NULL
+GROUP BY accuracy
+ORDER BY COUNT(*) DESC;
+
+/*
+    Imprecise DOB for Over-50's (or soon to be)
+*/
+
+SELECT DISTINCT 'Imprecise', s.personId, personName, countryId, accuracy, dob,
+	MAX(age_at_comp) AS ageLastComp,
+	TIMESTAMPDIFF(YEAR, s.dob, NOW()) AS ageToday,
+	TIMESTAMPDIFF(YEAR, s.dob, DATE_FORMAT(CONCAT(LEFT(s.personId, 4), "-01-01"), "%Y-%m-%d")) AS ageFirstComp,
+	username, comment
+FROM
+(
+  SELECT r.eventId, r.personId, r.average, p.name AS personName, p.countryId,
+    TIMESTAMPDIFF(YEAR,
+      DATE_FORMAT(CONCAT(p.year, "-", p.month, "-", p.day), "%Y-%m-%d"),
+      DATE_FORMAT(CONCAT(c.year, "-", c.month, "-", c.day), "%Y-%m-%d")) AS age_at_comp
+  FROM Results AS r
+  INNER JOIN Competitions AS c ON r.competitionId = c.id
+  INNER JOIN Persons AS p ON r.personId = p.id AND p.subid = 1 AND p.year > 1900
+) AS tmp_results
+JOIN Seniors s ON s.personId = tmp_results.personId
+WHERE accuracy NOT IN ('D', 'M')
+GROUP BY s.personId
+HAVING ageLastComp >= 48
+ORDER BY ageLastComp, ageToday, ageFirstComp;
 
 /*
     Missing DOB
 */
 
--- All people without a DOB
-SELECT 'Missing DOB', ROUND(MIN(average) / 100.0, 2) AS best333,
-	id, name, countryId, dob, username, comment
+SELECT 'Missing DOB', s.personId, personName, countryId, accuracy, s.dob,
+	ROUND(MIN(average) / 100.0, 2) AS best333,
+	username, comment
 FROM Seniors s
 JOIN Persons p ON id = personId AND subid = 1
 JOIN Results AS r ON r.personId = p.id AND r.eventId = '333' AND r.average > 0
 WHERE dob IS NULL
 GROUP BY id
-ORDER BY comment, countryId;
+ORDER BY accuracy, comment, countryId;
 
 /*
     Fake DOB
 */
 
--- All people with a fake DOB
-SELECT 'Fake DOB', ROUND(MIN(average) / 100.0, 2) AS best333,
-	id, name, countryId, dob, username, comment
-FROM Seniors s
-JOIN Persons p ON id = personId AND subid = 1
-JOIN Results AS r ON r.personId = p.id AND r.eventId = '333' AND r.average > 0
+SELECT DISTINCT 'Fake', s.personId, personName, countryId, accuracy, dob,
+	MAX(age_at_comp) AS ageLastComp,
+	TIMESTAMPDIFF(YEAR, s.dob, NOW()) AS ageToday,
+	TIMESTAMPDIFF(YEAR, s.dob, DATE_FORMAT(CONCAT(LEFT(s.personId, 4), "-01-01"), "%Y-%m-%d")) AS ageFirstComp,
+	username, comment
+FROM
+(
+  SELECT r.eventId, r.personId, r.average, p.name AS personName, p.countryId,
+    TIMESTAMPDIFF(YEAR,
+      DATE_FORMAT(CONCAT(p.year, "-", p.month, "-", p.day), "%Y-%m-%d"),
+      DATE_FORMAT(CONCAT(c.year, "-", c.month, "-", c.day), "%Y-%m-%d")) AS age_at_comp
+  FROM Results AS r
+  INNER JOIN Competitions AS c ON r.competitionId = c.id
+  INNER JOIN Persons AS p ON r.personId = p.id AND p.subid = 1 AND p.year > 0
+) AS tmp_results
+JOIN Seniors s ON s.personId = tmp_results.personId
 WHERE comment LIKE '%fake%'
-GROUP BY id
-ORDER BY comment, countryId;
-
-/*
-    Potentially fake DOB
-*/
-
--- All people with a potentially fake DOB
-SELECT 'Fake DOB?', ROUND(MIN(average) / 100.0, 2) AS best333,
-	id, name, countryId, dob, username, comment
-FROM Seniors s
-JOIN Persons p ON id = personId AND subid = 1
-JOIN Results AS r ON r.personId = p.id AND r.eventId = '333' AND r.average > 0
-WHERE comment NOT LIKE '%fake%' AND month = 12 AND day = 31
-GROUP BY id
-ORDER BY comment, countryId;
+GROUP BY s.personId
+ORDER BY ageLastComp, ageToday, ageFirstComp;
 
 /*
     Delegates
 */
 
-SELECT DISTINCT 'Delegate',
-	TIMESTAMPDIFF(YEAR, s.dob, DATE_FORMAT(CONCAT(LEFT(s.personId, 4), "-01-01"), "%Y-%m-%d")) AS ageFirstComp,
+SELECT DISTINCT 'Delegate', s.personId, personName, countryId, accuracy, s.dob,
+	MAX(age_at_comp) AS ageLastComp,
 	TIMESTAMPDIFF(YEAR, s.dob, NOW()) AS ageToday,
-	delegate_status, p.id, p.name, p.countryId, s.username, s.dob, s.comment
-FROM Seniors s
-JOIN Persons p ON p.id = s.personId AND p.subid = 1
-JOIN Results r ON r.personId = p.id
-JOIN Competitions c ON c.id = r.competitionId AND c.year >= YEAR(CURDATE()) - 1
+	TIMESTAMPDIFF(YEAR, s.dob, DATE_FORMAT(CONCAT(LEFT(s.personId, 4), "-01-01"), "%Y-%m-%d")) AS ageFirstComp,
+	delegate_status, username, comment
+FROM
+(
+  SELECT r.eventId, r.personId, r.average, p.name AS personName, p.countryId,
+    IF(p.year > 1900, TIMESTAMPDIFF(YEAR,
+      DATE_FORMAT(CONCAT(p.year, "-", p.month, "-", p.day), "%Y-%m-%d"),
+      DATE_FORMAT(CONCAT(c.year, "-", c.month, "-", c.day), "%Y-%m-%d")), NULL) AS age_at_comp
+  FROM Results AS r
+  INNER JOIN Competitions AS c ON r.competitionId = c.id
+  INNER JOIN Persons AS p ON r.personId = p.id AND p.subid = 1 AND p.year > 0
+) AS tmp_results
+JOIN Seniors s ON s.personId = tmp_results.personId
 JOIN wca_dev.users u ON u.wca_id = s.personId AND delegate_status IS NOT NULL
-ORDER BY delegate_status, countryId, id;
+GROUP BY s.personId
+ORDER BY countryId, PersonName;
 
 /*
     Possible embassadors
@@ -172,7 +209,10 @@ ORDER BY delegate_status, countryId, id;
 
 WITH cte AS
 (
-	SELECT p.id, p.name, p.countryId, s.username, s.dob, s.comment, c.year, COUNT(DISTINCT competitionId) AS numComps
+	SELECT p.id, p.name, p.countryId, s.username, s.dob, s.accuracy, s.comment, c.year, COUNT(DISTINCT competitionId) AS numComps,
+      IF(p.year > 1900, TIMESTAMPDIFF(YEAR,
+      DATE_FORMAT(CONCAT(p.year, "-", p.month, "-", p.day), "%Y-%m-%d"),
+      DATE_FORMAT(CONCAT(c.year, "-", c.month, "-", c.day), "%Y-%m-%d")), NULL) AS age_at_comp
 	FROM Seniors s
 	JOIN Persons p ON p.id = s.personId AND p.subid = 1
 	JOIN Results r ON r.personId = p.id
@@ -180,78 +220,136 @@ WITH cte AS
 	WHERE c.year >= 2017
 	GROUP BY p.id, p.name, p.countryId, s.dob, s.username, c.year, s.comment
 	HAVING COUNT(DISTINCT competitionId) >= 2
-	ORDER BY p.countryId, c.year DESC, COUNT(DISTINCT competitionId) DESC
 )
-SELECT 'Embassador',
+SELECT 'Embassador',  p.id, p.name, p.countryId,
+	MAX(c19.age_at_comp) AS ageLastComp,
 	TIMESTAMPDIFF(YEAR, c19.dob, DATE_FORMAT(CONCAT(LEFT(c19.id, 4), "-01-01"), "%Y-%m-%d")) AS ageFirstComp,
 	TIMESTAMPDIFF(YEAR, c19.dob, NOW()) AS ageToday,
-	c19.id, c19.name, c19.countryId, c19.username, -- c19.dob, c19.comment,
 	c19.numComps as numComps2019, IFNULL(c18.numComps, 0) AS numComps2018, IFNULL(c17.numComps, 0) AS numComps2017
-FROM cte AS c19
-LEFT JOIN cte c18 ON c18.id = c19.id and c18.year = 2018
-LEFT JOIN cte c17 ON c17.id = c19.id and c17.year = 2017
-WHERE c19.year = 2019;
+FROM Seniors s
+JOIN Persons p ON id = personId AND subid = 1
+LEFT JOIN cte c19 ON c19.id = s.personId and c19.year = 2019
+LEFT JOIN cte c18 ON c18.id = s.personId and c18.year = 2018
+LEFT JOIN cte c17 ON c17.id = s.personId and c17.year = 2017
+WHERE c19.numComps >= 2
+GROUP BY s.personId
+ORDER BY p.countryId;
 
 /*
     Review comments
 */
 
 -- Check for non-standard comments
-SELECT 'Non-standard',
+SELECT 'Non-standard', personId, name, countryId, accuracy, dob,
 	TIMESTAMPDIFF(YEAR, s.dob, DATE_FORMAT(CONCAT(LEFT(s.personId, 4), "-01-01"), "%Y-%m-%d")) AS ageFirstComp,
 	TIMESTAMPDIFF(YEAR, s.dob, NOW()) AS ageToday,
-	id, name, countryId, dob, username, comment
+	username, comment
 FROM Seniors s
 JOIN Persons ON id = personId AND subid = 1
-WHERE comment NOT LIKE 'Provided%' AND comment NOT LIKE 'Contacted%'
-AND comment NOT LIKE 'Found%' AND comment NOT LIKE 'Spotted%' AND comment NOT LIKE 'Speculative%';
+WHERE comment NOT LIKE 'Provided%' AND comment NOT LIKE 'Contacted%' AND comment NOT LIKE 'Found%' AND comment NOT LIKE 'Spotted%' AND comment NOT LIKE 'Speculative%';
 
 -- "Provided" indicates that the person (or someone on their behalf) pro-actively provided their information
-SELECT 'Provided',
-	TIMESTAMPDIFF(YEAR, s.dob, DATE_FORMAT(CONCAT(LEFT(s.personId, 4), "-01-01"), "%Y-%m-%d")) AS ageFirstComp,
+SELECT DISTINCT 'Provided', s.personId, personName, countryId, accuracy, s.dob,
+	MAX(age_at_comp) AS ageLastComp,
 	TIMESTAMPDIFF(YEAR, s.dob, NOW()) AS ageToday,
-	id, name, countryId, dob, username, comment
-FROM Seniors s
-JOIN Persons ON id = personId AND subid = 1
+	TIMESTAMPDIFF(YEAR, s.dob, DATE_FORMAT(CONCAT(LEFT(s.personId, 4), "-01-01"), "%Y-%m-%d")) AS ageFirstComp,
+	username, comment
+FROM
+(
+  SELECT r.eventId, r.personId, r.average, p.name AS personName, p.countryId,
+    IF(p.year > 1900, TIMESTAMPDIFF(YEAR,
+      DATE_FORMAT(CONCAT(p.year, "-", p.month, "-", p.day), "%Y-%m-%d"),
+      DATE_FORMAT(CONCAT(c.year, "-", c.month, "-", c.day), "%Y-%m-%d")), NULL) AS age_at_comp
+  FROM Results AS r
+  INNER JOIN Competitions AS c ON r.competitionId = c.id
+  INNER JOIN Persons AS p ON r.personId = p.id AND p.subid = 1 AND p.year > 0
+) AS tmp_results
+JOIN Seniors s ON s.personId = tmp_results.personId
 WHERE comment LIKE 'Provided%'
-ORDER BY comment, countryId, personId;
+GROUP BY s.personId
+ORDER BY accuracy, comment, countryId, personId;
 
 -- People contacted on Facebook
-SELECT 'Contacted',
-	TIMESTAMPDIFF(YEAR, s.dob, DATE_FORMAT(CONCAT(LEFT(s.personId, 4), "-01-01"), "%Y-%m-%d")) AS ageFirstComp,
+SELECT DISTINCT 'Contacted', s.personId, personName, countryId, accuracy, s.dob,
+	MAX(age_at_comp) AS ageLastComp,
 	TIMESTAMPDIFF(YEAR, s.dob, NOW()) AS ageToday,
-	id, name, countryId, dob, username, comment
-FROM Seniors s
-JOIN Persons ON id = personId AND subid = 1
+	TIMESTAMPDIFF(YEAR, s.dob, DATE_FORMAT(CONCAT(LEFT(s.personId, 4), "-01-01"), "%Y-%m-%d")) AS ageFirstComp,
+	username, comment
+FROM
+(
+  SELECT r.eventId, r.personId, r.average, p.name AS personName, p.countryId,
+    IF(p.year > 1900, TIMESTAMPDIFF(YEAR,
+      DATE_FORMAT(CONCAT(p.year, "-", p.month, "-", p.day), "%Y-%m-%d"),
+      DATE_FORMAT(CONCAT(c.year, "-", c.month, "-", c.day), "%Y-%m-%d")), NULL) AS age_at_comp
+  FROM Results AS r
+  INNER JOIN Competitions AS c ON r.competitionId = c.id
+  INNER JOIN Persons AS p ON r.personId = p.id AND p.subid = 1 AND p.year > 0
+) AS tmp_results
+JOIN Seniors s ON s.personId = tmp_results.personId
 WHERE comment LIKE 'Contacted%'
-ORDER BY comment, countryId, personId;
+GROUP BY s.personId
+ORDER BY accuracy, comment, countryId, personId;
 
 -- DOB / YOB that I found on the internet - Facebook, Wikipedia, Speedsolving, etc
-SELECT 'Found',
-	TIMESTAMPDIFF(YEAR, s.dob, DATE_FORMAT(CONCAT(LEFT(s.personId, 4), "-01-01"), "%Y-%m-%d")) AS ageFirstComp,
+SELECT DISTINCT 'Found', s.personId, personName, countryId, accuracy, s.dob,
+	MAX(age_at_comp) AS ageLastComp,
 	TIMESTAMPDIFF(YEAR, s.dob, NOW()) AS ageToday,
-	id, name, countryId, dob, username, comment
-FROM Seniors s
-JOIN Persons ON id = personId AND subid = 1
+	TIMESTAMPDIFF(YEAR, s.dob, DATE_FORMAT(CONCAT(LEFT(s.personId, 4), "-01-01"), "%Y-%m-%d")) AS ageFirstComp,
+	username, comment
+FROM
+(
+  SELECT r.eventId, r.personId, r.average, p.name AS personName, p.countryId,
+    IF(p.year > 1900, TIMESTAMPDIFF(YEAR,
+      DATE_FORMAT(CONCAT(p.year, "-", p.month, "-", p.day), "%Y-%m-%d"),
+      DATE_FORMAT(CONCAT(c.year, "-", c.month, "-", c.day), "%Y-%m-%d")), NULL) AS age_at_comp
+  FROM Results AS r
+  INNER JOIN Competitions AS c ON r.competitionId = c.id
+  INNER JOIN Persons AS p ON r.personId = p.id AND p.subid = 1 AND p.year > 0
+) AS tmp_results
+JOIN Seniors s ON s.personId = tmp_results.personId
 WHERE comment LIKE 'Found%'
-ORDER BY comment, countryId, personId;
+GROUP BY s.personId
+ORDER BY accuracy, comment, countryId, personId;
 
 -- People that I spotted on the internet - Facebook, Speedsolving, etc
-SELECT 'Spotted',
-	TIMESTAMPDIFF(YEAR, s.dob, DATE_FORMAT(CONCAT(LEFT(s.personId, 4), "-01-01"), "%Y-%m-%d")) AS ageFirstComp,
+SELECT DISTINCT 'Spotted', s.personId, personName, countryId, accuracy, s.dob,
+	MAX(age_at_comp) AS ageLastComp,
 	TIMESTAMPDIFF(YEAR, s.dob, NOW()) AS ageToday,
-	id, name, countryId, dob, username, comment
-FROM Seniors s
-JOIN Persons ON id = personId AND subid = 1
+	TIMESTAMPDIFF(YEAR, s.dob, DATE_FORMAT(CONCAT(LEFT(s.personId, 4), "-01-01"), "%Y-%m-%d")) AS ageFirstComp,
+	username, comment
+FROM
+(
+  SELECT r.eventId, r.personId, r.average, p.name AS personName, p.countryId,
+    IF(p.year > 1900, TIMESTAMPDIFF(YEAR,
+      DATE_FORMAT(CONCAT(p.year, "-", p.month, "-", p.day), "%Y-%m-%d"),
+      DATE_FORMAT(CONCAT(c.year, "-", c.month, "-", c.day), "%Y-%m-%d")), NULL) AS age_at_comp
+  FROM Results AS r
+  INNER JOIN Competitions AS c ON r.competitionId = c.id
+  INNER JOIN Persons AS p ON r.personId = p.id AND p.subid = 1 AND p.year > 0
+) AS tmp_results
+JOIN Seniors s ON s.personId = tmp_results.personId
 WHERE comment LIKE 'Spotted%'
-ORDER BY comment, countryId, personId;
+GROUP BY s.personId
+ORDER BY accuracy, comment, countryId, personId;
 
 -- Speculative additions - friends of friends, etc.
-SELECT 'Speculative',
-	TIMESTAMPDIFF(YEAR, s.dob, DATE_FORMAT(CONCAT(LEFT(s.personId, 4), "-01-01"), "%Y-%m-%d")) AS ageFirstComp,
+SELECT DISTINCT 'Speculative', s.personId, personName, countryId, accuracy, s.dob,
+	MAX(age_at_comp) AS ageLastComp,
 	TIMESTAMPDIFF(YEAR, s.dob, NOW()) AS ageToday,
-	id, name, countryId, dob, username, comment
-FROM Seniors s
-JOIN Persons ON id = personId AND subid = 1
+	TIMESTAMPDIFF(YEAR, s.dob, DATE_FORMAT(CONCAT(LEFT(s.personId, 4), "-01-01"), "%Y-%m-%d")) AS ageFirstComp,
+	username, comment
+FROM
+(
+  SELECT r.eventId, r.personId, r.average, p.name AS personName, p.countryId,
+    IF(p.year > 1900, TIMESTAMPDIFF(YEAR,
+      DATE_FORMAT(CONCAT(p.year, "-", p.month, "-", p.day), "%Y-%m-%d"),
+      DATE_FORMAT(CONCAT(c.year, "-", c.month, "-", c.day), "%Y-%m-%d")), NULL) AS age_at_comp
+  FROM Results AS r
+  INNER JOIN Competitions AS c ON r.competitionId = c.id
+  INNER JOIN Persons AS p ON r.personId = p.id AND p.subid = 1 AND p.year > 0
+) AS tmp_results
+JOIN Seniors s ON s.personId = tmp_results.personId
 WHERE comment LIKE 'Speculative%'
-ORDER BY countryId, comment, personId;
+GROUP BY s.personId
+ORDER BY accuracy, comment, countryId, personId;
+
