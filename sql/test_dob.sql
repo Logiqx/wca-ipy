@@ -6,11 +6,11 @@
     Purpose:  Test the impact of DOB - e.g. 1st Jan vs 31st Dec
 */
 
-SET @personId = '2011MICH01';
-SET @ageCategory = 90;
+SET @personId = '2013HUBH01';
+SET @ageCategory = 50;
 
-SET @latest = '1920-12-31';
-SET @earliest = '1920-01-01';
+SET @latest = '1966-12-31';
+SET @earliest = '1966-01-01';
 
 
 SELECT e.id, e.name,
