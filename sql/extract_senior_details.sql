@@ -7,7 +7,7 @@
 */
 
 -- Extract seniors
-SELECT DISTINCT ageCategory, t.personId, personName, c.name AS country, IFNULL(s.username, '?') AS username
+SELECT DISTINCT t.personId, personName, c.name AS country, IFNULL(s.username, '?') AS username, ageCategory
 INTO OUTFILE '/home/jovyan/work/wca-ipy/data/public/extract/known_senior_details.csv' FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
 FROM
 (
@@ -25,7 +25,7 @@ INNER JOIN Countries AS c ON c.id = t.countryId
 ORDER BY personName, ageCategory;
 
 -- Extract senior results (averages)
-SELECT eventId, ageCategory, personId, MIN(average) AS bestAverage
+SELECT eventId, personId, MIN(average) AS bestAverage, ageCategory
 INTO OUTFILE '/home/jovyan/work/wca-ipy/data/public/extract/known_senior_averages.csv' FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
 FROM
 (
@@ -39,11 +39,11 @@ FROM
   WHERE average > 0
   HAVING ageCategory >= 40
 ) AS t
-GROUP BY eventId, ageCategory, personId
+GROUP BY eventId, personId, ageCategory DESC
 ORDER BY eventId, bestAverage, personId;
 
 -- Extract senior results (singles)
-SELECT eventId, ageCategory, personId, MIN(best) AS bestSingle
+SELECT eventId, personId, MIN(best) AS bestSingle, ageCategory
 INTO OUTFILE '/home/jovyan/work/wca-ipy/data/public/extract/known_senior_singles.csv' FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
 FROM
 (
@@ -57,5 +57,5 @@ FROM
   WHERE best > 0
   HAVING ageCategory >= 40
 ) AS tmp_results
-GROUP BY eventId, ageCategory, personId
+GROUP BY eventId, personId, ageCategory DESC
 ORDER BY eventId, bestSingle, personId;
