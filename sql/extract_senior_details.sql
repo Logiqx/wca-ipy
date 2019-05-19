@@ -7,56 +7,55 @@
 */
 
 -- Extract seniors
-SELECT p.id AS personId, p.name AS personName, c.name AS country, IFNULL(s.username, '?') AS username
+SELECT DISTINCT ageCategory, t.personId, personName, c.name AS country, IFNULL(s.username, '?') AS username
 INTO OUTFILE '/home/jovyan/work/wca-ipy/data/public/extract/known_senior_details.csv' FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
-FROM Persons AS p
-INNER JOIN Seniors AS s ON s.personId = p.id
-INNER JOIN Countries AS c ON p.countryId = c.id
-WHERE p.subid = 1 AND p.year > 0 AND p.year <= YEAR(CURDATE()) - 40
-AND EXISTS
+FROM
 (
-  SELECT TIMESTAMPDIFF(YEAR,
+  SELECT r.eventId, r.personId, r.average, p.name AS PersonName, p.countryId,
+    FLOOR(IF(p.year = 1900, 40, TIMESTAMPDIFF(YEAR,
       DATE_FORMAT(CONCAT(p.year, "-", p.month, "-", p.day), "%Y-%m-%d"),
-      DATE_FORMAT(CONCAT(c.year, "-", c.month, "-", c.day), "%Y-%m-%d")) AS age_at_comp
+      DATE_FORMAT(CONCAT(c.year, "-", c.month, "-", c.day), "%Y-%m-%d"))) / 10) * 10 AS ageCategory
   FROM Results AS r
   INNER JOIN Competitions AS c ON r.competitionId = c.id
-  WHERE r.personId = p.id
-  HAVING age_at_comp >= 40
-)
-ORDER BY personName;
+  INNER JOIN Persons AS p ON r.personId = p.id AND p.subid = 1 AND p.year > 0 AND p.year <= YEAR(CURDATE()) - 40
+  HAVING ageCategory >= 40
+) AS t
+INNER JOIN Seniors AS s ON s.personId = t.personId
+INNER JOIN Countries AS c ON c.id = t.countryId
+ORDER BY personName, ageCategory;
 
 -- Extract senior results (averages)
-SELECT eventId, personId, MIN(average) AS best_average
+SELECT eventId, ageCategory, personId, MIN(average) AS bestAverage
 INTO OUTFILE '/home/jovyan/work/wca-ipy/data/public/extract/known_senior_averages.csv' FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
 FROM
 (
   SELECT r.eventId, r.personId, r.average, p.name AS personName, p.countryId,
-    TIMESTAMPDIFF(YEAR,
+    FLOOR(IF(p.year = 1900, 40, TIMESTAMPDIFF(YEAR,
       DATE_FORMAT(CONCAT(p.year, "-", p.month, "-", p.day), "%Y-%m-%d"),
-      DATE_FORMAT(CONCAT(c.year, "-", c.month, "-", c.day), "%Y-%m-%d")) AS age_at_comp
+      DATE_FORMAT(CONCAT(c.year, "-", c.month, "-", c.day), "%Y-%m-%d"))) / 10) * 10 AS ageCategory
   FROM Results AS r
   INNER JOIN Competitions AS c ON r.competitionId = c.id
   INNER JOIN Persons AS p ON r.personId = p.id AND p.subid = 1 AND p.year > 0 AND p.year <= YEAR(CURDATE()) - 40
   WHERE average > 0
-  HAVING age_at_comp >= 40
-) AS tmp_results
-GROUP BY eventId, personId
-ORDER BY eventId, best_average, personId;
+  HAVING ageCategory >= 40
+) AS t
+GROUP BY eventId, ageCategory, personId
+ORDER BY eventId, bestAverage, personId;
 
 -- Extract senior results (singles)
-SELECT eventId, personId, MIN(best) AS best_single
+SELECT eventId, ageCategory, personId, MIN(best) AS bestSingle
 INTO OUTFILE '/home/jovyan/work/wca-ipy/data/public/extract/known_senior_singles.csv' FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
 FROM
 (
   SELECT r.eventId, r.personId, r.best, p.name AS personName, p.countryId,
-    TIMESTAMPDIFF(YEAR,
+    FLOOR(IF(p.year = 1900, 40, TIMESTAMPDIFF(YEAR,
       DATE_FORMAT(CONCAT(p.year, "-", p.month, "-", p.day), "%Y-%m-%d"),
-      DATE_FORMAT(CONCAT(c.year, "-", c.month, "-", c.day), "%Y-%m-%d")) AS age_at_comp
+      DATE_FORMAT(CONCAT(c.year, "-", c.month, "-", c.day), "%Y-%m-%d"))) / 10) * 10 AS ageCategory
   FROM Results AS r
   INNER JOIN Competitions AS c ON r.competitionId = c.id
   INNER JOIN Persons AS p ON r.personId = p.id AND p.year > 0 AND p.year <= YEAR(CURDATE()) - 40
   WHERE best > 0
-  HAVING age_at_comp >= 40
+  HAVING ageCategory >= 40
 ) AS tmp_results
-GROUP BY eventId, personId
-ORDER BY eventId, best_single, personId;
+GROUP BY eventId, ageCategory, personId
+ORDER BY eventId, bestSingle, personId;

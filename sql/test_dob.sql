@@ -6,9 +6,12 @@
     Purpose:  Test the impact of DOB - e.g. 1st Jan vs 31st Dec
 */
 
-SET @personId = 'WCA_ID';
-SET @latest = 'YYYY-12-31';
-SET @earliest = 'YYYY-01-01';
+SET @personId = '2011MICH01';
+SET @ageCategory = 90;
+
+SET @latest = '1920-12-31';
+SET @earliest = '1920-01-01';
+
 
 SELECT e.id, e.name,
     earliest.best_single AS earliest_single, latest.best_single AS latest_single,
@@ -29,7 +32,7 @@ LEFT JOIN
     FROM Results AS r
     INNER JOIN Competitions AS c ON r.competitionId = c.id
     WHERE personId = @personId
-    HAVING age_at_comp >= 50
+    HAVING age_at_comp >= @ageCategory
   ) AS tmp_results
   GROUP BY eventId
 ) AS latest ON e.id = latest.eventId
@@ -46,7 +49,7 @@ LEFT JOIN
     FROM Results AS r
     INNER JOIN Competitions AS c ON r.competitionId = c.id
     WHERE personId = @personId
-    HAVING age_at_comp >= 50
+    HAVING age_at_comp >= @ageCategory
   ) AS tmp_results
   GROUP BY eventId
 ) AS earliest ON e.id = earliest.eventId
