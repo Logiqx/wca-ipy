@@ -16,8 +16,8 @@ WITH SeniorResults AS
             DATE_FORMAT(CONCAT(p.year, '-', p.month, '-', p.day), '%Y-%m-%d'),
             DATE_FORMAT(CONCAT(c.year, '-', c.month, '-', c.day), '%Y-%m-%d')), NULL) AS age_at_comp
     FROM Results AS r
-    INNER JOIN Competitions AS c ON r.competitionId = c.id
-    INNER JOIN Persons AS p ON r.personId = p.id AND p.subid = 1 AND p.year > 0
+    JOIN Competitions AS c ON r.competitionId = c.id
+    JOIN Persons AS p ON r.personId = p.id AND p.subid = 1 AND p.year > 0
 )
 SELECT s.personId, personName, countryId, accuracy, s.dob,
     MAX(compYear) AS lastComp, COUNT(DISTINCT compId) as numComps,
@@ -56,34 +56,33 @@ JOIN wca_dev.users u ON u.wca_id = s.personId AND delegate_status IS NOT NULL
 ORDER BY lastComp DESC, numComps DESC, yearsCompeting DESC;
 
 -- List the possible 'embassadors' for the senior rankings
-WITH cte AS
+WITH SeniorYears AS
 (
-    SELECT p.id, p.name, p.countryId, s.username, s.dob, s.accuracy, s.comment, c.year, COUNT(DISTINCT competitionId) AS numComps,
+    SELECT p.id AS personId, p.name AS personName, p.countryId, c.year, COUNT(DISTINCT competitionId) AS numComps,
         IF(p.year > 1900, TIMESTAMPDIFF(YEAR,
-        DATE_FORMAT(CONCAT(p.year, '-', p.month, '-', p.day), '%Y-%m-%d'),
-        DATE_FORMAT(CONCAT(c.year, '-', c.month, '-', c.day), '%Y-%m-%d')), NULL) AS age_at_comp
-    FROM Seniors s
-    JOIN Persons p ON p.id = s.personId AND p.subid = 1
-    JOIN Results r ON r.personId = p.id
-    JOIN Competitions c ON c.id = r.competitionId
-    WHERE c.year >= 2017
-    GROUP BY p.id, p.name, p.countryId, s.dob, s.username, c.year, s.comment
-    HAVING COUNT(DISTINCT competitionId) >= 2
+            DATE_FORMAT(CONCAT(p.year, '-', p.month, '-', p.day), '%Y-%m-%d'),
+            DATE_FORMAT(CONCAT(c.year, '-', c.month, '-', c.day), '%Y-%m-%d')), NULL) AS age_at_comp
+    FROM Results AS r
+    JOIN Competitions AS c ON r.competitionId = c.id
+    JOIN Persons AS p ON r.personId = p.id AND p.subid = 1 AND p.year > 0
+    GROUP BY p.id, c.year
 )
-SELECT 'Embassador',    p.id, p.name, p.countryId,
-    MAX(c19.age_at_comp) AS ageLastComp,
-    TIMESTAMPDIFF(YEAR, c19.dob, DATE_FORMAT(CONCAT(LEFT(c19.id, 4), '-01-01'), '%Y-%m-%d')) AS ageFirstComp,
-    TIMESTAMPDIFF(YEAR, c19.dob, NOW()) AS ageToday,
-    c19.numComps as numComps2019, IFNULL(c18.numComps, 0) AS numComps2018, IFNULL(c17.numComps, 0) AS numComps2017,
-    s.username, s.comment
-FROM Seniors s
-JOIN Persons p ON id = personId AND subid = 1
-LEFT JOIN cte c19 ON c19.id = s.personId and c19.year = 2019
-LEFT JOIN cte c18 ON c18.id = s.personId and c18.year = 2018
-LEFT JOIN cte c17 ON c17.id = s.personId and c17.year = 2017
-WHERE c18.numComps >= 8
-GROUP BY s.personId
-ORDER BY p.countryId;
+SELECT 'Embassador', s.personId,
+    COALESCE(y0.personName, y1.personName, y2.personName) AS personName,
+    COALESCE(y0.countryId, y1.countryId, y2.countryId) AS countryId,
+    s.lastComp, s.numComps, s.yearsCompeting,
+    COALESCE(y0.age_at_comp, y1.age_at_comp, y2.age_at_comp) AS ageLastComp,
+    TIMESTAMPDIFF(YEAR, s.dob, DATE_FORMAT(CONCAT(LEFT(y0.personId, 4), '-01-01'), '%Y-%m-%d')) AS ageFirstComp,
+    TIMESTAMPDIFF(YEAR, s.dob, NOW()) AS ageToday,
+    IFNULL(y0.numComps, 0) AS numComps0, IFNULL(y1.numComps, 0) AS numComps1, IFNULL(y2.numComps, 0) AS numComps2,
+    username, comment
+FROM SeniorDetails s
+LEFT JOIN SeniorYears y0 ON y0.personId = s.personId and y0.year = YEAR(NOW())
+LEFT JOIN SeniorYears y1 ON y1.personId = s.personId and y1.year = YEAR(NOW()) - 1
+LEFT JOIN SeniorYears y2 ON y2.personId = s.personId and y2.year = YEAR(NOW()) - 2
+GROUP BY personId
+HAVING numComps1 >= 6 AND numComps0 >= CEIL((MONTH(NOW()) - 1) / 2)
+ORDER BY countryId;
 
 -- List people who pro-actively provided their information (or someone did so on their behalf)
 SELECT LEFT(comment, LOCATE(' ', comment) - 1) AS label, s.*
