@@ -9,14 +9,7 @@
 DROP VIEW IF EXISTS SeniorDetails;
 
 CREATE VIEW SeniorDetails AS
-SELECT s.personId, personName, countryId, accuracy, s.dob,
-	MAX(compYear) AS lastComp, COUNT(DISTINCT compId) as numComps,
-	TIMESTAMPDIFF(YEAR, DATE_FORMAT(CONCAT(LEFT(s.personId, 4), "-01-01"), "%Y-%m-%d"), DATE_FORMAT(CONCAT(MAX(compYear), "-01-01"), "%Y-%m-%d")) + 1 AS yearsCompeting,
-	MAX(age_at_comp) AS ageLastComp,
-	TIMESTAMPDIFF(YEAR, s.dob, NOW()) AS ageToday,
-	TIMESTAMPDIFF(YEAR, s.dob, DATE_FORMAT(CONCAT(LEFT(s.personId, 4), "-01-01"), "%Y-%m-%d")) AS ageFirstComp,
-	username, comment
-FROM
+WITH SeniorResults AS
 (
   SELECT r.eventId, r.personId, r.average, p.name AS personName, p.countryId, c.id as compId, c.year AS compYear,
     IF(p.year > 1900, TIMESTAMPDIFF(YEAR,
@@ -25,32 +18,41 @@ FROM
   FROM Results AS r
   INNER JOIN Competitions AS c ON r.competitionId = c.id
   INNER JOIN Persons AS p ON r.personId = p.id AND p.subid = 1 AND p.year > 0
-) AS tmp_results
-JOIN Seniors s ON s.personId = tmp_results.personId
+)
+SELECT s.personId, personName, countryId, accuracy, s.dob,
+	MAX(compYear) AS lastComp, COUNT(DISTINCT compId) as numComps,
+	TIMESTAMPDIFF(YEAR, DATE_FORMAT(CONCAT(LEFT(s.personId, 4), "-01-01"), "%Y-%m-%d"),
+		DATE_FORMAT(CONCAT(MAX(compYear), "-01-01"), "%Y-%m-%d")) + 1 AS yearsCompeting,
+	MAX(age_at_comp) AS ageLastComp,
+	TIMESTAMPDIFF(YEAR, s.dob, NOW()) AS ageToday,
+	TIMESTAMPDIFF(YEAR, s.dob, DATE_FORMAT(CONCAT(LEFT(s.personId, 4), "-01-01"), "%Y-%m-%d")) AS ageFirstComp,
+	username, comment
+FROM SeniorResults r
+JOIN Seniors s ON s.personId = r.personId
 GROUP BY s.personId
 ORDER BY lastComp DESC, numComps DESC, yearsCompeting DESC;
 
 -- List everyone
-SELECT 'Everyone' AS label, sr.*
-FROM SeniorDetails AS sr
+SELECT 'Everyone' AS label, s.*
+FROM SeniorDetails AS s
 ORDER BY lastComp DESC, numComps DESC, yearsCompeting DESC;
 
 -- List the Over-50's
-SELECT 'Over-50' AS label, sr.*
-FROM SeniorDetails AS sr
+SELECT 'Over-50' AS label, s.*
+FROM SeniorDetails AS s
 WHERE ageLastComp >= 50
 ORDER BY lastComp DESC, numComps DESC, yearsCompeting DESC;
 
 -- List the Over-60's
-SELECT 'Over-60' AS label, sr.*
-FROM SeniorDetails AS sr
+SELECT 'Over-60' AS label, s.*
+FROM SeniorDetails AS s
 WHERE ageLastComp >= 60
 ORDER BY lastComp DESC, numComps DESC, yearsCompeting DESC;
 
 -- List the delegates appearing in the senior rankings
-SELECT 'Delegate' AS label, delegate_status, sr.*
-FROM SeniorDetails AS sr
-JOIN wca_dev.users u ON u.wca_id = sr.personId AND delegate_status IS NOT NULL
+SELECT 'Delegate' AS label, delegate_status, s.*
+FROM SeniorDetails AS s
+JOIN wca_dev.users u ON u.wca_id = s.personId AND delegate_status IS NOT NULL
 ORDER BY lastComp DESC, numComps DESC, yearsCompeting DESC;
 
 -- List the possible "embassadors" for the senior rankings
@@ -84,32 +86,32 @@ GROUP BY s.personId
 ORDER BY p.countryId;
 
 -- List people who pro-actively provided their information (or someone did so on their behalf)
-SELECT LEFT(comment, LOCATE(" ", comment) - 1) AS label, sr.*
-FROM SeniorDetails AS sr
+SELECT LEFT(comment, LOCATE(" ", comment) - 1) AS label, s.*
+FROM SeniorDetails AS s
 WHERE comment LIKE 'Provided%'
 ORDER BY lastComp DESC, numComps DESC, yearsCompeting DESC;
 
 -- List people contacted via Facebook
-SELECT LEFT(comment, LOCATE(" ", comment) - 1) AS label, sr.*
-FROM SeniorDetails AS sr
+SELECT LEFT(comment, LOCATE(" ", comment) - 1) AS label, s.*
+FROM SeniorDetails AS s
 WHERE comment LIKE 'Contacted%'
 ORDER BY lastComp DESC, numComps DESC, yearsCompeting DESC;
 
 -- List people where DOB / YOB was found on the internet - Facebook, Wikipedia, Speedsolving, etc
-SELECT LEFT(comment, LOCATE(" ", comment) - 1) AS label, sr.*
-FROM SeniorDetails AS sr
+SELECT LEFT(comment, LOCATE(" ", comment) - 1) AS label, s.*
+FROM SeniorDetails AS s
 WHERE comment LIKE 'Found%'
 ORDER BY lastComp DESC, numComps DESC, yearsCompeting DESC;
 
 -- List people spotted on the internet - Facebook, WCA, Speedsolving, etc
-SELECT LEFT(comment, LOCATE(" ", comment) - 1) AS label, sr.*
-FROM SeniorDetails AS sr
+SELECT LEFT(comment, LOCATE(" ", comment) - 1) AS label, s.*
+FROM SeniorDetails AS s
 WHERE comment LIKE 'Spotted%'
 ORDER BY lastComp DESC, numComps DESC, yearsCompeting DESC;
 
 -- List speculative additions - friends of friends, etc.
-SELECT LEFT(comment, LOCATE(" ", comment) - 1) AS label, sr.*
-FROM SeniorDetails AS sr
+SELECT LEFT(comment, LOCATE(" ", comment) - 1) AS label, s.*
+FROM SeniorDetails AS s
 WHERE comment LIKE 'Speculative%'
 ORDER BY lastComp DESC, numComps DESC, yearsCompeting DESC;
 
@@ -122,24 +124,23 @@ WHERE comment NOT LIKE 'Provided%' AND comment NOT LIKE 'Contacted%' AND comment
 -- Summarise the accuracy of DOB information
 SELECT accuracy, COUNT(*)
 FROM Seniors
-WHERE accuracy IS NOT NULL
 GROUP BY accuracy
 ORDER BY COUNT(*) DESC;
 
 -- Unknown DOB means the person is assumed over-40
-SELECT 'Unknown DOB' AS label, sr.*
-FROM SeniorDetails AS sr
+SELECT 'Unknown DOB' AS label, s.*
+FROM SeniorDetails AS s
 WHERE dob IS NULL
 ORDER BY lastComp DESC, numComps DESC, yearsCompeting DESC;
 
 -- Imprecise DOBs - Y = year, X = approximated year, F = faked
-SELECT 'Imprecise DOB' AS label, sr.*
-FROM SeniorDetails AS sr
+SELECT 'Imprecise DOB' AS label, s.*
+FROM SeniorDetails AS s
 WHERE accuracy NOT IN ('D', 'M', 'U') -- D = specific date, M = specific month, U = unknown (DOB is NULL)
 ORDER BY lastComp DESC, numComps DESC, yearsCompeting DESC;
 
 -- Fake DOBs are typically used to exclude results prior to a certain date
-SELECT 'Fake DOB' AS label, sr.*
-FROM SeniorDetails AS sr
+SELECT 'Fake DOB' AS label, s.*
+FROM SeniorDetails AS s
 WHERE comment LIKE '%fake%'
 ORDER BY lastComp DESC, numComps DESC, yearsCompeting DESC;
