@@ -117,7 +117,7 @@ GROUP BY accuracy
 ORDER BY COUNT(*) DESC;
 
 /*
-    Imprecise DOB for Over-50's (or soon to be)
+    Imprecise DOB
 */
 
 SELECT DISTINCT 'Imprecise', s.personId, personName, countryId, accuracy, dob,
@@ -138,22 +138,29 @@ FROM
 JOIN Seniors s ON s.personId = tmp_results.personId
 WHERE accuracy NOT IN ('D', 'M')
 GROUP BY s.personId
-HAVING ageLastComp >= 48
 ORDER BY ageLastComp, ageToday, ageFirstComp;
 
 /*
-    Missing DOB
+    Unknown DOB
 */
 
-SELECT 'Missing DOB', s.personId, personName, countryId, accuracy, s.dob,
-	ROUND(MIN(average) / 100.0, 2) AS best333,
+SELECT DISTINCT 'Unknown', s.personId, personName, countryId, accuracy, dob,
+	MAX(year) AS latestComp,
+	TIMESTAMPDIFF(YEAR, DATE_FORMAT(CONCAT(LEFT(s.personId, 4), "-01-01"), "%Y-%m-%d"), NOW()) - MAX(age_at_comp) + 1 AS yearsCompeting,
 	username, comment
-FROM Seniors s
-JOIN Persons p ON id = personId AND subid = 1
-JOIN Results AS r ON r.personId = p.id AND r.eventId = '333' AND r.average > 0
-WHERE dob IS NULL
-GROUP BY id
-ORDER BY accuracy, comment, countryId;
+FROM
+(
+  SELECT r.eventId, r.personId, r.average, p.name AS personName, p.countryId, c.year,
+    TIMESTAMPDIFF(YEAR,
+      DATE_FORMAT(CONCAT(LEFT(p.id, 4), "-01-01"), "%Y-%m-%d"),
+      DATE_FORMAT(CONCAT(c.year, "-", c.month, "-", c.day), "%Y-%m-%d")) AS age_at_comp
+  FROM Results AS r
+  INNER JOIN Competitions AS c ON r.competitionId = c.id
+  INNER JOIN Persons AS p ON r.personId = p.id AND p.subid = 1 AND p.year = 1900
+) AS tmp_results
+JOIN Seniors s ON s.personId = tmp_results.personId
+GROUP BY s.personId
+ORDER BY latestComp DESC, yearsCompeting DESC;
 
 /*
     Fake DOB
