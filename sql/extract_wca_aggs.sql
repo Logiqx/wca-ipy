@@ -9,7 +9,7 @@
 */
 
 /* 
-   Extract AGGREGATED results from "RanksAverage"
+   Extract AGGREGATED results from 'RanksAverage'
    
    1) Output counts rather than WCA IDs
    2) Truncate everything to the nearest second - i.e. FLOOR(best / 100)
@@ -22,7 +22,7 @@ GROUP BY eventId, modified_average
 ORDER BY eventId, modified_average;
 
 /* 
-   Extract AGGREGATED results from "RanksSingle"
+   Extract AGGREGATED results from 'RanksSingle'
    
    1) Output counts rather than WCA IDs
    2) Truncate MBF to "points" only - i.e. FLOOR(best / 10000000)

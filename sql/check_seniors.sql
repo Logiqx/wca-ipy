@@ -13,19 +13,19 @@ WITH SeniorResults AS
 (
   SELECT r.eventId, r.personId, r.average, p.name AS personName, p.countryId, c.id as compId, c.year AS compYear,
     IF(p.year > 1900, TIMESTAMPDIFF(YEAR,
-      DATE_FORMAT(CONCAT(p.year, "-", p.month, "-", p.day), "%Y-%m-%d"),
-      DATE_FORMAT(CONCAT(c.year, "-", c.month, "-", c.day), "%Y-%m-%d")), NULL) AS age_at_comp
+      DATE_FORMAT(CONCAT(p.year, '-', p.month, '-', p.day), '%Y-%m-%d'),
+      DATE_FORMAT(CONCAT(c.year, '-', c.month, '-', c.day), '%Y-%m-%d')), NULL) AS age_at_comp
   FROM Results AS r
   INNER JOIN Competitions AS c ON r.competitionId = c.id
   INNER JOIN Persons AS p ON r.personId = p.id AND p.subid = 1 AND p.year > 0
 )
 SELECT s.personId, personName, countryId, accuracy, s.dob,
 	MAX(compYear) AS lastComp, COUNT(DISTINCT compId) as numComps,
-	TIMESTAMPDIFF(YEAR, DATE_FORMAT(CONCAT(LEFT(s.personId, 4), "-01-01"), "%Y-%m-%d"),
-		DATE_FORMAT(CONCAT(MAX(compYear), "-01-01"), "%Y-%m-%d")) + 1 AS yearsCompeting,
+	TIMESTAMPDIFF(YEAR, DATE_FORMAT(CONCAT(LEFT(s.personId, 4), '-01-01'), '%Y-%m-%d'),
+		DATE_FORMAT(CONCAT(MAX(compYear), '-01-01'), '%Y-%m-%d')) + 1 AS yearsCompeting,
 	MAX(age_at_comp) AS ageLastComp,
 	TIMESTAMPDIFF(YEAR, s.dob, NOW()) AS ageToday,
-	TIMESTAMPDIFF(YEAR, s.dob, DATE_FORMAT(CONCAT(LEFT(s.personId, 4), "-01-01"), "%Y-%m-%d")) AS ageFirstComp,
+	TIMESTAMPDIFF(YEAR, s.dob, DATE_FORMAT(CONCAT(LEFT(s.personId, 4), '-01-01'), '%Y-%m-%d')) AS ageFirstComp,
 	username, comment
 FROM SeniorResults r
 JOIN Seniors s ON s.personId = r.personId
@@ -55,13 +55,13 @@ FROM SeniorDetails AS s
 JOIN wca_dev.users u ON u.wca_id = s.personId AND delegate_status IS NOT NULL
 ORDER BY lastComp DESC, numComps DESC, yearsCompeting DESC;
 
--- List the possible "embassadors" for the senior rankings
+-- List the possible 'embassadors' for the senior rankings
 WITH cte AS
 (
 	SELECT p.id, p.name, p.countryId, s.username, s.dob, s.accuracy, s.comment, c.year, COUNT(DISTINCT competitionId) AS numComps,
       IF(p.year > 1900, TIMESTAMPDIFF(YEAR,
-      DATE_FORMAT(CONCAT(p.year, "-", p.month, "-", p.day), "%Y-%m-%d"),
-      DATE_FORMAT(CONCAT(c.year, "-", c.month, "-", c.day), "%Y-%m-%d")), NULL) AS age_at_comp
+      DATE_FORMAT(CONCAT(p.year, '-', p.month, '-', p.day), '%Y-%m-%d'),
+      DATE_FORMAT(CONCAT(c.year, '-', c.month, '-', c.day), '%Y-%m-%d')), NULL) AS age_at_comp
 	FROM Seniors s
 	JOIN Persons p ON p.id = s.personId AND p.subid = 1
 	JOIN Results r ON r.personId = p.id
@@ -72,7 +72,7 @@ WITH cte AS
 )
 SELECT 'Embassador',  p.id, p.name, p.countryId,
 	MAX(c19.age_at_comp) AS ageLastComp,
-	TIMESTAMPDIFF(YEAR, c19.dob, DATE_FORMAT(CONCAT(LEFT(c19.id, 4), "-01-01"), "%Y-%m-%d")) AS ageFirstComp,
+	TIMESTAMPDIFF(YEAR, c19.dob, DATE_FORMAT(CONCAT(LEFT(c19.id, 4), '-01-01'), '%Y-%m-%d')) AS ageFirstComp,
 	TIMESTAMPDIFF(YEAR, c19.dob, NOW()) AS ageToday,
 	c19.numComps as numComps2019, IFNULL(c18.numComps, 0) AS numComps2018, IFNULL(c17.numComps, 0) AS numComps2017,
 	s.username, s.comment
@@ -86,31 +86,31 @@ GROUP BY s.personId
 ORDER BY p.countryId;
 
 -- List people who pro-actively provided their information (or someone did so on their behalf)
-SELECT LEFT(comment, LOCATE(" ", comment) - 1) AS label, s.*
+SELECT LEFT(comment, LOCATE(' ', comment) - 1) AS label, s.*
 FROM SeniorDetails AS s
 WHERE comment LIKE 'Provided%'
 ORDER BY lastComp DESC, numComps DESC, yearsCompeting DESC;
 
 -- List people contacted via Facebook
-SELECT LEFT(comment, LOCATE(" ", comment) - 1) AS label, s.*
+SELECT LEFT(comment, LOCATE(' ', comment) - 1) AS label, s.*
 FROM SeniorDetails AS s
 WHERE comment LIKE 'Contacted%'
 ORDER BY lastComp DESC, numComps DESC, yearsCompeting DESC;
 
 -- List people where DOB / YOB was found on the internet - Facebook, Wikipedia, Speedsolving, etc
-SELECT LEFT(comment, LOCATE(" ", comment) - 1) AS label, s.*
+SELECT LEFT(comment, LOCATE(' ', comment) - 1) AS label, s.*
 FROM SeniorDetails AS s
 WHERE comment LIKE 'Found%'
 ORDER BY lastComp DESC, numComps DESC, yearsCompeting DESC;
 
 -- List people spotted on the internet - Facebook, WCA, Speedsolving, etc
-SELECT LEFT(comment, LOCATE(" ", comment) - 1) AS label, s.*
+SELECT LEFT(comment, LOCATE(' ', comment) - 1) AS label, s.*
 FROM SeniorDetails AS s
 WHERE comment LIKE 'Spotted%'
 ORDER BY lastComp DESC, numComps DESC, yearsCompeting DESC;
 
 -- List speculative additions - friends of friends, etc.
-SELECT LEFT(comment, LOCATE(" ", comment) - 1) AS label, s.*
+SELECT LEFT(comment, LOCATE(' ', comment) - 1) AS label, s.*
 FROM SeniorDetails AS s
 WHERE comment LIKE 'Speculative%'
 ORDER BY lastComp DESC, numComps DESC, yearsCompeting DESC;

@@ -9,9 +9,9 @@
 SET @personId = '2015GEOR02';
 SET @ageCategory = 50;
 
-SET @year = '1967'; SET @earliest = DATE_FORMAT(CONCAT(@year, "-01-01"), "%Y-%m-%d"); SET @latest = DATE_ADD(DATE_ADD(@earliest, INTERVAL 1 YEAR), INTERVAL -1 DAY);
+SET @year = '1967'; SET @earliest = DATE_FORMAT(CONCAT(@year, '-01-01'), '%Y-%m-%d'); SET @latest = DATE_ADD(DATE_ADD(@earliest, INTERVAL 1 YEAR), INTERVAL -1 DAY);
 
--- SET @month = '1968-10'; SET @earliest = DATE_FORMAT(CONCAT(@month, "-01"), "%Y-%m-%d"); SET @latest = DATE_ADD(DATE_ADD(@earliest, INTERVAL 1 MONTH), INTERVAL -1 DAY);
+-- SET @month = '1968-10'; SET @earliest = DATE_FORMAT(CONCAT(@month, '-01'), '%Y-%m-%d'); SET @latest = DATE_ADD(DATE_ADD(@earliest, INTERVAL 1 MONTH), INTERVAL -1 DAY);
 
 SELECT e.id, e.name,
     earliest.best_single AS earliest_single, latest.best_single AS latest_single,
@@ -27,8 +27,8 @@ LEFT JOIN
     SELECT r.eventId,
       (CASE WHEN r.average > 0 THEN r.average ELSE NULL END) AS modified_average,
       (CASE WHEN r.best > 0 THEN r.best ELSE NULL END) AS modified_best,
-      TIMESTAMPDIFF(YEAR, DATE_FORMAT(@latest, "%Y-%m-%d"),
-                    DATE_FORMAT(CONCAT(c.year, "-", c.month, "-", c.day), "%Y-%m-%d")) AS age_at_comp
+      TIMESTAMPDIFF(YEAR, DATE_FORMAT(@latest, '%Y-%m-%d'),
+                    DATE_FORMAT(CONCAT(c.year, '-', c.month, '-', c.day), '%Y-%m-%d')) AS age_at_comp
     FROM Results AS r
     INNER JOIN Competitions AS c ON r.competitionId = c.id
     WHERE personId = @personId
@@ -44,8 +44,8 @@ LEFT JOIN
     SELECT r.eventId,
       (CASE WHEN r.average > 0 THEN r.average ELSE NULL END) AS modified_average,
       (CASE WHEN r.best > 0 THEN r.best ELSE NULL END) AS modified_best,
-      TIMESTAMPDIFF(YEAR, DATE_FORMAT(@earliest, "%Y-%m-%d"),
-                    DATE_FORMAT(CONCAT(c.year, "-", c.month, "-", c.day), "%Y-%m-%d")) AS age_at_comp
+      TIMESTAMPDIFF(YEAR, DATE_FORMAT(@earliest, '%Y-%m-%d'),
+                    DATE_FORMAT(CONCAT(c.year, '-', c.month, '-', c.day), '%Y-%m-%d')) AS age_at_comp
     FROM Results AS r
     INNER JOIN Competitions AS c ON r.competitionId = c.id
     WHERE personId = @personId

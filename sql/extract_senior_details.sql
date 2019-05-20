@@ -13,8 +13,8 @@ FROM
 (
   SELECT r.eventId, r.personId, r.average, p.name AS PersonName, p.countryId,
     FLOOR(IF(p.year = 1900, 40, TIMESTAMPDIFF(YEAR,
-      DATE_FORMAT(CONCAT(p.year, "-", p.month, "-", p.day), "%Y-%m-%d"),
-      DATE_FORMAT(CONCAT(c.year, "-", c.month, "-", c.day), "%Y-%m-%d"))) / 10) * 10 AS ageCategory
+      DATE_FORMAT(CONCAT(p.year, '-', p.month, '-', p.day), '%Y-%m-%d'),
+      DATE_FORMAT(CONCAT(c.year, '-', c.month, '-', c.day), '%Y-%m-%d'))) / 10) * 10 AS ageCategory
   FROM Results AS r
   INNER JOIN Competitions AS c ON r.competitionId = c.id
   INNER JOIN Persons AS p ON r.personId = p.id AND p.subid = 1 AND p.year > 0 AND p.year <= YEAR(CURDATE()) - 40
@@ -32,8 +32,8 @@ FROM
 (
   SELECT r.eventId, r.personId, r.average, p.name AS personName, p.countryId,
     FLOOR(IF(p.year = 1900, 40, TIMESTAMPDIFF(YEAR,
-      DATE_FORMAT(CONCAT(p.year, "-", p.month, "-", p.day), "%Y-%m-%d"),
-      DATE_FORMAT(CONCAT(c.year, "-", c.month, "-", c.day), "%Y-%m-%d"))) / 10) * 10 AS ageCategory
+      DATE_FORMAT(CONCAT(p.year, '-', p.month, '-', p.day), '%Y-%m-%d'),
+      DATE_FORMAT(CONCAT(c.year, '-', c.month, '-', c.day), '%Y-%m-%d'))) / 10) * 10 AS ageCategory
   FROM Results AS r
   INNER JOIN Competitions AS c ON r.competitionId = c.id
   INNER JOIN Persons AS p ON r.personId = p.id AND p.subid = 1 AND p.year > 0 AND p.year <= YEAR(CURDATE()) - 40
@@ -50,8 +50,8 @@ FROM
 (
   SELECT r.eventId, r.personId, r.best, p.name AS personName, p.countryId,
     FLOOR(IF(p.year = 1900, 40, TIMESTAMPDIFF(YEAR,
-      DATE_FORMAT(CONCAT(p.year, "-", p.month, "-", p.day), "%Y-%m-%d"),
-      DATE_FORMAT(CONCAT(c.year, "-", c.month, "-", c.day), "%Y-%m-%d"))) / 10) * 10 AS ageCategory
+      DATE_FORMAT(CONCAT(p.year, '-', p.month, '-', p.day), '%Y-%m-%d'),
+      DATE_FORMAT(CONCAT(c.year, '-', c.month, '-', c.day), '%Y-%m-%d'))) / 10) * 10 AS ageCategory
   FROM Results AS r
   INNER JOIN Competitions AS c ON r.competitionId = c.id
   INNER JOIN Persons AS p ON r.personId = p.id AND p.year > 0 AND p.year <= YEAR(CURDATE()) - 40
