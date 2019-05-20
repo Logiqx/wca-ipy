@@ -6,11 +6,12 @@
     Purpose:  Test the impact of DOB - e.g. 1st Jan vs 31st Dec
 */
 
-SET @personId = '2013HUBH01';
-SET @ageCategory = 50;
+SET @personId = '2005FARK01';
+SET @ageCategory = 40;
 
-SET @latest = '1966-12-31';
-SET @earliest = '1966-01-01';
+SET @month = '1953-07';
+SET @earliest = DATE_FORMAT(CONCAT(@month, "-01"), "%Y-%m-%d");
+SET @latest = DATE_ADD(DATE_ADD(@earliest, INTERVAL 1 MONTH), INTERVAL -1 DAY);
 
 
 SELECT e.id, e.name,
