@@ -58,22 +58,14 @@ ORDER BY lastComp DESC, numComps DESC, yearsCompeting DESC;
 -- List the possible 'embassadors' for the senior rankings
 WITH SeniorYears AS
 (
-    SELECT p.id AS personId, p.name AS personName, p.countryId, c.year, COUNT(DISTINCT competitionId) AS numComps,
-        IF(p.year > 1900, TIMESTAMPDIFF(YEAR,
-            DATE_FORMAT(CONCAT(p.year, '-', p.month, '-', p.day), '%Y-%m-%d'),
-            DATE_FORMAT(CONCAT(c.year, '-', c.month, '-', c.day), '%Y-%m-%d')), NULL) AS age_at_comp
+    SELECT p.id AS personId, c.year, COUNT(DISTINCT competitionId) AS numComps
     FROM Results AS r
     JOIN Competitions AS c ON r.competitionId = c.id
     JOIN Persons AS p ON r.personId = p.id AND p.subid = 1 AND p.year > 0
     GROUP BY p.id, c.year
 )
 SELECT 'Embassador', s.personId,
-    COALESCE(y0.personName, y1.personName, y2.personName) AS personName,
-    COALESCE(y0.countryId, y1.countryId, y2.countryId) AS countryId,
-    s.lastComp, s.numComps, s.yearsCompeting,
-    COALESCE(y0.age_at_comp, y1.age_at_comp, y2.age_at_comp) AS ageLastComp,
-    TIMESTAMPDIFF(YEAR, s.dob, DATE_FORMAT(CONCAT(LEFT(y0.personId, 4), '-01-01'), '%Y-%m-%d')) AS ageFirstComp,
-    TIMESTAMPDIFF(YEAR, s.dob, NOW()) AS ageToday,
+    personName, countryId, lastComp, s.numComps, yearsCompeting, ageLastComp, ageFirstComp, ageToday,
     IFNULL(y0.numComps, 0) AS numComps0, IFNULL(y1.numComps, 0) AS numComps1, IFNULL(y2.numComps, 0) AS numComps2,
     username, comment
 FROM SeniorDetails s
