@@ -1,9 +1,9 @@
 /* 
-    Script:   Check Seniors
-    Created:  2019-05-20
-    Author:   Michael George / 2015GEOR02
-   
-    Purpose:  Review seniors from a data quality perspective
+      Script:   Check Seniors
+      Created:  2019-05-20
+      Author:   Michael George / 2015GEOR02
+     
+      Purpose:  Review seniors from a data quality perspective
 */
 
 DROP VIEW IF EXISTS SeniorDetails;
@@ -11,22 +11,22 @@ DROP VIEW IF EXISTS SeniorDetails;
 CREATE VIEW SeniorDetails AS
 WITH SeniorResults AS
 (
-  SELECT r.eventId, r.personId, r.average, p.name AS personName, p.countryId, c.id as compId, c.year AS compYear,
-    IF(p.year > 1900, TIMESTAMPDIFF(YEAR,
-      DATE_FORMAT(CONCAT(p.year, '-', p.month, '-', p.day), '%Y-%m-%d'),
-      DATE_FORMAT(CONCAT(c.year, '-', c.month, '-', c.day), '%Y-%m-%d')), NULL) AS age_at_comp
-  FROM Results AS r
-  INNER JOIN Competitions AS c ON r.competitionId = c.id
-  INNER JOIN Persons AS p ON r.personId = p.id AND p.subid = 1 AND p.year > 0
+    SELECT r.eventId, r.personId, r.average, p.name AS personName, p.countryId, c.id as compId, c.year AS compYear,
+        IF(p.year > 1900, TIMESTAMPDIFF(YEAR,
+            DATE_FORMAT(CONCAT(p.year, '-', p.month, '-', p.day), '%Y-%m-%d'),
+            DATE_FORMAT(CONCAT(c.year, '-', c.month, '-', c.day), '%Y-%m-%d')), NULL) AS age_at_comp
+    FROM Results AS r
+    INNER JOIN Competitions AS c ON r.competitionId = c.id
+    INNER JOIN Persons AS p ON r.personId = p.id AND p.subid = 1 AND p.year > 0
 )
 SELECT s.personId, personName, countryId, accuracy, s.dob,
-	MAX(compYear) AS lastComp, COUNT(DISTINCT compId) as numComps,
-	TIMESTAMPDIFF(YEAR, DATE_FORMAT(CONCAT(LEFT(s.personId, 4), '-01-01'), '%Y-%m-%d'),
-		DATE_FORMAT(CONCAT(MAX(compYear), '-01-01'), '%Y-%m-%d')) + 1 AS yearsCompeting,
-	MAX(age_at_comp) AS ageLastComp,
-	TIMESTAMPDIFF(YEAR, s.dob, NOW()) AS ageToday,
-	TIMESTAMPDIFF(YEAR, s.dob, DATE_FORMAT(CONCAT(LEFT(s.personId, 4), '-01-01'), '%Y-%m-%d')) AS ageFirstComp,
-	username, comment
+    MAX(compYear) AS lastComp, COUNT(DISTINCT compId) as numComps,
+    TIMESTAMPDIFF(YEAR, DATE_FORMAT(CONCAT(LEFT(s.personId, 4), '-01-01'), '%Y-%m-%d'),
+        DATE_FORMAT(CONCAT(MAX(compYear), '-01-01'), '%Y-%m-%d')) + 1 AS yearsCompeting,
+    MAX(age_at_comp) AS ageLastComp,
+    TIMESTAMPDIFF(YEAR, s.dob, NOW()) AS ageToday,
+    TIMESTAMPDIFF(YEAR, s.dob, DATE_FORMAT(CONCAT(LEFT(s.personId, 4), '-01-01'), '%Y-%m-%d')) AS ageFirstComp,
+    username, comment
 FROM SeniorResults r
 JOIN Seniors s ON s.personId = r.personId
 GROUP BY s.personId
@@ -58,24 +58,24 @@ ORDER BY lastComp DESC, numComps DESC, yearsCompeting DESC;
 -- List the possible 'embassadors' for the senior rankings
 WITH cte AS
 (
-	SELECT p.id, p.name, p.countryId, s.username, s.dob, s.accuracy, s.comment, c.year, COUNT(DISTINCT competitionId) AS numComps,
-      IF(p.year > 1900, TIMESTAMPDIFF(YEAR,
-      DATE_FORMAT(CONCAT(p.year, '-', p.month, '-', p.day), '%Y-%m-%d'),
-      DATE_FORMAT(CONCAT(c.year, '-', c.month, '-', c.day), '%Y-%m-%d')), NULL) AS age_at_comp
-	FROM Seniors s
-	JOIN Persons p ON p.id = s.personId AND p.subid = 1
-	JOIN Results r ON r.personId = p.id
-	JOIN Competitions c ON c.id = r.competitionId
-	WHERE c.year >= 2017
-	GROUP BY p.id, p.name, p.countryId, s.dob, s.username, c.year, s.comment
-	HAVING COUNT(DISTINCT competitionId) >= 2
+    SELECT p.id, p.name, p.countryId, s.username, s.dob, s.accuracy, s.comment, c.year, COUNT(DISTINCT competitionId) AS numComps,
+        IF(p.year > 1900, TIMESTAMPDIFF(YEAR,
+        DATE_FORMAT(CONCAT(p.year, '-', p.month, '-', p.day), '%Y-%m-%d'),
+        DATE_FORMAT(CONCAT(c.year, '-', c.month, '-', c.day), '%Y-%m-%d')), NULL) AS age_at_comp
+    FROM Seniors s
+    JOIN Persons p ON p.id = s.personId AND p.subid = 1
+    JOIN Results r ON r.personId = p.id
+    JOIN Competitions c ON c.id = r.competitionId
+    WHERE c.year >= 2017
+    GROUP BY p.id, p.name, p.countryId, s.dob, s.username, c.year, s.comment
+    HAVING COUNT(DISTINCT competitionId) >= 2
 )
-SELECT 'Embassador',  p.id, p.name, p.countryId,
-	MAX(c19.age_at_comp) AS ageLastComp,
-	TIMESTAMPDIFF(YEAR, c19.dob, DATE_FORMAT(CONCAT(LEFT(c19.id, 4), '-01-01'), '%Y-%m-%d')) AS ageFirstComp,
-	TIMESTAMPDIFF(YEAR, c19.dob, NOW()) AS ageToday,
-	c19.numComps as numComps2019, IFNULL(c18.numComps, 0) AS numComps2018, IFNULL(c17.numComps, 0) AS numComps2017,
-	s.username, s.comment
+SELECT 'Embassador',    p.id, p.name, p.countryId,
+    MAX(c19.age_at_comp) AS ageLastComp,
+    TIMESTAMPDIFF(YEAR, c19.dob, DATE_FORMAT(CONCAT(LEFT(c19.id, 4), '-01-01'), '%Y-%m-%d')) AS ageFirstComp,
+    TIMESTAMPDIFF(YEAR, c19.dob, NOW()) AS ageToday,
+    c19.numComps as numComps2019, IFNULL(c18.numComps, 0) AS numComps2018, IFNULL(c17.numComps, 0) AS numComps2017,
+    s.username, s.comment
 FROM Seniors s
 JOIN Persons p ON id = personId AND subid = 1
 LEFT JOIN cte c19 ON c19.id = s.personId and c19.year = 2019
@@ -119,7 +119,8 @@ ORDER BY lastComp DESC, numComps DESC, yearsCompeting DESC;
 SELECT 'Non-standard', personId, name, countryId, accuracy, dob, username, comment
 FROM Seniors s
 JOIN Persons ON id = personId AND subid = 1
-WHERE comment NOT LIKE 'Provided%' AND comment NOT LIKE 'Contacted%' AND comment NOT LIKE 'Found%' AND comment NOT LIKE 'Spotted%' AND comment NOT LIKE 'Speculative%';
+WHERE comment NOT LIKE 'Provided%' AND comment NOT LIKE 'Contacted%' AND comment NOT LIKE 'Found%'
+    AND comment NOT LIKE 'Spotted%' AND comment NOT LIKE 'Speculative%';
 
 -- Summarise the accuracy of DOB information
 SELECT accuracy, COUNT(*)
