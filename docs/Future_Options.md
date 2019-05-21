@@ -50,7 +50,7 @@ The end result of both options addresses the three requirements described earlie
 
 I will not receive any DOB information in order to produce the rankings and nobody will appear in the senior rankings without providing their consent
 
-Both options provide the same level of information in my [partial rankings](http://logiqx.github.io/wca-ipy/Partial_Rankings.html), whilst omitting competitors who have not provided their consent.
+Both options provide the same level of information in my [partial rankings](http://logiqx.github.io/wca-ipy/Partial_Rankings.html) whilst omitting competitors who have not provided their consent.
 
-The reports will be consistent with the proposal for official senior rankings, submitted in February this year.
+The reports will be consistent with the proposal for [official senior rankings](https://logiqx.github.io/wca-ipy/WCA_Proposal.html) submitted in February this year.
 
