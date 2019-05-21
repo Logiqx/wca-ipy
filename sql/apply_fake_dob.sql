@@ -5,7 +5,7 @@
    
     Purpose:  Apply fake DOB to everyone in the WCA database (public export) for testing purposes
             
-    Approach: Allocate a year between 1977 to 2011 to ensure that around 5% are over-40 
+    Approach: Allocate a year between 1977 to 2011 to ensure that around 5% are over 40 
 */
 
 -- Apply random DOB between 1977-01-01 and 2011-12-28

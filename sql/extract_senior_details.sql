@@ -3,7 +3,7 @@
     Created:  2019-02-15
     Author:   Michael George / 2015GEOR02
    
-    Purpose:  Unofficial rankings for the Over-40's - https://github.com/Logiqx/wca-ipy.
+    Purpose:  Unofficial rankings for the over 40s - https://github.com/Logiqx/wca-ipy.
 */
 
 -- Extract seniors

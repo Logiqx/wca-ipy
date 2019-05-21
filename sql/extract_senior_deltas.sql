@@ -3,7 +3,7 @@
     Created:  2019-04-06
     Author:   Michael George / 2015GEOR02
    
-    Purpose:  Provide a comprehensive view of the Over-40's performances in competition.
+    Purpose:  Provide a comprehensive view of the over 40s performances in competition.
             
     Approach: The extract will not disclose any WCA IDs, regardless of whether they are already known.
               All consolidated results are modified using truncation / reduction of precision.

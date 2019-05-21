@@ -2,17 +2,17 @@
 
 ## Background
 
-There is a thriving community of senior cubers and the chart below shows how official 3x3x3 averages of the over-40's compare to the overall WCA community when drawn to the same scale.
+There is a thriving community of senior cubers and the chart below shows how official 3x3x3 averages of the over 40s compare to the overall WCA community when drawn to the same scale.
 
 ![alt text](img/3x3x3_v2.png "3x3x3")
 
-It is quite striking how the gradients of the leading edges (just left of the apexes) are nearly identical. There is a consistent separation of about 6 seconds which clearly indicates that the over-40's are unable to achieve the times of the younger members in the community. Whether this disparity is due to limited time for practice, slower rate of learning, reduced dexterity, slower reflexes or failing eyesight is unclear but it is probably due to a combination of all these factors.
+It is quite striking how the gradients of the leading edges (just left of the apexes) are nearly identical. There is a consistent separation of about 6 seconds which clearly indicates that the over 40s are unable to achieve the times of the younger members in the community. Whether this disparity is due to limited time for practice, slower rate of learning, reduced dexterity, slower reflexes or failing eyesight is unclear but it is probably due to a combination of all these factors.
 
 Knowing that they can't realistically compete with the younger competitors the senior members of the community are extremely keen to see how they rank against their peers. To this end there have been several pieces of analysis in recent years:
 
-* [Partial Over-40's Rankings](Partial_Rankings.md) was only intended to be a one-off but has been maintained since 2015
-* [Percentile Rankings](Percentile_Rankings.md) shows how times are distributed for the WCA community and the over-40's
-* [Representative Over-40's Rankings](Senior_Rankings.md) adds anonymised counts to the partial rankings, thus showing all over-40's
+* [Partial Over 40's Rankings](Partial_Rankings.md) was only intended to be a one-off but has been maintained since 2015
+* [Percentile Rankings](Percentile_Rankings.md) shows how times are distributed for the WCA community and the over 40s
+* [Representative Over 40's Rankings](Senior_Rankings.md) adds anonymised counts to the partial rankings, thus showing all over 40s
 
 Whilst these projects are extremely popular with the senior members of the community they have their limitations and it makes sense to provide up-to-date senior rankings on the WCA website.
 

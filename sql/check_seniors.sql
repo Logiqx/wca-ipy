@@ -37,14 +37,14 @@ SELECT 'Everyone' AS label, s.*
 FROM SeniorDetails AS s
 ORDER BY lastComp DESC, numComps DESC, yearsCompeting DESC;
 
--- List the Over-50's
-SELECT 'Over-50' AS label, s.*
+-- List the over 50's
+SELECT 'Over 50' AS label, s.*
 FROM SeniorDetails AS s
 WHERE ageLastComp >= 50
 ORDER BY lastComp DESC, numComps DESC, yearsCompeting DESC;
 
--- List the Over-60's
-SELECT 'Over-60' AS label, s.*
+-- List the over 60's
+SELECT 'Over 60' AS label, s.*
 FROM SeniorDetails AS s
 WHERE ageLastComp >= 60
 ORDER BY lastComp DESC, numComps DESC, yearsCompeting DESC;
@@ -118,7 +118,7 @@ FROM Seniors
 GROUP BY accuracy
 ORDER BY COUNT(*) DESC;
 
--- Unknown DOB means the person is assumed over-40
+-- Unknown DOB means the person is assumed over 40
 SELECT 'Unknown DOB' AS label, s.*
 FROM SeniorDetails AS s
 WHERE dob IS NULL
