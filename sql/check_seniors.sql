@@ -23,9 +23,9 @@ SELECT s.personId, personName, countryId, accuracy, s.dob,
     MAX(compYear) AS lastComp, COUNT(DISTINCT compId) as numComps,
     TIMESTAMPDIFF(YEAR, DATE_FORMAT(CONCAT(LEFT(s.personId, 4), '-01-01'), '%Y-%m-%d'),
         DATE_FORMAT(CONCAT(MAX(compYear), '-01-01'), '%Y-%m-%d')) + 1 AS yearsCompeting,
+    TIMESTAMPDIFF(YEAR, s.dob, DATE_FORMAT(CONCAT(LEFT(s.personId, 4), '-01-01'), '%Y-%m-%d')) AS ageFirstComp,
     MAX(age_at_comp) AS ageLastComp,
     TIMESTAMPDIFF(YEAR, s.dob, NOW()) AS ageToday,
-    TIMESTAMPDIFF(YEAR, s.dob, DATE_FORMAT(CONCAT(LEFT(s.personId, 4), '-01-01'), '%Y-%m-%d')) AS ageFirstComp,
     username, comment
 FROM SeniorResults r
 JOIN Seniors s ON s.personId = r.personId
@@ -65,7 +65,7 @@ WITH SeniorYears AS
     GROUP BY p.id, c.year
 )
 SELECT 'Embassador', s.personId,
-    personName, countryId, lastComp, s.numComps, yearsCompeting, ageLastComp, ageFirstComp, ageToday,
+    personName, countryId, lastComp, s.numComps, yearsCompeting, ageFirstComp, ageLastComp, ageToday,
     IFNULL(y0.numComps, 0) AS numComps0, IFNULL(y1.numComps, 0) AS numComps1, IFNULL(y2.numComps, 0) AS numComps2,
     username, comment
 FROM SeniorDetails s
