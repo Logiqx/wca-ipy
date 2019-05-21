@@ -23,8 +23,10 @@ It provides unofficial rankings for the senior cubing community, produced from o
 >**Percentage coverage for 3x3x3**  
 >90% of sub-15 | 50% of sub-20 | 43% of sub-25 | 34% of sub-30 | 25% of sub-45 | 21% of sub-1:00  
 >
->**Other events have greater coverage**  
+>**3x3x3 variations have greater coverage**  
 >OH: 70% of sub-0:40 | 3BLD: 80% of sub-3:00 | Feet: 90% of sub-3:00 | FMC: 100% of sub-40  
+>
+>**Big cubes have even greater coverage**  
 >4x4: 100% of sub-1:15 | 5x5: 100% of sub-2:30 | 6x6: 100% of sub-5:00 | 7x7: 100% of sub-8:00
 
 **Useful links**
