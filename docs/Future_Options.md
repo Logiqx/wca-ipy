@@ -16,13 +16,13 @@ Two options have clearly formed in my mind. Neither option requires the WCA to p
 
 An example of the intermediate CSV can be viewed on GitHub:
 
-https://github.com/Logiqx/wca-ipy/blob/master/data/public/extract/known_senior_averages.csv
+<https://github.com/Logiqx/wca-ipy/blob/master/data/public/extract/known_senior_averages.csv>
 
 ### Option 1
 
 The SQL that produces the intermediate CSV file is the second query in this script:
 
-https://github.com/Logiqx/wca-ipy/blob/master/sql/extract_senior_details.sql
+<https://github.com/Logiqx/wca-ipy/blob/master/sql/extract_senior_details.sql>
 
 If the last two queries are run on the WCA server and the outputs are provided to me, I can process them using my existing code whilst suppressing the people who have not given me their consent. The result would be identical to the existing [partial rankings](http://logiqx.github.io/wca-ipy/Partial_Rankings.html) except the rank numbers would be 100% accurate.
 
