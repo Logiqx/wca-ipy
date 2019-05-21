@@ -22,7 +22,7 @@ The SQL that produces the intermediate CSV file is the second query in this scri
 
 If the last two queries are run on the WCA server and the outputs are provided to me, I can process them using my existing code whilst suppressing the people who have not given me their consent. The result would be identical to the existing [partial rankings](http://logiqx.github.io/wca-ipy/Partial_Rankings.html) except the rank numbers would be 100% accurate.
 
-There would be gaps but all rankings would represent the actual ranking amongst all senior competitors.
+There would be gaps in the numbering but all rankings would represent the actual ranking amongst all senior competitors.
 
 This is my preferred proposal and I would be happy to sign any legal document that should be required, agreeing that I will not share the WCA IDs with anyone or use them for purposes other than these rankings.
 
