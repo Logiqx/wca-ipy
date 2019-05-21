@@ -15,7 +15,7 @@ It provides unofficial rankings for the senior cubing community, produced from o
 
 **Informative Rankings**
 
-* [Representative Over 40s Rankings](Senior_Rankings.md) adds anonymised counts to the Partial Over 40s Rankings, thus showing everyone
+* [Representative Over 40s Rankings](Senior_Rankings.md) adds "unknowns" to the Partial Over 40s Rankings
 * [Percentile Rankings](Percentile_Rankings.md) shows how times are distributed for the WCA community and the over 40s
 
 **Completeness**
