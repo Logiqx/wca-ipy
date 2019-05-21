@@ -43,11 +43,12 @@ Due to the downsides described above, option 1 would be my strongest preference.
 ## Summary
 
 The end result of both options addresses the three requirements described earlier:
+
 1. Senior rankings - YES
 2. Actual rankings - YES
 3. Protect privacy - YES
-	* I will not receive any DOB information in order to produce the rankings
-	* Nobody will appear in the senior rankings without providing their consent
+
+I will not receive any DOB information in order to produce the rankings and nobody will appear in the senior rankings without providing their consent
 
 Both options provide the same level of information in my [partial rankings](http://logiqx.github.io/wca-ipy/Partial_Rankings.html), whilst omitting competitors who have not provided their consent.
 
