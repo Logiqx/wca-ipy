@@ -14,15 +14,11 @@ We have three basic requirements:
 
 Two options have clearly formed in my mind. Neither option requires the WCA to provide me with DOB information. Both options are based on the WCA running SQL on their server and providing me with the outputs so that I can produce the senior rankings. The extract can be identical to the one I generate for the [partial rankings](http://logiqx.github.io/wca-ipy/Partial_Rankings.html).
 
-An example of the intermediate CSV can be viewed on GitHub:
-
-​	[known_senior_averages.csv](https://github.com/Logiqx/wca-ipy/blob/master/data/public/extract/known_senior_averages.csv)
+An example of the intermediate CSV can be viewed on GitHub: [known_senior_averages.csv](https://github.com/Logiqx/wca-ipy/blob/master/data/public/extract/known_senior_averages.csv)
 
 ### Option 1
 
-The SQL that produces the intermediate CSV file is the second query in this script:
-
-​	[extract_senior_details.sql](https://github.com/Logiqx/wca-ipy/blob/master/sql/extract_senior_details.sql)
+The SQL that produces the intermediate CSV file is the second query in this script: [extract_senior_details.sql](https://github.com/Logiqx/wca-ipy/blob/master/sql/extract_senior_details.sql)
 
 If the last two queries are run on the WCA server and the outputs are provided to me, I can process them using my existing code whilst suppressing the people who have not given me their consent. The result would be identical to the existing [partial rankings](http://logiqx.github.io/wca-ipy/Partial_Rankings.html) except the rank numbers would be 100% accurate.
 
