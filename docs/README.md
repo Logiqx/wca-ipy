@@ -5,13 +5,16 @@ This [project](https://github.com/Logiqx/wca-ipy) started on the [SpeedSolving.c
 
 It provides unofficial rankings for the senior cubing community, produced from official WCA competition results.
 
-**Currently available**
+**Partial Rankings**
 
 * [Partial Over 40s Rankings](Partial_Rankings.md) is still incomplete but most of the fastest people are included (see below)
 * [Partial Over 50s Rankings](Partial_Rankings_50.md) was introduced in 2019 off the back of the Partial Over 40s Rankings
 * [Partial Over 60s Rankings](Partial_Rankings_60.md) was introduced in 2019 off the back of the Partial Over 50s Rankings
 * [Partial Over 70s Rankings](Partial_Rankings_70.md) was introduced in 2019 off the back of the Partial Over 50s Rankings
 * [Partial Over 80s Rankings](Partial_Rankings_80.md) was introduced in 2019 off the back of the Partial Over 50s Rankings
+
+**Informative Rankings**
+
 * [Representative Over 40s Rankings](Senior_Rankings.md) adds anonymised counts to the partial rankings, thus showing all over 40s
 * [Percentile Rankings](Percentile_Rankings.md) shows how times are distributed for the WCA community and the over 40s
 
