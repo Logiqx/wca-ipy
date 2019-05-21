@@ -1,5 +1,5 @@
 /* 
-    Script:   Aggregated Deltas for Over 40's Rankings
+    Script:   Aggregated Deltas for Over 40s Rankings
     Created:  2019-04-06
     Author:   Michael George / 2015GEOR02
    

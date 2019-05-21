@@ -1,5 +1,5 @@
 /* 
-    Script:   Aggregated Over 40's Rankings
+    Script:   Aggregated Over 40s Rankings
     Created:  2019-02-07
     Author:   Michael George / 2015GEOR02
    

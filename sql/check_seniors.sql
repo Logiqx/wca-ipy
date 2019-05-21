@@ -37,13 +37,13 @@ SELECT 'Everyone' AS label, s.*
 FROM SeniorDetails AS s
 ORDER BY lastComp DESC, numComps DESC, yearsCompeting DESC;
 
--- List the over 50's
+-- List the over 50s
 SELECT 'Over 50' AS label, s.*
 FROM SeniorDetails AS s
 WHERE ageLastComp >= 50
 ORDER BY lastComp DESC, numComps DESC, yearsCompeting DESC;
 
--- List the over 60's
+-- List the over 60s
 SELECT 'Over 60' AS label, s.*
 FROM SeniorDetails AS s
 WHERE ageLastComp >= 60

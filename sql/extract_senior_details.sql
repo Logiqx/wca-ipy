@@ -1,5 +1,5 @@
 /* 
-    Script:   Extract Over 40's Results
+    Script:   Extract Over 40s Results
     Created:  2019-02-15
     Author:   Michael George / 2015GEOR02
    
