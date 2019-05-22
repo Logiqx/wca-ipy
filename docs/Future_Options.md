@@ -1,56 +1,91 @@
 # Senior Rankings
 
-## Overview
+## Introduction
 
-The project has three basic goals / requirements:
+This unofficial senior rankings have been evolving since 2015 and have been rapidly growing in popularity over the past few months. The main artefact of the project is known as the [Partial Over 40s Rankings](https://logiqx.github.io/wca-ipy/Partial_Rankings.html) and currently includes around 200 competitors. The current completeness of the over 40s rankings can be summarised as follows:
 
-1. We wish to provide senior rankings - Over 40s, Over 50s, Over 60s, etc.
+>**Percentage coverage for 3x3x3**  
+>90% of sub-15 | 50% of sub-20 | 43% of sub-25 | 34% of sub-30 | 25% of sub-45 | 21% of sub-1:00  
+>
+>**3x3x3 variations have greater coverage**  
+>OH: 70% of sub-0:40 | 3BLD: 80% of sub-4:00 | Feet: 100% of sub-4:00 | FMC: 100% of sub-40  
+>
+>**Big cubes have even greater coverage**  
+>4x4: 75% of sub-1:30 | 5x5: 85% of sub-3:00 | 6x6: 95% of sub-6:00 | 7x7: 100% of sub-9:00
 
-2. We wish to provide actual rankings, regardless of how many people are actually shown
+Nobody has ever declined to be included in the senior rankings. Nobody has ever complained and nobody has ever asked to be removed. Feedback has been very positive, appreciative and many people are wildly enthusiastic about the existence of senior rankings.
 
-3. We wish to protect the identities of competitors who have not provided their consent
+## Project Goals
 
-### Future Options
+The project has three main goals / requirements:
 
-Two simple options are being proposed to address the three goals /requirements. Neither option requires the WCA to provide any DOB information. Both options are based on the WCA running SQL on their server and providing the outputs so that this project can produce the senior rankings using existing code. The intermediate CSV can be nigh-on identical to the one that is used to generate the [partial rankings](http://logiqx.github.io/wca-ipy/Partial_Rankings.html).
+1. We wish to provide senior rankings to the community - Over 40s, Over 50s, Over 60s, etc
 
-An example of the intermediate CSV can be viewed on GitHub: [known_senior_averages.csv](https://github.com/Logiqx/wca-ipy/blob/master/data/public/extract/known_senior_averages.csv)
+2. We wish to provide actual rankings, regardless of how many names are actually listed
+
+3. We wish to protect the privacy of competitors who have not yet provided their consent
+
+The  project satisfies the first requirement reasonably well due to the coverage that we have for the faster competitors. It falls short on the second requirement due to the number of competitors that are missing. The project takes privacy seriously and our policy is described in the online [Privacy Statement](http://logiqx.github.io/wca-ipy/Privacy_Notice.html).
+
+We wish to address the second point by showing actual rankings despite there being some competitors missing from the rankings. For example the [3x3x3 OH](http://logiqx.github.io/wca-ipy/Partial_Rankings.html#averages) average rankings should show; 1st (Dave Campbell 22.61), 3rd (Michael George 25.45), 4th (Teller Coates 25.46), 6th (Stefan Lidström 27.12). The names and results for 2nd and 4th should remain hidden but the fact that they exist made clear by their absence from the names and results.
+
+
+## Improvements
+
+Two options are being proposed to address the second project goal; i.e. actual rankings.
+
+Neither option requires the WCA to provide DOB information to the senior rankings team. Both options rely SQL extracts to be run on the WCA server from which the senior rankings team can produce the senior rankings. The CSV extracts can be identical to those currently used to produce the [Partial Over 40s Rankings](http://logiqx.github.io/wca-ipy/Partial_Rankings.html).
+
+The CSV extracts for the Partial Over 40s Rankings can be viewed on GitHub:
+
+* [known_senior_details.csv](https://github.com/Logiqx/wca-ipy/blob/master/data/public/extract/known_senior_details.csv) - WCA ID, name and age category when they last competed
+* [known_senior_averages.csv](https://github.com/Logiqx/wca-ipy/blob/master/data/public/extract/known_senior_averages.csv) - Event, WCA ID, PR average and age category
+* [known_senior_singles.csv](https://github.com/Logiqx/wca-ipy/blob/master/data/public/extract/known_senior_singles.csv) - Event, WCA ID, PR single and age category
+
+Note: Event + WCA ID will potentially appear multiple times; once for each age category.
 
 ### Option 1
 
-The SQL that produces the intermediate CSV file is the second SQL query: [extract_senior_details.sql](https://github.com/Logiqx/wca-ipy/blob/master/sql/extract_senior_details.sql)
+The SQL that produces the CSV files is hosted on GitHub - [extract_senior_details.sql](https://github.com/Logiqx/wca-ipy/blob/master/sql/extract_senior_details.sql)
 
-If the last two queries are run on the WCA server and the outputs are provided, existing code can produce senior rankings whilst suppressing the people who have not provided their consent. The result would be identical to the existing [partial rankings](http://logiqx.github.io/wca-ipy/Partial_Rankings.html) except the rank numbers would be 100% representative.
+If this script is run on the WCA server and the outputs provided to the senior rankings team, existing project code can be used to produce actual rankings, suppressing competitors who are yet to provide their consent. The reports will therefore look near-identical to the existing [partial rankings](http://logiqx.github.io/wca-ipy/Partial_Rankings.html) but the ranks themselves will be accurate, addressing the second goal of the project.
 
-Note: There would be gaps in the numbering but all rankings would represent the actual ranking amongst all senior competitors, within the appropriate age group.
+For example the [3x3x3 OH](http://logiqx.github.io/wca-ipy/Partial_Rankings.html#333oh_avg) rankings would show; 1st (Dave Campbell 22.61), 3rd (Michael George 25.45), 4th (Teller Coates 25.46), 6th (Stefan Lidström 27.12). The names and results for 2nd and 4th would remain hidden but the fact that they exist made clear by their absence from the rankings.
 
-This is the preferred proposal and a legal document could be signed should it be required, agreeing that the WCA IDs will not be shared with anyone or used for purposes other than these rankings.
+This is the preferred option in this proposal, based on a suitable agreement being signed, ensuring that WCA IDs of senior competitors will not be shared with anyone or used for purposes other than the senior rankings.
 
-Note: The intermediate CSV will not include DOB information as it is not required from the WCA.
+Note: The CSV files will NOT include DOB information, only the age categories 40+, 50+, 60+, etc.
 
 ### Option 2
 
-The second proposal would be to modify the SQL to filter out the people who have not given their consent and calculate the rankings within the SQL itself. A smaller file would be generated by the WCA, including only the results of competitors who have opted into the senior rankings.
+The second proposal is much the same as the first but would use a modified SQL script to filter out the people who have not given their consent to the senior rankings. The rankings would need to be calculated within the SQL itself (e.g. window functions or temporary variables). Smaller files would be generated by the SQL as the extracts would only include the results of competitors who have opted into the senior rankings.
 
-This second approach has two downsides though.
+This second approach has two downsides:
 
 1. Firstly, the SQL script to generate Over 40s, Over 50s ... Over 80s would need to run multiple queries and combine the results. This is not the end of the world but it would take several times longer to run; possible minutes rather than 10s of seconds.
 
 2. Secondly and most significantly is that updated SQL would have to be provided to the WCA when new people give their consent to be included. It would make the consent process a lot more clunky and place more burden on everybody involved.
 
-Due to the downsides described above, option 1 is the recommended approach, with an appropriate agreement on how the extracts will be used.
+Due to the downsides described the first option is recommended, based on a suitable agreement being signed, ensuring that WCA IDs of senior competitors will not be shared with anyone or used for purposes other than the senior rankings.
+
+### Legal Basis
+
+Article 6(1)(f) of GDPR provides a lawful basis for processing where:
+
+>“processing is necessary for the purposes of the legitimate interests pursued by the controller or by a third party except where such interests are overridden by the interests or fundamental rights and freedoms of the data subject which require protection of personal data, in particular where the data subject is a child.”
+
+An overview of legitimate interests is available on the [Information Commissioner's Office](https://ico.org.uk/for-organisations/guide-to-data-protection/guide-to-the-general-data-protection-regulation-gdpr/lawful-basis-for-processing/legitimate-interests/) (ICO) website.
 
 ## Summary
 
-The end result of both options addresses the three requirements described earlier:
+Both options described in this proposal allow for improved senior rankings to be produced, whilst addressing the three project goals / requirements:
 
 1. Senior rankings - YES
 2. Actual rankings - YES
 3. Protect privacy - YES
 
-There is no need to receive any DOB information in order to produce the rankings and nobody will appear in the senior rankings without providing their consent
+There is no need to receive any DOB information in order to produce improved senior rankings and nobody will ever appear in the senior rankings without providing their consent.
 
-Both options provide the same level of information as the [partial rankings](http://logiqx.github.io/wca-ipy/Partial_Rankings.html) whilst omitting competitors who have not provided their consent.
+Both options improve upon the existing [partial rankings](http://logiqx.github.io/wca-ipy/Partial_Rankings.html) whilst continuing to exclude competitors who have yet to provide their consent to the senior rankings team.
 
-The reports will be consistent with the proposal for [official senior rankings](https://logiqx.github.io/wca-ipy/WCA_Proposal.html) which was submitted in February 2019.
-
+The improved senior rankings will also be consistent with the proposal for [official senior rankings](https://logiqx.github.io/wca-ipy/WCA_Proposal.html) on the WCA website, submitted in February 2019.
