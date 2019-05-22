@@ -39,7 +39,7 @@ Specifically, we wish to show accurate rankings despite there being some competi
 | 3        | [Teller Coates](https://www.worldcubeassociation.org/persons/2010COAT01#333oh), United States | 25.46      |
 | 4        | [Stefan Lidström](https://www.worldcubeassociation.org/persons/2008LIDS01#333oh), Sweden | 27.12      |
 
-However, It is known that there is a missing 22.xx second (ranking 1st or 2nd) PR average and a missing 26.xx PR average (ranking 5th), although the identifies of those competitors are unknown.
+However, It is known that there is a missing 22.xx second PR average (ranking 1st or 2nd) and a missing 26.xx PR average (ranking 5th), although the identifies of those competitors are unknown.
 
 ## Legal Basis
 
@@ -145,7 +145,7 @@ All three options allow improved senior rankings to be produced, tackling the li
 2. Provide accurate rankings
 3. Protect privacy
 
-There is no need for any DOB information in order to produce improved senior rankings and nobody will ever appear in the senior rankings without providing their consent. This can be guaranteed through the signing of an agreement between the WCA and the senior rankings team; see the LIA references earlier.
+There is no need for any DOB information in order to produce improved senior rankings and nobody will ever appear in the senior rankings without providing their consent.
 
 All three options improve upon the existing [partial rankings](http://logiqx.github.io/wca-ipy/Partial_Rankings.html) whilst continuing to exclude protect the privacy of individuals who have yet to provide their consent to the senior rankings team.
 
