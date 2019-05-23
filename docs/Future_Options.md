@@ -69,9 +69,9 @@ A tiny machine could be set up on [Amazon Web Services (AWS)](https://aws.amazon
 
 Three CSV extracts that are used to produce the existing rankings are as follows:
 
-* [known_senior_details.csv](https://github.com/Logiqx/wca-ipy/blob/master/data/public/extract/known_senior_details.csv) - WCA ID, name and age category
-* [known_senior_averages.csv](https://github.com/Logiqx/wca-ipy/blob/master/data/public/extract/known_senior_averages.csv) - Event ID, WCA ID, PR average and age category
-* [known_senior_singles.csv](https://github.com/Logiqx/wca-ipy/blob/master/data/public/extract/known_senior_singles.csv) - Event ID, WCA ID, PR single and age category
+* known_senior_details.csv - WCA ID, name and age category
+* known_senior_averages.csv - Event ID, WCA ID, PR average and age category
+* known_senior_singles.csv - Event ID, WCA ID, PR single and age category
 
 It should be noted that the CSV extracts do NOT include DOB information, only age categories; 40+, 50+, 60+, etc.
 
