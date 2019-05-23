@@ -8,7 +8,7 @@
 
 -- Extract seniors
 SELECT t.personId, personName, c.name AS country, IFNULL(s.username, '?') AS username, MAX(ageCategory)
-INTO OUTFILE '/home/jovyan/work/wca-ipy/data/public/extract/known_senior_details.csv' FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
+INTO OUTFILE '/home/jovyan/work/wca-ipy/data/private/extract/known_senior_details.csv' FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
 FROM
 (
   SELECT r.eventId, r.personId, r.average, p.name AS PersonName, p.countryId,
@@ -27,7 +27,7 @@ ORDER BY personName, ageCategory DESC;
 
 -- Extract senior results (averages)
 SELECT eventId, personId, MIN(average) AS bestAverage, ageCategory
-INTO OUTFILE '/home/jovyan/work/wca-ipy/data/public/extract/known_senior_averages.csv' FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
+INTO OUTFILE '/home/jovyan/work/wca-ipy/data/private/extract/known_senior_averages.csv' FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
 FROM
 (
   SELECT r.eventId, r.personId, r.average, p.name AS personName, p.countryId,
@@ -45,7 +45,7 @@ ORDER BY eventId, bestAverage, personId;
 
 -- Extract senior results (singles)
 SELECT eventId, personId, MIN(best) AS bestSingle, ageCategory
-INTO OUTFILE '/home/jovyan/work/wca-ipy/data/public/extract/known_senior_singles.csv' FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
+INTO OUTFILE '/home/jovyan/work/wca-ipy/data/private/extract/known_senior_singles.csv' FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
 FROM
 (
   SELECT r.eventId, r.personId, r.best, p.name AS personName, p.countryId,
