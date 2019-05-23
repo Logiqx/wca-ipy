@@ -45,7 +45,7 @@ The project in its current form satisfies the first goal reasonably well due to 
 
 Until such time as official senior rankings become available on the official WCA website, it is clear that the unofficial senior rankings will continue to be of benefit to the senior cubing community. In order to satisfy the demands of the senior community the project is looking to make some notable improvements to what is currently provided in the way of rankings.
 
-Specifically, we wish to show accurate rankings despite there being some names missing / unknown. For example the partial rankings for [3x3x3 OH](http://logiqx.github.io/wca-ipy/Partial_Rankings.html#averages) average currently show the following:
+Specifically, we wish to show accurate rankings despite there being some names missing / unknown. For example the partial rankings for 3x3x3 OH average currently show the following:
 
 | **Rank** | **Person**                                                   | **Result** |
 | -------- | ------------------------------------------------------------ | ---------- |
@@ -136,7 +136,7 @@ This option has two obvious downsides:
 
 2. Secondly and most significantly is that an updated SQL script would have to be provided to the WCA team every time a new competitor provides (or removes) their consent. It would make the consent process a lot more clunky and place more burden on everybody involved.
 
-The benefit of option 3 is that it would ensure that additional senior competitors will NOT be disclosed to the senior rankings team. It is however the least favoured option due to the burdens it would place on everybody involved and any risks relating to options 1 and 2 can be mitigated through a [Legitimate Interests Assessment](https://ico.org.uk/for-organisations/guide-to-data-protection/guide-to-the-general-data-protection-regulation-gdpr/legitimate-interests/how-do-we-apply-legitimate-interests-in-practice/) (LIA) as described earlier.
+The benefit of option 3 is that it would ensure that additional senior competitors will NOT be disclosed to the senior rankings team. It is however the least favoured option due to the burdens it would place on everybody involved and any minor risks relating to options 1 and 2 can be mitigated through a [Legitimate Interests Assessment](https://ico.org.uk/for-organisations/guide-to-data-protection/guide-to-the-general-data-protection-regulation-gdpr/legitimate-interests/how-do-we-apply-legitimate-interests-in-practice/) (LIA) and suitable agreement, guaranteeing that WCA IDs of senior competitors will not be shared with anyone outside of the senior rankings team or used for purposes other than the senior rankings.
 
 ## Conclusion
 
@@ -154,7 +154,7 @@ There is no need for any DOB information to be provided to the senior rankings t
 
 ## Recommendations
 
-Whilst none of the options in this proposal are intended to replace or supersede the proposal for [Official Senior Rankings](https://logiqx.github.io/wca-ipy/WCA_Proposal.html), they do offer an interim solution with minimal effort on the part of the WCA or the senior rankings team.
+Whilst none of the options in this proposal are intended to replace or supersede the proposal for [Official Senior Rankings](https://logiqx.github.io/wca-ipy/WCA_Proposal.html), they do offer an effective interim solution with minimal effort on the part of the WCA or the senior rankings team.
 
 The necessary code already exists on GitHub so it could easily be scheduled to run on a daily basis. The required activities would be as follows:
 
