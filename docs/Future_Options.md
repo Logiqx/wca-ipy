@@ -164,3 +164,4 @@ The necessary code already exists on GitHub so it could easily be scheduled to r
 
 Finally, it is worth saying that it is still hoped that the earlier proposal for official senior rankings will one day become a reality.
 
+The interim proposal can potentially be implemented in a matter of weeks whereas the proposal for official rankings is likely to take months or even years.
