@@ -73,7 +73,7 @@ Three CSV extracts that are used to produce the existing rankings are as follows
 * [known_senior_averages.csv](https://github.com/Logiqx/wca-ipy/blob/master/data/public/extract/known_senior_averages.csv) - Event ID, WCA ID, PR average and age category
 * [known_senior_singles.csv](https://github.com/Logiqx/wca-ipy/blob/master/data/public/extract/known_senior_singles.csv) - Event ID, WCA ID, PR single and age category
 
-It should be noted that the CSV extracts do NOT include any DOB information, only age categories; 40+, 50+, 60+, etc.
+It should be noted that the CSV extracts do NOT include DOB information, only age categories; 40+, 50+, 60+, etc.
 
 None of the options described in this proposal require the WCA to provide DOB information to the senior rankings team.
 
@@ -150,7 +150,7 @@ Implementing any one of the options will allow the senior rankings team to furth
 
 All three options can improve the existing reports by showing accurate rankings, whilst continuing to protect the privacy of individuals who have yet to provide their consent to the senior rankings team.
 
-There is no need for any DOB information to be provided to the senior rankings team and nobody will ever appear in the senior rankings without providing their consent to the senior rankings team.
+There is no need for DOB information to be provided to the senior rankings team and nobody will ever appear in the senior rankings without providing their consent to the senior rankings team.
 
 ## Recommendations
 
@@ -164,4 +164,4 @@ The necessary code already exists on GitHub so it could easily be scheduled to r
 
 Finally, it is worth saying that it is still hoped that the earlier proposal for official senior rankings will one day become a reality.
 
-The interim proposal can potentially be implemented in a matter of weeks whereas the proposal for official rankings is likely to take months or even years.
+The interim proposal can potentially be implemented in a matter of weeks whereas the proposal for official rankings seems likely to take months or even years.
