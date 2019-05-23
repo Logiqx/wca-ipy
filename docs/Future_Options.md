@@ -59,7 +59,7 @@ However, it is known that these rankings are missing a 22.xx PR average (ranking
 
 ## Proposal
 
-Three possible options are being proposed to tackle the issue of people missing from the unofficial senior rankings. All of the proposed options are based on simple SQL extracts being run on the WCA server from which the senior rankings team can produce the various reports, ideally on a daily basis.
+Two possible options are being proposed to tackle the issue of people missing from the unofficial senior rankings. All of the proposed options are based on simple SQL extracts being run on the WCA server from which the senior rankings team can produce the various reports, ideally on a daily basis.
 
 The SQL that produces the CSV files for the current rankings is hosted on GitHub - [extract_senior_details.sql](https://github.com/Logiqx/wca-ipy/blob/master/sql/extract_senior_details.sql)
 
@@ -111,36 +111,11 @@ For example the 3x3x3 OH average rankings would show the following:
 
 Note: Although the names and results for 2nd and 5th place are missing the rankings 1, 3, 4 and 6 are still accurate.
 
-This is the second most favoured option in this proposal and if required, including a suitable agreement, guaranteeing that WCA IDs of senior competitors will not be shared with anyone outside of the senior rankings team or used for purposes other than the senior rankings. This agreement could be part of a [Legitimate Interests Assessment](https://ico.org.uk/for-organisations/guide-to-data-protection/guide-to-the-general-data-protection-regulation-gdpr/legitimate-interests/how-do-we-apply-legitimate-interests-in-practice/) (LIA), providing a light-touch audit trail of the decisions and justification for processing on the basis of legitimate interests.
-
-### Option 3
-
-The third option provides additional assurance should the WCA be uncomfortable in revealing the WCA IDs of senior competitors to the senior rankings team. The third option is much like the second, except it would use a modified SQL script to suppress competitors who have yet to provide their consent to the senior rankings team. The CSV extracts would only contain the details of competitors who have already provided their consent to the senior rankings team.
-
-The 3x3x3 OH average rankings would look identical to those of option 2, despite smaller CSV extracts:
-
-| **Rank** | **Person**                                                   | **Result** |
-| -------- | ------------------------------------------------------------ | ---------- |
-| 1        | Dave Campbell, Canada | 22.61      |
-| 3        | Michael George, United Kingdom | 25.45      |
-| 4        | Teller Coates, United States | 25.46      |
-| 6        | Stefan Lidström, Sweden | 27.12      |
-
-Note: Although the names and results for 2nd and 5th place are missing the rankings 1, 3, 4 and 6 are still accurate.
-
-The implementation of option 3 would is more complex than options 1 and 2. In addition to suppressing competitors who have yet to provide their consent to the senior rankings team, rankings would have to be calculated within the SQL via window functions or temporary variables. Multiple extracts would also need to be produced by the SQL script; Over 40s, Over 50s, Over 60s, Over 70s, Over 80s.
-
-This option has two obvious downsides:
-
-1. The SQL script would need to run multiple similar queries to generate Over 40s, Over 50s, Over 60s, Over 70s and Over 80s rankings. This is not the end of the world but it would take several times longer to run; possible minutes rather than 10s of seconds.
-
-2. Secondly and most significantly is that an updated SQL script would have to be provided to the WCA team every time a new competitor provides (or removes) their consent. It would make the consent process a lot more clunky and place more burden on everybody involved.
-
-The benefit of option 3 is that it would ensure that additional senior competitors will NOT be disclosed to the senior rankings team. It is however the least favoured option due to the burdens it would place on everybody involved and any minor risks relating to options 1 and 2 can be mitigated through a [Legitimate Interests Assessment](https://ico.org.uk/for-organisations/guide-to-data-protection/guide-to-the-general-data-protection-regulation-gdpr/legitimate-interests/how-do-we-apply-legitimate-interests-in-practice/) (LIA) and suitable agreement, guaranteeing that WCA IDs of senior competitors will not be shared with anyone outside of the senior rankings team or used for purposes other than the senior rankings.
+This is the least favoured option in this proposal and if required, including a suitable agreement, guaranteeing that WCA IDs of senior competitors will not be shared with anyone outside of the senior rankings team or used for purposes other than the senior rankings. This agreement could be part of a [Legitimate Interests Assessment](https://ico.org.uk/for-organisations/guide-to-data-protection/guide-to-the-general-data-protection-regulation-gdpr/legitimate-interests/how-do-we-apply-legitimate-interests-in-practice/) (LIA), providing a light-touch audit trail of the decisions and justification for processing on the basis of legitimate interests.
 
 ## Conclusion
 
-All three options will allow improved senior rankings to be produced for the senior community, tackling the issue of missing competitors.
+Both options will allow improved senior rankings to be produced for the senior community, tackling the issue of missing competitors.
 
 Implementing any one of the options will allow the senior rankings team to further meet the project goals:
 
@@ -148,13 +123,13 @@ Implementing any one of the options will allow the senior rankings team to furth
 2. Provide accurate rankings - yes, vastly improved
 3. Protect privacy - yes, ongoing
 
-All three options can improve the existing reports by showing accurate rankings, whilst continuing to protect the privacy of individuals who have yet to provide their consent to the senior rankings team.
+Both options can improve the existing reports by showing accurate rankings, whilst continuing to protect the privacy of individuals who have yet to provide their consent to the senior rankings team.
 
 There is no need for DOB information to be provided to the senior rankings team and nobody will ever appear in the senior rankings without providing their consent to the senior rankings team.
 
 ## Recommendations
 
-Whilst none of the options in this proposal are intended to replace or supersede the proposal for [Official Senior Rankings](https://logiqx.github.io/wca-ipy/WCA_Proposal.html), they do offer an effective interim solution with minimal effort on the part of the WCA or the senior rankings team.
+Whilst neither of the options in this proposal are intended to replace or supersede the proposal for [Official Senior Rankings](https://logiqx.github.io/wca-ipy/WCA_Proposal.html), they do offer an effective interim solution with minimal effort on the part of the WCA or the senior rankings team.
 
 The necessary code already exists on GitHub so it could easily be scheduled to run on a daily basis. The required activities would be as follows:
 
