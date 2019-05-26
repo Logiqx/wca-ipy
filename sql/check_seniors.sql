@@ -26,9 +26,10 @@ SELECT s.personId, personName, countryId, accuracy, s.dob,
     TIMESTAMPDIFF(YEAR, s.dob, DATE_FORMAT(CONCAT(LEFT(s.personId, 4), '-01-01'), '%Y-%m-%d')) AS ageFirstComp,
     MAX(age_at_comp) AS ageLastComp,
     TIMESTAMPDIFF(YEAR, s.dob, NOW()) AS ageToday,
-    username, comment
+    u.id AS userId, username, comment
 FROM SeniorResults r
 JOIN Seniors s ON s.personId = r.personId
+LEFT JOIN wca_dev.users u ON u.wca_id= r.personId
 GROUP BY s.personId
 ORDER BY lastComp DESC, numComps DESC, yearsCompeting DESC;
 
@@ -67,11 +68,12 @@ WITH SeniorYears AS
 SELECT 'Embassador', s.personId,
     personName, countryId, lastComp, s.numComps, yearsCompeting, ageFirstComp, ageLastComp, ageToday,
     IFNULL(y0.numComps, 0) AS numComps0, IFNULL(y1.numComps, 0) AS numComps1, IFNULL(y2.numComps, 0) AS numComps2,
-    username, comment
+    u.id AS userId, username, comment
 FROM SeniorDetails s
 LEFT JOIN SeniorYears y0 ON y0.personId = s.personId and y0.year = YEAR(NOW())
 LEFT JOIN SeniorYears y1 ON y1.personId = s.personId and y1.year = YEAR(NOW()) - 1
 LEFT JOIN SeniorYears y2 ON y2.personId = s.personId and y2.year = YEAR(NOW()) - 2
+LEFT JOIN wca_dev.users u ON u.wca_id= s.personId
 HAVING numComps1 >= 6 AND numComps0 >= CEIL((MONTH(NOW()) - 1) / 2)
 ORDER BY countryId;
 
