@@ -126,7 +126,7 @@ FROM SeniorDetails AS s
 WHERE dob IS NULL
 ORDER BY lastComp DESC, numComps DESC, yearsCompeting DESC;
 
--- Imprecise DOBs - Y = year, X = approximated year, F = faked
+-- Imprecise DOBs - Y = year, X = approximated year, S = synthetic, F = faked
 SELECT 'Imprecise DOB' AS label, s.*
 FROM SeniorDetails AS s
 WHERE accuracy NOT IN ('D', 'M', 'U') -- D = specific date, M = specific month, U = unknown (DOB is NULL)
