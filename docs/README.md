@@ -5,6 +5,8 @@ This [project](https://github.com/Logiqx/wca-ipy) started on the [SpeedSolving.c
 
 It provides unofficial rankings for the senior cubing community, produced from official WCA competition results.
 
+If you would like your name to be added then either contact me via [Facebook](https://www.facebook.com/michael.george.545) or [Speedsolving.com](https://www.speedsolving.com/forum/members/logiqx.17180/).
+
 **Partial Rankings**
 
 * [Partial Over 40s Rankings](Partial_Rankings.md) is still incomplete but most of the fastest people are included (see below)
