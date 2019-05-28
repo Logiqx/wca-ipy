@@ -40,7 +40,7 @@ FROM
   WHERE average > 0
   HAVING ageCategory >= 40
 ) AS t
-GROUP BY eventId, personId, ageCategory DESC
+GROUP BY eventId, personId, ageCategory
 ORDER BY eventId, bestAverage, personId;
 
 -- Extract senior results (singles)
@@ -58,5 +58,5 @@ FROM
   WHERE best > 0
   HAVING ageCategory >= 40
 ) AS tmp_results
-GROUP BY eventId, personId, ageCategory DESC
+GROUP BY eventId, personId, ageCategory
 ORDER BY eventId, bestSingle, personId;
