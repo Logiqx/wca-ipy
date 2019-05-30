@@ -85,7 +85,8 @@ SELECT 'Non-standard', personId, name, countryId, accuracy, dob, username, comme
 FROM Seniors s
 JOIN Persons ON id = personId AND subid = 1
 WHERE comment NOT LIKE 'Provided%' AND comment NOT LIKE 'Contacted%' AND comment NOT LIKE 'Found%'
-    AND comment NOT LIKE 'Spotted%' AND comment NOT LIKE 'Speculative%';
+    AND comment NOT LIKE 'Spotted%' AND comment NOT LIKE 'Speculative%'
+ORDER BY lastComp DESC, numComps DESC, yearsCompeting DESC;
 
 -- Summarise the accuracy of DOB information
 SELECT accuracy, COUNT(*) AS numSeniors
@@ -97,16 +98,10 @@ ORDER BY numSeniors DESC;
 SELECT 'Synthetic DOB' AS label, s.*
 FROM SeniorDetails AS s
 WHERE accuracy = 'S'
-ORDER BY accuracy, comment;
+ORDER BY lastComp DESC, numComps DESC, yearsCompeting DESC;
 
--- Imprecise DOBs - Y = year, X = approximated year, F = faked
+-- Imprecise DOBs - Y = year, X = approximated year, F = faked, U = Undefined
 SELECT 'Imprecise DOB' AS label, s.*
 FROM SeniorDetails AS s
 WHERE accuracy NOT IN ('D', 'M', 'S') -- D = day, M = month, S = synthetic
-ORDER BY accuracy, comment;
-
--- Fake DOBs are typically used to exclude results prior to a certain date
-SELECT 'Fake DOB' AS label, s.*
-FROM SeniorDetails AS s
-WHERE comment LIKE '%fake%'
-ORDER BY accuracy, comment;
+ORDER BY accuracy, lastComp DESC, numComps DESC, yearsCompeting DESC;
