@@ -5,7 +5,7 @@ These are unofficial rankings for the senior cubing community produced from offi
 
 The rankings below were created from the [Partial Over 40s Rankings](Partial_Rankings.md) and supplementary anonymised [data](https://github.com/Logiqx/wca-ipy/blob/master/sql/extract_senior_aggs.sql) from the WCA database.
 
-If you would like your name to be added then either contact me via [Facebook](https://www.facebook.com/michael.george.545) or [Speedsolving.com](https://www.speedsolving.com/forum/members/logiqx.17180/).
+If you would like your name to be added then please contact me as described on the [front page](README.md).
 
 Notes:
 
