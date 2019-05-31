@@ -13,7 +13,8 @@ CREATE TABLE Seniors
      `personId` varchar(10) CHARACTER SET latin1 NOT NULL,
      `accuracy` char(1) NOT NULL,
      `dob` date,
-     `username` varchar(30) CHARACTER SET latin1 NULL,
+     `username` varchar(30) CHARACTER SET latin1,
+     `usernum` mediumint unsigned,
      `comment` text CHARACTER SET latin1 NOT NULL,
      PRIMARY KEY (`personId`)
 );

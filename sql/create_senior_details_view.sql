@@ -26,7 +26,7 @@ SELECT s.personId, personName, countryId, accuracy, s.dob,
     TIMESTAMPDIFF(YEAR, s.dob, DATE_FORMAT(CONCAT(LEFT(s.personId, 4), '-01-01'), '%Y-%m-%d')) AS ageFirstComp,
     MAX(age_at_comp) AS ageLastComp,
     TIMESTAMPDIFF(YEAR, s.dob, NOW()) AS ageToday,
-    u.id AS userId, username, comment
+    u.id AS userId, username, usernum, comment
 FROM SeniorResults r
 JOIN Seniors s ON s.personId = r.personId
 LEFT JOIN wca_dev.users u ON u.wca_id= r.personId
