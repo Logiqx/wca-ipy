@@ -7,7 +7,7 @@
 */
 
 -- Extract seniors
-SELECT t.personId, personName, c.name AS country, IFNULL(s.username, '?') AS username, MAX(ageCategory)
+SELECT t.personId, personName, c.name AS country, IFNULL(s.username, '?') AS username, usernum, MAX(ageCategory) AS ageCategory
 INTO OUTFILE '/home/jovyan/work/wca-ipy/data/private/extract/known_senior_details.csv' FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
 FROM
 (

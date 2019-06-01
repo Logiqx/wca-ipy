@@ -14,7 +14,7 @@ CREATE TABLE Seniors
      `accuracy` char(1) NOT NULL,
      `dob` date,
      `username` varchar(30) CHARACTER SET latin1,
-     `usernum` mediumint unsigned,
+     `usernum` mediumint NOT NULL DEFAULT 0,
      `comment` text CHARACTER SET latin1 NOT NULL,
      PRIMARY KEY (`personId`)
 );
