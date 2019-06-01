@@ -105,3 +105,10 @@ SELECT 'Imprecise DOB' AS label, s.*
 FROM SeniorDetails AS s
 WHERE accuracy NOT IN ('D', 'M', 'S') -- D = day, M = month, S = synthetic
 ORDER BY accuracy, lastComp DESC, numComps DESC, yearsCompeting DESC;
+
+-- Speedsolving.com users with impreceise DOB
+SELECT 'Everyone' AS label, s.*
+FROM SeniorDetails AS s
+WHERE username IS NOT NULL
+AND accuracy NOT IN ('D', 'M') -- D = day, M = month, S = synthetic
+ORDER BY accuracy, lastComp DESC, numComps DESC, yearsCompeting DESC;
