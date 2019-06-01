@@ -6,6 +6,12 @@
       Purpose:  Review seniors from a data quality perspective
 */
 
+-- Active
+SELECT 'Active' AS label, s.*
+FROM SeniorDetails AS s
+WHERE ageToday - ageLastComp <= 1
+ORDER BY lastComp DESC, numComps DESC, yearsCompeting DESC;
+
 -- List everyone
 SELECT 'Everyone' AS label, s.*
 FROM SeniorDetails AS s
