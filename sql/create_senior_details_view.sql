@@ -19,7 +19,7 @@ WITH SeniorResults AS
     JOIN Competitions AS c ON r.competitionId = c.id
     JOIN Persons AS p ON r.personId = p.id AND p.subid = 1 AND p.year > 0
 )
-SELECT s.personId, personName, countryId, accuracy, s.dob,
+SELECT s.personId, personName, countryId, source, hidden, accuracy, s.dob,
     MAX(compYear) AS lastComp, COUNT(DISTINCT compId) as numComps,
     TIMESTAMPDIFF(YEAR, DATE_FORMAT(CONCAT(LEFT(s.personId, 4), '-01-01'), '%Y-%m-%d'),
         DATE_FORMAT(CONCAT(MAX(compYear), '-01-01'), '%Y-%m-%d')) + 1 AS yearsCompeting,

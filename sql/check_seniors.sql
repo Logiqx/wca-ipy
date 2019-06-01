@@ -112,3 +112,9 @@ FROM SeniorDetails AS s
 WHERE username IS NOT NULL
 AND accuracy NOT IN ('D', 'M') -- D = day, M = month, S = synthetic
 ORDER BY accuracy, lastComp DESC, numComps DESC, yearsCompeting DESC;
+
+-- Source
+SELECT source, hidden, COUNT(*)
+FROM SeniorDetails
+GROUP BY source, hidden
+ORDER BY source, hidden;
