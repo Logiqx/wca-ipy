@@ -122,13 +122,6 @@ FROM SeniorDetails AS s
 WHERE accuracyId NOT IN ('D', 'M', 'S') -- D = day, M = month, S = synthetic
 ORDER BY accuracyType, lastComp DESC, numComps DESC, yearsCompeting DESC;
 
--- Speedsolving.com users with imprecise DOB
-SELECT 'Speedsolving.com' AS label, s.*
-FROM SeniorDetails AS s
-WHERE username IS NOT NULL
-AND accuracyId NOT IN ('D', 'M') -- D = day, M = month, S = synthetic
-ORDER BY accuracyType, lastComp DESC, numComps DESC, yearsCompeting DESC;
-
 -- Speedsolving.com users to be discovered
 SELECT 'Speedsolving.com' AS label, s.*
 FROM SeniorDetails AS s
