@@ -23,6 +23,24 @@ FROM SeniorDetails AS s
 WHERE ageLastComp >= 60
 ORDER BY lastComp DESC, numComps DESC, yearsCompeting DESC;
 
+-- List the over 70s
+SELECT 'Over 70' AS label, s.*
+FROM SeniorDetails AS s
+WHERE ageLastComp >= 70
+ORDER BY lastComp DESC, numComps DESC, yearsCompeting DESC;
+
+-- List the over 80s
+SELECT 'Over 80' AS label, s.*
+FROM SeniorDetails AS s
+WHERE ageLastComp >= 80
+ORDER BY lastComp DESC, numComps DESC, yearsCompeting DESC;
+
+-- List the over 90s
+SELECT 'Over 90' AS label, s.*
+FROM SeniorDetails AS s
+WHERE ageLastComp >= 90
+ORDER BY lastComp DESC, numComps DESC, yearsCompeting DESC;
+
 -- List the delegates appearing in the senior rankings
 SELECT 'Delegate' AS label, delegate_status, s.*
 FROM SeniorDetails AS s
@@ -109,4 +127,10 @@ SELECT 'Speedsolving.com' AS label, s.*
 FROM SeniorDetails AS s
 WHERE username IS NOT NULL
 AND accuracyId NOT IN ('D', 'M') -- D = day, M = month, S = synthetic
+ORDER BY accuracyType, lastComp DESC, numComps DESC, yearsCompeting DESC;
+
+-- Speedsolving.com users to be discovered
+SELECT 'Speedsolving.com' AS label, s.*
+FROM SeniorDetails AS s
+WHERE usernum = 0
 ORDER BY accuracyType, lastComp DESC, numComps DESC, yearsCompeting DESC;
