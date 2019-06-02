@@ -6,12 +6,6 @@
       Purpose:  Review seniors from a data quality perspective
 */
 
--- Active
-SELECT 'Active' AS label, s.*
-FROM SeniorDetails AS s
-WHERE ageToday - ageLastComp <= 1
-ORDER BY lastComp DESC, numComps DESC, yearsCompeting DESC;
-
 -- List everyone
 SELECT 'Everyone' AS label, s.*
 FROM SeniorDetails AS s
@@ -56,6 +50,18 @@ LEFT JOIN wca_dev.users u ON u.wca_id= s.personId
 HAVING numComps1 >= 6 AND numComps0 >= CEIL((MONTH(NOW()) - 1) / 2)
 ORDER BY countryId;
 
+-- Summarise the sources
+SELECT 'Source' AS label, sourceType, COUNT(*) AS numSeniors
+FROM SeniorDetails s
+GROUP BY sourceType
+ORDER BY numSeniors DESC;
+
+-- Summarise the comment types
+SELECT 'Comment' AS label, LEFT(comment, LOCATE(' ', comment) - 1) AS commentType, COUNT(*) AS numSeniors
+FROM SeniorDetails s
+GROUP BY commentType
+ORDER BY numSeniors DESC;
+
 -- List people who pro-actively provided their information (or someone did so on their behalf)
 SELECT LEFT(comment, LOCATE(' ', comment) - 1) AS label, s.*
 FROM SeniorDetails AS s
@@ -86,41 +92,21 @@ FROM SeniorDetails AS s
 WHERE comment LIKE 'Speculative%'
 ORDER BY lastComp DESC, numComps DESC, yearsCompeting DESC;
 
--- Check for non-standard comments
-SELECT 'Non-standard', personId, name, countryId, accuracy, dob, username, comment
-FROM Seniors s
-JOIN Persons ON id = personId AND subid = 1
-WHERE comment NOT LIKE 'Provided%' AND comment NOT LIKE 'Contacted%' AND comment NOT LIKE 'Found%'
-    AND comment NOT LIKE 'Spotted%' AND comment NOT LIKE 'Speculative%'
-ORDER BY lastComp DESC, numComps DESC, yearsCompeting DESC;
-
 -- Summarise the accuracy of DOB information
-SELECT accuracy, COUNT(*) AS numSeniors
-FROM Seniors
-GROUP BY accuracy
+SELECT 'Accuracy' AS label, accuracyType, COUNT(*) AS numSeniors
+FROM SeniorDetails s
+GROUP BY accuracyType
 ORDER BY numSeniors DESC;
-
--- Synthetic DOB
-SELECT 'Synthetic DOB' AS label, s.*
-FROM SeniorDetails AS s
-WHERE accuracy = 'S'
-ORDER BY lastComp DESC, numComps DESC, yearsCompeting DESC;
 
 -- Imprecise DOBs - Y = year, X = approximated year, F = faked, U = Undefined
 SELECT 'Imprecise DOB' AS label, s.*
 FROM SeniorDetails AS s
-WHERE accuracy NOT IN ('D', 'M', 'S') -- D = day, M = month, S = synthetic
-ORDER BY accuracy, lastComp DESC, numComps DESC, yearsCompeting DESC;
+WHERE accuracyId NOT IN ('D', 'M', 'S') -- D = day, M = month, S = synthetic
+ORDER BY accuracyType, lastComp DESC, numComps DESC, yearsCompeting DESC;
 
--- Speedsolving.com users with impreceise DOB
-SELECT 'Everyone' AS label, s.*
+-- Speedsolving.com users with imprecise DOB
+SELECT 'Speedsolving.com' AS label, s.*
 FROM SeniorDetails AS s
 WHERE username IS NOT NULL
-AND accuracy NOT IN ('D', 'M') -- D = day, M = month, S = synthetic
-ORDER BY accuracy, lastComp DESC, numComps DESC, yearsCompeting DESC;
-
--- Source
-SELECT source, hidden, COUNT(*)
-FROM SeniorDetails
-GROUP BY source, hidden
-ORDER BY source, hidden;
+AND accuracyId NOT IN ('D', 'M') -- D = day, M = month, S = synthetic
+ORDER BY accuracyType, lastComp DESC, numComps DESC, yearsCompeting DESC;

@@ -11,14 +11,16 @@ DROP TABLE IF EXISTS Seniors;
 CREATE TABLE Seniors
 (
      `personId` varchar(10) CHARACTER SET latin1 NOT NULL,
-     `source` char(1) NOT NULL DEFAULT 'U',
+     `sourceId` char(1) NOT NULL DEFAULT 'U',
      `hidden` char(1) NOT NULL DEFAULT 'Y',
-     `accuracy` char(1) NOT NULL,
+     `accuracyId` char(1) NOT NULL,
      `dob` date,
      `username` varchar(30) CHARACTER SET latin1,
      `usernum` mediumint NOT NULL DEFAULT 0,
      `comment` text CHARACTER SET latin1 NOT NULL,
-     PRIMARY KEY (`personId`)
+     PRIMARY KEY (`personId`),
+     FOREIGN KEY (`sourceId`) REFERENCES SeniorSources(`id`),
+     FOREIGN KEY (`accuracyId`) REFERENCES SeniorAccuracies(`id`)
 );
 
 LOAD DATA INFILE '/home/jovyan/work/wca-ipy/data/private/load/seniors.csv'
