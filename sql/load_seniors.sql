@@ -34,14 +34,14 @@ SET p.year = 0,
 
 -- Update DOB if known (or approximated)
 UPDATE Persons AS p
-INNER JOIN Seniors AS s ON s.personId = p.id AND s.dob IS NOT NULL
+INNER JOIN Seniors AS s ON s.personId = p.id AND s.dob IS NOT NULL AND hidden = 'N'
 SET p.year = DATE_FORMAT(s.dob, '%Y'),
     p.month = DATE_FORMAT(s.dob, '%m'),
     p.day = DATE_FORMAT(s.dob, '%d');
 
 -- Use 19th century for any seniors where DOB is unknown
 UPDATE Persons AS p
-INNER JOIN Seniors AS s ON s.personId = p.id AND s.dob IS NULL
+INNER JOIN Seniors AS s ON s.personId = p.id AND s.dob IS NULL AND hidden = 'N'
 SET p.year = 1900,
     p.month = 1,
     p.day = 1;
