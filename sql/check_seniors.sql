@@ -57,7 +57,7 @@ WITH SeniorYears AS
     GROUP BY p.id, c.year
 )
 SELECT 'Embassador', s.personId,
-    personName, countryId, lastComp, s.numComps, yearsCompeting, ageFirstComp, ageLastComp, ageToday,
+    s.name, countryId, lastComp, s.numComps, yearsCompeting, ageFirstComp, ageLastComp, ageToday,
     IFNULL(y0.numComps, 0) AS numComps0, IFNULL(y1.numComps, 0) AS numComps1, IFNULL(y2.numComps, 0) AS numComps2,
     u.id AS userId, username, comment
 FROM SeniorDetails s

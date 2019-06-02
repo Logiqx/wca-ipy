@@ -45,3 +45,16 @@ INNER JOIN Seniors AS s ON s.personId = p.id AND s.dob IS NULL AND hidden = 'N'
 SET p.year = 1900,
     p.month = 1,
     p.day = 1;
+
+-- Add name and country to seniors
+ALTER TABLE Seniors ADD COLUMN
+(
+  `name` varchar(80) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `countryId` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '',
+  `gender` char(1) COLLATE utf8mb4_unicode_ci DEFAULT ''
+);
+
+-- Populate name and country on seniors
+UPDATE Seniors s
+JOIN Persons p ON p.id = s.personId AND p.subid = 1
+SET s.name = p.name, s.countryId = p.countryId, s.gender = p.gender;

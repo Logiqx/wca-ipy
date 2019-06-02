@@ -9,27 +9,18 @@
 DROP VIEW IF EXISTS SeniorDetails;
 
 CREATE VIEW SeniorDetails AS
-WITH SeniorResults AS
-(
-    SELECT r.eventId, r.personId, r.average, p.name AS personName, p.countryId, c.id as compId,
-		DATE_FORMAT(CONCAT(c.year, '-', c.month, '-', c.day), '%Y-%m-%d') AS compDate, c.year AS compYear,
-        IF(p.year > 1900, TIMESTAMPDIFF(YEAR,
-            DATE_FORMAT(CONCAT(p.year, '-', p.month, '-', p.day), '%Y-%m-%d'),
-            DATE_FORMAT(CONCAT(c.year, '-', c.month, '-', c.day), '%Y-%m-%d')), NULL) AS age_at_comp
-    FROM Results AS r
-    JOIN Competitions AS c ON r.competitionId = c.id
-    JOIN Persons AS p ON r.personId = p.id AND p.subid = 1 AND p.year > 0
-)
-SELECT s.personId, personName, countryId, sourceId, ss.type AS SourceType, hidden, accuracyId, sa.type AS accuracyType, s.dob,
-    MIN(compDate) AS firstComp, MAX(compDate) AS lastComp, COUNT(DISTINCT compId) as numComps,
-    TIMESTAMPDIFF(YEAR, DATE_FORMAT(CONCAT(LEFT(s.personId, 4), '-01-01'), '%Y-%m-%d'),
-        DATE_FORMAT(CONCAT(MAX(compYear), '-01-01'), '%Y-%m-%d')) + 1 AS yearsCompeting,
-    TIMESTAMPDIFF(YEAR, s.dob, DATE_FORMAT(CONCAT(LEFT(s.personId, 4), '-01-01'), '%Y-%m-%d')) AS ageFirstComp,
-    MAX(age_at_comp) AS ageLastComp,
+SELECT r.personId, s.name, s.countryId, s.sourceId, ss.type AS sourceType, s.hidden, s.accuracyId, sa.type AS accuracyType, s.dob,
+    MIN(DATE_FORMAT(CONCAT(c.year, '-', c.month, '-', c.day), '%Y-%m-%d')) AS firstComp,
+    MAX(DATE_FORMAT(CONCAT(c.year, '-', c.month, '-', c.day), '%Y-%m-%d')) AS lastComp,
+    COUNT(DISTINCT r.competitionId) AS numComps,
+    MAX(TIMESTAMPDIFF(YEAR, DATE_FORMAT(CONCAT(LEFT(s.personId, 4), '-01-01'), '%Y-%m-%d'), DATE_FORMAT(CONCAT(c.year, '-01-01'), '%Y-%m-%d')) + 1) AS yearsCompeting,
+    MIN(TIMESTAMPDIFF(YEAR, s.dob, DATE_FORMAT(CONCAT(c.year, '-', c.month, '-', c.day), '%Y-%m-%d'))) AS ageFirstComp,
+    MAX(TIMESTAMPDIFF(YEAR, s.dob, DATE_FORMAT(CONCAT(c.year, '-', c.month, '-', c.day), '%Y-%m-%d'))) AS ageLastComp,
     TIMESTAMPDIFF(YEAR, s.dob, NOW()) AS ageToday,
     u.id AS userId, username, usernum, s.comment
-FROM SeniorResults r
-JOIN Seniors s ON s.personId = r.personId
+FROM Seniors AS s
+JOIN Results AS r ON r.personId = s.personId
+JOIN Competitions AS c ON c.id = r.competitionId
 JOIN SeniorSources ss ON ss.id = s.sourceId
 JOIN SeniorAccuracies sa ON sa.id = s.accuracyId
 LEFT JOIN wca_dev.users u ON u.wca_id= r.personId
