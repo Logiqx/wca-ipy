@@ -17,7 +17,7 @@ SELECT r.personId, s.name, s.countryId, s.sourceId, ss.type AS sourceType, s.hid
     MIN(TIMESTAMPDIFF(YEAR, s.dob, DATE_FORMAT(CONCAT(c.year, '-', c.month, '-', c.day), '%Y-%m-%d'))) AS ageFirstComp,
     MAX(TIMESTAMPDIFF(YEAR, s.dob, DATE_FORMAT(CONCAT(c.year, '-', c.month, '-', c.day), '%Y-%m-%d'))) AS ageLastComp,
     TIMESTAMPDIFF(YEAR, s.dob, NOW()) AS ageToday,
-    u.id AS userId, username, usernum, s.comment
+    u.id AS userId, avatar, username, usernum, s.comment
 FROM Seniors AS s
 JOIN Results AS r ON r.personId = s.personId
 JOIN Competitions AS c ON c.id = r.competitionId
