@@ -18,6 +18,8 @@
 
 -- Baseline aggregation uses public database export from 2019-01-30
 
+SET @cutoff = '2019-02-01';
+
 DROP TEMPORARY TABLE IF EXISTS tmpAggBase;
 CREATE TEMPORARY TABLE tmpAggBase AS
 SELECT eventId, FLOOR(best_average / 100) AS modified_average, COUNT(*) AS num_persons
@@ -30,8 +32,12 @@ FROM
       TIMESTAMPDIFF(YEAR,
         DATE_FORMAT(CONCAT(p.year, '-', p.month, '-', p.day), '%Y-%m-%d'),
         DATE_FORMAT(CONCAT(c.year, '-', c.month, '-', c.day), '%Y-%m-%d')) AS age_at_comp
-    FROM wca_20190130.Results AS r
-    INNER JOIN wca_20190130.Competitions AS c ON r.competitionId = c.id
+    FROM Results AS r
+    INNER JOIN Competitions AS c ON r.competitionId = c.id AND DATE_FORMAT(CONCAT(c.year, '-', c.month, '-', c.day), '%Y-%m-%d') < @cutoff
+        -- Excluding these specific competitions is the equivalent of results_posted_at < @cutoff
+        -- This was established using the WCA developer database which contains additional information about competitions
+        AND competitionId NOT IN ('WardenoftheWest2019', 'HongKongCubeDay2019', 'InnerMongoliaWinter2019', 'MindGames2019', 'BursaWinter2019',
+								  'CubodeBarro2019', 'KubkvarnaWinter2019', 'NorthStarCubingChallenge2019', 'TaipeiPeaceOpen2019')
     INNER JOIN Persons AS p ON r.personId = p.id AND p.subid = 1 AND p.year > 0 AND p.year <= YEAR(CURDATE()) - 40
     WHERE average > 0
     HAVING age_at_comp >= 40
