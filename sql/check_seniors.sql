@@ -81,6 +81,11 @@ SELECT LEFT(comment, LOCATE(' ', comment) - 1) AS label, s.*
 FROM SeniorDetails AS s
 WHERE comment LIKE 'Found%';
 
+-- List senior cubers
+SELECT LEFT(comment, LOCATE(' ', comment) - 1) AS label, s.*
+FROM SeniorDetails AS s
+WHERE comment LIKE 'Senior%';
+
 -- List people spotted on the internet - Facebook, WCA, Speedsolving, etc
 SELECT LEFT(comment, LOCATE(' ', comment) - 1) AS label, s.*
 FROM SeniorDetails AS s
