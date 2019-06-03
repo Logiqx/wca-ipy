@@ -49,17 +49,12 @@ WITH SeniorYears AS
     JOIN Persons AS p ON r.personId = p.id AND p.subid = 1 AND p.year > 0
     GROUP BY p.id, c.year
 )
-SELECT 'Embassador', s.personId,
-    s.name, countryId, lastComp, s.numComps, yearsCompeting, ageFirstComp, ageLastComp, ageToday,
-    IFNULL(y0.numComps, 0) AS numComps0, IFNULL(y1.numComps, 0) AS numComps1, IFNULL(y2.numComps, 0) AS numComps2,
-    u.id AS userId, username, comment
+SELECT 'Embassador', IFNULL(y0.numComps, 0) AS numComps0, IFNULL(y1.numComps, 0) AS numComps1, IFNULL(y2.numComps, 0) AS numComps2, s.*
 FROM SeniorDetails s
 LEFT JOIN SeniorYears y0 ON y0.personId = s.personId and y0.year = YEAR(NOW())
 LEFT JOIN SeniorYears y1 ON y1.personId = s.personId and y1.year = YEAR(NOW()) - 1
 LEFT JOIN SeniorYears y2 ON y2.personId = s.personId and y2.year = YEAR(NOW()) - 2
-LEFT JOIN wca_dev.users u ON u.wca_id= s.personId
-HAVING numComps1 >= 6 AND numComps0 >= CEIL((MONTH(NOW()) - 1) / 2)
-ORDER BY countryId, name;
+HAVING numComps1 >= 6 AND numComps0 >= CEIL((MONTH(NOW()) - 1) / 2);
 
 -- Summarise the sources
 SELECT 'Source' AS label, sourceType, COUNT(*) AS numSeniors
