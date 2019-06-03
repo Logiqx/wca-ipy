@@ -13,27 +13,27 @@ FROM SeniorDetails AS s;
 -- List the over 50s
 SELECT 'Over 50' AS label, s.*
 FROM SeniorDetails AS s
-WHERE ageLastComp >= 50;
+WHERE ageToday >= 50;
 
 -- List the over 60s
 SELECT 'Over 60' AS label, s.*
 FROM SeniorDetails AS s
-WHERE ageLastComp >= 60;
+WHERE ageToday >= 60;
 
 -- List the over 70s
 SELECT 'Over 70' AS label, s.*
 FROM SeniorDetails AS s
-WHERE ageLastComp >= 70;
+WHERE ageToday >= 70;
 
 -- List the over 80s
 SELECT 'Over 80' AS label, s.*
 FROM SeniorDetails AS s
-WHERE ageLastComp >= 80;
+WHERE ageToday >= 80;
 
 -- List the over 90s
 SELECT 'Over 90' AS label, s.*
 FROM SeniorDetails AS s
-WHERE ageLastComp >= 90;
+WHERE ageToday >= 90;
 
 -- List the delegates appearing in the senior rankings
 SELECT 'Delegate' AS label, delegate_status, s.*
