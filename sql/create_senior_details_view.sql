@@ -9,7 +9,7 @@
 DROP VIEW IF EXISTS SeniorDetails;
 
 CREATE VIEW SeniorDetails AS
-SELECT r.personId, s.name, s.countryId, s.sourceId, ss.type AS sourceType, s.hidden, s.accuracyId, sa.type AS accuracyType, s.dob,
+SELECT r.personId, s.name, s.countryId, s.gender, s.sourceId, ss.type AS sourceType, s.hidden, s.accuracyId, sa.type AS accuracyType, s.dob,
     MIN(DATE_FORMAT(CONCAT(c.year, '-', c.month, '-', c.day), '%Y-%m-%d')) AS firstComp,
     MAX(DATE_FORMAT(CONCAT(c.year, '-', c.month, '-', c.day), '%Y-%m-%d')) AS lastComp,
     COUNT(DISTINCT r.competitionId) AS numComps,
