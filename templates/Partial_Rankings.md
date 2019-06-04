@@ -11,10 +11,10 @@ A [dynamic page](https://jonatanklosko.github.io/rankings/#/rankings/show?name=O
 >90% of sub-15 | 50% of sub-20 | 43% of sub-25 | 34% of sub-30 | 25% of sub-45 | 21% of sub-1:00  
 >
 >**3x3x3 variations have greater coverage**  
->OH: 70% of sub-0:40 | 3BLD: 80% of sub-4:00 | Feet: 100% of sub-4:00 | FMC: 100% of sub-40  
+>OH: 70% of sub-0:40 | 3BLD: 75% of sub-4:00 | Feet: 90% of sub-4:00 | FMC: 95% of sub-40  
 >
 >**Big cubes have even greater coverage**  
->4x4: 75% of sub-1:30 | 5x5: 85% of sub-3:00 | 6x6: 95% of sub-6:00 | 7x7: 100% of sub-9:00
+>4x4: 80% of sub-1:30 | 5x5: 85% of sub-3:00 | 6x6: 90% of sub-6:00 | 7x7: 95% of sub-9:00
 
 Tip: Best viewed in landscape mode on mobile phones and some tablets.
 
