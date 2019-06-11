@@ -8,27 +8,28 @@
 
 -- List everyone
 SELECT 'Everyone' AS label, s.*
-FROM SeniorDetails AS s;
+FROM SeniorDetails AS s
+WHERE ageToday BETWEEN 40 AND 49;
 
 -- List the over 50s
 SELECT 'Over 50' AS label, s.*
 FROM SeniorDetails AS s
-WHERE ageToday >= 50;
+WHERE ageToday BETWEEN 50 AND 59;
 
 -- List the over 60s
 SELECT 'Over 60' AS label, s.*
 FROM SeniorDetails AS s
-WHERE ageToday >= 60;
+WHERE ageToday BETWEEN 60 AND 69;
 
 -- List the over 70s
 SELECT 'Over 70' AS label, s.*
 FROM SeniorDetails AS s
-WHERE ageToday >= 70;
+WHERE ageToday BETWEEN 70 AND 79;
 
 -- List the over 80s
 SELECT 'Over 80' AS label, s.*
 FROM SeniorDetails AS s
-WHERE ageToday >= 80;
+WHERE ageToday BETWEEN 90 AND 99;
 
 -- List the over 90s
 SELECT 'Over 90' AS label, s.*
