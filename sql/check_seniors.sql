@@ -6,35 +6,35 @@
       Purpose:  Review seniors from a data quality perspective
 */
 
--- List everyone
-SELECT 'Everyone' AS label, s.*
+-- List the over 40s
+SELECT 'Over 40' AS label, s.*
 FROM SeniorDetails AS s
-WHERE ageToday BETWEEN 40 AND 49;
+WHERE ageToday >= 40;
 
 -- List the over 50s
 SELECT 'Over 50' AS label, s.*
 FROM SeniorDetails AS s
-WHERE ageToday BETWEEN 50 AND 59;
+WHERE ageLastComp >= 50;
 
 -- List the over 60s
 SELECT 'Over 60' AS label, s.*
 FROM SeniorDetails AS s
-WHERE ageToday BETWEEN 60 AND 69;
+WHERE ageLastComp >= 60;
 
 -- List the over 70s
 SELECT 'Over 70' AS label, s.*
 FROM SeniorDetails AS s
-WHERE ageToday BETWEEN 70 AND 79;
+WHERE ageLastComp >= 70;
 
 -- List the over 80s
 SELECT 'Over 80' AS label, s.*
 FROM SeniorDetails AS s
-WHERE ageToday BETWEEN 90 AND 99;
+WHERE ageLastComp >= 80;
 
 -- List the over 90s
 SELECT 'Over 90' AS label, s.*
 FROM SeniorDetails AS s
-WHERE ageToday >= 90;
+WHERE ageLastComp >= 90;
 
 -- List the delegates appearing in the senior rankings
 SELECT 'Delegate' AS label, delegate_status, s.*
