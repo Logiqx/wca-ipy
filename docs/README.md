@@ -23,7 +23,7 @@ If you would like your name to be added then either contact me via [Facebook](ht
 **Completeness**
 
 >**Percentage coverage for 3x3x3**  
->90% of sub-15 | 50% of sub-20 | 43% of sub-25 | 34% of sub-30 | 25% of sub-45 | 21% of sub-1:00  
+>90% of sub-15 | 60% of sub-20 | 50% of sub-25 | 43% of sub-30 | 37% of sub-45 | 33% of sub-1:00  
 >
 >**3x3x3 variations have greater coverage**  
 >OH: 70% of sub-0:40 | 3BLD: 75% of sub-4:00 | Feet: 90% of sub-4:00 | FMC: 95% of sub-40  

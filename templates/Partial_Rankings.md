@@ -8,7 +8,7 @@ The list of names is still incomplete but most of the fastest people are include
 A [dynamic page](https://jonatanklosko.github.io/rankings/#/rankings/show?name=Over%2040s%20-%20Official%20PRs&wcaids=) listing personal records is also available but it does not factor in age at the time of the result(s).
 
 >**Percentage coverage for 3x3x3**  
->90% of sub-15 | 50% of sub-20 | 43% of sub-25 | 34% of sub-30 | 25% of sub-45 | 21% of sub-1:00  
+>90% of sub-15 | 60% of sub-20 | 50% of sub-25 | 43% of sub-30 | 37% of sub-45 | 33% of sub-1:00  
 >
 >**3x3x3 variations have greater coverage**  
 >OH: 70% of sub-0:40 | 3BLD: 75% of sub-4:00 | Feet: 90% of sub-4:00 | FMC: 95% of sub-40  
