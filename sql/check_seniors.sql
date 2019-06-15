@@ -9,7 +9,7 @@
 -- List the over 40s
 SELECT 'Over 40' AS label, s.*
 FROM SeniorDetails AS s
-WHERE ageToday >= 40;
+WHERE ageLastComp >= 40;
 
 -- List the over 50s
 SELECT 'Over 50' AS label, s.*
@@ -100,7 +100,8 @@ WHERE comment LIKE 'Speculative%';
 -- Summarise the accuracy of DOB information
 SELECT 'Accuracy' AS label, accuracyType, COUNT(*) AS numSeniors
 FROM SeniorDetails s
-GROUP BY accuracyType;
+GROUP BY accuracyType
+ORDER BY numSeniors DESC;
 
 -- Imprecise DOBs
 SELECT 'Imprecise DOB' AS label, s.*
