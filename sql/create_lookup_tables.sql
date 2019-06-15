@@ -20,6 +20,7 @@ INSERT INTO SeniorSources VALUES
 ('C', 'Contacted', 'Contacted via Messenger after being found or spotted'),
 ('D', 'Derived', 'Derived from other sources (e.g. old WCA statistics)'),
 ('F', 'Found', 'Found DOB or YOB on Speedsolving.com, Facebook, etc'),
+('H', 'Historic', 'Historical sources (e.g. old age statistics or WCA records)'),
 ('P', 'Provided', 'Provided DOB in person, via a friend, Speedsolving.com, Facebook, etc'),
 ('S', 'Spotted', 'Spotted profile on Facebook, WCA website, etc');
 
