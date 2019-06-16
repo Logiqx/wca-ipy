@@ -60,42 +60,49 @@ HAVING numComps1 >= 6 AND numComps0 >= CEIL((MONTH(NOW()) - 1) / 2);
 -- Summarise the sources
 SELECT 'Source' AS label, sourceType, COUNT(*) AS numSeniors
 FROM SeniorDetails s
-GROUP BY sourceType;
+GROUP BY sourceType
+ORDER BY numSeniors DESC;
 
 -- Summarise the comment types
 SELECT 'Comment' AS label, LEFT(comment, LOCATE(' ', comment) - 1) AS commentType, COUNT(*) AS numSeniors
 FROM SeniorDetails s
-GROUP BY commentType;
+GROUP BY commentType
+ORDER BY numSeniors DESC;
 
--- List people who pro-actively provided their information (or someone did so on their behalf)
-SELECT LEFT(comment, LOCATE(' ', comment) - 1) AS label, s.*
+-- Summarise people spotted on the internet - Facebook, WCA, Speedsolving, etc
+SELECT sourceType, hidden, accuracyType, COUNT(*) AS numSeniors
 FROM SeniorDetails AS s
-WHERE comment LIKE 'Provided%';
+WHERE comment LIKE 'Spotted%'
+GROUP BY sourceType, hidden, accuracyType
+ORDER BY sourceType, hidden, numSeniors DESC;
 
--- List people contacted via Facebook
-SELECT LEFT(comment, LOCATE(' ', comment) - 1) AS label, s.*
+-- Summarise people who pro-actively provided their information (or someone did so on their behalf)
+SELECT sourceType, hidden, accuracyType, COUNT(*) AS numSeniors
 FROM SeniorDetails AS s
-WHERE comment LIKE 'Contacted%';
+WHERE comment LIKE 'Provided%'
+GROUP BY sourceType, hidden, accuracyType
+ORDER BY sourceType, hidden, numSeniors DESC;
 
--- List people where DOB / YOB was found on the internet - Facebook, Wikipedia, Speedsolving, etc
-SELECT LEFT(comment, LOCATE(' ', comment) - 1) AS label, s.*
+-- Summarise people where DOB / YOB was found on the internet - Facebook, Wikipedia, Speedsolving, etc
+SELECT sourceType, hidden, accuracyType, COUNT(*) AS numSeniors
 FROM SeniorDetails AS s
-WHERE comment LIKE 'Found%';
+WHERE comment LIKE 'Found%'
+GROUP BY sourceType, hidden, accuracyType
+ORDER BY sourceType, hidden, numSeniors DESC;
 
--- List senior cubers
-SELECT LEFT(comment, LOCATE(' ', comment) - 1) AS label, s.*
+-- Summarise people contacted via Facebook
+SELECT sourceType, hidden, accuracyType, COUNT(*) AS numSeniors
 FROM SeniorDetails AS s
-WHERE comment LIKE 'Senior%';
+WHERE comment LIKE 'Contacted%'
+GROUP BY sourceType, hidden, accuracyType
+ORDER BY sourceType, hidden, numSeniors DESC;
 
--- List people spotted on the internet - Facebook, WCA, Speedsolving, etc
-SELECT LEFT(comment, LOCATE(' ', comment) - 1) AS label, s.*
+-- Summarise speculative additions - friends of friends, etc.
+SELECT sourceType, hidden, accuracyType, COUNT(*) AS numSeniors
 FROM SeniorDetails AS s
-WHERE comment LIKE 'Spotted%';
-
--- List speculative additions - friends of friends, etc.
-SELECT LEFT(comment, LOCATE(' ', comment) - 1) AS label, s.*
-FROM SeniorDetails AS s
-WHERE comment LIKE 'Speculative%';
+WHERE comment LIKE 'Speculative%'
+GROUP BY sourceType, hidden, accuracyType
+ORDER BY sourceType, hidden, numSeniors DESC;
 
 -- Summarise the accuracy of DOB information
 SELECT 'Accuracy' AS label, accuracyType, COUNT(*) AS numSeniors
@@ -106,9 +113,10 @@ ORDER BY numSeniors DESC;
 -- Imprecise DOBs
 SELECT 'Imprecise DOB' AS label, s.*
 FROM SeniorDetails AS s
-WHERE accuracyId NOT IN ('D', 'M', 'S');
+WHERE accuracyId NOT IN ('D', 'M', 'S')
+ORDER BY accuracyId;
 
--- Speedsolving.com users to be discovered
+-- Speedsolving.com users to be discovered / scraped from Google
 SELECT 'Speedsolving.com' AS label, s.*
 FROM SeniorDetails AS s
 WHERE usernum = 0;
