@@ -17,13 +17,14 @@ SELECT r.personId, s.name, s.countryId, s.gender, s.sourceId, ss.type AS sourceT
     MIN(TIMESTAMPDIFF(YEAR, s.dob, DATE_FORMAT(CONCAT(c.year, '-', c.month, '-', c.day), '%Y-%m-%d'))) AS ageFirstComp,
     MAX(TIMESTAMPDIFF(YEAR, s.dob, DATE_FORMAT(CONCAT(c.year, '-', c.month, '-', c.day), '%Y-%m-%d'))) AS ageLastComp,
     TIMESTAMPDIFF(YEAR, s.dob, NOW()) AS ageToday,
-    u.id AS userId, avatar, username, usernum, t.status, s.comment
+    p.userId, u.avatar, s.username, s.usernum, t.status, s.comment
 FROM Seniors AS s
 JOIN Results AS r ON r.personId = s.personId
 JOIN Competitions AS c ON c.id = r.competitionId
 JOIN SeniorSources ss ON ss.id = s.sourceId
 JOIN SeniorAccuracies sa ON sa.id = s.accuracyId
-LEFT JOIN SeniorStatuses t ON t.personId = s.personId
+LEFT JOIN PersonsExtra p ON p.wcaId = s.personId
 LEFT JOIN wca_dev.users u ON u.wca_id = s.personId
+LEFT JOIN SeniorStatuses t ON t.personId = s.personId
 GROUP BY s.personId
 ORDER BY lastComp DESC, numComps DESC, yearsCompeting DESC;
