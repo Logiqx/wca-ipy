@@ -62,7 +62,7 @@ SELECT 'Speedsolving.com' AS label, s.*
 FROM SeniorDetails AS s
 WHERE usernum = 0;
 
--- List hidden seniors who might be ready
+-- List hidden seniors (typically women)
 SELECT 'Hidden' AS label, s.*
 FROM SeniorDetails AS s
 WHERE hidden = 'Y'
@@ -127,7 +127,7 @@ WHERE comment LIKE 'Speculative%'
 GROUP BY sourceType, hidden, accuracyType
 ORDER BY sourceType, hidden, numSeniors DESC;
 
--- Summarise hidden seniors (synthetic data, etc)
+-- Summarise hidden seniors (typically women)
 SELECT sourceType, hidden, accuracyType, COUNT(*) AS numSeniors, SUM(IF(ageLastComp >= 40, 1, 0)) AS numCompSeniors
 FROM SeniorDetails AS s
 WHERE hidden = 'Y'
