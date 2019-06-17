@@ -62,6 +62,12 @@ SELECT 'Speedsolving.com' AS label, s.*
 FROM SeniorDetails AS s
 WHERE usernum = 0;
 
+-- List hidden seniors who might be ready
+SELECT 'Hidden' AS label, s.*
+FROM SeniorDetails AS s
+WHERE hidden = 'Y'
+AND sourceId NOT IN ('D', 'H');
+
 -- Imprecise DOBs
 SELECT 'Imprecise DOB' AS label, s.*
 FROM SeniorDetails AS s
@@ -118,5 +124,12 @@ ORDER BY sourceType, hidden, numSeniors DESC;
 SELECT sourceType, hidden, accuracyType, COUNT(*) AS numSeniors, SUM(IF(ageLastComp >= 40, 1, 0)) AS numCompSeniors
 FROM SeniorDetails AS s
 WHERE comment LIKE 'Speculative%'
+GROUP BY sourceType, hidden, accuracyType
+ORDER BY sourceType, hidden, numSeniors DESC;
+
+-- Summarise hidden seniors (synthetic data, etc)
+SELECT sourceType, hidden, accuracyType, COUNT(*) AS numSeniors, SUM(IF(ageLastComp >= 40, 1, 0)) AS numCompSeniors
+FROM SeniorDetails AS s
+WHERE hidden = 'Y'
 GROUP BY sourceType, hidden, accuracyType
 ORDER BY sourceType, hidden, numSeniors DESC;
