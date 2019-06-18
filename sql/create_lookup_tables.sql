@@ -6,9 +6,9 @@
       Purpose:  Small lookups
 */
 
-DROP TABLE IF EXISTS SeniorSources;
+DROP TABLE IF EXISTS wca_ipy.SeniorSources;
 
-CREATE TABLE SeniorSources
+CREATE TABLE wca_ipy.SeniorSources
 (
      `id` char(1) CHARACTER SET latin1 NOT NULL,
      `type` varchar(10) CHARACTER SET latin1,
@@ -16,7 +16,7 @@ CREATE TABLE SeniorSources
      PRIMARY KEY (`id`)
 );
 
-INSERT INTO SeniorSources VALUES
+INSERT INTO wca_ipy.SeniorSources VALUES
 ('C', 'Contacted', 'Contacted via Messenger after being found or spotted'),
 ('D', 'Derived', 'Derived from other sources (e.g. old WCA statistics)'),
 ('F', 'Found', 'Found DOB or YOB on Speedsolving.com, Facebook, etc'),
@@ -24,9 +24,9 @@ INSERT INTO SeniorSources VALUES
 ('P', 'Provided', 'Provided DOB in person, via a friend, Speedsolving.com, Facebook, etc'),
 ('S', 'Spotted', 'Spotted profile on Facebook, WCA website, etc');
 
-DROP TABLE IF EXISTS SeniorAccuracies;
+DROP TABLE IF EXISTS wca_ipy.SeniorAccuracies;
 
-CREATE TABLE SeniorAccuracies
+CREATE TABLE wca_ipy.SeniorAccuracies
 (
      `id` char(1) CHARACTER SET latin1 NOT NULL,
      `type` varchar(10) CHARACTER SET latin1,
@@ -34,7 +34,7 @@ CREATE TABLE SeniorAccuracies
      PRIMARY KEY (`id`)
 );
 
-INSERT INTO SeniorAccuracies VALUES
+INSERT INTO wca_ipy.SeniorAccuracies VALUES
 ('D', 'Day', 'Precise DOB'),
 ('F', 'Fake', 'Fake DOB to exclude earlier competitions'),
 ('M', 'Month', 'Month of birth - e.g. 1972-07-31 for July 1972'),

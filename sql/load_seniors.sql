@@ -6,9 +6,9 @@
     Purpose:  Unofficial rankings for the over 40s - https://github.com/Logiqx/wca-ipy.
 */
 
-DROP TABLE IF EXISTS Seniors;
+DROP TABLE IF EXISTS wca_ipy.Seniors;
 
-CREATE TABLE Seniors
+CREATE TABLE wca_ipy.Seniors
 (
      `personId` varchar(10) CHARACTER SET latin1 NOT NULL,
      `sourceId` char(1) NOT NULL DEFAULT 'U',
@@ -24,7 +24,7 @@ CREATE TABLE Seniors
 );
 
 LOAD DATA INFILE '/home/jovyan/work/wca-ipy/data/private/load/seniors.csv'
-INTO TABLE Seniors FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"';
+INTO TABLE wca_ipy.Seniors FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"';
 
 -- Start with default YMD of zero
 UPDATE Persons AS p
@@ -34,20 +34,20 @@ SET p.year = 0,
 
 -- Update DOB if known (or approximated)
 UPDATE Persons AS p
-INNER JOIN Seniors AS s ON s.personId = p.id AND s.dob IS NOT NULL AND hidden = 'N'
+INNER JOIN wca_ipy.Seniors AS s ON s.personId = p.id AND s.dob IS NOT NULL AND hidden = 'N'
 SET p.year = DATE_FORMAT(s.dob, '%Y'),
     p.month = DATE_FORMAT(s.dob, '%m'),
     p.day = DATE_FORMAT(s.dob, '%d');
 
 -- Use 19th century for any seniors where DOB is unknown
 UPDATE Persons AS p
-INNER JOIN Seniors AS s ON s.personId = p.id AND s.dob IS NULL AND hidden = 'N'
+INNER JOIN wca_ipy.Seniors AS s ON s.personId = p.id AND s.dob IS NULL AND hidden = 'N'
 SET p.year = 1900,
     p.month = 1,
     p.day = 1;
 
 -- Add name and country to seniors
-ALTER TABLE Seniors ADD COLUMN
+ALTER TABLE wca_ipy.Seniors ADD COLUMN
 (
   `name` varchar(80) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `countryId` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '',
@@ -55,6 +55,6 @@ ALTER TABLE Seniors ADD COLUMN
 );
 
 -- Populate name and country on seniors
-UPDATE Seniors s
+UPDATE wca_ipy.Seniors s
 JOIN Persons p ON p.id = s.personId AND p.subid = 1
 SET s.name = p.name, s.countryId = p.countryId, s.gender = p.gender;

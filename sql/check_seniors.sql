@@ -6,6 +6,8 @@
       Purpose:  Review seniors from a data quality perspective
 */
 
+USE wca_ipy;
+
 -- List the over 40s
 SELECT 'Over 40' AS label, s.*
 FROM SeniorDetails AS s
@@ -45,9 +47,9 @@ JOIN wca_dev.users u ON u.wca_id = s.personId AND delegate_status IS NOT NULL;
 WITH SeniorYears AS
 (
     SELECT p.id AS personId, c.year, COUNT(DISTINCT competitionId) AS numComps
-    FROM Results AS r
-    JOIN Competitions AS c ON r.competitionId = c.id
-    JOIN Persons AS p ON r.personId = p.id AND p.subid = 1 AND p.year > 0
+    FROM wca.Results AS r
+    JOIN wca.Competitions AS c ON r.competitionId = c.id
+    JOIN wca.Persons AS p ON r.personId = p.id AND p.subid = 1 AND p.year > 0
     GROUP BY p.id, c.year
 )
 SELECT 'Embassador', IFNULL(y0.numComps, 0) AS numComps0, IFNULL(y1.numComps, 0) AS numComps1, IFNULL(y2.numComps, 0) AS numComps2, s.*

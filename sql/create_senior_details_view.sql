@@ -6,9 +6,9 @@
       Purpose:  Create View providing useful information about seniors
 */
 
-DROP VIEW IF EXISTS SeniorDetails;
+DROP VIEW IF EXISTS wca_ipy.SeniorDetails;
 
-CREATE VIEW SeniorDetails AS
+CREATE VIEW wca_ipy.SeniorDetails AS
 SELECT r.personId, s.name, s.countryId, s.gender, s.sourceId, ss.type AS sourceType, s.hidden, s.accuracyId, sa.type AS accuracyType, s.dob,
     MIN(DATE_FORMAT(CONCAT(c.year, '-', c.month, '-', c.day), '%Y-%m-%d')) AS firstComp,
     MAX(DATE_FORMAT(CONCAT(c.year, '-', c.month, '-', c.day), '%Y-%m-%d')) AS lastComp,
@@ -18,13 +18,13 @@ SELECT r.personId, s.name, s.countryId, s.gender, s.sourceId, ss.type AS sourceT
     MAX(TIMESTAMPDIFF(YEAR, s.dob, DATE_FORMAT(CONCAT(c.year, '-', c.month, '-', c.day), '%Y-%m-%d'))) AS ageLastComp,
     TIMESTAMPDIFF(YEAR, s.dob, NOW()) AS ageToday,
     p.userId, u.avatar, s.username, s.usernum, t.status, s.comment
-FROM Seniors AS s
-JOIN Results AS r ON r.personId = s.personId
-JOIN Competitions AS c ON c.id = r.competitionId
-JOIN SeniorSources ss ON ss.id = s.sourceId
-JOIN SeniorAccuracies sa ON sa.id = s.accuracyId
-LEFT JOIN PersonsExtra p ON p.wcaId = s.personId
+FROM wca_ipy.Seniors AS s
+JOIN wca_ipy.SeniorSources ss ON ss.id = s.sourceId
+JOIN wca_ipy.SeniorAccuracies sa ON sa.id = s.accuracyId
+JOIN wca.Results AS r ON r.personId = s.personId
+JOIN wca.Competitions AS c ON c.id = r.competitionId
+LEFT JOIN wca_ipy.PersonsExtra p ON p.wcaId = s.personId
+LEFT JOIN wca_ipy.SeniorStatuses t ON t.personId = s.personId
 LEFT JOIN wca_dev.users u ON u.wca_id = s.personId
-LEFT JOIN SeniorStatuses t ON t.personId = s.personId
 GROUP BY s.personId
 ORDER BY lastComp DESC, numComps DESC, yearsCompeting DESC;

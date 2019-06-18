@@ -20,7 +20,7 @@ FROM
   INNER JOIN Persons AS p ON r.personId = p.id AND p.subid = 1 AND p.year > 0 AND p.year <= YEAR(CURDATE()) - 40
   HAVING ageCategory >= 40
 ) AS t
-INNER JOIN Seniors AS s ON s.personId = t.personId
+INNER JOIN wca_ipy.Seniors AS s ON s.personId = t.personId
 INNER JOIN Countries AS c ON c.id = t.countryId
 GROUP BY personId
 ORDER BY personName, ageCategory DESC;

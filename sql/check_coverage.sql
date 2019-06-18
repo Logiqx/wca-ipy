@@ -10,8 +10,8 @@
 WITH cte1 AS
 (
 	SELECT p.countryId, COUNT(*) AS numPersons
-	FROM Seniors s
-	JOIN Persons p ON p.id = s.personId AND p.subid = 1
+	FROM wca_ipy.Seniors s
+	JOIN wca.Persons p ON p.id = s.personId AND p.subid = 1
 	GROUP BY p.countryId
 )
 SELECT countryId, numPersons, ROUND(100.0 * numPersons / SUM(numPersons) OVER(), 2) AS pctOverall
@@ -22,14 +22,14 @@ ORDER BY numPersons DESC;
 WITH cte1 AS
 (
 	SELECT p.countryId, COUNT(*) AS numPersons
-	FROM Seniors s
-	JOIN Persons p ON p.id = s.personId AND p.subid = 1
+	FROM wca_ipy.Seniors s
+	JOIN wca.Persons p ON p.id = s.personId AND p.subid = 1
 	GROUP BY p.countryId
 ),
 cte2 AS
 (
 	SELECT p.countryId, COUNT(*) AS numPersons
-	FROM Persons p
+	FROM wca.Persons p
     WHERE p.subid = 1
 	GROUP BY p.countryId
 )
