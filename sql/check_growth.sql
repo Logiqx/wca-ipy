@@ -18,14 +18,17 @@ INNER JOIN Competitions AS c ON r.competitionId = c.id AND DATE_FORMAT(CONCAT(c.
 WHERE average > 0
 GROUP BY eventId;
 
+-- Add PK
+ALTER TABLE wca_ipy.EventAverages ADD PRIMARY KEY (eventId);
+
 -- Calculate ratios
 DROP TABLE IF EXISTS wca_ipy.EventRatios;
 CREATE TABLE wca_ipy.EventRatios AS
-SELECT e1.eventId, IF(e1.eventId IN ('444bf', '555bf'), 1, e2.numPersons / e1.numPersons) AS ratio
+SELECT e1.eventId, ROUND(IF(e1.eventId IN ('444bf', '555bf'), 1, e2.numPersons / e1.numPersons), 5) AS ratio
 FROM wca_ipy.EventAverages e1
 JOIN
 (
-	-- Current results can jsut refer to the rankings for improved query speed
+	-- Current results can just refer to the rankings for improved query speed
 	SELECT eventId, COUNT(DISTINCT personId) AS numPersons
 	FROM wca.RanksAverage
 	GROUP BY eventId
