@@ -31,6 +31,9 @@ JOIN
 	GROUP BY eventId
 ) AS e2 ON e2.eventId = e1.eventId;
 
+-- Add PK
+ALTER TABLE wca_ipy.EventRatios ADD PRIMARY KEY (eventId);
+
 -- Leave at 1.0 for now
 UPDATE wca_ipy.EventRatios
 SET ratio = 1;
