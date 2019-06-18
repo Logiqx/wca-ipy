@@ -14,7 +14,7 @@ CREATE TABLE wca_ipy.Seniors
      `sourceId` char(1) NOT NULL DEFAULT 'U',
      `hidden` char(1) NOT NULL DEFAULT 'Y',
      `accuracyId` char(1) NOT NULL,
-     `dob` date,
+     `dob` date NOT NULL,
      `username` varchar(30) CHARACTER SET latin1,
      `usernum` mediumint NOT NULL DEFAULT 0,
      `comment` text CHARACTER SET latin1 NOT NULL,
