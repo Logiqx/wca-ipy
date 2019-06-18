@@ -97,9 +97,11 @@ FROM wca_ipy.SeniorAverages a
 LEFT JOIN wca_ipy.SeniorAveragesOld o ON o.eventId = a.eventId AND o.result = a.result
 HAVING numSeniors < 0;
 
--- Combine the unknown senior averages (unchanged since 2019-02-01) with the known senior averages
-SELECT eventId, result, SUM(numSeniors) AS numSeniors
-INTO OUTFILE '/home/jovyan/work/wca-ipy/data/private/extract/senior_averages_agg.csv' FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
+-- Combine the unknown senior averages (unchanged since 2019-02-01) with the known senior averages and estimate the total for today
+DROP TABLE IF EXISTS wca_ipy.SeniorAveragesEst;
+
+CREATE TABLE wca_ipy.SeniorAveragesEst AS
+SELECT t.eventId, result, ROUND(SUM(numSeniors * e.ratio)) AS numSeniors
 FROM
 (
   SELECT a.eventId, a.result, a.numSeniors - IFNULL(o.numSeniors, 0) AS numSeniors
@@ -110,8 +112,14 @@ FROM
   SELECT *
   FROM wca_ipy.SeniorAveragesNew
 ) AS t
+JOIN wca_ipy.EventRatios e ON e.eventId = t.eventId
 GROUP BY eventId, result
 ORDER BY eventId, result;
+
+-- Extract estimated senior averages
+SELECT *
+INTO OUTFILE '/home/jovyan/work/wca-ipy/data/private/extract/senior_averages_agg.csv' FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
+FROM wca_ipy.SeniorAveragesEst;
 
 -- Extract known senior averages
 SELECT *
