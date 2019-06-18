@@ -75,61 +75,61 @@ WHERE accuracyId NOT IN ('D', 'M', 'S')
 ORDER BY accuracyId;
 
 -- Summarise the accuracy of DOB information
-SELECT 'Accuracy' AS label, accuracyType, COUNT(*) AS numSeniors, SUM(IF(ageLastComp >= 40, 1, 0)) AS numCompSeniors
+SELECT 'Accuracy' AS label, accuracyType, hidden, SUM(IF(ageToday >= 40, 1, 0)) AS numSeniors, SUM(IF(ageLastComp >= 40, 1, 0)) AS numCompSeniors
 FROM SeniorDetails s
-GROUP BY accuracyType
-ORDER BY numSeniors DESC;
+GROUP BY accuracyType, hidden
+ORDER BY numCompSeniors DESC;
 
 -- Summarise the comment types
-SELECT 'Comment' AS label, LEFT(comment, LOCATE(' ', comment) - 1) AS commentType, COUNT(*) AS numSeniors, SUM(IF(ageLastComp >= 40, 1, 0)) AS numCompSeniors
+SELECT 'Comment' AS label, LEFT(comment, LOCATE(' ', comment) - 1) AS commentType, hidden, SUM(IF(ageToday >= 40, 1, 0)) AS numSeniors, SUM(IF(ageLastComp >= 40, 1, 0)) AS numCompSeniors
 FROM SeniorDetails s
-GROUP BY commentType
-ORDER BY numSeniors DESC;
+GROUP BY commentType, hidden
+ORDER BY numCompSeniors DESC;
 
 -- Summarise the sources
-SELECT 'Source' AS label, sourceType, COUNT(*) AS numSeniors, SUM(IF(ageLastComp >= 40, 1, 0)) AS numCompSeniors
+SELECT 'Source' AS label, sourceType, hidden, SUM(IF(ageToday >= 40, 1, 0)) AS numSeniors, SUM(IF(ageLastComp >= 40, 1, 0)) AS numCompSeniors
 FROM SeniorDetails s
-GROUP BY sourceType
-ORDER BY numSeniors DESC;
+GROUP BY sourceType, hidden
+ORDER BY numCompSeniors DESC, sourceType, hidden;
 
 -- Summarise people spotted on the internet - Facebook, WCA, Speedsolving, etc
-SELECT sourceType, hidden, accuracyType, COUNT(*) AS numSeniors, SUM(IF(ageLastComp >= 40, 1, 0)) AS numCompSeniors
+SELECT sourceType, hidden, accuracyType, SUM(IF(ageToday >= 40, 1, 0)) AS numSeniors, SUM(IF(ageLastComp >= 40, 1, 0)) AS numCompSeniors
 FROM SeniorDetails AS s
 WHERE comment LIKE 'Spotted%'
 GROUP BY sourceType, hidden, accuracyType
-ORDER BY sourceType, hidden, numSeniors DESC;
+ORDER BY numCompSeniors DESC, sourceType, hidden, accuracyType;
 
 -- Summarise people who pro-actively provided their information (or someone did so on their behalf)
-SELECT sourceType, hidden, accuracyType, COUNT(*) AS numSeniors, SUM(IF(ageLastComp >= 40, 1, 0)) AS numCompSeniors
+SELECT sourceType, hidden, accuracyType, SUM(IF(ageToday >= 40, 1, 0)) AS numSeniors, SUM(IF(ageLastComp >= 40, 1, 0)) AS numCompSeniors
 FROM SeniorDetails AS s
 WHERE comment LIKE 'Provided%'
 GROUP BY sourceType, hidden, accuracyType
-ORDER BY sourceType, hidden, numSeniors DESC;
+ORDER BY numCompSeniors DESC, sourceType, hidden, accuracyType;
 
 -- Summarise people where DOB / YOB was found on the internet - Facebook, Wikipedia, Speedsolving, etc
-SELECT sourceType, hidden, accuracyType, COUNT(*) AS numSeniors, SUM(IF(ageLastComp >= 40, 1, 0)) AS numCompSeniors
+SELECT sourceType, hidden, accuracyType, SUM(IF(ageToday >= 40, 1, 0)) AS numSeniors, SUM(IF(ageLastComp >= 40, 1, 0)) AS numCompSeniors
 FROM SeniorDetails AS s
 WHERE comment LIKE 'Found%'
 GROUP BY sourceType, hidden, accuracyType
-ORDER BY sourceType, hidden, numSeniors DESC;
+ORDER BY numCompSeniors DESC, sourceType, hidden, accuracyType;
 
 -- Summarise people contacted via Facebook
-SELECT sourceType, hidden, accuracyType, COUNT(*) AS numSeniors, SUM(IF(ageLastComp >= 40, 1, 0)) AS numCompSeniors
+SELECT sourceType, hidden, accuracyType, SUM(IF(ageToday >= 40, 1, 0)) AS numSeniors, SUM(IF(ageLastComp >= 40, 1, 0)) AS numCompSeniors
 FROM SeniorDetails AS s
 WHERE comment LIKE 'Contacted%'
 GROUP BY sourceType, hidden, accuracyType
-ORDER BY sourceType, hidden, numSeniors DESC;
+ORDER BY numCompSeniors DESC, sourceType, hidden, accuracyType;
 
 -- Summarise speculative additions - friends of friends, etc.
-SELECT sourceType, hidden, accuracyType, COUNT(*) AS numSeniors, SUM(IF(ageLastComp >= 40, 1, 0)) AS numCompSeniors
+SELECT sourceType, hidden, accuracyType, SUM(IF(ageToday >= 40, 1, 0)) AS numSeniors, SUM(IF(ageLastComp >= 40, 1, 0)) AS numCompSeniors
 FROM SeniorDetails AS s
 WHERE comment LIKE 'Speculative%'
 GROUP BY sourceType, hidden, accuracyType
-ORDER BY sourceType, hidden, numSeniors DESC;
+ORDER BY numCompSeniors DESC, sourceType, hidden, accuracyType;
 
 -- Summarise hidden seniors (typically women)
-SELECT sourceType, hidden, accuracyType, COUNT(*) AS numSeniors, SUM(IF(ageLastComp >= 40, 1, 0)) AS numCompSeniors
+SELECT sourceType, hidden, accuracyType, SUM(IF(ageToday >= 40, 1, 0)) AS numSeniors, SUM(IF(ageLastComp >= 40, 1, 0)) AS numCompSeniors
 FROM SeniorDetails AS s
 WHERE hidden = 'Y'
 GROUP BY sourceType, hidden, accuracyType
-ORDER BY sourceType, hidden, numSeniors DESC;
+ORDER BY numCompSeniors DESC, sourceType, hidden, accuracyType;
