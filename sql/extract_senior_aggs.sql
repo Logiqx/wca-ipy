@@ -135,11 +135,11 @@ SELECT eventId,
       WHEN eventId IN ('333fm') THEN best_single
       ELSE FLOOR(best_single / 100)
     END
-  ) AS result, COUNT(*) AS num_persons
+  ) AS result, COUNT(*) AS numSeniors
 INTO OUTFILE '/home/jovyan/work/wca-ipy/data/private/extract/known_senior_singles_agg.csv' FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
 FROM
 (   
-  SELECT eventId, personId, MIN(best) AS numSeniors
+  SELECT eventId, personId, MIN(best) AS best_single
   FROM
   (
     SELECT r.eventId, r.personId, r.best,
