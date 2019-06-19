@@ -47,7 +47,7 @@ FROM
       -- This was established using the WCA developer database which contains additional information about competitions
       AND competitionId NOT IN ('WardenoftheWest2019', 'HongKongCubeDay2019', 'InnerMongoliaWinter2019', 'MindGames2019', 'BursaWinter2019',
                                 'CubodeBarro2019', 'KubkvarnaWinter2019', 'NorthStarCubingChallenge2019', 'TaipeiPeaceOpen2019')
-    INNER JOIN wca_ipy.Seniors AS s ON s.personId = r.personId AND YEAR(dob) <= YEAR(CURDATE()) - 40 AND hidden = 'N'
+    INNER JOIN wca_ipy.Seniors AS s ON s.personId = r.personId AND YEAR(dob) <= YEAR(CURDATE()) - 40
     WHERE average > 0
     HAVING age_at_comp >= 40
   ) AS tmp_results
@@ -75,7 +75,7 @@ FROM
       TIMESTAMPDIFF(YEAR, s.dob, DATE_FORMAT(CONCAT(c.year, '-', c.month, '-', c.day), '%Y-%m-%d')) AS age_at_comp
     FROM Results AS r
     INNER JOIN Competitions AS c ON r.competitionId = c.id
-    INNER JOIN wca_ipy.Seniors AS s ON s.personId = r.personId AND YEAR(dob) <= YEAR(CURDATE()) - 40 AND hidden = 'N'
+    INNER JOIN wca_ipy.Seniors AS s ON s.personId = r.personId AND YEAR(dob) <= YEAR(CURDATE()) - 40
     WHERE average > 0
     HAVING age_at_comp >= 40
   ) AS tmp_results
@@ -152,7 +152,7 @@ FROM
  
 ALTER TABLE wca_ipy.EventModels ADD PRIMARY KEY (eventId);
 
-UPDATE wca_ipy.EventModels SET sampleFrequency = NULL;
+-- Hack to disable upsampling - UPDATE wca_ipy.EventModels SET sampleFrequency = NULL;
 
 /*
    Create aggregation of senior results using basic upsampling

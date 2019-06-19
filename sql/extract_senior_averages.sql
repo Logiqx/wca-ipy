@@ -45,12 +45,7 @@ FROM
 WHERE hidden = 'N'
 ORDER BY eventId, best_average;
 
--- Extract known senior averages (aggregated)
-SELECT *
-INTO OUTFILE '/home/jovyan/work/wca-ipy/data/private/extract/known_senior_averages_agg.csv' FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
-FROM wca_ipy.KnownAveragesLatest;
-
 -- Extract indicative senior averages (aggregated)
 SELECT *
 INTO OUTFILE '/home/jovyan/work/wca-ipy/data/private/extract/senior_averages_agg.csv' FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
-FROM wca_ipy.SeniorAveragesLatest;
+FROM wca_ipy.SeniorAverages;

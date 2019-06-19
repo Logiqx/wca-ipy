@@ -21,8 +21,3 @@ FROM
 ) AS tmp_results
 GROUP BY eventId, personId, ageCategory
 ORDER BY eventId, bestSingle, personId;
-
--- Extract known senior singles (aggregated)
-SELECT *
-INTO OUTFILE '/home/jovyan/work/wca-ipy/data/private/extract/known_senior_singles_agg.csv' FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
-FROM wca_ipy.KnownSinglesLatest;
