@@ -17,7 +17,7 @@ If you would like your name to be added then either contact me via [Facebook](ht
 
 **Informative Rankings**
 
-* [Indicative Over 40s Rankings](Indicative_Rankings.md) show the best possible indication of your "real" world ranking 
+* [Indicative Over 40s Rankings](Indicative_Rankings.md) give the best possible indication of your "real" world ranking 
 * [Percentile Rankings](Percentile_Rankings.md) show how times are distributed for the WCA community and the over 40s
 
 **Completeness**
