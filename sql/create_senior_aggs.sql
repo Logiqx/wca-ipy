@@ -40,8 +40,7 @@ FROM
   FROM
   (
     SELECT r.eventId, r.personId, r.average,
-      TIMESTAMPDIFF(YEAR,
-        DATE_FORMAT(CONCAT(p.year, '-', p.month, '-', p.day), '%Y-%m-%d'),
+      TIMESTAMPDIFF(YEAR, s.dob,
         DATE_FORMAT(CONCAT(c.year, '-', c.month, '-', c.day), '%Y-%m-%d')) AS age_at_comp
     FROM Results AS r
     INNER JOIN Competitions AS c ON r.competitionId = c.id AND DATE_FORMAT(CONCAT(c.year, '-', c.month, '-', c.day), '%Y-%m-%d') < @cutoff
@@ -49,7 +48,7 @@ FROM
       -- This was established using the WCA developer database which contains additional information about competitions
       AND competitionId NOT IN ('WardenoftheWest2019', 'HongKongCubeDay2019', 'InnerMongoliaWinter2019', 'MindGames2019', 'BursaWinter2019',
                                 'CubodeBarro2019', 'KubkvarnaWinter2019', 'NorthStarCubingChallenge2019', 'TaipeiPeaceOpen2019')
-    INNER JOIN Persons AS p ON r.personId = p.id AND p.subid = 1 AND p.year > 0 AND p.year <= YEAR(CURDATE()) - 40
+    INNER JOIN wca_ipy.Seniors AS s ON s.personId = r.personId AND YEAR(dob) <= YEAR(CURDATE()) - 40
     WHERE average > 0
     HAVING age_at_comp >= 40
   ) AS tmp_results
@@ -74,12 +73,11 @@ FROM
   FROM
   (
     SELECT r.eventId, r.personId, r.average,
-      TIMESTAMPDIFF(YEAR,
-        DATE_FORMAT(CONCAT(p.year, '-', p.month, '-', p.day), '%Y-%m-%d'),
+      TIMESTAMPDIFF(YEAR, s.dob,
         DATE_FORMAT(CONCAT(c.year, '-', c.month, '-', c.day), '%Y-%m-%d')) AS age_at_comp
     FROM Results AS r
     INNER JOIN Competitions AS c ON r.competitionId = c.id
-    INNER JOIN Persons AS p ON r.personId = p.id AND p.subid = 1 AND p.year > 0 AND p.year <= YEAR(CURDATE()) - 40
+    INNER JOIN wca_ipy.Seniors AS s ON s.personId = r.personId AND YEAR(dob) <= YEAR(CURDATE()) - 40
     WHERE average > 0
     HAVING age_at_comp >= 40
   ) AS tmp_results
