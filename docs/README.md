@@ -17,8 +17,8 @@ If you would like your name to be added then either contact me via [Facebook](ht
 
 **Informative Rankings**
 
-* [Representative Over 40s Rankings](Senior_Rankings.md) adds the "unknowns" to the Partial Over 40s Rankings
-* [Percentile Rankings](Percentile_Rankings.md) shows how times are distributed for the WCA community and the over 40s
+* [Indicative Over 40s Rankings](Indicative_Rankings.md) show the best possible indication of your "real" world ranking 
+* [Percentile Rankings](Percentile_Rankings.md) show how times are distributed for the WCA community and the over 40s
 
 **Completeness**
 

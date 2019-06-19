@@ -1,6 +1,11 @@
 ![alt text](img/logo.jpg "logo")
 ## Representative Over 40s Rankings
 
+### IMPORTANT
+**This page has been superseded by the [Indicative Over 40s Rankings](Indicative_Rankings.md)**
+
+**Please view the "Indicate Rankings" using the link above.**
+
 These are unofficial rankings for the senior cubing community produced from official WCA competition results.
 
 The rankings below were created from the [Partial Over 40s Rankings](Partial_Rankings.md) and supplementary anonymised [data](https://github.com/Logiqx/wca-ipy/blob/master/sql/extract_senior_aggs.sql) from the WCA database.
