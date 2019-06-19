@@ -189,33 +189,33 @@ ORDER BY eventId, result;
 DROP TABLE IF EXISTS wca_ipy.SeniorAveragePrs;
 
 CREATE TABLE wca_ipy.SeniorAveragePrs AS
-  SELECT eventId, personId, hidden, best_average, age_at_comp
-  FROM 
+SELECT eventId, personId, hidden, best_average, age_at_comp
+FROM
+(
+  SELECT eventId, personId, hidden, MIN(average) AS best_average, age_at_comp
+  FROM
   (
-    SELECT eventId, personId, hidden, MIN(average) AS best_average, age_at_comp
-    FROM
-	(
-      -- Known results
-      SELECT r.eventId, r.personId, r.average, s.hidden,
-        FLOOR(TIMESTAMPDIFF(YEAR, s.dob, DATE_FORMAT(CONCAT(c.year, '-', c.month, '-', c.day), '%Y-%m-%d')) / 10) * 10 AS age_at_comp
-      FROM Results AS r
-      INNER JOIN Competitions AS c ON r.competitionId = c.id
-      INNER JOIN wca_ipy.Seniors AS s ON s.personId = r.personId AND YEAR(dob) <= YEAR(CURDATE()) - 40 AND hidden = 'N'
-      WHERE average > 0
-      HAVING age_at_comp >= 40
-    ) AS tmp_results
-    GROUP BY eventId, personId, age_at_comp
-    UNION ALL
-    -- Synthetic results are all assigned a surrogate personId
-    SELECT eventId, ROW_NUMBER() OVER() AS personId, 'Y' AS hidden, ROUND(100 * (result + (seq - 0.5) / numUnknown)) AS best_average, 40 AS age_at_comp
-    FROM
-    (
-      SELECT a.eventId, a.result, a.numSeniors - IFNULL(k.numSeniors, 0) AS numUnknown
-      FROM wca_ipy.SeniorAverages a
-      LEFT JOIN wca_ipy.KnownAveragesLatest k ON k.eventId = a.eventId AND k.result = a.result
-      HAVING numUnknown > 0
-    ) AS tmp_unknowns
-    JOIN seq_1_to_1000 s ON s.seq <= numUnknown
-  ) AS r;
+    -- Known results
+    SELECT r.eventId, r.personId, r.average, s.hidden,
+      FLOOR(TIMESTAMPDIFF(YEAR, s.dob, DATE_FORMAT(CONCAT(c.year, '-', c.month, '-', c.day), '%Y-%m-%d')) / 10) * 10 AS age_at_comp
+    FROM Results AS r
+    INNER JOIN Competitions AS c ON r.competitionId = c.id
+    INNER JOIN wca_ipy.Seniors AS s ON s.personId = r.personId AND YEAR(dob) <= YEAR(CURDATE()) - 40
+    WHERE average > 0
+    HAVING age_at_comp >= 40
+  ) AS tmp_results
+  GROUP BY eventId, personId, age_at_comp
+  UNION ALL
+  -- Synthetic results are all assigned a surrogate personId
+  SELECT eventId, ROW_NUMBER() OVER() AS personId, 'Y' AS hidden, ROUND(100 * (result + (seq - 0.5) / numUnknown)) AS best_average, 40 AS age_at_comp
+  FROM
+  (
+    SELECT a.eventId, a.result, a.numSeniors - IFNULL(k.numSeniors, 0) AS numUnknown
+    FROM wca_ipy.SeniorAverages a
+    LEFT JOIN wca_ipy.KnownAveragesLatest k ON k.eventId = a.eventId AND k.result = a.result
+    HAVING numUnknown > 0
+  ) AS tmp_unknowns
+  JOIN seq_1_to_1000 s ON s.seq <= numUnknown
+) AS r;
 
 ALTER TABLE wca_ipy.SeniorAveragePrs ADD PRIMARY KEY (eventId, personId, age_at_comp);
