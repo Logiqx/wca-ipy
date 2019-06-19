@@ -43,9 +43,10 @@ FROM
   ) tmp_prs
 ) AS tmp_ranks
 WHERE hidden = 'N'
-ORDER BY eventId, best_average;
+ORDER BY eventId, rankNo, personId;
 
 -- Extract indicative senior averages (aggregated)
 SELECT *
 INTO OUTFILE '/home/jovyan/work/wca-ipy/data/private/extract/senior_averages_agg.csv' FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
-FROM wca_ipy.SeniorAverages;
+FROM wca_ipy.SeniorAverages
+ORDER BY eventId, result;
