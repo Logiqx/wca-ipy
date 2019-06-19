@@ -7,6 +7,8 @@ PYTHON_DIR=work/wca-ipy/python
 # Run all of the scripts back-to-back
 time docker exec $CONTAINER sh -c "cd $PYTHON_DIR; jupyter nbconvert --to notebook --execute --inplace Partial_Rankings.ipynb"
 echo
+time docker exec $CONTAINER sh -c "cd $PYTHON_DIR; jupyter nbconvert --to notebook --execute --inplace Indicative_Rankings.ipynb"
+echo
 time docker exec $CONTAINER sh -c "cd $PYTHON_DIR; jupyter nbconvert --to notebook --execute --inplace Senior_Rankings.ipynb"
 echo
 time docker exec $CONTAINER sh -c "cd $PYTHON_DIR; jupyter nbconvert --to notebook --execute --inplace Percentile_Rankings.ipynb"
