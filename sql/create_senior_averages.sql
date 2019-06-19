@@ -1,5 +1,5 @@
 /* 
-    Script:   Create aggregated results
+    Script:   Create senior averages
     Created:  2019-06-18
     Author:   Michael George / 2015GEOR02
 
@@ -27,7 +27,7 @@ LOAD DATA INFILE '/home/jovyan/work/wca-ipy/data/private/feed/senior_averages_ag
 INTO TABLE wca_ipy.SeniorAveragesPrevious FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"' IGNORE 1 LINES;
 
 /* 
-   Identify known averages relating to the one-off extract
+   Create aggregation of known averages relating to the one-off extract
 */
 
 DROP TABLE IF EXISTS wca_ipy.KnownAveragesPrevious;
@@ -40,15 +40,14 @@ FROM
   FROM
   (
     SELECT r.eventId, r.personId, r.average,
-      TIMESTAMPDIFF(YEAR, s.dob,
-        DATE_FORMAT(CONCAT(c.year, '-', c.month, '-', c.day), '%Y-%m-%d')) AS age_at_comp
+      TIMESTAMPDIFF(YEAR, s.dob, DATE_FORMAT(CONCAT(c.year, '-', c.month, '-', c.day), '%Y-%m-%d')) AS age_at_comp
     FROM Results AS r
     INNER JOIN Competitions AS c ON r.competitionId = c.id AND DATE_FORMAT(CONCAT(c.year, '-', c.month, '-', c.day), '%Y-%m-%d') < @cutoff
       -- Excluding these specific competitions is the equivalent of results_posted_at < @cutoff in the WCA developer database
       -- This was established using the WCA developer database which contains additional information about competitions
       AND competitionId NOT IN ('WardenoftheWest2019', 'HongKongCubeDay2019', 'InnerMongoliaWinter2019', 'MindGames2019', 'BursaWinter2019',
                                 'CubodeBarro2019', 'KubkvarnaWinter2019', 'NorthStarCubingChallenge2019', 'TaipeiPeaceOpen2019')
-    INNER JOIN wca_ipy.Seniors AS s ON s.personId = r.personId AND YEAR(dob) <= YEAR(CURDATE()) - 40
+    INNER JOIN wca_ipy.Seniors AS s ON s.personId = r.personId AND YEAR(dob) <= YEAR(CURDATE()) - 40 AND hidden = 'N'
     WHERE average > 0
     HAVING age_at_comp >= 40
   ) AS tmp_results
@@ -60,7 +59,7 @@ ORDER BY eventId, result;
 ALTER TABLE wca_ipy.KnownAveragesPrevious ADD PRIMARY KEY(eventId, result);
 
 /* 
-   Identify known averages using the very latest results
+   Create aggregation of known averages using the very latest results
 */
 
 DROP TABLE IF EXISTS wca_ipy.KnownAveragesLatest;
@@ -73,11 +72,10 @@ FROM
   FROM
   (
     SELECT r.eventId, r.personId, r.average,
-      TIMESTAMPDIFF(YEAR, s.dob,
-        DATE_FORMAT(CONCAT(c.year, '-', c.month, '-', c.day), '%Y-%m-%d')) AS age_at_comp
+      TIMESTAMPDIFF(YEAR, s.dob, DATE_FORMAT(CONCAT(c.year, '-', c.month, '-', c.day), '%Y-%m-%d')) AS age_at_comp
     FROM Results AS r
     INNER JOIN Competitions AS c ON r.competitionId = c.id
-    INNER JOIN wca_ipy.Seniors AS s ON s.personId = r.personId AND YEAR(dob) <= YEAR(CURDATE()) - 40
+    INNER JOIN wca_ipy.Seniors AS s ON s.personId = r.personId AND YEAR(dob) <= YEAR(CURDATE()) - 40 AND hidden = 'N'
     WHERE average > 0
     HAVING age_at_comp >= 40
   ) AS tmp_results
@@ -89,16 +87,7 @@ ORDER BY eventId, result;
 ALTER TABLE wca_ipy.KnownAveragesLatest ADD PRIMARY KEY(eventId, result);
 
 /* 
-   Sanity Check - rows indicate non-seniors are present in the "Seniors" table
-*/
-
-SELECT a.eventId, a.result, a.numSeniors - IFNULL(k.numSeniors, 0) AS diff
-FROM wca_ipy.SeniorAveragesPrevious a
-LEFT JOIN wca_ipy.KnownAveragesPrevious k ON k.eventId = a.eventId AND k.result = a.result
-HAVING diff < 0;
-
-/* 
-   Combine the unknown senior averages from 2019-02-01 with the latest known senior averages
+   Combine aggregations of the unknown senior averages from 2019-02-01 with the latest known senior averages
 */
 
 DROP TABLE IF EXISTS wca_ipy.SeniorAveragesLatest;
@@ -163,8 +152,10 @@ FROM
  
 ALTER TABLE wca_ipy.EventModels ADD PRIMARY KEY (eventId);
 
+UPDATE wca_ipy.EventModels SET sampleFrequency = NULL;
+
 /*
-   Create senior results using basic upsampling
+   Create aggregation of senior results using basic upsampling
 */
 
 DROP TABLE IF EXISTS wca_ipy.SeniorAverages;
@@ -192,11 +183,39 @@ GROUP BY eventId, result
 ORDER BY eventId, result;
 
 /*
-   Review the effectiveness of sampling
+   Determine senior average PRs
 */
 
-SELECT s.eventId, numSeniorsModel, SUM(numSeniors) AS numSeniorsActual, SUM(numSeniors) - numSeniorsModel AS diff
-FROM wca_ipy.SeniorAverages s
-JOIN wca_ipy.EventModels AS e ON e.eventId = s.eventId
-GROUP BY eventId
-HAVING diff != 0;
+DROP TABLE IF EXISTS wca_ipy.SeniorAveragePrs;
+
+CREATE TABLE wca_ipy.SeniorAveragePrs AS
+  SELECT eventId, personId, hidden, best_average, age_at_comp
+  FROM 
+  (
+    SELECT eventId, personId, hidden, MIN(average) AS best_average, age_at_comp
+    FROM
+	(
+      -- Known results
+      SELECT r.eventId, r.personId, r.average, s.hidden,
+        FLOOR(TIMESTAMPDIFF(YEAR, s.dob, DATE_FORMAT(CONCAT(c.year, '-', c.month, '-', c.day), '%Y-%m-%d')) / 10) * 10 AS age_at_comp
+      FROM Results AS r
+      INNER JOIN Competitions AS c ON r.competitionId = c.id
+      INNER JOIN wca_ipy.Seniors AS s ON s.personId = r.personId AND YEAR(dob) <= YEAR(CURDATE()) - 40 AND hidden = 'N'
+      WHERE average > 0
+      HAVING age_at_comp >= 40
+    ) AS tmp_results
+    GROUP BY eventId, personId, age_at_comp
+    UNION ALL
+    -- Synthetic results are all assigned a surrogate personId
+    SELECT eventId, ROW_NUMBER() OVER() AS personId, 'Y' AS hidden, ROUND(100 * (result + (seq - 0.5) / numUnknown)) AS best_average, 40 AS age_at_comp
+    FROM
+    (
+      SELECT a.eventId, a.result, a.numSeniors - IFNULL(k.numSeniors, 0) AS numUnknown
+      FROM wca_ipy.SeniorAverages a
+      LEFT JOIN wca_ipy.KnownAveragesLatest k ON k.eventId = a.eventId AND k.result = a.result
+      HAVING numUnknown > 0
+    ) AS tmp_unknowns
+    JOIN seq_1_to_1000 s ON s.seq <= numUnknown
+  ) AS r;
+
+ALTER TABLE wca_ipy.SeniorAveragePrs ADD PRIMARY KEY (eventId, personId, age_at_comp);

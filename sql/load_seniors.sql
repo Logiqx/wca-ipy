@@ -26,26 +26,6 @@ CREATE TABLE wca_ipy.Seniors
 LOAD DATA INFILE '/home/jovyan/work/wca-ipy/data/private/load/seniors.csv'
 INTO TABLE wca_ipy.Seniors FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"';
 
--- Start with default YMD of zero
-UPDATE Persons AS p
-SET p.year = 0,
-    p.month = 0,
-    p.day = 0;
-
--- Update DOB if known (or approximated)
-UPDATE Persons AS p
-INNER JOIN wca_ipy.Seniors AS s ON s.personId = p.id AND s.dob IS NOT NULL AND hidden = 'N'
-SET p.year = DATE_FORMAT(s.dob, '%Y'),
-    p.month = DATE_FORMAT(s.dob, '%m'),
-    p.day = DATE_FORMAT(s.dob, '%d');
-
--- Use 19th century for any seniors where DOB is unknown
-UPDATE Persons AS p
-INNER JOIN wca_ipy.Seniors AS s ON s.personId = p.id AND s.dob IS NULL AND hidden = 'N'
-SET p.year = 1900,
-    p.month = 1,
-    p.day = 1;
-
 -- Add name and country to seniors
 ALTER TABLE wca_ipy.Seniors ADD COLUMN
 (
