@@ -46,18 +46,19 @@ JOIN wca_dev.users u ON u.wca_id = s.personId AND delegate_status IS NOT NULL;
 -- List the possible 'embassadors' for the senior rankings
 WITH SeniorYears AS
 (
-    SELECT p.id AS personId, c.year, COUNT(DISTINCT competitionId) AS numComps
+    SELECT r.personId, c.year, COUNT(DISTINCT competitionId) AS numComps
     FROM wca.Results AS r
-    JOIN wca.Competitions AS c ON r.competitionId = c.id
-    JOIN wca.Persons AS p ON r.personId = p.id AND p.subid = 1 AND p.year > 0
-    GROUP BY p.id, c.year
+    JOIN wca.Competitions AS c ON c.id = r.competitionId
+    JOIN wca_ipy.Seniors AS s ON s.personId = r.personId
+    GROUP BY r.personId, c.year
 )
 SELECT 'Embassador', IFNULL(y0.numComps, 0) AS numComps0, IFNULL(y1.numComps, 0) AS numComps1, IFNULL(y2.numComps, 0) AS numComps2, s.*
 FROM SeniorDetails s
 LEFT JOIN SeniorYears y0 ON y0.personId = s.personId and y0.year = YEAR(NOW())
 LEFT JOIN SeniorYears y1 ON y1.personId = s.personId and y1.year = YEAR(NOW()) - 1
 LEFT JOIN SeniorYears y2 ON y2.personId = s.personId and y2.year = YEAR(NOW()) - 2
-HAVING numComps1 >= 6 AND numComps0 >= CEIL((MONTH(NOW()) - 1) / 2);
+HAVING numComps1 >= 6 AND numComps0 >= CEIL((MONTH(NOW()) - 1) / 2)
+AND ageToday >= 40;
 
 -- Speedsolving.com users to be discovered / scraped from Google
 SELECT 'Speedsolving.com' AS label, s.*
