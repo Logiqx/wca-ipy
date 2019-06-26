@@ -10,21 +10,21 @@ DROP TABLE IF EXISTS wca_ipy.Seniors;
 
 CREATE TABLE wca_ipy.Seniors
 (
-     `personId` varchar(10) CHARACTER SET latin1 NOT NULL,
+     `personId` varchar(10) CHARACTER SET utf8 NOT NULL,
      `sourceId` char(1) NOT NULL DEFAULT 'U',
      `hidden` char(1) NOT NULL DEFAULT 'Y',
      `accuracyId` char(1) NOT NULL,
      `dob` date NOT NULL,
-     `username` varchar(30) CHARACTER SET latin1,
+     `username` varchar(30) CHARACTER SET utf8,
      `usernum` mediumint NOT NULL DEFAULT 0,
-     `comment` text CHARACTER SET latin1 NOT NULL,
+     `comment` text CHARACTER SET utf8 NOT NULL,
      PRIMARY KEY (`personId`),
      FOREIGN KEY (`sourceId`) REFERENCES SeniorSources(`id`),
      FOREIGN KEY (`accuracyId`) REFERENCES SeniorAccuracies(`id`)
 );
 
 LOAD DATA INFILE '/home/jovyan/work/wca-ipy/data/private/load/seniors.csv'
-INTO TABLE wca_ipy.Seniors FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"';
+INTO TABLE wca_ipy.Seniors CHARACTER SET UTF8 FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"';
 
 -- Add name and country to seniors
 ALTER TABLE wca_ipy.Seniors ADD COLUMN
