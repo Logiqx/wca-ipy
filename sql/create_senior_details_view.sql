@@ -17,14 +17,14 @@ SELECT r.personId, s.name, s.countryId, s.gender, s.sourceId, ss.type AS sourceT
     MIN(TIMESTAMPDIFF(YEAR, s.dob, DATE_FORMAT(CONCAT(c.year, '-', c.month, '-', c.day), '%Y-%m-%d'))) AS ageFirstComp,
     MAX(TIMESTAMPDIFF(YEAR, s.dob, DATE_FORMAT(CONCAT(c.year, '-', c.month, '-', c.day), '%Y-%m-%d'))) AS ageLastComp,
     TIMESTAMPDIFF(YEAR, s.dob, NOW()) AS ageToday,
-    p.userId, u.avatar, s.username, s.usernum, t.status, s.comment
+    l.userId, l.userStatus, u.avatar, s.username, s.usernum, t.status, s.comment
 FROM wca_ipy.Seniors AS s
 JOIN wca_ipy.SeniorSources ss ON ss.id = s.sourceId
 JOIN wca_ipy.SeniorAccuracies sa ON sa.id = s.accuracyId
 JOIN wca.Results AS r ON r.personId = s.personId
 JOIN wca.Competitions AS c ON c.id = r.competitionId
-LEFT JOIN wca_ipy.PersonsExtra p ON p.wcaId = s.personId
+LEFT JOIN wca_users.links l ON l.wcaId = s.personId
+LEFT JOIN wca_dev.users u ON u.id = l.userId
 LEFT JOIN wca_ipy.SeniorStatuses t ON t.personId = s.personId
-LEFT JOIN wca_dev.users u ON u.wca_id = s.personId
 GROUP BY s.personId
 ORDER BY lastComp DESC, numComps DESC, yearsCompeting DESC;
