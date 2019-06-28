@@ -24,7 +24,7 @@ CREATE TABLE wca_ipy.Seniors
 );
 
 LOAD DATA INFILE '/home/jovyan/work/wca-ipy/data/private/load/seniors.csv'
-INTO TABLE wca_ipy.Seniors CHARACTER SET UTF8 FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"';
+INTO TABLE wca_ipy.Seniors CHARACTER SET utf8 FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"';
 
 -- Add name and country to seniors
 ALTER TABLE wca_ipy.Seniors ADD COLUMN
