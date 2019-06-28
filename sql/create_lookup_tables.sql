@@ -10,9 +10,9 @@ DROP TABLE IF EXISTS wca_ipy.SeniorSources;
 
 CREATE TABLE wca_ipy.SeniorSources
 (
-     `id` char(1) CHARACTER SET latin1 NOT NULL,
-     `type` varchar(10) CHARACTER SET latin1,
-     `comment` text CHARACTER SET latin1 NOT NULL,
+     `id` char(1)  NOT NULL,
+     `type` varchar(10) COLLATE utf8mb4_unicode_ci,
+     `comment` text COLLATE utf8mb4_unicode_ci NOT NULL,
      PRIMARY KEY (`id`)
 );
 
@@ -28,9 +28,9 @@ DROP TABLE IF EXISTS wca_ipy.SeniorAccuracies;
 
 CREATE TABLE wca_ipy.SeniorAccuracies
 (
-     `id` char(1) CHARACTER SET latin1 NOT NULL,
-     `type` varchar(10) CHARACTER SET latin1,
-     `comment` text CHARACTER SET latin1 NOT NULL,
+     `id` char(1) COLLATE utf8mb4_unicode_ci NOT NULL,
+     `type` varchar(10) COLLATE utf8mb4_unicode_ci,
+     `comment` text COLLATE utf8mb4_unicode_ci NOT NULL,
      PRIMARY KEY (`id`)
 );
 

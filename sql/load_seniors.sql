@@ -11,9 +11,9 @@ DROP TABLE IF EXISTS wca_ipy.Seniors;
 CREATE TABLE wca_ipy.Seniors
 (
      `personId` varchar(10) COLLATE utf8mb4_unicode_ci NOT NULL,
-     `sourceId` char(1) NOT NULL DEFAULT 'U',
-     `hidden` char(1) NOT NULL DEFAULT 'Y',
-     `accuracyId` char(1) NOT NULL,
+     `sourceId` char(1) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'U',
+     `hidden` char(1) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'Y',
+     `accuracyId` char(1) COLLATE utf8mb4_unicode_ci NOT NULL,
      `dob` date NOT NULL,
      `username` varchar(30) COLLATE utf8mb4_unicode_ci,
      `usernum` mediumint NOT NULL DEFAULT 0,

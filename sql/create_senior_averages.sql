@@ -17,7 +17,7 @@ DROP TABLE IF EXISTS wca_ipy.SeniorAveragesPrevious;
 
 CREATE TABLE wca_ipy.SeniorAveragesPrevious
 (
-  `eventId` varchar(6) CHARACTER SET latin1 NOT NULL,
+  `eventId` varchar(6) COLLATE utf8mb4_unicode_ci NOT NULL,
   `result` int(11) NOT NULL,
   `numSeniors` smallint(6) NOT NULL,
    PRIMARY KEY (`eventId`, `result`)
