@@ -136,3 +136,7 @@ FROM SeniorDetails AS s
 WHERE hidden = 'Y'
 GROUP BY sourceType, hidden, accuracyType
 ORDER BY numCompSeniors DESC, sourceType, hidden, accuracyType;
+
+-- Count of "active" seniors
+SELECT COUNT(*) as numSeniors, SUM(IF(ageLastComp >= 40, 1, 0)) AS numActiveSeniors, SUM(IF(ageLastComp >= 40 AND hidden = 'N', 1, 0)) AS numListedSeniors
+FROM SeniorDetails;
