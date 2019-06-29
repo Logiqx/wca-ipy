@@ -17,6 +17,7 @@ SELECT s.personId, s.name, s.countryId, s.gender, s.dob, s.hidden,
     MIN(TIMESTAMPDIFF(YEAR, s.dob, DATE_FORMAT(CONCAT(c.year, '-', c.month, '-', c.day), '%Y-%m-%d'))) AS ageFirstComp,
     MAX(TIMESTAMPDIFF(YEAR, s.dob, DATE_FORMAT(CONCAT(c.year, '-', c.month, '-', c.day), '%Y-%m-%d'))) AS ageLastComp,
     TIMESTAMPDIFF(YEAR, s.dob, NOW()) AS ageToday,
+    s.accuracyId, s.sourceId, s.userStatusId,
     sa.type AS accuracyType, ss.type AS sourceType, us.type AS userStatus,
     s.userId, u.avatar, s.username, s.usernum, s.comment
 FROM wca_ipy.Seniors AS s
