@@ -11,16 +11,19 @@ DROP TABLE IF EXISTS wca_ipy.Seniors;
 CREATE TABLE wca_ipy.Seniors
 (
      `personId` varchar(10) COLLATE utf8mb4_unicode_ci NOT NULL,
-     `sourceId` char(1) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'U',
-     `hidden` char(1) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'Y',
-     `accuracyId` char(1) COLLATE utf8mb4_unicode_ci NOT NULL,
      `dob` date NOT NULL,
-     `username` varchar(30) COLLATE utf8mb4_unicode_ci,
+     `hidden` char(1) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'y',
+     `accuracyId` char(1) COLLATE utf8mb4_unicode_ci NOT NULL,
+     `sourceId` char(1) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'u',
+     `userStatusId` char(1) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'n',
+     `userId` int(11) DEFAULT NULL,
+     `username` varchar(30) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
      `usernum` mediumint NOT NULL DEFAULT 0,
      `comment` text COLLATE utf8mb4_unicode_ci NOT NULL,
      PRIMARY KEY (`personId`),
+     FOREIGN KEY (`accuracyId`) REFERENCES SeniorAccuracies(`id`),
      FOREIGN KEY (`sourceId`) REFERENCES SeniorSources(`id`),
-     FOREIGN KEY (`accuracyId`) REFERENCES SeniorAccuracies(`id`)
+     FOREIGN KEY (`userStatusId`) REFERENCES UserStatuses(`id`)
 );
 
 LOAD DATA INFILE '/home/jovyan/work/wca-ipy/data/private/load/seniors.csv'
