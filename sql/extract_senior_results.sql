@@ -9,6 +9,23 @@
     Notes:    These extracts will never be shared publicly
 */
 
+-- Extract seniors
+SELECT t.personId, personName, MAX(ageCategory) AS ageCategory
+-- INTO OUTFILE '/home/jovyan/work/wca-ipy/data/private/extract/known_senior_details.csv' FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
+FROM
+(
+  SELECT r.eventId, r.personId, r.average, p.name AS PersonName, p.countryId,
+    FLOOR(TIMESTAMPDIFF(YEAR,
+      DATE_FORMAT(CONCAT(p.year, '-', p.month, '-', p.day), '%Y-%m-%d'),
+      DATE_FORMAT(CONCAT(c.year, '-', c.month, '-', c.day), '%Y-%m-%d')) / 10) * 10 AS ageCategory
+  FROM Results AS r
+  INNER JOIN Competitions AS c ON r.competitionId = c.id
+  INNER JOIN Persons AS p ON r.personId = p.id AND p.subid = 1 AND p.year > 0 AND p.year <= YEAR(CURDATE()) - 40
+  HAVING ageCategory >= 40
+) AS t
+GROUP BY personId
+ORDER BY personName, ageCategory DESC;
+
 -- Extract senior results (averages)
 SELECT eventId, personId, MIN(average) AS bestAverage, ageCategory
 -- INTO OUTFILE '/home/jovyan/work/wca-ipy/data/private/extract/known_senior_averages.csv' FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
