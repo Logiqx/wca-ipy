@@ -136,7 +136,7 @@ For example the 3x3x3 OH average rankings would show the following:
 
 Note: Although the names and results for 1st and 5th place are missing the rankings 3, 4 and 6 are still accurate.
 
-This is the least favoured option since the unknown results are only known to the nearest second and must therefore be spread out as described above (e.g. 22.x would be assumed to be 22.50). It would not be known if second place is genuine since Dave might be faster than the unknown 22.x.
+This is the least favoured option since the unknown results are only known to the nearest second and must therefore be spread out as described above (e.g. unknown 22.x would be assumed to be 22.50). It would not be known if second place is genuine since Dave might be faster than the unknown 22.x.
 
 The main benefit of this option is that it does not disclose the actual identities of unlisted seniors to the senior rankings team, should that be seen as an issue by the WDPC.
 
