@@ -4,7 +4,7 @@
 
 The [Unofficial Senior Rankings](https://logiqx.github.io/wca-ipy/) have been evolving since 2015 and have been rapidly growing in popularity over the past few months. They are unofficial rankings for the senior cubing community, produced from official WCA competition results.
 
-The main artefact of the project is known as the [Partial Over 40s Rankings](https://logiqx.github.io/wca-ipy/Partial_Rankings.html) which currently includes around 200 senior competitors. The completeness of the Over 40s Rankings can be summarised as follows:
+The main artefact of the project is known as the [Partial Over 40s Rankings](https://logiqx.github.io/wca-ipy/Partial_Rankings.html) which currently includes around 380 senior competitors. The completeness of the Over 40s Rankings can be summarised as follows:
 
 >**Percentage coverage for 3x3x3**  
 >90% of sub-15 | 60% of sub-20 | 50% of sub-25 | 43% of sub-30 | 37% of sub-45 | 33% of sub-1:00  
@@ -19,7 +19,7 @@ These statistics make it clear that most of the fastest seniors are included in 
 
 ## Lawful Basis
 
-Unofficial senior rankings may be regarded as a "legitimate interest" under GDPR.
+Unofficial senior rankings are being treated as a "legitimate interest" under GDPR.
 
 Article 6(1)(f) of GDPR provides a lawful basis for processing where:
 
@@ -27,11 +27,13 @@ Article 6(1)(f) of GDPR provides a lawful basis for processing where:
 
 An overview of legitimate interests is available on the [Information Commissioner's Office](https://ico.org.uk/for-organisations/guide-to-data-protection/guide-to-the-general-data-protection-regulation-gdpr/lawful-basis-for-processing/legitimate-interests/) (ICO) website.
 
-The project team takes privacy very seriously and have created a [Privacy Statement](http://logiqx.github.io/wca-ipy/Privacy_Notice.html) which provides all necessary information to people listed in the rankings.
+The project team takes privacy very seriously and have created a [Privacy Statement](http://logiqx.github.io/wca-ipy/Privacy_Notice.html) which provides all necessary information to people listed in the rankings, including their rights and how to contact the team.
 
 Feedback about the senior rankings has always been very positive, appreciative and many of the competitors are wildly enthusiastic about the unofficial senior rankings. There is an undeniable interest!
 
-Requests to be added to the rankings come from around the world, largely spread by via the internet or word of mouth at WCA competitions. Nobody has ever declined to be included in the senior rankings. Nobody has ever complained and nobody has ever asked to be removed.
+Requests to be added to the rankings come from around the world, largely via Facebook or Speedsolving.com and the existence of the rankings has been spreading through word of mouth at WCA competitions.
+
+Nobody has ever declined to be added to the senior rankings and nobody has ever objected or asked to be removed from the list.
 
 We do not publish DOB information for competitors, only the age categories 40+, 50+, 60+, etc.
 
@@ -47,7 +49,7 @@ The project in its current form satisfies the first goal reasonably well due to 
 
 Until such time as official senior rankings become available on the official WCA website, it is clear that the unofficial senior rankings will continue to be of benefit to the senior cubing community. In order to satisfy the demands of the senior community the project is looking to make some notable improvements to what is currently provided in the way of rankings.
 
-Specifically, we wish to show accurate rankings despite there being some names missing / unknown. For example the partial rankings for 3x3x3 OH average currently show the following:
+Specifically, we wish to show accurate rankings despite there being some names missing / unknown. For example the "partial" rankings for 3x3x3 OH average currently show the following:
 
 | **Rank** | **Person**                                                   | **Result** |
 | -------- | ------------------------------------------------------------ | ---------- |
@@ -56,9 +58,9 @@ Specifically, we wish to show accurate rankings despite there being some names m
 | 3        | Teller Coates, United States | 25.46      |
 | 4        | Stefan Lidström, Sweden | 27.12      |
 
-However, it is known that these rankings are missing a 22.xx PR average (ranking 1st or 2nd) and 26.xx PR average (ranking 5th), only the identifies of those competitors are unknown.
+However, it is known that these rankings are missing a 22.xx PR average (ranking 1st or 2nd) and 26.xx PR average (ranking 5th), only the identities of those competitors are unknown.
 
-The project team have created an interim solution called the "[Indicative Over 40s Rankings](https://logiqx.github.io/wca-ipy/Indicative_Rankings.html)" to give seniors a more realistic idea of how they rank worldwide. The indicative rankings utilise the known distributions of senior results as of Feb 2019 (one-off [extract](https://github.com/Logiqx/wca-ipy/blob/master/sql/extract_senior_aggs.sql) provided by the WCA) and the growth of the WCA since the extract in Feb 2019.
+The project team have created an interim solution called the "[Indicative Over 40s Rankings](https://logiqx.github.io/wca-ipy/Indicative_Rankings.html)" to give seniors a more realistic idea of how they rank worldwide. The indicative rankings utilise the known distributions of senior results as of Feb 2019 (utilising a one-off [extract](https://github.com/Logiqx/wca-ipy/blob/master/sql/extract_senior_aggs.sql) provided by the WCA) and the growth of the WCA since the extract in Feb 2019.
 
 
 ## Proposal
@@ -115,13 +117,13 @@ For example the 3x3x3 OH average rankings would show the following:
 
 Note: Although the names and results for 2nd and 5th place are missing the rankings 1, 3, 4 and 6 are still accurate.
 
-This is the second favoured option in this proposal and if required, including a suitable agreement, guaranteeing that WCA IDs of senior competitors will not be shared with anyone outside of the senior rankings team or used for purposes other than the senior rankings. This agreement could be part of a [Legitimate Interests Assessment](https://ico.org.uk/for-organisations/guide-to-data-protection/guide-to-the-general-data-protection-regulation-gdpr/legitimate-interests/how-do-we-apply-legitimate-interests-in-practice/) (LIA), providing a light-touch audit trail of the decisions and justification for processing on the basis of legitimate interests.
+This is the second most favoured option in this proposal and if required, including a suitable agreement, guaranteeing that WCA IDs of senior competitors will not be shared with anyone outside of the senior rankings team or used for purposes other than the senior rankings. This agreement could be part of a [Legitimate Interests Assessment](https://ico.org.uk/for-organisations/guide-to-data-protection/guide-to-the-general-data-protection-regulation-gdpr/legitimate-interests/how-do-we-apply-legitimate-interests-in-practice/) (LIA), providing a light-touch audit trail of the decisions and justification for processing on the basis of legitimate interests.
 
 ### Option 3
 
-The third option is similar to the second but would use [aggregated](https://github.com/Logiqx/wca-ipy/blob/master/sql/extract_senior_aggs.sql) senior results from the WCA database. This approach is essentially the same as the existing "[Indicative Over 40s Rankings](https://logiqx.github.io/wca-ipy/Indicative_Rankings.html)" but using up-to-date distributions of senior results.
+The third option is similar to the second but would use [aggregated](https://github.com/Logiqx/wca-ipy/blob/master/sql/extract_senior_aggs.sql) senior results from the WCA database, just like the one-off extract in Feb 2019. This approach is essentially the same as the existing "[Indicative Over 40s Rankings](https://logiqx.github.io/wca-ipy/Indicative_Rankings.html)" but using up-to-date distributions of senior results.
 
-The indicative rankings basically spread out the unknowns such that a sole 25.x is regarded as 25.50, two 25.x results are regarded as 25.25 + 25.75, three 25.x results are regarded as 25.17 + 25.50 + 25.83 etc.
+Described simply the indicative rankings basically spread out the unknowns such that a sole 25.x is regarded as 25.50, two 25.x results are regarded as 25.25 + 25.75, three 25.x results are regarded as 25.17 + 25.50 + 25.83 etc.
 
 For example the 3x3x3 OH average rankings would show the following:
 
@@ -134,15 +136,15 @@ For example the 3x3x3 OH average rankings would show the following:
 
 Note: Although the names and results for 1st and 5th place are missing the rankings 3, 4 and 6 are still accurate.
 
-This is the least favoured option since the unknown results are only known to the nearest second and must therefore be spread out as described earlier (e.g. one 25.x assumed to be 25.50).
+This is the least favoured option since the unknown results are only known to the nearest second and must therefore be spread out as described above (e.g. 25.x would be assumed to be 25.50). It would not be known if second place is genuine since Dave might be faster than the unknown 25.x.
 
-The main benefit of this option is that it does not disclose the identities of seniors to the senior rankings team, should that knowledge be seen as an issue.
+The main benefit of this option is that it does not disclose the actual identities of unlisted seniors to the senior rankings team, should that be seen as an issue by the WDPC.
 
 ## Conclusion
 
-All three options will allow improved senior rankings to be produced for the senior community, tackling the issue of non-listed competitors.
+All three options will facilitate improved senior rankings for the senior community, tackling the issue of non-listed competitors.
 
-Implementing any one of the options will allow the senior rankings team to further meet the project goals:
+Implementing any one of the three options will allow the senior rankings team to further meet the project goals:
 
 1. Provide senior rankings - yes, ongoing
 2. Provide accurate rankings - yes, vastly improved
