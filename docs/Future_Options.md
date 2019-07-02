@@ -61,7 +61,7 @@ However, it is known that these rankings are missing a 22.xx PR average (ranking
 
 Two possible options are being proposed to tackle the issue of people missing from the unofficial senior rankings. All of the proposed options are based on simple SQL extracts being run on the WCA server from which the senior rankings team can produce the various reports, ideally on a daily basis.
 
-The SQL that produces the CSV files for the current rankings is hosted on GitHub - [extract_senior_details.sql](https://github.com/Logiqx/wca-ipy/blob/master/sql/extract_senior_details.sql)
+The SQL that produces the CSV files for the current rankings is hosted on GitHub - [extract_senior_results.sql](https://github.com/Logiqx/wca-ipy/blob/master/sql/extract_senior_results.sql)
 
 If this SQL script were to be run against the WCA database and the extracts made available as a private download, existing code can be used to produce accurate senior rankings. The existing code can even be run without the need for MySQL or MariaDB since it relies solely on the CSV extracts.
 
@@ -134,7 +134,7 @@ Whilst neither of the options in this proposal are intended to replace or supers
 The necessary code already exists on GitHub so it could easily be scheduled to run on a daily basis. The required activities would be as follows:
 
 1. Completion of the [Legitimate Interests Assessment](https://ico.org.uk/for-organisations/guide-to-data-protection/guide-to-the-general-data-protection-regulation-gdpr/legitimate-interests/how-do-we-apply-legitimate-interests-in-practice/) (LIA) - WCA Data Protection Committee (WDPC)
-2. Scheduling the [SQL](https://github.com/Logiqx/wca-ipy/blob/master/sql/extract_senior_details.sql) extracts to run daily - WCA Results Team (WRT) / WCA Software Team (WST)
+2. Scheduling the [SQL](https://github.com/Logiqx/wca-ipy/blob/master/sql/extract_senior_results.sql) extracts to run daily - WCA Results Team (WRT) / WCA Software Team (WST)
 3. Creation of a machine on [AWS](https://aws.amazon.com/) to refresh the rankings daily - Senior Rankings Team
 
 Finally, it is worth saying that it is still hoped that the earlier proposal for official senior rankings will one day become a reality.
