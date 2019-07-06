@@ -7,13 +7,13 @@
               https://logiqx.github.io/wca-ipy/Indicative_Rankings.html
             
     Notes:    The extracts will not disclose any WCA IDs, regardless of whether they are already known
-              All consolidated results are modified using truncation / reduction of precision:
+              All consolidated results are modified using truncation / reduction of precision
               These extracts will never be shared publicly
 */
 
 /*
-   Create temporary table containing "senior bests" - one record per person, per event, per age category
-   This is essentially the query from extract_senior_results.sql
+   Create temporary table(s) containing "senior bests" - one record per person, per event, per age category
+   This starts with the query from extract_senior_results.sql
 */
 
 -- First temporary table only contains actual results - "age category" based on "age at competition"
