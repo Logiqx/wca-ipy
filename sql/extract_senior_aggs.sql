@@ -15,7 +15,7 @@
               These extracts will never be shared publicly
 */
 
-DROP TEMPORARY TABLE IF EXISTS senior_results;
+DROP TEMPORARY TABLE IF EXISTS senior_prs;
 CREATE TEMPORARY TABLE senior_prs AS
 SELECT eventId, personId, FLOOR(age_at_comp / 10) * 10 AS age_category,
   MIN(CASE WHEN eventId IN ('333mbf', '333mbo') THEN FLOOR(best / 10000000) WHEN eventId IN ('333fm') THEN best ELSE FLOOR(best / 100) END) AS modified_single,
@@ -31,7 +31,7 @@ FROM
   INNER JOIN Persons AS p ON r.personId = p.id AND p.subid = 1 AND p.year > 0 AND p.year <= YEAR(CURDATE()) - 40
   WHERE best > 0
   HAVING age_at_comp >= 40
-) AS senior_prs
+) AS senior_results
 GROUP BY eventId, personId, age_category;
 
 -- Combine multiple queries for different age categories

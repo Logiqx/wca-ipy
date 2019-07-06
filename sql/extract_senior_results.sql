@@ -9,7 +9,6 @@
     Notes:    This extract will never be shared publicly
 */
 
--- Extract senior bests
 SELECT eventId, personId, FLOOR(age_at_comp / 10) * 10 AS age_category,
   MIN(best) AS best_single, MIN(IF(average > 0, average, NULL)) AS best_average
 FROM
