@@ -51,7 +51,7 @@ GROUP BY eventId, personId, age_category;
 
 SELECT eventId,
   FLOOR(best_average / 100) AS modified_average,
-  age_category, COUNT(DISTINCT personId) AS num_persons
+  age_category, COUNT(*) AS num_persons
 FROM senior_bests_2
 WHERE best_average > 0
 GROUP BY eventId, modified_average, age_category
@@ -70,7 +70,7 @@ SELECT eventId,
     WHEN eventId IN ('333fm') THEN best_single
     ELSE FLOOR(best_single / 100)
   END AS modified_single,
-  age_category, COUNT(DISTINCT personId) AS num_persons
+  age_category, COUNT(*) AS num_persons
 FROM senior_bests_2
 GROUP BY eventId, modified_single, age_category
 ORDER BY eventId, modified_single, age_category;
