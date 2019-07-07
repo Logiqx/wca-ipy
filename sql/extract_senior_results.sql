@@ -27,4 +27,5 @@ FROM
   WHERE best > 0
   HAVING age_at_comp >= 40
 ) AS senior_results
-GROUP BY eventId, personId, age_category;
+GROUP BY eventId, personId, age_category
+ORDER BY eventId, personId, age_category;
