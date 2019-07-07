@@ -23,13 +23,16 @@ SELECT eventId, personId, FLOOR(age_at_comp / 10) * 10 AS age_category,
   MIN(best) AS best_single, MIN(IF(average > 0, average, NULL)) AS best_average
 FROM
 (
+  -- Derived table lists senior results, including age at the start of the competition
+  -- Index hint (USE INDEX) ensures that MySQL / MariaDB uses an optimal query execution plan
+  -- Persons (only seniors) -> Results.personId -> Competitions.id
   SELECT r.eventId, r.personId, r.best, r.average,
     TIMESTAMPDIFF(YEAR,
       DATE_FORMAT(CONCAT(p.year, '-', p.month, '-', p.day), '%Y-%m-%d'),
       DATE_FORMAT(CONCAT(c.year, '-', c.month, '-', c.day), '%Y-%m-%d')) AS age_at_comp
   FROM Results AS r
   INNER JOIN Competitions AS c ON r.competitionId = c.id
-  INNER JOIN Persons AS p ON r.personId = p.id AND p.subid = 1 AND p.year > 0 AND p.year <= YEAR(CURDATE()) - 40
+  INNER JOIN Persons AS p USE INDEX () ON r.personId = p.id AND p.subid = 1 AND p.year > 0 AND p.year <= YEAR(CURDATE()) - 40
   WHERE best > 0
   HAVING age_at_comp >= 40
 ) AS senior_results
@@ -49,6 +52,7 @@ GROUP BY eventId, personId, age_category;
    2) Truncate everything to the nearest second - i.e. FLOOR(best / 100)
 */
 
+-- Averages are divided by 100 for all events (i.e. truncated to the nearest second)
 SELECT eventId,
   FLOOR(best_average / 100) AS modified_average,
   age_category, COUNT(*) AS num_persons
@@ -65,6 +69,7 @@ ORDER BY eventId, modified_average, age_category;
    4) Truncate everything else to the nearest second - i.e. FLOOR(best / 100)
 */
 
+-- Singles need to be handled slightly differently for some events
 SELECT eventId,
   CASE WHEN eventId IN ('333mbf', '333mbo') THEN FLOOR(best_single / 10000000)
     WHEN eventId IN ('333fm') THEN best_single
