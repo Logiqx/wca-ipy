@@ -1,5 +1,5 @@
 /* 
-    Script:   Extract Senior Results
+    Script:   Extract Senior Bests
     Created:  2019-07-06
     Author:   Michael George / 2015GEOR02
    
@@ -9,23 +9,28 @@
     Notes:    This extract will never be shared publicly
 */
 
--- Extract only contains actual results - "age category" based on "age at competition"
-SELECT eventId, personId, FLOOR(age_at_comp / 10) * 10 AS age_category,
+/*
+   Extract "senior bests" - one record per person, per event, per age category
+*/
+
+-- Determine "explicit" senior bests - "age category" is based on "age at competition"
+SELECT personId, eventId, FLOOR(age_at_comp / 10) * 10 AS age_category,
   MIN(best) AS best_single, MIN(IF(average > 0, average, NULL)) AS best_average
 FROM
 (
-  -- Derived table lists senior results, including age at the start of the competition
-  -- Index hint (USE INDEX) ensures that MySQL / MariaDB uses an optimal query execution plan
-  -- Persons (only seniors) -> Results.personId -> Competitions.id
-  SELECT r.eventId, r.personId, r.best, r.average,
+  -- Derived table contains senior results, including age at the start of the competition
+  -- Index hint (USE INDEX) ensures that MySQL / MariaDB uses the optimal query execution plan
+  -- i.e. Persons ("WHERE" limits to seniors) -> Results.personId -> Competitions.id
+  SELECT r.personId, r.eventId, r.best, r.average,
     TIMESTAMPDIFF(YEAR,
       DATE_FORMAT(CONCAT(p.year, '-', p.month, '-', p.day), '%Y-%m-%d'),
       DATE_FORMAT(CONCAT(c.year, '-', c.month, '-', c.day), '%Y-%m-%d')) AS age_at_comp
-  FROM Results AS r
-  INNER JOIN Competitions AS c ON r.competitionId = c.id
-  INNER JOIN Persons AS p USE INDEX () ON r.personId = p.id AND p.subid = 1 AND p.year > 0 AND p.year <= YEAR(CURDATE()) - 40
-  WHERE best > 0
+  FROM Persons AS p USE INDEX ()
+  JOIN Results AS r ON r.personId = p.id AND best > 0
+  JOIN Competitions AS c ON c.id = r.competitionId
+  WHERE p.year > 0 AND p.year <= YEAR(CURDATE()) - 40
+  AND p.subid = 1
   HAVING age_at_comp >= 40
 ) AS senior_results
-GROUP BY eventId, personId, age_category
-ORDER BY eventId, personId, age_category;
+GROUP BY personId, eventId, age_category
+ORDER BY personId, eventId, age_category;
