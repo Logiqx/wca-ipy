@@ -20,7 +20,7 @@ FROM
   HAVING ageCategory >= 40
 ) AS t
 GROUP BY eventId, personId, ageCategory
-ORDER BY eventId, bestAverage, personId;
+ORDER BY eventId, bestAverage, personId, ageCategory DESC;
 
 -- Extract indicative senior averages
 SELECT eventId, rankNo, personId, best_average, age_at_comp
