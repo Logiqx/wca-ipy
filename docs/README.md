@@ -22,6 +22,7 @@ If you would like your name to be added then either contact me via [Facebook](ht
 
 **Useful links**
 
+* [Future Competitions](Future_Competitions.md) is a list of upcoming competitions with senior competitors registered
 * [Senior Cubers Worldwide](https://www.facebook.com/groups/1604105099735401) on Facebook
 * [Older Cubers Discussions](https://speedsolving.com/threads/older-cubers-discussions.37405/) on SpeedSolving.com
 

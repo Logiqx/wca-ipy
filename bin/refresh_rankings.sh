@@ -12,3 +12,5 @@ echo
 time docker exec $CONTAINER sh -c "cd $PYTHON_DIR; jupyter nbconvert --to notebook --execute --inplace Senior_Rankings.ipynb"
 echo
 time docker exec $CONTAINER sh -c "cd $PYTHON_DIR; jupyter nbconvert --to notebook --execute --inplace Percentile_Rankings.ipynb"
+echo
+time docker exec $CONTAINER sh -c "cd $PYTHON_DIR; jupyter nbconvert --to notebook --execute --inplace Future_Competitions.ipynb"
