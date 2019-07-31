@@ -6,7 +6,7 @@
     Purpose:  Extract list of future competitions
 */
 
-SELECT c.id, c.name, c.cityName, c2.name AS country,
+SELECT c.id, c.name, c.cityName, c2.name AS country, IFNULL(external_website, '') AS external_website,
 	DATE_FORMAT(CONCAT(c.year, '-', c.month, '-', c.day), '%Y-%m-%d') AS start_date,
     DATE_FORMAT(CONCAT(c.year + IF(endMonth < c.month, 1, 0), '-', c.endMonth, '-', c.endDay), '%Y-%m-%d') AS end_date
 INTO OUTFILE '/home/jovyan/work/wca-ipy/data/private/extract/future_competitions.csv' FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'

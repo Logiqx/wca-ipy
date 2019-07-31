@@ -13,4 +13,4 @@ time docker exec $CONTAINER sh -c "cd $PYTHON_DIR; jupyter nbconvert --to notebo
 echo
 time docker exec $CONTAINER sh -c "cd $PYTHON_DIR; jupyter nbconvert --to notebook --execute --inplace Percentile_Rankings.ipynb"
 echo
-time docker exec $CONTAINER sh -c "cd $PYTHON_DIR; jupyter nbconvert --to notebook --execute --inplace Future_Competitions.ipynb"
+time docker exec $CONTAINER sh -c "cd $PYTHON_DIR; jupyter nbconvert --ExecutePreprocessor.timeout=600 --to notebook --execute --inplace Future_Competitions.ipynb"
