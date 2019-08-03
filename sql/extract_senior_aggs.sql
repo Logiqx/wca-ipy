@@ -43,7 +43,7 @@ DROP TEMPORARY TABLE IF EXISTS senior_bests_2;
 CREATE TEMPORARY TABLE senior_bests_2 AS
 SELECT personId, eventId, a.age_category, MIN(best_single) AS best_single, MIN(best_average) AS best_average
 FROM senior_bests_1 AS s
-JOIN (SELECT DISTINCT age_category FROM senior_bests_1) AS a ON a.age_category <= s.age_category
+JOIN (SELECT 40 AS age_category UNION ALL SELECT 50 UNION ALL SELECT 60 UNION ALL SELECT 70 UNION ALL SELECT 80 UNION ALL SELECT 90 UNION ALL SELECT 100) AS a ON a.age_category <= s.age_category
 GROUP BY personId, eventId, age_category;
 
 /*
@@ -71,10 +71,12 @@ ORDER BY eventId, age_category, modified_average;
 
 -- Singles need to be handled slightly differently to averages
 SELECT eventId, age_category,
-  CASE WHEN eventId IN ('333mbf', '333mbo') THEN FLOOR(best_single / 10000000)
-    WHEN eventId IN ('333fm') THEN best_single
-    ELSE FLOOR(best_single / 100)
-  END AS modified_single,
+  (
+    CASE WHEN eventId IN ('333mbf', '333mbo') THEN FLOOR(best_single / 10000000)
+      WHEN eventId IN ('333fm') THEN best_single
+      ELSE FLOOR(best_single / 100)
+    END
+  ) AS modified_single,
   COUNT(*) AS num_persons
 FROM senior_bests_2
 GROUP BY eventId, age_category, modified_single
