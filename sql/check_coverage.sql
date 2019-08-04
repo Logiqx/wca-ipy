@@ -48,34 +48,34 @@ LEFT JOIN
 		GROUP BY eventId, result
     ) AS tmp_aggs
 ) AS k ON k.eventId = a.eventId AND k.result = a.result
+HAVING pctCoverage IS NOT NULL
 ORDER BY e.rank, result;
 
--- Countries with the most known oldies - UK + USA
-WITH cte1 AS
+-- Countries with the most known oldies - USA, Japan, Spain
+SELECT countryId, numSeniors, ROUND(100.0 * numSeniors / SUM(numSeniors) OVER(), 2) AS pctOverall
+FROM
 (
 	SELECT countryId, COUNT(*) AS numSeniors
-	FROM wca_ipy.Seniors
+	FROM wca_ipy.SeniorDetails
+    WHERE ageLastComp >= 40
 	GROUP BY countryId
-)
-SELECT countryId, numSeniors, ROUND(100.0 * numSeniors / SUM(numSeniors) OVER(), 2) AS pctOverall
-FROM cte1
+) AS s
 ORDER BY numSeniors DESC;
 
--- Countries with the greatest number of oldies as a percentage of the population - UK + Netherlands
-WITH cte1 AS
+-- Countries with the greatest number of oldies as a percentage of the population - Netherlands + Japan
+SELECT s.countryId, numSeniors, numPersons, ROUND(100.0 * numSeniors / numPersons, 2) AS pctSeniors
+FROM
 (
 	SELECT countryId, COUNT(*) AS numSeniors
-	FROM wca_ipy.Seniors
+	FROM wca_ipy.SeniorDetails
+    WHERE ageLastComp >= 40
 	GROUP BY countryId
-),
-cte2 AS
+) AS s
+JOIN
 (
 	SELECT p.countryId, COUNT(*) AS numPersons
 	FROM Persons p
     WHERE p.subid = 1
 	GROUP BY p.countryId
-)
-SELECT cte1.countryId, numSeniors, numPersons, ROUND(100.0 * numSeniors / numPersons, 2) AS pctSeniors
-FROM cte1
-JOIN cte2 ON cte2.countryId = cte1.countryId
+) AS p ON p.countryId = s.countryId
 ORDER BY pctSeniors DESC;
