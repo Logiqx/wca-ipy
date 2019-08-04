@@ -57,7 +57,7 @@ FROM
 (
 	SELECT countryId, COUNT(*) AS numSeniors
 	FROM wca_ipy.SeniorDetails
-    WHERE ageLastComp >= 40
+	WHERE ageLastComp >= 40
 	GROUP BY countryId
 ) AS s
 ORDER BY numSeniors DESC;
@@ -68,14 +68,14 @@ FROM
 (
 	SELECT countryId, COUNT(*) AS numSeniors
 	FROM wca_ipy.SeniorDetails
-    WHERE ageLastComp >= 40
+	WHERE ageLastComp >= 40
 	GROUP BY countryId
 ) AS s
 JOIN
 (
-	SELECT p.countryId, COUNT(*) AS numPersons
-	FROM Persons p
-    WHERE p.subid = 1
-	GROUP BY p.countryId
+	SELECT countryId, COUNT(*) AS numPersons
+	FROM Persons
+	WHERE subid = 1
+	GROUP BY countryId
 ) AS p ON p.countryId = s.countryId
 ORDER BY pctSeniors DESC;
