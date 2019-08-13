@@ -10,8 +10,7 @@
 SELECT s.eventId, numSeniorsModel, SUM(numSeniors) AS numSeniorsActual, SUM(numSeniors) - numSeniorsModel AS diff
 FROM wca_ipy.SeniorAverages s
 JOIN wca_ipy.EventModels AS e ON e.eventId = s.eventId
-GROUP BY eventId
-HAVING diff != 0;
+GROUP BY eventId;
 
 -- Difference of less than zero indicates a bug in the code
 SELECT a.eventId, a.result, a.numSeniors - IFNULL(k.numSeniors, 0) AS diff
