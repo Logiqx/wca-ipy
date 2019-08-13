@@ -1,14 +1,15 @@
-/* 
-    Script:   Extract Senior Results (Aggregated)
+/*
+    Script:   Extract Senior Results (aggregated)
     Created:  2019-07-06
     Author:   Michael George / 2015GEOR02
-   
-    Purpose:  Private extract to facilitate the production of "Indicative Senior Rankings"
+
+    Purpose:  Simple extract to facilitate the production of "Indicative Senior Rankings"
               https://logiqx.github.io/wca-ipy/Indicative_Rankings.html
-            
-    Notes:    The extracts will not disclose any WCA IDs, regardless of whether they are already known
+              It also facilitates the production of "Percentile Rankings"
+              http://logiqx.github.io/wca-ipy/Percentile_Rankings.html
+
+    Notes:    The extracts do not disclose any WCA IDs, only counts of senior competitors
               All consolidated results are modified using truncation / reduction of precision
-              These extracts will never be shared publicly
 */
 
 /*
