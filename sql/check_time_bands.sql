@@ -11,18 +11,18 @@
 
 SET @eventId = '444';
 
-SELECT MIN(numPersons), AVG(numPersons), MAX(numPersons), STDDEV(numPersons)
+SELECT eventId, MIN(numPersons), AVG(numPersons), MAX(numPersons), STDDEV(numPersons)
 FROM
 (
-	SELECT modified_best, MIN(shift), MAX(shift), MAX(shift) - MIN(shift) AS shift_diff, MIN(best), MAX(best),
+	SELECT eventId, modified_best, MIN(shift), MAX(shift), MAX(shift) - MIN(shift) AS shift_diff, MIN(best), MAX(best),
 		MIN(min_best), MAX(max_best), MIN(min_best) = modified_best AS min_eq, MAX(max_best) = modified_best AS max_eq, COUNT(*) AS numPersons
 	FROM
 	(
-		SELECT best,
+		SELECT eventId, best,
 			@shift :=
 			(
 				CASE
-					WHEN r.eventId IN ('333') THEN
+					WHEN eventId IN ('333') THEN
 					(
 						CASE
 							WHEN best < 640 THEN 10
@@ -41,7 +41,7 @@ FROM
 							ELSE 20
 						END
 					)
-					WHEN r.eventId IN ('222') THEN
+					WHEN eventId IN ('222') THEN
 					(
 						CASE
 							WHEN best < 96 THEN 9
@@ -58,7 +58,7 @@ FROM
 							ELSE 20
 						END
 					)
-					WHEN r.eventId IN ('444') THEN
+					WHEN eventId IN ('444') THEN
 					(
 						CASE
 							WHEN best < 2816 THEN 12
@@ -74,7 +74,7 @@ FROM
 							ELSE 20
 						END
 					)
-					WHEN r.eventId IN ('333oh') THEN
+					WHEN eventId IN ('333oh') THEN
 					(
 						CASE
 							WHEN best < 1024 THEN 10
@@ -91,7 +91,7 @@ FROM
 							ELSE 20
 						END
 					)
-					WHEN r.eventId IN ('pyram') THEN
+					WHEN eventId IN ('pyram') THEN
 					(
 						CASE
 							WHEN best < 197 THEN 9
@@ -109,7 +109,7 @@ FROM
 							ELSE 20
 						END
 					)
-					WHEN r.eventId IN ('skewb') THEN
+					WHEN eventId IN ('skewb') THEN
 					(
 						CASE
 							WHEN best < 192 THEN 9
@@ -129,12 +129,12 @@ FROM
 			@turning_point :=
 			(
 				CASE
-					WHEN r.eventId IN ('333') THEN 1760
-					WHEN r.eventId IN ('222') THEN 416
-					WHEN r.eventId IN ('444') THEN 6080
-					WHEN r.eventId IN ('333oh') THEN 2432
-					WHEN r.eventId IN ('pyram') THEN 720
-					WHEN r.eventId IN ('skewb') THEN 624
+					WHEN eventId IN ('333') THEN 1760
+					WHEN eventId IN ('222') THEN 416
+					WHEN eventId IN ('444') THEN 6080
+					WHEN eventId IN ('333oh') THEN 2432
+					WHEN eventId IN ('pyram') THEN 720
+					WHEN eventId IN ('skewb') THEN 624
 					ELSE 1
 				END
 			) AS turning_point,
@@ -143,23 +143,24 @@ FROM
 			best & ~@mask AS min_best,
 			best | @mask AS max_best
 		FROM RanksSingle AS r
-		WHERE r.eventId = @eventId
+		WHERE eventId IN ('333', '222', '444', '333oh', 'pyram', 'skewb')
 	) AS t
-	GROUP BY modified_best
-) AS t;
+	GROUP BY eventId, modified_best
+) AS t
+GROUP BY eventId;
 
-SELECT MIN(numPersons), AVG(numPersons), MAX(numPersons), STDDEV(numPersons)
+SELECT eventId, MIN(numPersons), AVG(numPersons), MAX(numPersons), STDDEV(numPersons)
 FROM
 (
-	SELECT modified_best, MIN(shift), MAX(shift), MAX(shift) - MIN(shift) AS shift_diff, MIN(best), MAX(best),
+	SELECT eventId, modified_best, MIN(shift), MAX(shift), MAX(shift) - MIN(shift) AS shift_diff, MIN(best), MAX(best),
 		MIN(min_best), MAX(max_best), MIN(min_best) = modified_best AS min_eq, MAX(max_best) = modified_best AS max_eq, COUNT(*) AS numPersons
 	FROM
 	(
-		SELECT best,
+		SELECT eventId, best,
 			@shift :=
 			(
 				CASE
-					WHEN r.eventId IN ('333') THEN
+					WHEN eventId IN ('333') THEN
 					(
 						CASE
 							WHEN best < 768 THEN 10
@@ -178,7 +179,7 @@ FROM
 							ELSE 20
 						END
 					)
-					WHEN r.eventId IN ('222') THEN
+					WHEN eventId IN ('222') THEN
 					(
 						CASE
 							WHEN best < 224 THEN 9
@@ -198,7 +199,7 @@ FROM
 							ELSE 20
 						END
 					)
-					WHEN r.eventId IN ('444') THEN
+					WHEN eventId IN ('444') THEN
 					(
 						CASE
 							WHEN best < 3200 THEN 12
@@ -214,7 +215,7 @@ FROM
 							ELSE 20
 						END
 					)
-					WHEN r.eventId IN ('333oh') THEN
+					WHEN eventId IN ('333oh') THEN
 					(
 						CASE
 							WHEN best < 1408 THEN 11
@@ -229,7 +230,7 @@ FROM
 							ELSE 20
 						END
 					)
-					WHEN r.eventId IN ('pyram') THEN
+					WHEN eventId IN ('pyram') THEN
 					(
 						CASE
 							WHEN best < 340 THEN 9
@@ -247,7 +248,7 @@ FROM
 							ELSE 20
 						END
 					)
-					WHEN r.eventId IN ('skewb') THEN
+					WHEN eventId IN ('skewb') THEN
 					(
 						CASE
 							WHEN best < 384 THEN 9
@@ -267,12 +268,12 @@ FROM
 			@turning_point :=
 			(
 				CASE
-					WHEN r.eventId IN ('333') THEN 2112
-					WHEN r.eventId IN ('222') THEN 644
-					WHEN r.eventId IN ('444') THEN 6080
-					WHEN r.eventId IN ('333oh') THEN 2848
-					WHEN r.eventId IN ('pyram') THEN 1072
-					WHEN r.eventId IN ('skewb') THEN 992
+					WHEN eventId IN ('333') THEN 2112
+					WHEN eventId IN ('222') THEN 644
+					WHEN eventId IN ('444') THEN 6080
+					WHEN eventId IN ('333oh') THEN 2848
+					WHEN eventId IN ('pyram') THEN 1072
+					WHEN eventId IN ('skewb') THEN 992
 					ELSE 1
 				END
 			) AS turning_point,
@@ -281,7 +282,8 @@ FROM
 			best & ~@mask AS min_best,
 			best | @mask AS max_best
 		FROM RanksAverage AS r
-		WHERE r.eventId = @eventId
+		WHERE eventId IN ('333', '222', '444', '333oh', 'pyram', 'skewb')
 	) AS t
-	GROUP BY modified_best
-) AS t;
+	GROUP BY eventId, modified_best
+) AS t
+GROUP BY eventId;
