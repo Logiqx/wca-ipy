@@ -29,7 +29,7 @@ FROM
 				WHEN r.eventId IN ('minx', '333fm') THEN 8      -- 2.56s
 				WHEN r.eventId IN ('666') THEN 9                -- 5.12s
 				WHEN r.eventId IN ('777', '333ft') THEN 10      -- 10.24s
-				WHEN r.eventId IN ('333bf') THEN 11             -- 20.48s
+				WHEN r.eventId IN ('333bf') THEN 10             -- 20.48s
 				WHEN r.eventId IN ('444bf') THEN 15
 				WHEN r.eventId IN ('555bf') THEN 16
                 ELSE 1
