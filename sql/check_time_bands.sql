@@ -11,10 +11,10 @@
 
 SET @eventId = '444bf';
 
-SELECT eventId, COUNT(*) AS numGroups, MIN(numPersons), AVG(numPersons), MAX(numPersons), STDDEV(numPersons)
+SELECT eventId, COUNT(*) AS numGroups, MIN(group_range), MIN(numPersons), AVG(numPersons), MAX(numPersons), STDDEV(numPersons)
 FROM
 (
-	SELECT eventId, modified_best, MIN(shift), MAX(shift), MAX(shift) - MIN(shift) AS shift_diff, MIN(best), MAX(best),
+	SELECT eventId, modified_best, MIN(shift), MAX(shift), MAX(shift) - MIN(shift) AS shift_diff, MIN(best), MAX(best), MAX(max_best) - MIN(min_best) + 1 AS group_range,
 		MIN(min_best), MAX(max_best), MIN(min_best) = modified_best AS min_eq, MAX(max_best) = modified_best AS max_eq, COUNT(*) AS numPersons
 	FROM
 	(
@@ -284,10 +284,10 @@ FROM
 ) AS t 
 GROUP BY eventId;
 
-SELECT eventId, COUNT(*) AS numGroups, MIN(numPersons), AVG(numPersons), MAX(numPersons), STDDEV(numPersons)
+SELECT eventId, COUNT(*) AS numGroups, MIN(group_range), MIN(numPersons), AVG(numPersons), MAX(numPersons), STDDEV(numPersons)
 FROM
 (
-	SELECT eventId, modified_best, MIN(shift), MAX(shift), MAX(shift) - MIN(shift) AS shift_diff, MIN(best), MAX(best),
+	SELECT eventId, modified_best, MIN(shift), MAX(shift), MAX(shift) - MIN(shift) AS shift_diff, MIN(best), MAX(best), MAX(max_best) - MIN(min_best) + 1 AS group_range,
 		MIN(min_best), MAX(max_best), MIN(min_best) = modified_best AS min_eq, MAX(max_best) = modified_best AS max_eq, COUNT(*) AS numPersons
 	FROM
 	(
