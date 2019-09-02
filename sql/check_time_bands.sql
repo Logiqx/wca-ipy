@@ -9,9 +9,9 @@
     Notes:    Average group size should exceed 200, minium group size should exceed 100
 */
 
-SET @eventId = '444';
+SET @eventId = '444bf';
 
-SELECT eventId, MIN(numPersons), AVG(numPersons), MAX(numPersons), STDDEV(numPersons)
+SELECT eventId, COUNT(*) AS numGroups, MIN(numPersons), AVG(numPersons), MAX(numPersons), STDDEV(numPersons)
 FROM
 (
 	SELECT eventId, modified_best, MIN(shift), MAX(shift), MAX(shift) - MIN(shift) AS shift_diff, MIN(best), MAX(best),
@@ -22,7 +22,7 @@ FROM
 			@shift :=
 			(
 				CASE
-					WHEN eventId IN ('333') THEN
+					WHEN eventId = '333' THEN
 					(
 						CASE
 							WHEN best < 640 THEN 10
@@ -41,10 +41,10 @@ FROM
 							ELSE 20
 						END
 					)
-					WHEN eventId IN ('222') THEN
+					WHEN eventId = '222' THEN
 					(
 						CASE
-							WHEN best < 96 THEN 9
+							WHEN best < 96 THEN 7
 							WHEN best < 144 THEN 4
 							WHEN best < 192 THEN 3
 							WHEN best < 898 THEN 2
@@ -58,7 +58,7 @@ FROM
 							ELSE 20
 						END
 					)
-					WHEN eventId IN ('444') THEN
+					WHEN eventId = '444' THEN
 					(
 						CASE
 							WHEN best < 2816 THEN 12
@@ -74,7 +74,67 @@ FROM
 							ELSE 20
 						END
 					)
-					WHEN eventId IN ('333oh') THEN
+					WHEN eventId = '555' THEN
+					(
+						CASE
+							WHEN best < 5632 THEN 13
+							WHEN best < 6656 THEN 8
+							WHEN best < 15360 THEN 7
+							WHEN best < 19968 THEN 8
+							WHEN best < 26624 THEN 9
+							WHEN best < 30720 THEN 10
+							WHEN best < 36864 THEN 11
+							WHEN best < 40960 THEN 12
+							ELSE 20
+						END
+					)
+					WHEN eventId = '666' THEN
+					(
+						CASE
+							WHEN best < 11264 THEN 14
+							WHEN best < 12287 THEN 10
+							WHEN best < 28672 THEN 9
+							WHEN best < 32768 THEN 10
+							WHEN best < 40960 THEN 11
+							WHEN best < 49152 THEN 12
+							ELSE 20
+						END
+					)
+					WHEN eventId = '777' THEN
+					(
+						CASE
+							WHEN best < 16384 THEN 14
+							WHEN best < 18432 THEN 11
+							WHEN best < 43008 THEN 10
+							WHEN best < 53248 THEN 11
+							WHEN best < 57344 THEN 12
+							WHEN best < 65536 THEN 13
+							ELSE 20
+						END
+					)
+					WHEN eventId = '333bf' THEN
+					(
+						CASE
+							WHEN best < 4096 THEN 12
+							WHEN best < 26624 THEN 10
+							WHEN best < 32768 THEN 11
+							WHEN best < 49152 THEN 12
+							WHEN best < 57344 THEN 13
+							ELSE 20
+						END
+					)
+					WHEN eventId = '333fm' THEN
+					(
+						CASE
+							WHEN best < 24 THEN 5
+							WHEN best < 28 THEN 1
+							WHEN best < 54 THEN 0
+							WHEN best < 60 THEN 1
+							WHEN best < 64 THEN 2
+							ELSE 20
+						END
+					)
+					WHEN eventId = '333oh' THEN
 					(
 						CASE
 							WHEN best < 1024 THEN 10
@@ -91,10 +151,46 @@ FROM
 							ELSE 20
 						END
 					)
-					WHEN eventId IN ('pyram') THEN
+					WHEN eventId = '333ft' THEN
 					(
 						CASE
-							WHEN best < 197 THEN 9
+							WHEN best < 4096 THEN 12
+							WHEN best < 16383 THEN 10
+							WHEN best < 24576 THEN 11
+							WHEN best < 28672 THEN 12
+							ELSE 20
+						END
+					)
+					WHEN eventId = 'clock' THEN
+					(
+						CASE
+							WHEN best < 640 THEN 10
+							WHEN best < 768 THEN 7
+							WHEN best < 2304 THEN 6
+							WHEN best < 3328 THEN 7
+							WHEN best < 4608 THEN 8
+							WHEN best < 5120 THEN 9
+							WHEN best < 6144 THEN 11
+							ELSE 20
+						END
+					)
+					WHEN eventId = 'minx' THEN
+					(
+						CASE
+							WHEN best < 4608 THEN 13
+							WHEN best < 5632 THEN 9
+							WHEN best < 18943 THEN 8
+							WHEN best < 24576 THEN 9
+							WHEN best < 28672 THEN 10
+							WHEN best < 32768 THEN 11
+							WHEN best < 40960 THEN 12
+							ELSE 20
+						END
+					)
+					WHEN eventId = 'pyram' THEN
+					(
+						CASE
+							WHEN best < 197 THEN 8
 							WHEN best < 234 THEN 6
 							WHEN best < 288 THEN 5
 							WHEN best < 376 THEN 4
@@ -109,10 +205,10 @@ FROM
 							ELSE 20
 						END
 					)
-					WHEN eventId IN ('skewb') THEN
+					WHEN eventId = 'skewb' THEN
 					(
 						CASE
-							WHEN best < 192 THEN 9
+							WHEN best < 192 THEN 8
 							WHEN best < 288 THEN 5
 							WHEN best < 1321 THEN 4
 							WHEN best < 1792 THEN 5
@@ -123,18 +219,57 @@ FROM
 							ELSE 20
 						END
 					)
+					WHEN eventId = 'sq1' THEN
+					(
+						CASE
+							WHEN best < 1024 THEN 10
+							WHEN best < 4864 THEN 7
+							WHEN best < 6656 THEN 8
+							WHEN best < 8192 THEN 9
+							WHEN best < 10240 THEN 10
+							WHEN best < 12288 THEN 11
+							ELSE 20
+						END
+					)
+					WHEN eventId = '444bf' THEN
+					(
+						CASE
+							WHEN best < 32768 THEN 15
+							WHEN best < 65535 THEN 14
+							WHEN best < 98304 THEN 15
+							ELSE 20
+						END
+					)
+					WHEN eventId = '555bf' THEN
+					(
+						CASE
+							WHEN best < 131072 THEN 16
+							ELSE 20
+						END
+					)
 					ELSE 1
 				END
 			) AS shift,
 			@turning_point :=
 			(
 				CASE
-					WHEN eventId IN ('333') THEN 1760
-					WHEN eventId IN ('222') THEN 416
-					WHEN eventId IN ('444') THEN 6080
-					WHEN eventId IN ('333oh') THEN 2432
-					WHEN eventId IN ('pyram') THEN 720
-					WHEN eventId IN ('skewb') THEN 624
+					WHEN eventId = '333' THEN 1760
+					WHEN eventId = '222' THEN 416
+					WHEN eventId = '444' THEN 6080
+					WHEN eventId = '555' THEN 10880
+					WHEN eventId = '666' THEN 18944
+					WHEN eventId = '777' THEN 27648
+					WHEN eventId = '333bf' THEN 10240
+					WHEN eventId = '333fm' THEN 38
+					WHEN eventId = '333oh' THEN 2432
+					WHEN eventId = '333ft' THEN 7168
+					WHEN eventId = 'clock' THEN 1280
+					WHEN eventId = 'minx' THEN 10240
+					WHEN eventId = 'pyram' THEN 720
+					WHEN eventId = 'skewb' THEN 624
+					WHEN eventId = 'sq1' THEN 2176
+					WHEN eventId = '444bf' THEN 32768
+					WHEN eventId = '555bf' THEN 65536
 					ELSE 1
 				END
 			) AS turning_point,
@@ -143,13 +278,13 @@ FROM
 			best & ~@mask AS min_best,
 			best | @mask AS max_best
 		FROM RanksSingle AS r
-		WHERE eventId IN ('333', '222', '444', '333oh', 'pyram', 'skewb')
+		WHERE eventId IN ('333', '222', '444', '555', '666', '777', '333bf', '333fm', '333oh', '333ft', 'clock', 'minx', 'pyram', 'skewb', 'sq1', '444bf', '555bf')
 	) AS t
 	GROUP BY eventId, modified_best
-) AS t
+) AS t 
 GROUP BY eventId;
 
-SELECT eventId, MIN(numPersons), AVG(numPersons), MAX(numPersons), STDDEV(numPersons)
+SELECT eventId, COUNT(*) AS numGroups, MIN(numPersons), AVG(numPersons), MAX(numPersons), STDDEV(numPersons)
 FROM
 (
 	SELECT eventId, modified_best, MIN(shift), MAX(shift), MAX(shift) - MIN(shift) AS shift_diff, MIN(best), MAX(best),
@@ -160,7 +295,7 @@ FROM
 			@shift :=
 			(
 				CASE
-					WHEN eventId IN ('333') THEN
+					WHEN eventId = '333' THEN
 					(
 						CASE
 							WHEN best < 768 THEN 10
@@ -179,10 +314,10 @@ FROM
 							ELSE 20
 						END
 					)
-					WHEN eventId IN ('222') THEN
+					WHEN eventId = '222' THEN
 					(
 						CASE
-							WHEN best < 224 THEN 9
+							WHEN best < 224 THEN 8
 							WHEN best < 272 THEN 5
 							WHEN best < 344 THEN 3
 							WHEN best < 1200 THEN 2
@@ -199,7 +334,7 @@ FROM
 							ELSE 20
 						END
 					)
-					WHEN eventId IN ('444') THEN
+					WHEN eventId = '444' THEN
 					(
 						CASE
 							WHEN best < 3200 THEN 12
@@ -215,7 +350,64 @@ FROM
 							ELSE 20
 						END
 					)
-					WHEN eventId IN ('333oh') THEN
+					WHEN eventId = '555' THEN
+					(
+						CASE
+							WHEN best < 6400 THEN 13
+							WHEN best < 7424 THEN 8
+							WHEN best < 14848 THEN 7
+							WHEN best < 16896 THEN 8
+							WHEN best < 20480 THEN 9
+							WHEN best < 22528 THEN 10
+							WHEN best < 24576 THEN 11
+							WHEN best < 32768 THEN 12
+							ELSE 20
+						END
+					)
+					WHEN eventId = '666' THEN
+					(
+						CASE
+							WHEN best < 11264 THEN 14
+							WHEN best < 14336 THEN 10
+							WHEN best < 24576 THEN 9
+							WHEN best < 28672 THEN 10
+							WHEN best < 32768 THEN 11
+							WHEN best < 40960 THEN 13
+							ELSE 20
+						END
+					)
+					WHEN eventId = '777' THEN
+					(
+						CASE
+							WHEN best < 18432 THEN 15
+							WHEN best < 20480 THEN 11
+							WHEN best < 38912 THEN 10
+							WHEN best < 45056 THEN 11
+							WHEN best < 49152 THEN 12
+							ELSE 20
+						END
+					)
+					WHEN eventId = '333bf' THEN
+					(
+						CASE
+							WHEN best < 4096 THEN 12
+							WHEN best < 20480 THEN 11
+							WHEN best < 24576 THEN 12
+							ELSE 20
+						END
+					)
+					WHEN eventId = '333fm' THEN
+					(
+						CASE
+							WHEN best < 3100 THEN 12
+							WHEN best < 3333 THEN 8
+							WHEN best < 4633 THEN 7
+							WHEN best < 5133 THEN 8
+							WHEN best < 5632 THEN 9
+							ELSE 20
+						END
+					)
+					WHEN eventId = '333oh' THEN
 					(
 						CASE
 							WHEN best < 1408 THEN 11
@@ -230,7 +422,43 @@ FROM
 							ELSE 20
 						END
 					)
-					WHEN eventId IN ('pyram') THEN
+					WHEN eventId = '333ft' THEN
+					(
+						CASE
+							WHEN best < 5120 THEN 13
+							WHEN best < 14336 THEN 10
+							WHEN best < 20480 THEN 11
+							WHEN best < 24576 THEN 12
+							ELSE 20
+						END
+					)
+					WHEN eventId = 'clock' THEN
+					(
+						CASE
+							WHEN best < 768 THEN 10
+							WHEN best < 896 THEN 7
+							WHEN best < 2176 THEN 6
+							WHEN best < 3328 THEN 7
+							WHEN best < 3584 THEN 8
+							WHEN best < 5120 THEN 9
+							WHEN best < 6144 THEN 10
+							ELSE 20
+						END
+					)
+					WHEN eventId = 'minx' THEN
+					(
+						CASE
+							WHEN best < 5120 THEN 13
+							WHEN best < 6144 THEN 9
+							WHEN best < 15360 THEN 8
+							WHEN best < 18432 THEN 9
+							WHEN best < 22528 THEN 10
+							WHEN best < 24576 THEN 11
+							WHEN best < 32768 THEN 12
+							ELSE 20
+						END
+					)
+					WHEN eventId = 'pyram' THEN
 					(
 						CASE
 							WHEN best < 340 THEN 9
@@ -248,7 +476,7 @@ FROM
 							ELSE 20
 						END
 					)
-					WHEN eventId IN ('skewb') THEN
+					WHEN eventId = 'skewb' THEN
 					(
 						CASE
 							WHEN best < 384 THEN 9
@@ -262,18 +490,49 @@ FROM
 							ELSE 20
 						END
 					)
+					WHEN eventId = 'sq1' THEN
+					(
+						CASE
+							WHEN best < 1280 THEN 11
+							WHEN best < 5120 THEN 7
+							WHEN best < 6656 THEN 8
+							WHEN best < 8192 THEN 9
+							WHEN best < 10240 THEN 10
+							WHEN best < 12288 THEN 11
+							ELSE 20
+						END
+					)
+					WHEN eventId = '444bf' THEN
+					(
+						20
+					)
+					WHEN eventId = '555bf' THEN
+					(
+						20
+					)
 					ELSE 1
 				END
 			) AS shift,
 			@turning_point :=
 			(
 				CASE
-					WHEN eventId IN ('333') THEN 2112
-					WHEN eventId IN ('222') THEN 644
-					WHEN eventId IN ('444') THEN 6080
-					WHEN eventId IN ('333oh') THEN 2848
-					WHEN eventId IN ('pyram') THEN 1072
-					WHEN eventId IN ('skewb') THEN 992
+					WHEN eventId = '333' THEN 2112
+					WHEN eventId = '222' THEN 644
+					WHEN eventId = '444' THEN 6080
+					WHEN eventId = '555' THEN 10624
+					WHEN eventId = '666' THEN 18432
+					WHEN eventId = '777' THEN 26624
+					WHEN eventId = '333bf' THEN 6144
+					WHEN eventId = '333fm' THEN 3867
+					WHEN eventId = '333oh' THEN 2848
+					WHEN eventId = '333ft' THEN 8192
+					WHEN eventId = 'clock' THEN 1472
+					WHEN eventId = 'minx' THEN 9728
+					WHEN eventId = 'pyram' THEN 1072
+					WHEN eventId = 'skewb' THEN 992
+					WHEN eventId = 'sq1' THEN 2560
+					WHEN eventId = '444bf' THEN 0
+					WHEN eventId = '555bf' THEN 0
 					ELSE 1
 				END
 			) AS turning_point,
@@ -282,7 +541,7 @@ FROM
 			best & ~@mask AS min_best,
 			best | @mask AS max_best
 		FROM RanksAverage AS r
-		WHERE eventId IN ('333', '222', '444', '333oh', 'pyram', 'skewb')
+		WHERE eventId IN ('333', '222', '444', '555', '666', '777', '333bf', '333fm', '333oh', '333ft', 'clock', 'minx', 'pyram', 'skewb', 'sq1', '444bf', '555bf')
 	) AS t
 	GROUP BY eventId, modified_best
 ) AS t
