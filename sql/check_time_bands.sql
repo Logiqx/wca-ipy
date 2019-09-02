@@ -251,7 +251,7 @@ FROM
 							ELSE 20
 						END
 					)
-					ELSE 1
+					ELSE 10
 				END
 			) AS shift,
 			@turning_point :=
@@ -275,7 +275,7 @@ FROM
 					WHEN eventId = '444bf' THEN 32768
 					WHEN eventId = '555bf' THEN 65536
 					WHEN eventId = '333mbf' THEN 970000000
-					ELSE 1
+					ELSE 0
 				END
 			) AS turning_point,
 			@mask := (1 << @shift) - 1 AS mask,
@@ -506,15 +506,9 @@ FROM
 							ELSE 20
 						END
 					)
-					WHEN eventId = '444bf' THEN
-					(
-						20
-					)
-					WHEN eventId = '555bf' THEN
-					(
-						20
-					)
-					ELSE 1
+					WHEN eventId = '444bf' THEN 20
+					WHEN eventId = '555bf' THEN 20
+					ELSE 10
 				END
 			) AS shift,
 			@turning_point :=
@@ -537,7 +531,7 @@ FROM
 					WHEN eventId = 'sq1' THEN 2560
 					WHEN eventId = '444bf' THEN 0
 					WHEN eventId = '555bf' THEN 0
-					ELSE 1
+					ELSE 0
 				END
 			) AS turning_point,
 			@mask := (1 << @shift) - 1 AS mask,
