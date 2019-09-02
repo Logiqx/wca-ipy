@@ -9,7 +9,7 @@
     Notes:    Average group size should exceed 200, minium group size should exceed 100
 */
 
-SET @eventId = '444bf';
+SET @eventId = '444';
 
 SELECT eventId, COUNT(*) AS numGroups, MIN(group_range), MIN(numPersons), AVG(numPersons), MAX(numPersons), STDDEV(numPersons)
 FROM
@@ -26,8 +26,8 @@ FROM
 					(
 						CASE
 							WHEN best < 640 THEN 10
-							WHEN best < 688 THEN 6
-							WHEN best < 841 THEN 4
+							WHEN best < 704 THEN 5
+							WHEN best < 848 THEN 4
 							WHEN best < 3712 THEN 3
 							WHEN best < 5088 THEN 4
 							WHEN best < 6400 THEN 5
@@ -36,8 +36,8 @@ FROM
 							WHEN best < 10752 THEN 8
 							WHEN best < 12288 THEN 9
                             WHEN best < 14336 THEN 10
-                            WHEN best < 16405 THEN 11
-                            WHEN best < 18484 THEN 12
+                            WHEN best < 16384 THEN 11
+                            WHEN best < 20480 THEN 12
 							ELSE 20
 						END
 					)
@@ -45,12 +45,12 @@ FROM
 					(
 						CASE
 							WHEN best < 96 THEN 7
-							WHEN best < 144 THEN 4
+							WHEN best < 128 THEN 4
 							WHEN best < 192 THEN 3
-							WHEN best < 898 THEN 2
+							WHEN best < 904 THEN 2
 							WHEN best < 1232 THEN 3
 							WHEN best < 1568 THEN 4
-							WHEN best < 1936 THEN 5
+							WHEN best < 1984 THEN 5
 							WHEN best < 2304 THEN 6
 							WHEN best < 2816 THEN 7
 							WHEN best < 3072 THEN 8
@@ -62,14 +62,13 @@ FROM
 					(
 						CASE
 							WHEN best < 2816 THEN 12
-							WHEN best < 3411 THEN 7
+							WHEN best < 3328 THEN 7
 							WHEN best < 10880 THEN 6
 							WHEN best < 13824 THEN 7
 							WHEN best < 16896 THEN 8
 							WHEN best < 19456 THEN 9
 							WHEN best < 22528 THEN 10
 							WHEN best < 24576 THEN 11
-							WHEN best < 28204 THEN 12
 							WHEN best < 32768 THEN 13
 							ELSE 20
 						END
@@ -144,10 +143,8 @@ FROM
 							WHEN best < 7680 THEN 7
 							WHEN best < 9216 THEN 8
 							WHEN best < 11264 THEN 9
-                            WHEN best < 12288 THEN 10
-                            WHEN best < 14233 THEN 11
-                            WHEN best < 16384 THEN 12
-                            WHEN best < 22246 THEN 14
+                            WHEN best < 14336 THEN 10
+                            WHEN best < 16384 THEN 11
 							ELSE 20
 						END
 					)
@@ -170,7 +167,7 @@ FROM
 							WHEN best < 3328 THEN 7
 							WHEN best < 4608 THEN 8
 							WHEN best < 5120 THEN 9
-							WHEN best < 6144 THEN 11
+							WHEN best < 6144 THEN 10
 							ELSE 20
 						END
 					)
@@ -190,18 +187,17 @@ FROM
 					WHEN eventId = 'pyram' THEN
 					(
 						CASE
-							WHEN best < 197 THEN 8
-							WHEN best < 234 THEN 6
+							WHEN best < 192 THEN 8
 							WHEN best < 288 THEN 5
-							WHEN best < 376 THEN 4
+							WHEN best < 384 THEN 4
 							WHEN best < 1376 THEN 3
 							WHEN best < 1792 THEN 4
 							WHEN best < 2240 THEN 5
 							WHEN best < 2688 THEN 6
 							WHEN best < 3072 THEN 7
 							WHEN best < 3587 THEN 8
-							WHEN best < 4100 THEN 9
-							WHEN best < 4505 THEN 10
+							WHEN best < 4096 THEN 9
+							WHEN best < 5120 THEN 10
 							ELSE 20
 						END
 					)
@@ -210,11 +206,11 @@ FROM
 						CASE
 							WHEN best < 192 THEN 8
 							WHEN best < 288 THEN 5
-							WHEN best < 1321 THEN 4
+							WHEN best < 1344 THEN 4
 							WHEN best < 1792 THEN 5
 							WHEN best < 2304 THEN 6
 							WHEN best < 2816 THEN 7
-							WHEN best < 3313 THEN 8
+							WHEN best < 3584 THEN 8
 							WHEN best < 4096 THEN 9
 							ELSE 20
 						END
@@ -247,6 +243,14 @@ FROM
 							ELSE 20
 						END
 					)
+					WHEN eventId = '333mbf' THEN
+					(
+						CASE
+							WHEN FLOOR(best / 10000000) >= 94 THEN 0
+							WHEN FLOOR(best / 10000000) >= 88 THEN 2
+							ELSE 20
+						END
+					)
 					ELSE 1
 				END
 			) AS shift,
@@ -270,18 +274,20 @@ FROM
 					WHEN eventId = 'sq1' THEN 2176
 					WHEN eventId = '444bf' THEN 32768
 					WHEN eventId = '555bf' THEN 65536
+					WHEN eventId = '333mbf' THEN 970000000
 					ELSE 1
 				END
 			) AS turning_point,
 			@mask := (1 << @shift) - 1 AS mask,
-			IF(best < @turning_point, best & ~@mask, best | @mask) AS modified_best,
+			IF(eventId = '333mbf',
+				IF(best > @turning_point, 99 - FLOOR(best / 10000000) & ~@mask, 99 - FLOOR(best / 10000000) | @mask),
+				IF(best < @turning_point, best & ~@mask, best | @mask)) AS modified_best,
 			best & ~@mask AS min_best,
 			best | @mask AS max_best
 		FROM RanksSingle AS r
-		WHERE eventId IN ('333', '222', '444', '555', '666', '777', '333bf', '333fm', '333oh', '333ft', 'clock', 'minx', 'pyram', 'skewb', 'sq1', '444bf', '555bf')
 	) AS t
 	GROUP BY eventId, modified_best
-) AS t 
+) AS t
 GROUP BY eventId;
 
 SELECT eventId, COUNT(*) AS numGroups, MIN(group_range), MIN(numPersons), AVG(numPersons), MAX(numPersons), STDDEV(numPersons)
@@ -299,9 +305,10 @@ FROM
 					(
 						CASE
 							WHEN best < 768 THEN 10
-							WHEN best < 880 THEN 6
+							WHEN best < 832 THEN 6
+							WHEN best < 896 THEN 5
 							WHEN best < 1024 THEN 4
-							WHEN best < 4200 THEN 3
+							WHEN best < 4192 THEN 3
 							WHEN best < 5952 THEN 4
 							WHEN best < 7488 THEN 5
 							WHEN best < 9088 THEN 6
@@ -310,7 +317,7 @@ FROM
 							WHEN best < 14336 THEN 9
                             WHEN best < 16384 THEN 10
                             WHEN best < 20480 THEN 11
-                            WHEN best < 24029 THEN 13
+                            WHEN best < 24576 THEN 12
 							ELSE 20
 						END
 					)
@@ -318,35 +325,32 @@ FROM
 					(
 						CASE
 							WHEN best < 224 THEN 8
-							WHEN best < 272 THEN 5
+							WHEN best < 272 THEN 4
 							WHEN best < 344 THEN 3
 							WHEN best < 1200 THEN 2
 							WHEN best < 1664 THEN 3
-							WHEN best < 2128 THEN 4
+							WHEN best < 2112 THEN 4
 							WHEN best < 2560 THEN 5
 							WHEN best < 3072 THEN 6
 							WHEN best < 3584 THEN 7
 							WHEN best < 4096 THEN 8
-							WHEN best < 4536 THEN 9
-							WHEN best < 5105 THEN 10
-							WHEN best < 5711 THEN 11
-							WHEN best < 7045 THEN 12
+							WHEN best < 5632 THEN 9
 							ELSE 20
 						END
 					)
 					WHEN eventId = '444' THEN
 					(
 						CASE
-							WHEN best < 3200 THEN 12
-							WHEN best < 3456 THEN 9
+							WHEN best < 3328 THEN 12
+							WHEN best < 3584 THEN 8
 							WHEN best < 3840 THEN 7
 							WHEN best < 9344 THEN 6
-							WHEN best < 11648 THEN 7
+							WHEN best < 11776 THEN 7
 							WHEN best < 13824 THEN 8
-							WHEN best < 15800 THEN 9
+							WHEN best < 16384 THEN 9
                             WHEN best < 18432 THEN 10
                             WHEN best < 20480 THEN 11
-                            WHEN best < 23376 THEN 12
+                            WHEN best < 24576 THEN 12
 							ELSE 20
 						END
 					)
@@ -412,11 +416,11 @@ FROM
 						CASE
 							WHEN best < 1408 THEN 11
 							WHEN best < 1664 THEN 6
-							WHEN best < 4704 THEN 5
-							WHEN best < 5952 THEN 6
+							WHEN best < 4736 THEN 5
+							WHEN best < 5888 THEN 6
+							WHEN best < 6144 THEN 7
 							WHEN best < 8704 THEN 8
 							WHEN best < 10240 THEN 9
-                            WHEN best < 10947 THEN 10
                             WHEN best < 12288 THEN 11
                             WHEN best < 16384 THEN 12
 							ELSE 20
@@ -472,7 +476,7 @@ FROM
 							WHEN best < 3840 THEN 7
 							WHEN best < 4608 THEN 8
 							WHEN best < 5120 THEN 9
-							WHEN best < 5962 THEN 10
+							WHEN best < 6144 THEN 10
 							ELSE 20
 						END
 					)
@@ -482,7 +486,7 @@ FROM
 							WHEN best < 384 THEN 9
 							WHEN best < 512 THEN 5
 							WHEN best < 1888 THEN 4
-							WHEN best < 2464 THEN 5
+							WHEN best < 2496 THEN 5
 							WHEN best < 3072 THEN 6
 							WHEN best < 3584 THEN 7
 							WHEN best < 4096 THEN 8
@@ -541,7 +545,6 @@ FROM
 			best & ~@mask AS min_best,
 			best | @mask AS max_best
 		FROM RanksAverage AS r
-		WHERE eventId IN ('333', '222', '444', '555', '666', '777', '333bf', '333fm', '333oh', '333ft', 'clock', 'minx', 'pyram', 'skewb', 'sq1', '444bf', '555bf')
 	) AS t
 	GROUP BY eventId, modified_best
 ) AS t
