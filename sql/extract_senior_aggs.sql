@@ -26,7 +26,7 @@ FROM
   SELECT personId, eventId, age_category, MIN(average) AS best_average
   FROM
   (
-    SELECT r.personId, r.eventId, r.best, r.average, TIMESTAMPDIFF(YEAR,
+    SELECT r.personId, r.eventId, r.average, TIMESTAMPDIFF(YEAR,
       DATE_FORMAT(CONCAT(p.year, '-', p.month, '-', p.day), '%Y-%m-%d'),
       DATE_FORMAT(CONCAT(c.year, '-', c.month, '-', c.day), '%Y-%m-%d')) AS age_at_comp
     FROM Persons AS p
@@ -48,7 +48,6 @@ FROM
   ) AS age_categories ON age_category <= age_at_comp
   GROUP BY personId, eventId, age_category
 ) AS senior_bests
-WHERE best_average > 0
 GROUP BY eventId, age_category, modified_average
 ORDER BY eventId, age_category, modified_average;
 
@@ -73,7 +72,7 @@ FROM
   SELECT personId, eventId, age_category, MIN(best) AS best_single
   FROM
   (
-    SELECT r.personId, r.eventId, r.best, r.average, TIMESTAMPDIFF(YEAR,
+    SELECT r.personId, r.eventId, r.best, TIMESTAMPDIFF(YEAR,
       DATE_FORMAT(CONCAT(p.year, '-', p.month, '-', p.day), '%Y-%m-%d'),
       DATE_FORMAT(CONCAT(c.year, '-', c.month, '-', c.day), '%Y-%m-%d')) AS age_at_comp
     FROM Persons AS p
