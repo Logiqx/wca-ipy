@@ -9,7 +9,7 @@
     Notes:    Average group size should exceed 200, minium group size should exceed 100
 */
 
-SET @eventId = '333fm';
+SET @eventId = '444bf';
 
 SELECT * -- eventId, COUNT(*) AS numGroups, MIN(group_range), MIN(numPersons), AVG(numPersons), MAX(numPersons), STDDEV(numPersons)
 FROM
@@ -152,7 +152,7 @@ FROM
           (
             CASE
               WHEN best < 4096 THEN 12
-              WHEN best < 16383 THEN 10
+              WHEN best < 16384 THEN 10
               WHEN best < 24576 THEN 11
               WHEN best < 28672 THEN 12
               ELSE 20
@@ -176,7 +176,7 @@ FROM
             CASE
               WHEN best < 4608 THEN 13
               WHEN best < 5632 THEN 9
-              WHEN best < 18943 THEN 8
+              WHEN best < 18944 THEN 8
               WHEN best < 24576 THEN 9
               WHEN best < 28672 THEN 10
               WHEN best < 32768 THEN 11
@@ -231,7 +231,8 @@ FROM
           (
             CASE
               WHEN best < 32768 THEN 15
-              WHEN best < 65535 THEN 14
+              WHEN best < 65536 THEN 14
+              WHEN best < 65536 THEN 14
               WHEN best < 98304 THEN 15
               ELSE 20
             END

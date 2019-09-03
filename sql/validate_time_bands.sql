@@ -15,7 +15,7 @@ FROM
   SELECT t.*, min_best - LAG(max_best) OVER (PARTITION BY eventId ORDER BY min_best) - 1 AS continuity_error, IF (1 << shift != numResults, 1, 0) AS mask_error
   FROM
   (
-    SELECT eventId, shift, MIN(best) AS min_best, MAX(best) AS max_best, COUNT(*) AS numResults
+    SELECT eventId, shift, modified_best, MIN(best) AS min_best, MAX(best) AS max_best, COUNT(*) AS numResults
     FROM
     (
       SELECT eventId, best,
@@ -152,7 +152,7 @@ FROM
             (
               CASE
                 WHEN best < 4096 THEN 12
-                WHEN best < 16383 THEN 10
+                WHEN best < 16384 THEN 10
                 WHEN best < 24576 THEN 11
                 WHEN best < 28672 THEN 12
                 ELSE 20
@@ -176,7 +176,7 @@ FROM
               CASE
                 WHEN best < 4608 THEN 13
                 WHEN best < 5632 THEN 9
-                WHEN best < 18943 THEN 8
+                WHEN best < 18944 THEN 8
                 WHEN best < 24576 THEN 9
                 WHEN best < 28672 THEN 10
                 WHEN best < 32768 THEN 11
@@ -231,7 +231,7 @@ FROM
             (
               CASE
                 WHEN best < 32768 THEN 15
-                WHEN best < 65535 THEN 14
+                WHEN best < 65536 THEN 14
                 WHEN best < 98304 THEN 15
                 ELSE 20
               END
@@ -316,7 +316,7 @@ FROM
         END
       )
     ) AS t
-    GROUP BY eventId, modified_best
+    GROUP BY eventId, shift, modified_best
   ) AS t
 ) AS t
 WHERE continuity_error + mask_error != 0;
@@ -327,7 +327,7 @@ FROM
   SELECT t.*, min_best - LAG(max_best) OVER (PARTITION BY eventId ORDER BY min_best) - 1 AS continuity_error, IF (1 << shift != numResults, 1, 0) AS mask_error
   FROM
   (
-    SELECT eventId, shift, MIN(best) AS min_best, MAX(best) AS max_best, COUNT(*) AS numResults
+    SELECT eventId, shift, modified_best, MIN(best) AS min_best, MAX(best) AS max_best, COUNT(*) AS numResults
     FROM
     (
       SELECT eventId, best,
@@ -601,7 +601,7 @@ FROM
         END
       )
     ) AS t
-    GROUP BY eventId, modified_best
+    GROUP BY eventId, shift, modified_best
   ) AS t
 ) AS t
 WHERE continuity_error + mask_error != 0;
