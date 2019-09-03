@@ -319,8 +319,7 @@ FROM
     GROUP BY eventId, modified_best
   ) AS t
 ) AS t
-WHERE min_best > 0
-AND IFNULL(continuity_error, 0) + mask_error != 0;
+WHERE continuity_error + mask_error != 0;
 
 SELECT *
 FROM
@@ -605,5 +604,4 @@ FROM
     GROUP BY eventId, modified_best
   ) AS t
 ) AS t
-WHERE min_best > 0
-AND IFNULL(continuity_error, 0) + mask_error != 0;
+WHERE continuity_error + mask_error != 0;
