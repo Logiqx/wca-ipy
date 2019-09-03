@@ -11,7 +11,7 @@
 
 SET @eventId = '444bf';
 
-SELECT * -- eventId, COUNT(*) AS numGroups, MIN(group_range), MIN(numPersons), AVG(numPersons), MAX(numPersons), STDDEV(numPersons)
+SELECT eventId, COUNT(*) AS numGroups, MIN(group_range), MIN(numPersons), AVG(numPersons), MAX(numPersons), STDDEV(numPersons)
 FROM
 (
   SELECT eventId, modified_best, MIN(shift), MAX(shift), MAX(shift) - MIN(shift) AS shift_diff, MIN(best), MAX(best), MAX(max_best) - MIN(min_best) + 1 AS group_range,
@@ -286,13 +286,13 @@ FROM
       best & ~@mask AS min_best,
       best | @mask AS max_best
     FROM RanksSingle AS r
-        WHERE eventId = @eventId
+    -- WHERE eventId = @eventId
   ) AS t
   GROUP BY eventId, modified_best
-) AS t;
--- GROUP BY eventId;
+) AS t
+GROUP BY eventId;
 
-SELECT * -- eventId, COUNT(*) AS numGroups, MIN(group_range), MIN(numPersons), AVG(numPersons), MAX(numPersons), STDDEV(numPersons)
+SELECT eventId, COUNT(*) AS numGroups, MIN(group_range), MIN(numPersons), AVG(numPersons), MAX(numPersons), STDDEV(numPersons)
 FROM
 (
   SELECT eventId, modified_best, MIN(shift), MAX(shift), MAX(shift) - MIN(shift) AS shift_diff, MIN(best), MAX(best), MAX(max_best) - MIN(min_best) + 1 AS group_range,
@@ -541,8 +541,8 @@ FROM
       best & ~@mask AS min_best,
       best | @mask AS max_best
     FROM RanksAverage AS r
-        WHERE eventId = @eventId
+    -- WHERE eventId = @eventId
   ) AS t
   GROUP BY eventId, modified_best
-) AS t;
--- GROUP BY eventId;
+) AS t
+GROUP BY eventId;
