@@ -9,9 +9,9 @@
     Notes:    Average group size should exceed 200, minium group size should exceed 100
 */
 
-SET @eventId = '444';
+SET @eventId = '333fm';
 
-SELECT eventId, COUNT(*) AS numGroups, MIN(group_range), MIN(numPersons), AVG(numPersons), MAX(numPersons), STDDEV(numPersons)
+SELECT * -- eventId, COUNT(*) AS numGroups, MIN(group_range), MIN(numPersons), AVG(numPersons), MAX(numPersons), STDDEV(numPersons)
 FROM
 (
 	SELECT eventId, modified_best, MIN(shift), MAX(shift), MAX(shift) - MIN(shift) AS shift_diff, MIN(best), MAX(best), MAX(max_best) - MIN(min_best) + 1 AS group_range,
@@ -91,7 +91,7 @@ FROM
 					(
 						CASE
 							WHEN best < 11264 THEN 14
-							WHEN best < 12287 THEN 10
+							WHEN best < 12288 THEN 10
 							WHEN best < 28672 THEN 9
 							WHEN best < 32768 THEN 10
 							WHEN best < 40960 THEN 11
@@ -195,7 +195,7 @@ FROM
 							WHEN best < 2240 THEN 5
 							WHEN best < 2688 THEN 6
 							WHEN best < 3072 THEN 7
-							WHEN best < 3587 THEN 8
+							WHEN best < 3584 THEN 8
 							WHEN best < 4096 THEN 9
 							WHEN best < 5120 THEN 10
 							ELSE 20
@@ -285,12 +285,13 @@ FROM
 			best & ~@mask AS min_best,
 			best | @mask AS max_best
 		FROM RanksSingle AS r
+        WHERE eventId = @eventId
 	) AS t
 	GROUP BY eventId, modified_best
-) AS t
-GROUP BY eventId;
+) AS t;
+-- GROUP BY eventId;
 
-SELECT eventId, COUNT(*) AS numGroups, MIN(group_range), MIN(numPersons), AVG(numPersons), MAX(numPersons), STDDEV(numPersons)
+SELECT * -- eventId, COUNT(*) AS numGroups, MIN(group_range), MIN(numPersons), AVG(numPersons), MAX(numPersons), STDDEV(numPersons)
 FROM
 (
 	SELECT eventId, modified_best, MIN(shift), MAX(shift), MAX(shift) - MIN(shift) AS shift_diff, MIN(best), MAX(best), MAX(max_best) - MIN(min_best) + 1 AS group_range,
@@ -403,10 +404,10 @@ FROM
 					WHEN eventId = '333fm' THEN
 					(
 						CASE
-							WHEN best < 3100 THEN 12
-							WHEN best < 3333 THEN 8
-							WHEN best < 4633 THEN 7
-							WHEN best < 5133 THEN 8
+							WHEN best < 3072 THEN 12
+							WHEN best < 3328 THEN 8
+							WHEN best < 4608 THEN 7
+							WHEN best < 5120 THEN 8
 							WHEN best < 5632 THEN 9
 							ELSE 20
 						END
@@ -465,7 +466,7 @@ FROM
 					WHEN eventId = 'pyram' THEN
 					(
 						CASE
-							WHEN best < 340 THEN 9
+							WHEN best < 320 THEN 9
 							WHEN best < 384 THEN 6
 							WHEN best < 480 THEN 5
 							WHEN best < 608 THEN 4
@@ -521,7 +522,7 @@ FROM
 					WHEN eventId = '666' THEN 18432
 					WHEN eventId = '777' THEN 26624
 					WHEN eventId = '333bf' THEN 6144
-					WHEN eventId = '333fm' THEN 3867
+					WHEN eventId = '333fm' THEN 3840
 					WHEN eventId = '333oh' THEN 2848
 					WHEN eventId = '333ft' THEN 8192
 					WHEN eventId = 'clock' THEN 1472
@@ -539,7 +540,8 @@ FROM
 			best & ~@mask AS min_best,
 			best | @mask AS max_best
 		FROM RanksAverage AS r
+        WHERE eventId = @eventId
 	) AS t
 	GROUP BY eventId, modified_best
-) AS t
-GROUP BY eventId;
+) AS t;
+-- GROUP BY eventId;
