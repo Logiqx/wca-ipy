@@ -3,11 +3,23 @@
     Created:  2019-07-06
     Author:   Michael George / 2015GEOR02
 
-    Purpose:  Simple extract to facilitate the production of "Indicative Senior Rankings"
+    Purpose:  Simple extract to facilitate the production of "Indicative Senior Rankings".
               https://logiqx.github.io/wca-ipy/Indicative_Rankings.html
 
-    Notes:    The extracts do not disclose any WCA IDs, only counts of senior competitors
-              All consolidated results are modified using truncation / reduction of precision
+    Notes:    The extracts do not disclose any WCA IDs, only counts of senior competitors.
+              All consolidated results are modified using truncation / reduction of precision.
+              Variable reduction of precision is achieved through the use of bit masking.
+
+              Each event has been assigned a unique profile for bit masking. For example:
+                - 3x3x3 and Pyraminx have a maximum precision of 8ms (0.08s)
+                - 5x5x5 and Square-1 have a maximum precision of 128ms (1.28s)
+                - Feet and 7x7x7 have a maximum precision of 1024ms (10.24s)
+              Faster / slower results have more bits masked, further reducing the precision.
+
+              The event profiles have been generated from statistical models created from WCA results.
+              The average group size (across the entire WCA community) is typically 150-250 persons.
+              The minimum group size (across the entire WCA community) is intended to be 100 persons.
+              The only exception to this rule is 5BLD (mean of 3) which only has 44 people in the WCA.
 */
 
 SET @max_shift = 31;
