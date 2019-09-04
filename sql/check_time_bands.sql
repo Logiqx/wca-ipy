@@ -277,7 +277,7 @@ FROM
           WHEN eventId = 'sq1' THEN 12288
           WHEN eventId = '444bf' THEN 98304
           WHEN eventId = '555bf' THEN 131072
-          ELSE 1 << @max_shift
+          ELSE 0
         END
       )) AS modified_best,
       best & ~@mask AS min_best,
@@ -528,7 +528,7 @@ FROM
           WHEN eventId = 'pyram' THEN 6144
           WHEN eventId = 'skewb' THEN 5120
           WHEN eventId = 'sq1' THEN 12288
-          ELSE 1 << @max_shift
+          ELSE 0
         END
       )) AS modified_best,
       best & ~@mask AS min_best,
