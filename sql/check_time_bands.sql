@@ -10,7 +10,7 @@
 */
 
 SET @max_shift = 31;
-SET @eventId = '666';
+SET @eventId = '555';
 
 SELECT * -- eventId, COUNT(*) AS numGroups, MIN(group_range), MIN(numPersons), AVG(numPersons), MAX(numPersons), STDDEV(numPersons)
 FROM
@@ -80,7 +80,7 @@ FROM
               WHEN best < 5632 THEN 13
               WHEN best < 6144 THEN 9
               WHEN best < 6656 THEN 8
-              WHEN best < 15360 THEN 7
+              WHEN best < 14336 THEN 7
               WHEN best < 19968 THEN 8
               WHEN best < 26624 THEN 9
               WHEN best < 30720 THEN 10
@@ -93,7 +93,7 @@ FROM
           (
             CASE
               WHEN best < 11264 THEN 14
-              WHEN best < 12288 THEN 10
+              WHEN best < 13312 THEN 10
               WHEN best < 28672 THEN 9
               WHEN best < 32768 THEN 10
               WHEN best < 40960 THEN 11
@@ -287,8 +287,8 @@ FROM
   ) AS t
   GROUP BY eventId, modified_best
 ) AS t
-WHERE numPersons < 100;
--- GROUP BY eventId;
+-- WHERE numPersons < 100;
+GROUP BY eventId;
 
 SELECT * -- eventId, COUNT(*) AS numGroups, MIN(group_range), MIN(numPersons), AVG(numPersons), MAX(numPersons), STDDEV(numPersons)
 FROM
@@ -538,5 +538,5 @@ FROM
   ) AS t
   GROUP BY eventId, modified_best
 ) AS t
-WHERE numPersons < 100;
--- GROUP BY eventId;
+-- WHERE numPersons < 100;
+GROUP BY eventId;

@@ -81,7 +81,7 @@ FROM
                 WHEN best < 5632 THEN 13
                 WHEN best < 6144 THEN 9
                 WHEN best < 6656 THEN 8
-                WHEN best < 15360 THEN 7
+                WHEN best < 14336 THEN 7
                 WHEN best < 19968 THEN 8
                 WHEN best < 26624 THEN 9
                 WHEN best < 30720 THEN 10
@@ -94,7 +94,7 @@ FROM
             (
               CASE
                 WHEN best < 11264 THEN 14
-                WHEN best < 12288 THEN 10
+                WHEN best < 13312 THEN 10
                 WHEN best < 28672 THEN 9
                 WHEN best < 32768 THEN 10
                 WHEN best < 40960 THEN 11
