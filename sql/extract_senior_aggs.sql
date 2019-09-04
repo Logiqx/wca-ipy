@@ -12,6 +12,8 @@
               All consolidated results are modified using truncation / reduction of precision
 */
 
+SET @max_shift = 31;
+
 /*
    Extract AGGREGATED senior results (averages)
 */
