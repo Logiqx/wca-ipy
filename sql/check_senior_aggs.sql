@@ -1,9 +1,9 @@
 /*
-    Script:   Extract Senior Results (aggregated)
+    Script:   Check Senior Results (aggregated)
     Created:  2019-07-06
     Author:   Michael George / 2015GEOR02
 
-    Purpose:  Simple extract to facilitate the production of "Indicative Senior Rankings"
+    Purpose:  Check extract to facilitate the production of "Indicative Senior Rankings"
               https://logiqx.github.io/wca-ipy/Indicative_Rankings.html
 
     Notes:    The extracts do not disclose any WCA IDs, only counts of senior competitors
@@ -271,17 +271,12 @@ FROM
     JOIN
     (
       SELECT 40 AS age_category
-      UNION ALL SELECT 50
-      UNION ALL SELECT 60
-      UNION ALL SELECT 70
-      UNION ALL SELECT 80
-      UNION ALL SELECT 90
-      UNION ALL SELECT 100
     ) AS age_categories ON age_category <= age_at_comp
     GROUP BY personId, eventId, age_category
   ) AS senior_bests
 ) AS modified_bests
 GROUP BY eventId, age_category, modified_average
+HAVING num_persons < 100
 ORDER BY eventId, age_category, modified_average;
 
 /*
@@ -570,15 +565,10 @@ FROM
     JOIN
     (
       SELECT 40 AS age_category
-      UNION ALL SELECT 50
-      UNION ALL SELECT 60
-      UNION ALL SELECT 70
-      UNION ALL SELECT 80
-      UNION ALL SELECT 90
-      UNION ALL SELECT 100
     ) AS age_categories ON age_category <= age_at_comp
     GROUP BY personId, eventId, age_category
   ) AS senior_bests
 ) AS modified_bests
 GROUP BY eventId, age_category, modified_single
+HAVING num_persons < 100
 ORDER BY eventId, age_category, modified_single;
