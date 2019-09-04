@@ -269,7 +269,7 @@ FROM
       WHERE p.year > 0 AND p.year <= YEAR(CURDATE()) - 40
       AND p.subid = 1
       HAVING age_at_comp >= 40
-    ) AS t
+    ) AS senior_results
     JOIN
     (
       SELECT 40 AS age_category
@@ -281,9 +281,10 @@ FROM
       UNION ALL SELECT 100
     ) AS age_categories ON age_category <= age_at_comp
     GROUP BY personId, eventId, age_category
-  ) AS t
-) AS t
+  ) AS senior_bests
+) AS modified_bests
 GROUP BY eventId, age_category, modified_average
+-- HAVING age_category = 40 AND COUNT(*) < 100
 ORDER BY eventId, age_category, modified_average;
 
 /*
@@ -568,7 +569,7 @@ FROM
       WHERE p.year > 0 AND p.year <= YEAR(CURDATE()) - 40
       AND p.subid = 1
       HAVING age_at_comp >= 40
-    ) AS t
+    ) AS senior_results
     JOIN
     (
       SELECT 40 AS age_category
@@ -580,7 +581,8 @@ FROM
       UNION ALL SELECT 100
     ) AS age_categories ON age_category <= age_at_comp
     GROUP BY personId, eventId, age_category
-  ) AS t
-) AS t
+  ) AS senior_bests
+) AS modified_bests
 GROUP BY eventId, age_category, modified_single
+-- HAVING age_category = 40 AND num_persons < 100
 ORDER BY eventId, age_category, modified_single;
