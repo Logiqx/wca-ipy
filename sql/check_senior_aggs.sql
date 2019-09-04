@@ -16,7 +16,7 @@ SET @max_shift = 31;
    Extract AGGREGATED senior results (averages)
 */
 
-SELECT eventId, age_category, modified_average, COUNT(*) AS num_persons
+SELECT eventId, age_category, modified_average, mask, COUNT(*) AS num_persons
 FROM
 (
   SELECT personId, eventId, age_category,
@@ -275,15 +275,15 @@ FROM
     GROUP BY personId, eventId, age_category
   ) AS senior_bests
 ) AS modified_bests
-GROUP BY eventId, age_category, modified_average
+GROUP BY eventId, age_category, modified_average, mask
 HAVING num_persons < 100
-ORDER BY eventId, age_category, modified_average;
+ORDER BY eventId, age_category, modified_average, mask;
 
 /*
    Extract AGGREGATED senior results (singles)
 */
 
-SELECT eventId, age_category, modified_single, COUNT(*) AS num_persons
+SELECT eventId, age_category, modified_single, mask, COUNT(*) AS num_persons
 FROM
 (
   SELECT personId, eventId, age_category,
@@ -569,6 +569,6 @@ FROM
     GROUP BY personId, eventId, age_category
   ) AS senior_bests
 ) AS modified_bests
-GROUP BY eventId, age_category, modified_single
+GROUP BY eventId, age_category, modified_single, mask
 HAVING num_persons < 100
-ORDER BY eventId, age_category, modified_single;
+ORDER BY eventId, age_category, modified_single, mask;
