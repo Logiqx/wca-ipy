@@ -10,9 +10,9 @@
 */
 
 SET @max_shift = 31;
-SET @eventId = '333mbf';
+SET @eventId = '666';
 
-SELECT eventId, COUNT(*) AS numGroups, MIN(group_range), MIN(numPersons), AVG(numPersons), MAX(numPersons), STDDEV(numPersons)
+SELECT * -- eventId, COUNT(*) AS numGroups, MIN(group_range), MIN(numPersons), AVG(numPersons), MAX(numPersons), STDDEV(numPersons)
 FROM
 (
   SELECT eventId, modified_best, MIN(shift), MAX(shift), MAX(shift) - MIN(shift) AS shift_diff, MIN(best), MAX(best), MAX(max_best) - MIN(min_best) + 1 AS group_range,
@@ -78,6 +78,7 @@ FROM
           (
             CASE
               WHEN best < 5632 THEN 13
+              WHEN best < 6144 THEN 9
               WHEN best < 6656 THEN 8
               WHEN best < 15360 THEN 7
               WHEN best < 19968 THEN 8
@@ -286,9 +287,10 @@ FROM
   ) AS t
   GROUP BY eventId, modified_best
 ) AS t
-GROUP BY eventId;
+WHERE numPersons < 100;
+-- GROUP BY eventId;
 
-SELECT eventId, COUNT(*) AS numGroups, MIN(group_range), MIN(numPersons), AVG(numPersons), MAX(numPersons), STDDEV(numPersons)
+SELECT * -- eventId, COUNT(*) AS numGroups, MIN(group_range), MIN(numPersons), AVG(numPersons), MAX(numPersons), STDDEV(numPersons)
 FROM
 (
   SELECT eventId, modified_best, MIN(shift), MAX(shift), MAX(shift) - MIN(shift) AS shift_diff, MIN(best), MAX(best), MAX(max_best) - MIN(min_best) + 1 AS group_range,
@@ -306,7 +308,7 @@ FROM
               WHEN best < 832 THEN 6
               WHEN best < 896 THEN 5
               WHEN best < 1024 THEN 4
-              WHEN best < 4192 THEN 3
+              WHEN best < 3968 THEN 3
               WHEN best < 5952 THEN 4
               WHEN best < 7488 THEN 5
               WHEN best < 9088 THEN 6
@@ -357,7 +359,7 @@ FROM
             CASE
               WHEN best < 6400 THEN 13
               WHEN best < 7424 THEN 8
-              WHEN best < 14848 THEN 7
+              WHEN best < 14336 THEN 7
               WHEN best < 16896 THEN 8
               WHEN best < 20480 THEN 9
               WHEN best < 22528 THEN 10
@@ -369,7 +371,7 @@ FROM
           WHEN eventId = '666' THEN
           (
             CASE
-              WHEN best < 11264 THEN 14
+              WHEN best < 12288 THEN 14
               WHEN best < 14336 THEN 10
               WHEN best < 24576 THEN 9
               WHEN best < 28672 THEN 10
@@ -427,7 +429,8 @@ FROM
           WHEN eventId = '333ft' THEN
           (
             CASE
-              WHEN best < 5120 THEN 13
+              WHEN best < 6144 THEN 13
+              WHEN best < 8192 THEN 11
               WHEN best < 14336 THEN 10
               WHEN best < 20480 THEN 11
               WHEN best < 24576 THEN 12
@@ -439,7 +442,7 @@ FROM
             CASE
               WHEN best < 768 THEN 10
               WHEN best < 896 THEN 7
-              WHEN best < 2176 THEN 6
+              WHEN best < 1920 THEN 6
               WHEN best < 3328 THEN 7
               WHEN best < 3584 THEN 8
               WHEN best < 5120 THEN 9
@@ -535,4 +538,5 @@ FROM
   ) AS t
   GROUP BY eventId, modified_best
 ) AS t
-GROUP BY eventId;
+WHERE numPersons < 100;
+-- GROUP BY eventId;
