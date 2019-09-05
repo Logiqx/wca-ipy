@@ -10,10 +10,12 @@
               All consolidated results are modified using truncation / reduction of precision.
               Variable reduction of precision is achieved through the use of bit masking.
 
-              Each event has been assigned a unique profile for bit masking. For example:
-                - 3x3x3 and Pyraminx have a maximum precision of 8ms (0.08s)
-                - 5x5x5 and Square-1 have a maximum precision of 128ms (1.28s)
-                - Feet and 7x7x7 have a maximum precision of 1024ms (10.24s)
+              Each event has been assigned a unique profile for the bit masking. For example:
+                - 3x3x3 and Pyraminx have a maximum precision of 8 (0.08s)
+                - 4x4x4 and Clock have a maximum precision of 64 (0.64s)
+                - 5x5x5 and Square-1 have a maximum precision of 128 (1.28s)
+                - Feet and 7x7x7 have a maximum precision of 1024 (10.24s)
+                - 4BLD, 5BLD and MultiBLD have the largest bit masks (several minutes)
               Faster / slower results have more bits masked, further reducing the precision.
 
               The event profiles have been generated from statistical models created from WCA results.
