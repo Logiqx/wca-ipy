@@ -23,7 +23,7 @@ CREATE TABLE wca_ipy.SeniorAveragesPrevious
    PRIMARY KEY (`eventId`, `result`)
 );
 
-LOAD DATA INFILE '/home/jovyan/work/wca-ipy/data/private/feed/senior_averages_agg.csv'
+LOAD DATA INFILE '/home/jovyan/work/wca-ipy-private/data/private/feed/senior_averages_agg.csv'
 INTO TABLE wca_ipy.SeniorAveragesPrevious FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"' IGNORE 1 LINES;
 
 /* 

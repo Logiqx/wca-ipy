@@ -26,7 +26,7 @@ CREATE TABLE wca_ipy.Seniors
      FOREIGN KEY (`userStatusId`) REFERENCES UserStatuses(`id`)
 );
 
-LOAD DATA INFILE '/home/jovyan/work/wca-ipy/data/private/load/seniors.csv'
+LOAD DATA INFILE '/home/jovyan/work/wca-ipy-private/data/private/load/seniors.csv'
 INTO TABLE wca_ipy.Seniors CHARACTER SET utf8 FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"';
 
 -- Add name and country to seniors
