@@ -15,8 +15,7 @@
    2) Truncate everything to the nearest second - i.e. FLOOR(best / 100)
 */
 
-SELECT eventId, FLOOR(best / 100) AS modified_average, COUNT(*) AS num_persons
-INTO OUTFILE '/home/jovyan/work/wca-ipy/data/private/extract/wca_averages_agg.csv' FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
+SELECT 'wca_averages_agg', eventId, FLOOR(best / 100) AS modified_average, COUNT(*) AS num_persons
 FROM RanksAverage
 GROUP BY eventId, modified_average
 ORDER BY eventId, modified_average;
@@ -30,7 +29,7 @@ ORDER BY eventId, modified_average;
    4) Truncate everything else to the nearest second - i.e. FLOOR(best / 100)
 */
 
-SELECT eventId,
+SELECT 'wca_singles_agg', eventId,
   (
     CASE
       WHEN eventId IN ('333mbf', '333mbo') THEN FLOOR(best / 10000000)
@@ -38,7 +37,6 @@ SELECT eventId,
       ELSE FLOOR(best / 100)
     END
   ) AS modified_single, COUNT(*) AS num_persons
-INTO OUTFILE '/home/jovyan/work/wca-ipy/data/private/extract/wca_singles_agg.csv' FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
 FROM RanksSingle
 GROUP BY eventId, modified_single
 ORDER BY eventId, modified_single;

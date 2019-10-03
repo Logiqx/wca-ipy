@@ -7,8 +7,7 @@
 */
 
 -- Extract known senior averages
-SELECT eventId, personId, MIN(average) AS bestAverage, ageCategory
-INTO OUTFILE '/home/jovyan/work/wca-ipy/data/private/extract/known_senior_averages.csv' FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
+SELECT 'known_senior_averages', eventId, personId, MIN(average) AS bestAverage, ageCategory
 FROM
 (
   SELECT r.eventId, r.personId, r.average, s.name AS personName, s.countryId,
@@ -23,8 +22,7 @@ GROUP BY eventId, personId, ageCategory
 ORDER BY eventId, bestAverage, personId, ageCategory DESC;
 
 -- Extract indicative senior averages
-SELECT eventId, rankNo, personId, best_average, age_at_comp
-INTO OUTFILE '/home/jovyan/work/wca-ipy/data/private/extract/senior_averages.csv' FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
+SELECT 'senior_averages', eventId, rankNo, personId, best_average, age_at_comp
 FROM
 (
   SELECT eventId, RANK() OVER (PARTITION BY eventId ORDER BY best_average) AS rankNo, personId, hidden, best_average, age_at_comp
@@ -36,7 +34,7 @@ FROM
     (
       -- Overall PR
       SELECT eventId, personId, MIN(best_average) AS best_average
-      FROM wca_ipy.SeniorAveragePrs p
+      FROM wca_ipy.SeniorAveragePrs AS p
       GROUP BY eventId, personId
     ) p2 ON p2.eventId = p1.eventId AND p2.personId = p1.personId AND p2.best_average = p1.best_average
     GROUP BY eventId, personId
@@ -46,7 +44,6 @@ WHERE hidden = 'N'
 ORDER BY eventId, rankNo, personId;
 
 -- Extract indicative senior averages (aggregated)
-SELECT *
-INTO OUTFILE '/home/jovyan/work/wca-ipy/data/private/extract/senior_averages_agg.csv' FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
-FROM wca_ipy.SeniorAverages
+SELECT 'senior_averages_agg', a.*
+FROM wca_ipy.SeniorAverages AS a
 ORDER BY eventId, result;

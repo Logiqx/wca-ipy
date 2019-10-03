@@ -7,8 +7,7 @@
 */
 
 -- Extract known senior singles
-SELECT eventId, personId, MIN(best) AS bestSingle, ageCategory
-INTO OUTFILE '/home/jovyan/work/wca-ipy/data/private/extract/known_senior_singles.csv' FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
+SELECT 'known_senior_singles', eventId, personId, MIN(best) AS bestSingle, ageCategory
 FROM
 (
   SELECT r.eventId, r.personId, r.best, s.name AS personName, s.countryId,
