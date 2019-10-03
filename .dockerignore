@@ -1,0 +1,6 @@
+.git
+data
+docs
+notes
+python/.ipynb_checkpoints
+python/__pycache__
