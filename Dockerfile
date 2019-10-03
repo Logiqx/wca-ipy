@@ -11,6 +11,7 @@ ENV NB_USER=jovyan
 ENV PROJDIR=/home/${NB_USER}/work/wca-ipy
 
 # Convert Jupter notebooks to regular Python scripts
+COPY --chown=jovyan:users python/*.py ${PROJDIR}/python/
 COPY --chown=jovyan:users python/*.ipynb ${PROJDIR}/python/
 RUN jupyter nbconvert --to python ${PROJDIR}/python/*.ipynb && \
     chmod 755 ${PROJDIR}/python/*.py && \
