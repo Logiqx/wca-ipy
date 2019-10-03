@@ -21,6 +21,10 @@ RUN jupyter nbconvert --to python ${PROJDIR}/python/*.ipynb && \
 COPY --chown=jovyan:users sql/*.sql ${PROJDIR}/sql/
 RUN chmod 644 ${PROJDIR}/sql/*.sql
 
+# Copy the required document templates
+COPY --chown=jovyan:users templates/*.md ${PROJDIR}/templates/
+RUN chmod 644 ${PROJDIR}/templates/*.md
+
 # Create final image from Python (Alpine) + MySQL client
 FROM python:${PYTHON_VERSION}-alpine${ALPINE_VERSION}
 RUN apk update && \
