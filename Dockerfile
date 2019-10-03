@@ -28,7 +28,8 @@ RUN chmod 644 ${PROJDIR}/templates/*.md
 # Create final image from Python (Alpine) + MySQL client
 FROM python:${PYTHON_VERSION}-alpine${ALPINE_VERSION}
 RUN apk update && \
-    apk add mysql-client
+    apk add mysql-client && \
+    pip install beautifulsoup4
 
 # Environment variables
 ENV NB_USER=jovyan
