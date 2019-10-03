@@ -25,18 +25,23 @@ RUN chmod 644 ${PROJDIR}/sql/*.sql
 COPY --chown=jovyan:users templates/*.md ${PROJDIR}/templates/
 RUN chmod 644 ${PROJDIR}/templates/*.md
 
-# Create final image from Python (Alpine) + MySQL client
+# Create final image from Python (Alpine)
 FROM python:${PYTHON_VERSION}-alpine${ALPINE_VERSION}
 RUN apk update && \
-    apk add mysql-client && \
-    pip install beautifulsoup4
+    apk add --no-cache mysql-client
+RUN apk update && \
+    apk add --no-cache libxml2-dev libxslt-dev && \
+    apk add --no-cache --virtual .build-deps g++ && \
+    pip install --no-cache-dir beautifulsoup4 lxml && \
+	apk del .build-deps
 
 # Environment variables
 ENV NB_USER=jovyan
 ENV PROJDIR=/home/${NB_USER}/work/wca-ipy
 
 # Create the notebook user and project structure
-RUN addgroup -S ${NB_USER} && adduser -S ${NB_USER} -G ${NB_USER}
+RUN addgroup -S ${NB_USER} && \
+    adduser -S ${NB_USER} -G ${NB_USER}
 USER ${NB_USER}
 
 # Copy project files
