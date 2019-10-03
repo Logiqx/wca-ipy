@@ -48,4 +48,4 @@ USER ${NB_USER}
 COPY --from=builder --chown=jovyan:jovyan ${PROJDIR}/ ${PROJDIR}/
 
 # Define the command / entrypoint
-CMD ["python"]
+CMD ["python3"]
