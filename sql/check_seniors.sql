@@ -74,8 +74,8 @@ AND sourceId NOT IN ('D', 'H');
 -- Imprecise DOBs
 SELECT 'Imprecise DOB' AS label, s.*
 FROM SeniorDetails AS s
-WHERE accuracyId NOT IN ('D', 'M', 'S')
-ORDER BY accuracyId;
+WHERE accuracyId NOT IN ('D', 'M')
+ORDER BY accuracyId, personId;
 
 -- Summarise the accuracy of DOB information
 SELECT 'Accuracy' AS label, accuracyType, hidden, SUM(IF(ageToday >= 40, 1, 0)) AS numSeniors, SUM(IF(ageLastComp >= 40, 1, 0)) AS numCompSeniors
