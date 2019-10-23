@@ -29,12 +29,10 @@ RUN chmod 644 ${PROJDIR}/templates/*.md
 FROM python:${PYTHON_VERSION}-alpine${ALPINE_VERSION}
 
 # Install MySQL client
-RUN apk update && \
-    apk add --no-cache mysql-client
+RUN apk add --no-cache mysql-client
 
 # Install Beautiful Soup and lxml Python libraries
-RUN apk update && \
-    apk add --no-cache libxml2-dev libxslt-dev && \
+RUN apk add --no-cache libxml2-dev libxslt-dev && \
     apk add --no-cache --virtual .build-deps g++ && \
     pip install --no-cache-dir beautifulsoup4 lxml && \
 	apk del .build-deps
