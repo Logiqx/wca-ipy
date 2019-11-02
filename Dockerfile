@@ -49,5 +49,11 @@ USER ${NB_USER}
 # Copy project files
 COPY --from=builder --chown=jovyan:jovyan ${PROJDIR}/ ${PROJDIR}/
 
+# Create data and docs volumes
+RUN cd ${PROJDIR} && \
+    mkdir -p data/private/extract data/public docs && \
+    cd data/public && \
+    mkdir known_senior_averages known_senior_singles senior_singles senior_averages senior_averages_agg wca_averages_agg wca_singles_agg
+
 # Define the command / entrypoint
 CMD ["python3"]
