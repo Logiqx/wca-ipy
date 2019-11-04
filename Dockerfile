@@ -36,7 +36,7 @@ ENV NB_USER=jovyan
 ENV PROJDIR=/home/${NB_USER}/work/wca-ipy
 
 # Create the notebook user and project structure
-RUN addgroup -g 1000  -S ${NB_USER} && \
+RUN addgroup -g 1000 -S ${NB_USER} && \
     adduser -u 1000 -S ${NB_USER} -G ${NB_USER}
 USER ${NB_USER}
 
