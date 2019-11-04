@@ -1,6 +1,6 @@
 # Base image versions
 ARG NOTEBOOK_VERSION=c39518a3252f
-ARG PYTHON_VERSION=3.7
+ARG PYTHON_VERSION=3.8
 ARG ALPINE_VERSION=3.10
 
 # Jupter notebook image is used as the builder
@@ -25,17 +25,11 @@ RUN chmod 644 ${PROJDIR}/sql/*.sql
 COPY --chown=jovyan:users templates/*.md ${PROJDIR}/templates/
 RUN chmod 644 ${PROJDIR}/templates/*.md
 
-# Create final image from Python (Alpine)
-FROM python:${PYTHON_VERSION}-alpine${ALPINE_VERSION}
+# Create final image from Python 3 + Beautiful Soup 4 on Alpine Linux
+FROM logiqx/python-bs4:${PYTHON_VERSION}-alpine${ALPINE_VERSION}
 
 # Install MySQL client
 RUN apk add --no-cache mysql-client
-
-# Install Beautiful Soup and lxml Python libraries
-RUN apk add --no-cache libxml2-dev libxslt-dev && \
-    apk add --no-cache --virtual .build-deps g++ && \
-    pip install --no-cache-dir beautifulsoup4 lxml && \
-	apk del .build-deps
 
 # Environment variables
 ENV NB_USER=jovyan
