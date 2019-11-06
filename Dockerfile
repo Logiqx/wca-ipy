@@ -39,6 +39,11 @@ RUN addgroup -g ${PY_GID} -S ${PY_GROUP} && \
     mkdir -p /home/${PY_USER}/work && \
     chown ${PY_USER} /home/${PY_USER}/work
 
+# Environment variables used by the Python scripts
+ENV MYSQL_HOSTNAME=mariadb
+ENV MYSQL_DATABASE=wca
+ENV MYSQL_USER=wca
+
 # Copy project files from the builder
 USER ${PY_USER}
 WORKDIR /home/${PY_USER}/work

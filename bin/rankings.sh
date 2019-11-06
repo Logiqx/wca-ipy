@@ -1,14 +1,19 @@
-# Determine the container ID in a way that works with Docker Compose and Docker Swarm
-CONTAINER=$(docker ps -q -f name=wca_notebook)
+time docker run -it --rm \
+         --mount type=bind,src=/c/Projects/WCA/wca-ipy/data,dst=/home/jovyan/work/wca-ipy/data \
+         --mount type=bind,src=/c/Projects/WCA/wca-ipy/docs,dst=/home/jovyan/work/wca-ipy/docs \
+         --network=wca_default -w /home/jovyan/work/wca-ipy/python wca-ipy ./Partial_Rankings.py
 
-# Location of Jupyter Notebooks
-PYTHON_DIR=work/wca-ipy/python
+echo; time docker run -it --rm \
+         --mount type=bind,src=/c/Projects/WCA/wca-ipy/data,dst=/home/jovyan/work/wca-ipy/data \
+         --mount type=bind,src=/c/Projects/WCA/wca-ipy/docs,dst=/home/jovyan/work/wca-ipy/docs \
+         --network=wca_default -w /home/jovyan/work/wca-ipy/python wca-ipy ./Indicative_Rankings.py
 
-# Run all of the scripts back-to-back
-time docker exec $CONTAINER sh -c "cd $PYTHON_DIR; jupyter nbconvert --to notebook --execute --inplace Partial_Rankings.ipynb"
-echo
-time docker exec $CONTAINER sh -c "cd $PYTHON_DIR; jupyter nbconvert --to notebook --execute --inplace Indicative_Rankings.ipynb"
-echo
-time docker exec $CONTAINER sh -c "cd $PYTHON_DIR; jupyter nbconvert --to notebook --execute --inplace Senior_Rankings.ipynb"
-echo
-time docker exec $CONTAINER sh -c "cd $PYTHON_DIR; jupyter nbconvert --to notebook --execute --inplace Percentile_Rankings.ipynb"
+echo; time docker run -it --rm \
+         --mount type=bind,src=/c/Projects/WCA/wca-ipy/data,dst=/home/jovyan/work/wca-ipy/data \
+         --mount type=bind,src=/c/Projects/WCA/wca-ipy/docs,dst=/home/jovyan/work/wca-ipy/docs \
+         --network=wca_default -w /home/jovyan/work/wca-ipy/python wca-ipy ./Senior_Rankings.py
+
+echo; time docker run -it --rm \
+         --mount type=bind,src=/c/Projects/WCA/wca-ipy/data,dst=/home/jovyan/work/wca-ipy/data \
+         --mount type=bind,src=/c/Projects/WCA/wca-ipy/docs,dst=/home/jovyan/work/wca-ipy/docs \
+         --network=wca_default -w /home/jovyan/work/wca-ipy/python wca-ipy ./Percentile_Rankings.py
