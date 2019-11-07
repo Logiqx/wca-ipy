@@ -25,7 +25,7 @@ RUN chmod 755 python/*.py && \
 FROM logiqx/python-bs4:${PYTHON_VERSION}-alpine${ALPINE_VERSION}
 
 # Install MySQL client
-RUN apk add --no-cache mysql-client
+RUN apk add --no-cache mysql-client=~10.3
 
 # Note: Jovian is a fictional native inhabitant of the planet Jupiter
 ARG PY_USER=jovyan
