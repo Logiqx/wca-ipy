@@ -10,23 +10,6 @@
 SET @cutoff = '2019-02-01';
 
 /* 
-   Load the one-off extract from the WCA, created 2019-02-01
-*/
-
-DROP TABLE IF EXISTS wca_ipy.SeniorAveragesPrevious;
-
-CREATE TABLE wca_ipy.SeniorAveragesPrevious
-(
-  `eventId` varchar(6) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `result` int(11) NOT NULL,
-  `numSeniors` smallint(6) NOT NULL,
-   PRIMARY KEY (`eventId`, `result`)
-);
-
-LOAD DATA INFILE '/home/jovyan/work/wca-ipy-private/data/private/feed/senior_averages_agg.csv'
-INTO TABLE wca_ipy.SeniorAveragesPrevious FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"' IGNORE 1 LINES;
-
-/* 
    Create aggregation of known averages relating to the one-off extract
 */
 
