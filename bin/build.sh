@@ -1,2 +1,2 @@
-docker build . -t wca-ipy:$(git rev-parse --short=12 HEAD)
+DOCKER_BUILDKIT=1 docker build . -t wca-ipy:$(git rev-parse --short=12 HEAD)
 docker tag wca-ipy:$(git rev-parse --short=12 HEAD) wca-ipy:latest
