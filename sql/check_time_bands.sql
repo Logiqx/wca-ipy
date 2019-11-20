@@ -19,7 +19,7 @@ FROM
   FROM
   (
     SELECT eventId, best,
-      @shift :=
+      @logiqx_shift :=
       (
         CASE
           WHEN eventId = '333' THEN
@@ -256,8 +256,8 @@ FROM
           ELSE 31
         END
       ) AS shift,
-      @mask := (1 << @shift) - 1 AS mask,
-      IF(@shift < 31, best & ~@mask, (
+      @logiqx_mask := (1 << @logiqx_shift) - 1 AS mask,
+      IF(@logiqx_shift < 31, best & ~@logiqx_mask, (
         CASE
           WHEN eventId = '333' THEN 20480
           WHEN eventId = '222' THEN 4096
@@ -279,8 +279,8 @@ FROM
           ELSE 0
         END
       )) AS modified_best,
-      best & ~@mask AS min_best,
-      best | @mask AS max_best
+      best & ~@logiqx_mask AS min_best,
+      best | @logiqx_mask AS max_best
     FROM RanksSingle AS r
     -- WHERE eventId = @eventId
   ) AS t
@@ -297,7 +297,7 @@ FROM
   FROM
   (
     SELECT eventId, best,
-      @shift :=
+      @logiqx_shift :=
       (
         CASE
           WHEN eventId = '333' THEN
@@ -509,8 +509,8 @@ FROM
           ELSE 31
         END
       ) AS shift,
-      @mask := (1 << @shift) - 1 AS mask,
-      IF(@shift < 31, best & ~@mask, (
+      @logiqx_mask := (1 << @logiqx_shift) - 1 AS mask,
+      IF(@logiqx_shift < 31, best & ~@logiqx_mask, (
         CASE
           WHEN eventId = '333' THEN 24576
           WHEN eventId = '222' THEN 5632
@@ -530,8 +530,8 @@ FROM
           ELSE 0
         END
       )) AS modified_best,
-      best & ~@mask AS min_best,
-      best | @mask AS max_best
+      best & ~@logiqx_mask AS min_best,
+      best | @logiqx_mask AS max_best
     FROM RanksAverage AS r
     -- WHERE eventId = @eventId
   ) AS t

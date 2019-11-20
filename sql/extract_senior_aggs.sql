@@ -32,7 +32,7 @@ SELECT eventId, age_category, modified_average, mask, COUNT(*) AS num_persons
 FROM
 (
   SELECT personId, eventId, age_category,
-    @shift :=
+    @logiqx_shift :=
     (
       CASE
         WHEN eventId = '333' THEN
@@ -244,8 +244,8 @@ FROM
         ELSE 31
       END
     ) AS shift,
-    @mask := (1 << @shift) - 1 AS mask,
-    IF(@shift < 31, best & ~@mask, (
+    @logiqx_mask := (1 << @logiqx_shift) - 1 AS mask,
+    IF(@logiqx_shift < 31, best & ~@logiqx_mask, (
       CASE
         WHEN eventId = '333' THEN 24576
         WHEN eventId = '222' THEN 5632
@@ -304,7 +304,7 @@ SELECT eventId, age_category, modified_single, mask, COUNT(*) AS num_persons
 FROM
 (
   SELECT personId, eventId, age_category,
-    @shift :=
+    @logiqx_shift :=
     (
       CASE
         WHEN eventId = '333' THEN
@@ -541,8 +541,8 @@ FROM
         ELSE 31
       END
     ) AS shift,
-    @mask := (1 << @shift) - 1 AS mask,
-    IF(@shift < 31, best & ~@mask, (
+    @logiqx_mask := (1 << @logiqx_shift) - 1 AS mask,
+    IF(@logiqx_shift < 31, best & ~@logiqx_mask, (
       CASE
         WHEN eventId = '333' THEN 20480
         WHEN eventId = '222' THEN 4096
