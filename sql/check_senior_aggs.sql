@@ -24,8 +24,6 @@
               The only exception to this rule is 5BLD (mean of 3) which only has 44 people in the WCA.
 */
 
-SET @max_shift = 31;
-
 /*
    Extract AGGREGATED senior results (averages)
 */
@@ -54,7 +52,7 @@ FROM
             WHEN best < 16384 THEN 10
             WHEN best < 20480 THEN 11
             WHEN best < 24576 THEN 12
-            ELSE @max_shift
+            ELSE 31
           END
         )
         WHEN eventId = '222' THEN
@@ -71,7 +69,7 @@ FROM
             WHEN best < 3584 THEN 7
             WHEN best < 4096 THEN 8
             WHEN best < 5632 THEN 9
-            ELSE @max_shift
+            ELSE 31
           END
         )
         WHEN eventId = '444' THEN
@@ -87,7 +85,7 @@ FROM
             WHEN best < 18432 THEN 10
             WHEN best < 20480 THEN 11
             WHEN best < 24576 THEN 12
-            ELSE @max_shift
+            ELSE 31
           END
         )
         WHEN eventId = '555' THEN
@@ -101,7 +99,7 @@ FROM
             WHEN best < 22528 THEN 10
             WHEN best < 24576 THEN 11
             WHEN best < 32768 THEN 12
-            ELSE @max_shift
+            ELSE 31
           END
         )
         WHEN eventId = '666' THEN
@@ -113,7 +111,7 @@ FROM
             WHEN best < 28672 THEN 10
             WHEN best < 32768 THEN 11
             WHEN best < 40960 THEN 13
-            ELSE @max_shift
+            ELSE 31
           END
         )
         WHEN eventId = '777' THEN
@@ -124,7 +122,7 @@ FROM
             WHEN best < 38912 THEN 10
             WHEN best < 45056 THEN 11
             WHEN best < 49152 THEN 12
-            ELSE @max_shift
+            ELSE 31
           END
         )
         WHEN eventId = '333bf' THEN
@@ -133,7 +131,7 @@ FROM
             WHEN best < 4096 THEN 12
             WHEN best < 20480 THEN 11
             WHEN best < 24576 THEN 12
-            ELSE @max_shift
+            ELSE 31
           END
         )
         WHEN eventId = '333fm' THEN
@@ -144,7 +142,7 @@ FROM
             WHEN best < 4608 THEN 7
             WHEN best < 5120 THEN 8
             WHEN best < 5632 THEN 9
-            ELSE @max_shift
+            ELSE 31
           END
         )
         WHEN eventId = '333oh' THEN
@@ -159,7 +157,7 @@ FROM
             WHEN best < 10240 THEN 9
             WHEN best < 12288 THEN 11
             WHEN best < 16384 THEN 12
-            ELSE @max_shift
+            ELSE 31
           END
         )
         WHEN eventId = '333ft' THEN
@@ -170,7 +168,7 @@ FROM
             WHEN best < 14336 THEN 10
             WHEN best < 20480 THEN 11
             WHEN best < 24576 THEN 12
-            ELSE @max_shift
+            ELSE 31
           END
         )
         WHEN eventId = 'clock' THEN
@@ -183,7 +181,7 @@ FROM
             WHEN best < 3584 THEN 8
             WHEN best < 5120 THEN 9
             WHEN best < 6144 THEN 10
-            ELSE @max_shift
+            ELSE 31
           END
         )
         WHEN eventId = 'minx' THEN
@@ -196,7 +194,7 @@ FROM
             WHEN best < 22528 THEN 10
             WHEN best < 24576 THEN 11
             WHEN best < 32768 THEN 12
-            ELSE @max_shift
+            ELSE 31
           END
         )
         WHEN eventId = 'pyram' THEN
@@ -214,7 +212,7 @@ FROM
             WHEN best < 4608 THEN 8
             WHEN best < 5120 THEN 9
             WHEN best < 6144 THEN 10
-            ELSE @max_shift
+            ELSE 31
           END
         )
         WHEN eventId = 'skewb' THEN
@@ -228,7 +226,7 @@ FROM
             WHEN best < 3584 THEN 7
             WHEN best < 4096 THEN 8
             WHEN best < 5120 THEN 9
-            ELSE @max_shift
+            ELSE 31
           END
         )
         WHEN eventId = 'sq1' THEN
@@ -240,14 +238,14 @@ FROM
             WHEN best < 8192 THEN 9
             WHEN best < 10240 THEN 10
             WHEN best < 12288 THEN 11
-            ELSE @max_shift
+            ELSE 31
           END
         )
-        ELSE @max_shift
+        ELSE 31
       END
     ) AS shift,
     @mask := (1 << @shift) - 1 AS mask,
-    IF(@shift < @max_shift, best & ~@mask, (
+    IF(@shift < 31, best & ~@mask, (
       CASE
         WHEN eventId = '333' THEN 24576
         WHEN eventId = '222' THEN 5632
@@ -320,7 +318,7 @@ FROM
             WHEN best < 14336 THEN 10
             WHEN best < 16384 THEN 11
             WHEN best < 20480 THEN 12
-            ELSE @max_shift
+            ELSE 31
           END
         )
         WHEN eventId = '222' THEN
@@ -337,7 +335,7 @@ FROM
             WHEN best < 2816 THEN 7
             WHEN best < 3072 THEN 8
             WHEN best < 4096 THEN 9
-            ELSE @max_shift
+            ELSE 31
           END
         )
         WHEN eventId = '444' THEN
@@ -352,7 +350,7 @@ FROM
             WHEN best < 22528 THEN 10
             WHEN best < 24576 THEN 11
             WHEN best < 32768 THEN 13
-            ELSE @max_shift
+            ELSE 31
           END
         )
         WHEN eventId = '555' THEN
@@ -367,7 +365,7 @@ FROM
             WHEN best < 30720 THEN 10
             WHEN best < 36864 THEN 11
             WHEN best < 40960 THEN 12
-            ELSE @max_shift
+            ELSE 31
           END
         )
         WHEN eventId = '666' THEN
@@ -379,7 +377,7 @@ FROM
             WHEN best < 32768 THEN 10
             WHEN best < 40960 THEN 11
             WHEN best < 49152 THEN 12
-            ELSE @max_shift
+            ELSE 31
           END
         )
         WHEN eventId = '777' THEN
@@ -391,7 +389,7 @@ FROM
             WHEN best < 53248 THEN 11
             WHEN best < 57344 THEN 12
             WHEN best < 65536 THEN 13
-            ELSE @max_shift
+            ELSE 31
           END
         )
         WHEN eventId = '333bf' THEN
@@ -402,7 +400,7 @@ FROM
             WHEN best < 32768 THEN 11
             WHEN best < 49152 THEN 12
             WHEN best < 57344 THEN 13
-            ELSE @max_shift
+            ELSE 31
           END
         )
         WHEN eventId = '333fm' THEN
@@ -413,7 +411,7 @@ FROM
             WHEN best < 54 THEN 0
             WHEN best < 60 THEN 1
             WHEN best < 64 THEN 2
-            ELSE @max_shift
+            ELSE 31
           END
         )
         WHEN eventId = '333oh' THEN
@@ -428,7 +426,7 @@ FROM
             WHEN best < 11264 THEN 9
             WHEN best < 14336 THEN 10
             WHEN best < 16384 THEN 11
-            ELSE @max_shift
+            ELSE 31
           END
         )
         WHEN eventId = '333ft' THEN
@@ -438,7 +436,7 @@ FROM
             WHEN best < 16384 THEN 10
             WHEN best < 24576 THEN 11
             WHEN best < 28672 THEN 12
-            ELSE @max_shift
+            ELSE 31
           END
         )
         WHEN eventId = 'clock' THEN
@@ -451,7 +449,7 @@ FROM
             WHEN best < 4608 THEN 8
             WHEN best < 5120 THEN 9
             WHEN best < 6144 THEN 10
-            ELSE @max_shift
+            ELSE 31
           END
         )
         WHEN eventId = 'minx' THEN
@@ -464,7 +462,7 @@ FROM
             WHEN best < 28672 THEN 10
             WHEN best < 32768 THEN 11
             WHEN best < 40960 THEN 12
-            ELSE @max_shift
+            ELSE 31
           END
         )
         WHEN eventId = 'pyram' THEN
@@ -481,7 +479,7 @@ FROM
             WHEN best < 3584 THEN 8
             WHEN best < 4096 THEN 9
             WHEN best < 5120 THEN 10
-            ELSE @max_shift
+            ELSE 31
           END
         )
         WHEN eventId = 'skewb' THEN
@@ -495,7 +493,7 @@ FROM
             WHEN best < 2816 THEN 7
             WHEN best < 3584 THEN 8
             WHEN best < 4096 THEN 9
-            ELSE @max_shift
+            ELSE 31
           END
         )
         WHEN eventId = 'sq1' THEN
@@ -507,7 +505,7 @@ FROM
             WHEN best < 8192 THEN 9
             WHEN best < 10240 THEN 10
             WHEN best < 12288 THEN 11
-            ELSE @max_shift
+            ELSE 31
           END
         )
         WHEN eventId = '444bf' THEN
@@ -516,14 +514,14 @@ FROM
             WHEN best < 32768 THEN 15
             WHEN best < 65536 THEN 14
             WHEN best < 98304 THEN 15
-            ELSE @max_shift
+            ELSE 31
           END
         )
         WHEN eventId = '555bf' THEN
         (
           CASE
             WHEN best < 131072 THEN 16
-            ELSE @max_shift
+            ELSE 31
           END
         )
         WHEN eventId = '333mbf' THEN
@@ -535,11 +533,11 @@ FROM
             ELSE 19
           END
         )
-        ELSE @max_shift
+        ELSE 31
       END
     ) AS shift,
     @mask := (1 << @shift) - 1 AS mask,
-    IF(@shift < @max_shift, best & ~@mask, (
+    IF(@shift < 31, best & ~@mask, (
       CASE
         WHEN eventId = '333' THEN 20480
         WHEN eventId = '222' THEN 4096
