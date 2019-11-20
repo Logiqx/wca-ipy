@@ -500,20 +500,9 @@ FROM
     SELECT personId, eventId, age_category, MIN(average) AS best
     FROM
     (
-      SELECT r.personId, r.eventId, r.average, TIMESTAMPDIFF(YEAR,
-        DATE_FORMAT(CONCAT(p.year, '-', p.month, '-', p.day), '%Y-%m-%d'),
-        DATE_FORMAT(CONCAT(c.year, '-', c.month, '-', c.day), '%Y-%m-%d')) AS age_at_comp
-      FROM Persons AS p
-      JOIN Results AS r ON r.personId = p.id AND average > 0
-      JOIN Competitions AS c ON c.id = r.competitionId
-      WHERE p.year > 0 AND p.year <= YEAR(CURDATE()) - 40
-      AND p.subid = 1
-      HAVING age_at_comp >= 40
+      SELECT r.personId, r.eventId, r.best AS average, 40 AS age_category
+      FROM RanksAverage AS r
     ) AS senior_results
-    JOIN
-    (
-      SELECT 40 AS age_category
-    ) AS age_categories ON age_category <= age_at_comp
     GROUP BY personId, eventId, age_category
   ) AS senior_bests
 ) AS modified_bests
@@ -1054,20 +1043,9 @@ FROM
     SELECT personId, eventId, age_category, MIN(best) AS best
     FROM
     (
-      SELECT r.personId, r.eventId, r.best, TIMESTAMPDIFF(YEAR,
-        DATE_FORMAT(CONCAT(p.year, '-', p.month, '-', p.day), '%Y-%m-%d'),
-        DATE_FORMAT(CONCAT(c.year, '-', c.month, '-', c.day), '%Y-%m-%d')) AS age_at_comp
-      FROM Persons AS p
-      JOIN Results AS r ON r.personId = p.id AND best > 0
-      JOIN Competitions AS c ON c.id = r.competitionId
-      WHERE p.year > 0 AND p.year <= YEAR(CURDATE()) - 40
-      AND p.subid = 1
-      HAVING age_at_comp >= 40
+      SELECT r.personId, r.eventId, r.best, 40 AS age_category
+      FROM RanksSingle AS r
     ) AS senior_results
-    JOIN
-    (
-      SELECT 40 AS age_category
-    ) AS age_categories ON age_category <= age_at_comp
     GROUP BY personId, eventId, age_category
   ) AS senior_bests
 ) AS modified_bests
