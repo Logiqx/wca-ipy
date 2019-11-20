@@ -8,7 +8,7 @@ It should be noted that the grey line shows the entire WCA community and is a ne
 
 The binning is achieved by reducing the precision of results through bit masking. The level of precision is dictated by the underlying distribution of the data and the associated number of competitors. I won't describe how I created the profiles in any detail since it is beyond the scope of this document.
 
-![alt text](C:/Projects/WCA/wca-ipy/docs/img/3x3x3_v2.png "3x3x3")
+![alt text](./img/3x3x3_v2.png "3x3x3")
 
 
 
