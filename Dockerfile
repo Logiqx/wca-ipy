@@ -34,8 +34,8 @@ ARG PY_UID=1000
 ARG PY_GID=1000
 
 # Create the Python user and work directory
-RUN addgroup -g ${PY_GID} -S ${PY_GROUP} && \
-    adduser -u ${PY_UID} -S ${PY_USER} -G ${PY_USER} && \
+RUN addgroup -g ${PY_GID} ${PY_GROUP} && \
+    adduser -u ${PY_UID} --disabled-password ${PY_USER} -G ${PY_GROUP} && \
     mkdir -p /home/${PY_USER}/work && \
     chown ${PY_USER} /home/${PY_USER}/work
 
