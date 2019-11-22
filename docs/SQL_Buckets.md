@@ -160,6 +160,7 @@ The 82 buckets are at least 1.28 seconds in size to ensure the total number of p
 43 seniors recorded an official mean prior to August 2019 and 40 are already known (i.e. 93.0%).
 
 The 31 buckets are at least 5.12 seconds in size to ensure the total number of persons always exceeds 100.
+
 | eventId   | Min Avg  | Max Avg  | Num Persons | Num Seniors | % Seniors |
 | --------- | -------- | -------- | ----------- | ----------- | --------- |
 | 666  | 00:00.00 | 02:02.87 | 230  | 0    | 0.00 |
