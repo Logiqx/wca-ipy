@@ -33,6 +33,11 @@ The 11 buckets are at least 20.48 seconds in size to ensure the total number of 
 | 333bf | 04:05.76 |          | 265  | 4    | 1.51 |
 | **TOTAL** | |            | **1746** | **37** | **2.12** |
 
+In tweaking the bucket sizes it is worth looking at how the "unknowns" will be used create gaps in the senior rankings:
+
+[http://logiqx.github.io/wca-ipy/Indicative_Rankings.html](http://logiqx.github.io/wca-ipy/Indicative_Rankings.html)
+
+Taking 3BLD as an example, we see that 13th is unlisted, residing between 1:53.09 and 1:59.76. This would therefore be included in the proposed bucket 01:42.40 - 02:02.87 (min of 172 people). In actual fact it's a lot more people than 172 as it's not as simple as looking for anyone with a PR mean in the relevant bucket. The 01:42.40 - 02:02.87 result could potentially be anyone with such a result that has not beaten it subsequently. For example, someone could have a PR mean of 1:20 aged 39 but their over 40 best is 1:50. The number of competitors is therefore significantly higher than I've stated which is based on PRs. The actual numbers are actually 2-3 times higher but hellish to derive via SQL, hence me using the lower bound which is based on lifetime PR. Identifying a single unknown senior amongst >172 3BLDers (more likely >300-500) would be nigh on impossible.
 
 
 ### 4x4x4 Blindfolded
