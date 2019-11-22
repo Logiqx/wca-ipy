@@ -122,3 +122,9 @@ This is a slightly tweaked version of extract_senior_aggs.sql which reports grou
 
 This currently highlights 5BLD (mean of 3) because it only has 44 people with successes at this time.
 
+
+
+## Examples
+
+I have created a separate document illustrating the effect of [buckets](SQL_Buckets.md) for 9 of the 18 of events.
+
