@@ -4,7 +4,7 @@
 
 This document demonstrates the effect of the variable sized "buckets" for 9 of the 18 events.
 
-All references to the total number of seniors are based on the counts provided by the WCA in August 2019.
+All references to the total number of seniors are based on the counts provided by the WCA in August 2019. The number of seniors in each bucket is based on my own data which is typically >80% complete.
 
 For events other than 3x3x3 and 2x2x2, I already have a list of in excess of 80% of the senior competitors. For many events over 90% of the full senior population are listed in the senior rankings.
 
