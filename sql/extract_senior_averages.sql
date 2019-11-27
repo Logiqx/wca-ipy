@@ -19,10 +19,10 @@ FROM
   HAVING ageCategory >= 40
 ) AS t
 GROUP BY eventId, personId, ageCategory
-ORDER BY eventId, bestAverage, personId, ageCategory DESC;
+ORDER BY eventId, bestAverage, personName, ageCategory DESC;
 
 -- Extract indicative senior averages
-SELECT 'senior_averages', eventId, rankNo, personId, best_average, age_at_comp
+SELECT 'senior_averages', eventId, rankNo, r.personId, best_average, age_at_comp
 FROM
 (
   SELECT eventId, RANK() OVER (PARTITION BY eventId ORDER BY best_average) AS rankNo, personId, hidden, best_average, age_at_comp
@@ -39,9 +39,10 @@ FROM
     ) p2 ON p2.eventId = p1.eventId AND p2.personId = p1.personId AND p2.best_average = p1.best_average
     GROUP BY eventId, personId
   ) tmp_prs
-) AS tmp_ranks
-WHERE hidden = 'N'
-ORDER BY eventId, rankNo, personId;
+) AS r
+INNER JOIN wca_ipy.Seniors AS s ON s.personId = r.personId
+WHERE r.hidden = 'N'
+ORDER BY eventId, rankNo, name;
 
 -- Extract indicative senior averages (aggregated)
 SELECT 'senior_averages_agg', a.*

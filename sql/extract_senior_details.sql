@@ -10,7 +10,7 @@
 SELECT 'known_senior_details', t.personId, personName, c.name AS country, IFNULL(s.username, '?') AS username, usernum, MAX(ageCategory) AS ageCategory, hidden, IFNULL(userId, 0) AS userId
 FROM
 (
-  SELECT r.eventId, r.personId, r.average, s.name AS PersonName, s.countryId,
+  SELECT r.eventId, r.personId, r.average, s.name AS personName, s.countryId,
     FLOOR(TIMESTAMPDIFF(YEAR, dob, DATE_FORMAT(CONCAT(c.year, '-', c.month, '-', c.day), '%Y-%m-%d')) / 10) * 10 AS ageCategory
   FROM Results AS r
   INNER JOIN Competitions AS c ON r.competitionId = c.id

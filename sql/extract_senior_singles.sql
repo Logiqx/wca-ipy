@@ -19,4 +19,4 @@ FROM
   HAVING ageCategory >= 40
 ) AS tmp_results
 GROUP BY eventId, personId, ageCategory
-ORDER BY eventId, bestSingle, personId;
+ORDER BY eventId, bestSingle, personName;
