@@ -51,7 +51,7 @@ COPY --from=builder --chown=jovyan:jovyan /home/jovyan/work/ ./
 
 # Create data and docs volumes
 RUN cd wca-ipy && \
-    mkdir -p data/private/extract data/public docs && \
+    mkdir -p data/private/extract data/public docs/data && \
     cd data/public && \
     mkdir known_senior_averages known_senior_singles senior_singles senior_averages senior_averages_agg wca_averages_agg wca_singles_agg
 
