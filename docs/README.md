@@ -9,7 +9,7 @@ If you would like your name to be added then either contact me via [Facebook](ht
 
 **Partial Rankings**
 
-* [Partial Over 40s Rankings](Partial_Rankings.md) is still incomplete but most of the fastest people are now included
+* [Partial Over 40s Rankings](Partial_Rankings_40.md) is still incomplete but most of the fastest people are now included
 * [Partial Over 50s Rankings](Partial_Rankings_50.md) was introduced in 2019 off the back of the Partial Over 40s Rankings
 * [Partial Over 60s Rankings](Partial_Rankings_60.md) was introduced in 2019 off the back of the Partial Over 50s Rankings
 * [Partial Over 70s Rankings](Partial_Rankings_70.md) was introduced in 2019 off the back of the Partial Over 50s Rankings
