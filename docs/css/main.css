@@ -1,34 +1,53 @@
 /* Default fonts */
 
-h1
-{
+h1 {
   font-family: "Arial", sans-serif;
 }
 
-h2
-{
+h2 {
   font-family: "Arial", sans-serif;
 }
 
-h3
-{
+h3 {
   font-family: "Arial", sans-serif;
 }
 
-th
-{
+p {
   font-family: "Arial", sans-serif;
   font-size: 0.9em;
 }
 
-td
-{
+table {
+  border-spacing:0;
+  border-collapse:collapse
+}
+
+table th, table td {
   font-family: "Arial", sans-serif;
   font-size: 0.9em;
 }
 
-p
-{
-  font-family: "Arial", sans-serif;
-  font-size: 0.9em;
+table th {
+  text-align: left;
+}
+
+.dropdowns table th, .dropdowns table td {
+  padding: 3px 6px;
+}
+
+.rankings table th, .rankings table td {
+  border: 1px solid #dfe2e5;
+  padding: 6px 13px;
+}
+
+.rankings table tr:nth-child(2n) {
+  background-color:#f6f8fa;
+}
+
+.rankings table th.rank, .rankings table td.rank {
+  text-align: center;
+}
+
+.rankings table th.result, .rankings table td.result {
+  text-align: right;
 }

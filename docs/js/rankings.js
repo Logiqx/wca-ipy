@@ -7,14 +7,14 @@ function renderOptions(eventId, resultType, ageCategory, width)
 
 	if (width >= GALAXY_S3_PORTRAIT)
 	{
-		out += "<table><tr><th>Event:</th><th>Result:</th><th>Age:</th></tr><tr>";
+		out += "<div class=\"dropdowns\"><p><table><tr><th>Event:</th><th>Result:</th><th>Age:</th></tr><tr>";
 	}
 	
 	// Create select element for available events
 	var filteredEvents = filterEventIds(resultType, ageCategory);
 	if (width < GALAXY_S3_PORTRAIT)
 	{
-		out += "<table><tr><th>Event:</th>";
+		out += "<div class=\"dropdowns\"><table><tr><th>Event:</th>";
 	}
 	out += "<td><select id=\"eventId\" onChange=\"switchView()\">";
 	for (var eventIdx = 0; eventIdx < filteredEvents.length; eventIdx++)
@@ -63,7 +63,7 @@ function renderOptions(eventId, resultType, ageCategory, width)
 		}
 		out += ">Over " + ageCategories[i] + "</option>";
 	}
-	out += "</select></td></tr></table>";
+	out += "</select></td></tr></table></p></div>";
 
 	return out;
 }
@@ -155,9 +155,9 @@ function renderTable(eventId, resultType, ageCategory, width)
 		
 		if (rankingObj.type == resultType && rankingObj.age == ageCategory)
 		{
-			out += '<table>';
+			out += '<div class=\"rankings\"><table>';
 			out += '<tr>';
-			out += '<th>Rank</th>';
+			out += '<th class=\"rank\">Rank</th>';
 			out += '<th>Person</th>';
 			if (width >= IPHONE_LANDSCAPE)
 			{
@@ -173,7 +173,7 @@ function renderTable(eventId, resultType, ageCategory, width)
 				var countryObj = rankings.countries[countryIds.indexOf(personObj.country)]
 				
 				out += '<tr>';
-				out += '<td>' + rankObj.rank + '</td>';
+				out += '<td class=\"rank\">' + rankObj.rank + '</td>';
 				if (width >= IPHONE_LANDSCAPE)
 				{
 					out += '<td>' + personObj.name + (rankObj.hasOwnProperty("age") ? ', ' + rankObj.age + '+' : '') + '</td>';
@@ -183,11 +183,11 @@ function renderTable(eventId, resultType, ageCategory, width)
 				{
 					out += '<td>' + personObj.name + ', ' + countryObj.name + (rankObj.hasOwnProperty("age") ? ', ' + rankObj.age + '+' : '') + '</td>';
 				}
-				out += '<td>' + rankObj.best + '</td>';
+				out += '<td class=\"result\">' + rankObj.best + '</td>';
 				out += '</tr>';
 			}
 
-			out += '</table>';
+			out += '</table></div>';
 		}
 	}
 	
