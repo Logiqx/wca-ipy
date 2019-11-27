@@ -216,8 +216,8 @@ function renderRankings(hashParts, width)
 	{
 		var eventObj = rankings.events[eventIds.indexOf(eventId)];
 
-		out += "<h2>" + eventObj.name + "</h2>";
-		document.title = eventObj.name;
+		document.title = eventObj.name + " - Over " + ageCategory + "s";
+		out += "<h2>" + document.title + "</h2>";
 
 		out += header();
 		out += renderOptions(eventId, resultType, ageCategory, width);
