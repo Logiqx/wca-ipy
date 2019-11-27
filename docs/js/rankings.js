@@ -112,6 +112,11 @@ function filterResultTypes(eventId, ageCategory)
 		}
 	}
 
+	if (resultTypes.indexOf("average") >= 0 && resultTypes.indexOf("single") >= 0)
+	{
+		resultTypes = ["single", "average"];
+	}
+
 	return resultTypes;
 }
 
@@ -208,7 +213,7 @@ function renderRankings(hashParts, width)
 	
 	// Determine the event
 	var eventId = hashParts[0].length > 0 ? hashParts[0] : eventIds[0];
-	var resultType = hashParts.length > 1 && hashParts[1].length > 0 ? hashParts[1] : "average";
+	var resultType = hashParts.length > 1 && hashParts[1].length > 0 ? hashParts[1] : "single";
 	var ageCategory = hashParts.length > 2 && hashParts[2].length > 0 ? hashParts[2] : "40";
 	
 	// Check if the event exists

@@ -552,7 +552,7 @@ function switchView()
 	{
 		hash += eventId + "-" + resultType + "-" + ageCategory;
 	}
-	else if (resultType != "average")
+	else if (resultType != "single")
 	{
 		hash += eventId + "-" + resultType;
 	}
