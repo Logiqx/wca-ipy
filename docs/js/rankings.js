@@ -174,14 +174,15 @@ function renderTable(eventId, resultType, ageCategory, width)
 				
 				out += '<tr>';
 				out += '<td class=\"rank\">' + rankObj.rank + '</td>';
+				var href = '<a href=\"https://www.worldcubeassociation.org/persons/' + rankObj.id + '?event=' + eventId + '\">' + personObj.name + '</a>';
 				if (width >= IPHONE_LANDSCAPE)
 				{
-					out += '<td>' + personObj.name + (rankObj.hasOwnProperty("age") ? ', ' + rankObj.age + '+' : '') + '</td>';
+					out += '<td>' + href + (rankObj.hasOwnProperty("age") ? ', ' + rankObj.age + '+' : '') + '</td>';
 					out += '<td>' + countryObj.name + '</td>';
 				}
 				else
 				{
-					out += '<td>' + personObj.name + ', ' + countryObj.name + (rankObj.hasOwnProperty("age") ? ', ' + rankObj.age + '+' : '') + '</td>';
+					out += '<td>' + href + ', ' + countryObj.name + (rankObj.hasOwnProperty("age") ? ', ' + rankObj.age + '+' : '') + '</td>';
 				}
 				out += '<td class=\"result\">' + rankObj.best + '</td>';
 				out += '</tr>';
