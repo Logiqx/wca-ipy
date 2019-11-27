@@ -1,0 +1,34 @@
+/* Default fonts */
+
+h1
+{
+  font-family: "Arial", sans-serif;
+}
+
+h2
+{
+  font-family: "Arial", sans-serif;
+}
+
+h3
+{
+  font-family: "Arial", sans-serif;
+}
+
+th
+{
+  font-family: "Arial", sans-serif;
+  font-size: 0.9em;
+}
+
+td
+{
+  font-family: "Arial", sans-serif;
+  font-size: 0.9em;
+}
+
+p
+{
+  font-family: "Arial", sans-serif;
+  font-size: 0.9em;
+}
