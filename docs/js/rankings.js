@@ -239,7 +239,6 @@ function renderRankings(hashParts, width)
 
 	// Update the HTML
 	document.getElementById("title").innerHTML = document.title;
-	document.getElementById("important").innerHTML = important();
 	document.getElementById("refreshed").innerHTML = rankings.refreshed;
 	document.getElementById("container").innerHTML = out;
 }

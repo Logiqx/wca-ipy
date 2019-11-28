@@ -70,17 +70,6 @@ function header()
 }
 
 //
-// Generic message to be displayed at top of every page
-// e.g. "<p>IMPORTANT: This page is still WIP and is meant to be PRIVATE. Please do not share the URL!</p>"
-//
-function important()
-{
-	var msg = "";
-
-	return msg;
-}
-
-//
 // Generic footer to be displayed at bottom of every page
 // e.g. "<p>DEBUG: clientWidth = " + getViewportWidth() + ", clientHeight = " + getViewportHeight() + "</p>"
 //
