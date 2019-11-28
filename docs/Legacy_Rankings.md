@@ -16,6 +16,6 @@ The list of names is still incomplete but most of the fastest people are include
 **Informative Rankings**
 
 * [Indicative Over 40s Rankings](Indicative_Rankings_40.md) give the best possible indication of your "real" world ranking
-* [Percentile Rankings](Percentile_Rankings.md) show how times are distributed for the WCA community and the over 40s
 * [Representative Over 40s Rankings](Representative_Rankings_40.md) preceded the Indicative Over 40s Rankings
+* [Percentile Rankings](Percentile_Rankings.md) show how times are distributed for the WCA community and the over 40s
 
