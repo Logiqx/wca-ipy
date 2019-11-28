@@ -61,6 +61,11 @@ function header()
 {
 	var msg = "";
 
+	if (getViewportWidth() < IPHONE_LANDSCAPE)
+	{
+		msg += '<p>Tip: Best viewed in landscape mode on mobile phones and some tablets.</p>';
+	}
+
 	return msg;
 }
 
@@ -180,6 +185,36 @@ function getCountryIds()
 	}
 	
 	return countryIds;
+}
+
+
+// Determine the result types for all events - single, average or both
+//
+function getResultTypes()
+{
+	var resultTypes = [];
+
+	for (var eventIdx = 0; eventIdx < rankings.events.length; eventIdx++)
+	{
+		var eventObj = rankings.events[eventIdx];
+
+		for (var rankingIdx = 0; rankingIdx < eventObj.rankings.length; rankingIdx++)
+		{
+			var rankingObj = eventObj.rankings[rankingIdx];
+
+			if (resultTypes.indexOf(rankingObj.type) < 0)
+			{
+				resultTypes.push(rankingObj.type)
+			}
+		}
+	}
+
+	if (resultTypes.indexOf("average") >= 0 && resultTypes.indexOf("single") >= 0)
+	{
+		resultTypes = ["single", "average"];
+	}
+
+	return resultTypes;
 }
 
 //
@@ -562,7 +597,7 @@ function switchView()
 	{
 		hash += eventId + "-" + resultType + "-" + ageCategory;
 	}
-	else if (resultType != "single")
+	else if (resultType != getResultTypes()[0])
 	{
 		hash += eventId + "-" + resultType;
 	}

@@ -217,7 +217,7 @@ function renderRankings(hashParts, width)
 	
 	// Determine the event
 	var eventId = hashParts[0].length > 0 ? hashParts[0] : eventIds[0];
-	var resultType = hashParts.length > 1 && hashParts[1].length > 0 ? hashParts[1] : "single";
+	var resultType = hashParts.length > 1 && hashParts[1].length > 0 ? hashParts[1] : getResultTypes()[0];
 	var ageCategory = hashParts.length > 2 && hashParts[2].length > 0 ? hashParts[2] : "40";
 	
 	// Check if the event exists
@@ -228,12 +228,6 @@ function renderRankings(hashParts, width)
 		document.title = eventObj.name + " - Over " + ageCategory + "s";
 
 		out += header();
-
-		if (width < IPHONE_LANDSCAPE)
-		{
-			out += '<p>Tip: Best viewed in landscape mode on mobile phones and some tablets.</p>';
-		}
-
 		out += renderOptions(eventId, resultType, ageCategory, width);
 		out += renderTable(eventId, resultType, ageCategory, width);
 		out += footer();	
