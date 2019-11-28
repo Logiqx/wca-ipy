@@ -226,9 +226,14 @@ function renderRankings(hashParts, width)
 		var eventObj = rankings.events[eventIds.indexOf(eventId)];
 
 		document.title = eventObj.name + " - Over " + ageCategory + "s";
-		out += "<h2>" + document.title + "</h2>";
 
 		out += header();
+
+		if (width < IPHONE_LANDSCAPE)
+		{
+			out += '<p>Tip: Best viewed in landscape mode on mobile phones and some tablets.</p>';
+		}
+
 		out += renderOptions(eventId, resultType, ageCategory, width);
 		out += renderTable(eventId, resultType, ageCategory, width);
 		out += footer();	
@@ -239,5 +244,8 @@ function renderRankings(hashParts, width)
 	}
 
 	// Update the HTML
+	document.getElementById("title").innerHTML = document.title;
+	document.getElementById("important").innerHTML = important();
+	document.getElementById("refreshed").innerHTML = rankings.refreshed;
 	document.getElementById("container").innerHTML = out;
 }
