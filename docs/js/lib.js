@@ -75,7 +75,7 @@ function header()
 //
 function important()
 {
-	var msg = "<p>IMPORTANT: This page is still WIP and is meant to be PRIVATE. Please do not share the URL!</p>";
+	var msg = "";
 
 	return msg;
 }
