@@ -2,7 +2,7 @@
 ## Representative Over 40s Rankings
 
 ### IMPORTANT
-**This page has been superseded by the [Indicative Over 40s Rankings](Indicative_Rankings.md)**
+**This page has been superseded by the [Indicative Over 40s Rankings](Indicative_Rankings_40.md)**
 
 **Please view the "Indicate Rankings" using the link above.**
 
