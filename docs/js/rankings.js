@@ -171,14 +171,16 @@ function renderTable(eventId, resultType, ageCategory, width)
 			out += '<th>Result</th>';
 			out += '</tr>';
 			
+			var prevRank = 0;
+
 			for (var rankIdx = 0; rankIdx < rankingObj.ranks.length; rankIdx++)
 			{
 				var rankObj = rankingObj.ranks[rankIdx];
 				var personObj = rankings.persons[personIds.indexOf(rankObj.id)]
 				var countryObj = rankings.countries[countryIds.indexOf(personObj.country)]
-				
+
 				out += '<tr>';
-				out += '<td class=\"rank\">' + rankObj.rank + '</td>';
+				out += '<td class=\"rank\">' + (rankObj.rank > prevRank ? rankObj.rank : '') + '</td>';
 				var href = '<a href=\"https://www.worldcubeassociation.org/persons/' + rankObj.id + '?event=' + eventId + '\">' + personObj.name + '</a>';
 				if (width >= IPHONE_LANDSCAPE)
 				{
@@ -191,6 +193,8 @@ function renderTable(eventId, resultType, ageCategory, width)
 				}
 				out += '<td class=\"result\">' + rankObj.best + '</td>';
 				out += '</tr>';
+
+				prevRank = rankObj.rank;
 			}
 
 			out += '</table></div>';
