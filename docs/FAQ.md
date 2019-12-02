@@ -7,7 +7,7 @@
 
 Prior to my first competition, I was curious about what kind of times the over 40s were achieving in competition. I was quite active on the Speedsolving.com forum so I created a [thread](https://www.speedsolving.com/threads/how-fast-are-the-over-40s-in-competitions.54128/) listing the results of the people that I knew personally or who were well known in the community.
 
-I don't have a copy of my original post from July 2015 but by Nov 2015 the list of names had grown to 36. During recent years the project has continued to grow and increase in popularity with almost 500 seniors in Nov 2019. It was intended to be a one-off activity which has developed into an automated process.
+The original list of official results only contained 11 seniors but the list was up to 23 names within a week. Since its creation the senior rankings have continued to grow and now have almost 500 seniors listed in Nov 2019. It was intended to be a one-off activity but has subsequently evolved into an automated process.
 
 ####  What results qualify for the senior rankings?
 
