@@ -20,7 +20,8 @@
 SELECT eventId, age_category, group_no, COUNT(*) AS group_size, IF(COUNT(*) >= 4, FLOOR(AVG(best)), NULL) AS group_avg
 FROM
 (
-  SELECT personId, eventId, age_category, best, FLOOR((ROW_NUMBER() OVER (PARTITION BY eventId, age_category ORDER BY best) - 1) / 6) AS group_no
+  SELECT personId, eventId, age_category, best,
+         FLOOR((ROW_NUMBER() OVER (PARTITION BY eventId, age_category ORDER BY best) - 1) / 6) AS group_no
   FROM
   (
     SELECT personId, eventId, age_category, MIN(average) AS best
@@ -58,7 +59,8 @@ GROUP BY eventId, age_category, group_no;
 SELECT eventId, age_category, group_no, COUNT(*) AS group_size, IF(COUNT(*) >= 4, FLOOR(AVG(best)), NULL) AS group_avg
 FROM
 (
-  SELECT personId, eventId, age_category, best, FLOOR((ROW_NUMBER() OVER (PARTITION BY eventId, age_category ORDER BY best) - 1) / 6) AS group_no
+  SELECT personId, eventId, age_category, best,
+         FLOOR((ROW_NUMBER() OVER (PARTITION BY eventId, age_category ORDER BY best) - 1) / 6) AS group_no
   FROM
   (
     SELECT personId, eventId, age_category, MIN(best) AS best
