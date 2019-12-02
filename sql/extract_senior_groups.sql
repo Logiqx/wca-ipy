@@ -7,10 +7,10 @@
               https://logiqx.github.io/wca-ipy/Indicative_Rankings.html
 
     Notes:    Written specifically for MySQL 8.0 as it requires the window function ROW_NUMBER().
-              The extracts do not disclose any actual results, only means for groups of 6 seniors.
-              A group size of 6 seniors has been chosen because it equates to around 500 WCA persons.
-              The group mean is returned as NULL if the group is less than half of the intended size.
-              It is not practicable to determine which persons have contributed to the group means.
+              The extracts do not disclose any actual results, only means for groups of seniors.
+              A group size of 6 seniors has been chosen because it typically relates to >500 persons.
+              A group mean of NULL is returned if the last group contains less than 4 seniors.
+              It is NOT practicable to determine which persons have contributed to the group means.
 */
 
 /*
