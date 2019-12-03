@@ -8,7 +8,6 @@ COPY /b js\lib-min.js+js\person-min.js+js\rankings-min.js js\common-min.js
 
 REM *** Minify css files ***
 
-java -jar yuicompressor-2.4.8.jar css/iframe.css -o css/iframe-min.css
 java -jar yuicompressor-2.4.8.jar css/main.css -o css/main-min.css
 
 PAUSE
