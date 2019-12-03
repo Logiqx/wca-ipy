@@ -19,7 +19,7 @@ It is worth noting that results after turning 50 will apply to multiple age cate
 
 The senior rankings are updated daily using the WCA [results export](https://www.worldcubeassociation.org/results/misc/export.html) which is published at around 0400 GMT. A daily batch job runs at 0410 GMT which downloads the latest WCA database export and refreshes the senior rankings.
 
-The "[Future Competitions](Future_Competitions.md)" page is updated every 3 hours - 0000 GMT, 0300 GMT, 0600 GMT, etc. This ensures that any registration changes are reflected promptly without the process being overly excessive.
+The "[Future Competitions](Future_Competitions.html)" page is updated every 3 hours - 0000 GMT, 0300 GMT, 0600 GMT, etc. This ensures that any registration changes are reflected promptly without the process being overly excessive.
 
 #### How many seniors have competed?
 
@@ -101,7 +101,7 @@ I only had data for official averages and I did not have any data for official s
 
 ### Future Competitions
 
-The "[Future Competitions](Future_Competitions.md)" page is updated throughout the day using the [WCA API](https://github.com/thewca/worldcubeassociation.org/wiki) and a number of additional websites that are used for competition registration.
+The "[Future Competitions](Future_Competitions.html)" page is updated throughout the day using the [WCA API](https://github.com/thewca/worldcubeassociation.org/wiki) and a number of additional websites that are used for competition registration.
 
 It retrieves registration data from [worldcubeassociation.org](https://www.worldcubeassociation.org/competitions), [cubingchina.com](https://cubingchina.com/competition), [cubing-tw.net](https://cubing-tw.net/event/), [zawody4event.pl](https://zawody4event.pl/#competitions), [speedcubing.pl](https://www.speedcubing.pl/), [speedcubing.nz](https://www.speedcubing.nz/), [canadiancubing.com](http://www.canadiancubing.com/Events) and [cubecomp.de](https://cubecomp.de/)
 

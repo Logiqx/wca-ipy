@@ -124,7 +124,7 @@ The necessary SQL code already exists on GitHub so it could easily be scheduled 
 2. Scheduling the SQL extracts ([results](https://github.com/Logiqx/wca-ipy/blob/master/sql/extract_senior_results.sql) or [aggregations](https://github.com/Logiqx/wca-ipy/blob/master/sql/extract_senior_aggs.sql)) - WCA Results Team (WRT) / WCA Software Team (WST)
 3. Creation of a machine on [AWS](https://aws.amazon.com/) to refresh the rankings - Senior Rankings Team
 
-Finally, it is worth saying that it is still hoped that the earlier [proposal](https://github.com/Logiqx/wca-ipy/blob/master/docs/WCA_Proposal.md) for official senior rankings will one day become a reality.
+Finally, it is worth saying that it is still hoped that the earlier [proposal](WCA_Proposal.md) for official senior rankings will one day become a reality.
 
 The interim proposal can potentially be implemented in a matter of days or weeks whereas the proposal for official rankings seems likely to take months or even years.
 

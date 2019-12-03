@@ -16,7 +16,7 @@ Note: The [Legacy Rankings](Legacy_Rankings.md) are still available, just in cas
 
 **Useful links**
 
-* [Future Competitions](Future_Competitions.md) is a list of upcoming competitions with senior competitors registered
+* [Future Competitions](Future_Competitions.html) is a list of upcoming competitions with senior competitors registered
 * [Senior Cubers Worldwide](https://www.facebook.com/groups/1604105099735401) on Facebook
 * [Older Cubers Discussions](https://speedsolving.com/threads/older-cubers-discussions.37405/) on SpeedSolving.com
 
