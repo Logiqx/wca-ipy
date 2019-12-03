@@ -10,7 +10,7 @@ These are unofficial rankings for the senior cubing community produced from offi
 
 The rankings below were created from the [Partial Over 40s Rankings](Partial_Rankings.md) and supplementary anonymised [data](https://github.com/Logiqx/wca-ipy/blob/master/sql/extract_senior_aggs.sql) from the WCA database.
 
-If you would like your name to be added then please contact me as described on the [front page](README.md).
+If you would like your name to be added then please contact me as described on the [front page](/wca-ipy/).
 
 Notes:
 
