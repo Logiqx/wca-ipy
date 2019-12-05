@@ -8,16 +8,16 @@
 
 -- wca_ipy is for production activities
 
-CREATE USER 'wca_ipy' IDENTIFIED BY 'change.me';
-GRANT SELECT ON wca.* TO wca_ipy;
+CREATE DATABASE IF NOT EXISTS wca_ipy;
 
-CREATE DATABASE wca_ipy;
+CREATE USER IF NOT EXISTS 'wca_ipy' IDENTIFIED BY 'change.me';
 GRANT ALL ON wca_ipy.* TO wca_ipy;
+GRANT SELECT ON wca.* TO wca_ipy;
 
 -- wca_ipy_tst is for testing and CI/CD
 
-CREATE USER 'wca_ipy_tst' IDENTIFIED BY 'change.me';
-GRANT SELECT ON wca.* TO wca_ipy_tst;
+CREATE DATABASE IF NOT EXISTS wca_ipy_tst;
 
-CREATE DATABASE wca_ipy_tst;
+CREATE USER IF NOT EXISTS 'wca_ipy_tst' IDENTIFIED BY 'change.me';
 GRANT ALL ON wca_ipy_tst.* TO wca_ipy_tst;
+GRANT SELECT ON wca.* TO wca_ipy_tst;
