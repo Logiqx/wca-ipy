@@ -7,6 +7,6 @@
 */
 
 -- Populate name and country on seniors
-UPDATE wca_ipy.Seniors s
-JOIN Persons p ON p.id = s.personId AND p.subid = 1
+UPDATE Seniors s
+JOIN wca.Persons p ON p.id = s.personId AND p.subid = 1
 SET s.name = p.name, s.countryId = p.countryId, s.gender = p.gender;

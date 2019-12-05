@@ -10,13 +10,13 @@
 
 SET @cutoff = '2019-02-01';
 
-DROP TABLE IF EXISTS wca_ipy.EventStats;
+DROP TABLE IF EXISTS EventStats;
 
-CREATE TABLE wca_ipy.EventStats AS
+CREATE TABLE EventStats AS
 SELECT eventId, COUNT(DISTINCT personId) AS numPersons
-FROM Results AS r
-JOIN Competitions AS c ON r.competitionId = c.id AND DATE_FORMAT(CONCAT(c.year, '-', c.month, '-', c.day), '%Y-%m-%d') < @cutoff
+FROM wca.Results AS r
+JOIN wca.Competitions AS c ON r.competitionId = c.id AND DATE_FORMAT(CONCAT(c.year, '-', c.month, '-', c.day), '%Y-%m-%d') < @cutoff
 WHERE average > 0
 GROUP BY eventId;
 
-ALTER TABLE wca_ipy.EventStats ADD PRIMARY KEY (eventId);
+ALTER TABLE EventStats ADD PRIMARY KEY (eventId);

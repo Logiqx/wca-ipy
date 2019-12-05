@@ -16,7 +16,7 @@
 */
 
 SELECT 'wca_averages_agg', eventId, FLOOR(best / 100) AS modified_average, COUNT(*) AS num_persons
-FROM RanksAverage
+FROM wca.RanksAverage
 GROUP BY eventId, modified_average
 ORDER BY eventId, modified_average;
 
@@ -37,6 +37,6 @@ SELECT 'wca_singles_agg', eventId,
       ELSE FLOOR(best / 100)
     END
   ) AS modified_single, COUNT(*) AS num_persons
-FROM RanksSingle
+FROM wca.RanksSingle
 GROUP BY eventId, modified_single
 ORDER BY eventId, modified_single;

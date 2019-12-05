@@ -10,9 +10,9 @@
    Senior Sources
 */
 
-DROP TABLE IF EXISTS wca_ipy.SeniorSources;
+DROP TABLE IF EXISTS SeniorSources;
 
-CREATE TABLE wca_ipy.SeniorSources
+CREATE TABLE SeniorSources
 (
      `id` char(1) COLLATE utf8mb4_unicode_ci NOT NULL,
      `type` varchar(10) COLLATE utf8mb4_unicode_ci,
@@ -20,7 +20,7 @@ CREATE TABLE wca_ipy.SeniorSources
      PRIMARY KEY (`id`)
 );
 
-INSERT INTO wca_ipy.SeniorSources VALUES
+INSERT INTO SeniorSources VALUES
 ('c', 'Contacted', 'Contacted via Messenger after being found or spotted'),
 ('d', 'Derived', 'Derived from other sources (e.g. old WCA statistics)'),
 ('f', 'Found', 'Found DOB or YOB on Speedsolving.com, Facebook, etc'),
@@ -32,9 +32,9 @@ INSERT INTO wca_ipy.SeniorSources VALUES
    Senior Accuracies
 */
 
-DROP TABLE IF EXISTS wca_ipy.SeniorAccuracies;
+DROP TABLE IF EXISTS SeniorAccuracies;
 
-CREATE TABLE wca_ipy.SeniorAccuracies
+CREATE TABLE SeniorAccuracies
 (
      `id` char(1) COLLATE utf8mb4_unicode_ci NOT NULL,
      `type` varchar(10) COLLATE utf8mb4_unicode_ci,
@@ -42,7 +42,7 @@ CREATE TABLE wca_ipy.SeniorAccuracies
      PRIMARY KEY (`id`)
 );
 
-INSERT INTO wca_ipy.SeniorAccuracies VALUES
+INSERT INTO SeniorAccuracies VALUES
 ('d', 'Day', 'Precise DOB'),
 ('f', 'Fake', 'Fake DOB to exclude earlier competitions'),
 ('m', 'Month', 'Month of birth - e.g. 1972-07-31 for July 1972'),
@@ -55,9 +55,9 @@ INSERT INTO wca_ipy.SeniorAccuracies VALUES
    Users Statuses
 */
 
-DROP TABLE IF EXISTS wca_ipy.UserStatuses;
+DROP TABLE IF EXISTS UserStatuses;
 
-CREATE TABLE wca_ipy.UserStatuses
+CREATE TABLE UserStatuses
 (
      `id` char(1) COLLATE utf8mb4_unicode_ci NOT NULL,
      `type` varchar(12) COLLATE utf8mb4_unicode_ci,
@@ -65,7 +65,7 @@ CREATE TABLE wca_ipy.UserStatuses
      PRIMARY KEY (`id`)
 );
 
-INSERT INTO wca_ipy.UserStatuses VALUES
+INSERT INTO UserStatuses VALUES
 ('c', 'Confirmed', 'User has been confirmed by delegate'),
 ('u', 'Unconfirmed', 'User has yet to be be confirmed by delegate'),
 ('r', 'Registered', 'User registered for competition and has been matched via results'),

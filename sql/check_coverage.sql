@@ -15,14 +15,14 @@ JOIN (
 	FROM
 	(
 		SELECT eventId, FLOOR(best / 100) AS result, COUNT(*) AS numPersons
-		FROM RanksAverage
+		FROM wca.RanksAverage
 		GROUP BY eventId, result
 	) AS r
 ) AS a ON a.eventId = e.id
 LEFT JOIN
 (
 	SELECT eventId, result, numSeniors, SUM(numSeniors) OVER (PARTITION BY eventId ORDER BY result) AS totSeniors
-    FROM wca_ipy.SeniorAverages
+    FROM SeniorAverages
 ) AS s ON s.eventId = a.eventId AND s.result = a.result
 LEFT JOIN
 (
@@ -37,9 +37,9 @@ LEFT JOIN
 		  (
 			SELECT r.eventId, r.personId, r.average,
 			  TIMESTAMPDIFF(YEAR, s.dob, DATE_FORMAT(CONCAT(c.year, '-', c.month, '-', c.day), '%Y-%m-%d')) AS age_at_comp
-			FROM Results AS r
-			INNER JOIN Competitions AS c ON r.competitionId = c.id
-			INNER JOIN wca_ipy.Seniors AS s ON s.personId = r.personId AND YEAR(dob) <= YEAR(CURDATE()) - 40 AND hidden = 'n'
+			FROM wca.Results AS r
+			INNER JOIN wca.Competitions AS c ON r.competitionId = c.id
+			INNER JOIN Seniors AS s ON s.personId = r.personId AND YEAR(dob) <= YEAR(CURDATE()) - 40 AND hidden = 'n'
 			WHERE average > 0
 			HAVING age_at_comp >= 40
 		  ) AS tmp_results
@@ -56,7 +56,7 @@ SELECT countryId, numSeniors, ROUND(100.0 * numSeniors / SUM(numSeniors) OVER(),
 FROM
 (
 	SELECT countryId, COUNT(*) AS numSeniors
-	FROM wca_ipy.SeniorDetails
+	FROM SeniorDetails
 	WHERE ageLastComp >= 40
 	GROUP BY countryId
 ) AS s
@@ -67,7 +67,7 @@ SELECT s.countryId, numSeniors, numPersons, ROUND(100.0 * numSeniors / numPerson
 FROM
 (
 	SELECT countryId, COUNT(*) AS numSeniors
-	FROM wca_ipy.SeniorDetails
+	FROM SeniorDetails
 	WHERE ageLastComp >= 40
 	GROUP BY countryId
 ) AS s

@@ -10,9 +10,9 @@
    Create aggregation of known singles using the very latest results
 */
 
-DROP TABLE IF EXISTS wca_ipy.KnownSinglesLatest;
+DROP TABLE IF EXISTS KnownSinglesLatest;
 
-CREATE TABLE wca_ipy.KnownSinglesLatest AS
+CREATE TABLE KnownSinglesLatest AS
 SELECT eventId,
   (
     CASE
@@ -31,9 +31,9 @@ FROM
   (
     SELECT r.eventId, r.personId, r.best,
       TIMESTAMPDIFF(YEAR, s.dob, DATE_FORMAT(CONCAT(c.year, '-', c.month, '-', c.day), '%Y-%m-%d')) AS age_at_comp
-    FROM Results AS r
-    INNER JOIN Competitions AS c ON r.competitionId = c.id
-    INNER JOIN wca_ipy.Seniors AS s ON s.personId = r.personId AND YEAR(dob) <= YEAR(CURDATE()) - 40 AND hidden = 'N'
+    FROM wca.Results AS r
+    INNER JOIN wca.Competitions AS c ON r.competitionId = c.id
+    INNER JOIN Seniors AS s ON s.personId = r.personId AND YEAR(dob) <= YEAR(CURDATE()) - 40 AND hidden = 'N'
     WHERE best > 0
     HAVING age_at_comp >= 40
   ) AS tmp_results
@@ -42,4 +42,4 @@ FROM
 GROUP BY eventId, result
 ORDER BY eventId, result;
 
-ALTER TABLE wca_ipy.KnownSinglesLatest ADD PRIMARY KEY(eventId, result);
+ALTER TABLE KnownSinglesLatest ADD PRIMARY KEY(eventId, result);

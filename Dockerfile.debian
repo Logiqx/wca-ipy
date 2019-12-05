@@ -41,8 +41,8 @@ RUN groupadd -g ${PY_GID} ${PY_GROUP} && \
 
 # Environment variables used by the Python scripts
 ENV MYSQL_HOSTNAME=mariadb
-ENV MYSQL_DATABASE=wca
-ENV MYSQL_USER=wca
+ENV MYSQL_DATABASE=wca_ipy
+ENV MYSQL_USER=wca_ipy
 
 # Copy project files from the builder
 USER ${PY_USER}

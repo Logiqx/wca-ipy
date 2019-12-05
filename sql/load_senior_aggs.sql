@@ -10,9 +10,9 @@
    Load the one-off extract from the WCA, created 2019-02-01
 */
 
-DROP TABLE IF EXISTS wca_ipy.SeniorAveragesPrevious;
+DROP TABLE IF EXISTS SeniorAveragesPrevious;
 
-CREATE TABLE wca_ipy.SeniorAveragesPrevious
+CREATE TABLE SeniorAveragesPrevious
 (
   `eventId` varchar(6) COLLATE utf8mb4_unicode_ci NOT NULL,
   `result` int(11) NOT NULL,
@@ -21,4 +21,4 @@ CREATE TABLE wca_ipy.SeniorAveragesPrevious
 );
 
 LOAD DATA LOCAL INFILE '/home/jovyan/work/wca-ipy-private/data/private/load/senior_averages_agg.csv'
-INTO TABLE wca_ipy.SeniorAveragesPrevious FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"' IGNORE 1 LINES;
+INTO TABLE SeniorAveragesPrevious FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"' IGNORE 1 LINES;

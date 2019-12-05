@@ -7,14 +7,14 @@
 */
 
 SELECT 'wca_lookup_events', id, name, format
-FROM Events
+FROM wca.Events
 WHERE `rank` < 900
 ORDER BY `rank`;
 
 SELECT 'wca_lookup_countries', id, name, continentId, iso2
-FROM Countries
+FROM wca.Countries
 ORDER BY id;
 
 SELECT 'wca_lookup_continents', id, name
-FROM Continents
+FROM wca.Continents
 ORDER BY id;
