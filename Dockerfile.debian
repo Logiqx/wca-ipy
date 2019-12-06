@@ -36,13 +36,13 @@ RUN groupadd -g ${PY_GID} ${PY_GROUP} && \
     mkdir -p /home/${PY_USER}/work && \
     chown ${PY_USER} /home/${PY_USER}/work
 
-# Install Python libraries
-RUN pip install --no-cache-dir beautifulsoup4==4.8.* lxml==4.4.* sqlparse==0.3.* PyMySQL==0.9.*
-
 # Environment variables used by the Python scripts
 ENV MYSQL_HOSTNAME=mariadb
 ENV MYSQL_DATABASE=wca_ipy
 ENV MYSQL_USER=wca_ipy
+
+# Install Python libraries
+RUN pip install --no-cache-dir beautifulsoup4==4.8.* lxml==4.4.* sqlparse==0.3.* PyMySQL==0.9.*
 
 # Copy project files from the builder
 USER ${PY_USER}
