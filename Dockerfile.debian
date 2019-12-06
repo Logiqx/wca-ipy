@@ -48,6 +48,3 @@ ENV MYSQL_USER=wca_ipy
 USER ${PY_USER}
 WORKDIR /home/${PY_USER}/work
 COPY --from=builder --chown=jovyan:jovyan /home/jovyan/work/ ./
-
-# Define the command / entrypoint
-CMD ["python3"]
