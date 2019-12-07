@@ -8,6 +8,6 @@ run_py_script()
   docker run -it --rm \
          --mount type=bind,src=$PROJ_DIR/data,dst=$WORK_DIR/data \
          --mount type=bind,src=$PROJ_DIR/docs,dst=$WORK_DIR/docs \
-         --mount type=bind,src=$(realpath $PROJ_DIR/../wca-db/docker/mysql/.my.cnf),dst=/home/jovyan/.my.cnf \
+         --mount type=bind,src=$(realpath $PROJ_DIR/.my.cnf),dst=/home/jovyan/.my.cnf \
          --network=wca_default -w $WORK_DIR/python $PROJ_NAME ./$1
 }
