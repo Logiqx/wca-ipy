@@ -1,6 +1,6 @@
 export PROJ_DIR=$(realpath $(dirname $0)/..)
-export CONTAINER=$(basename $PROJ_DIR)
-export WORK_DIR=/home/jovyan/work/$CONTAINER
+export PROJ_NAME=$(basename $PROJ_DIR)
+export WORK_DIR=/home/jovyan/work/$PROJ_NAME
 
 run_py_script()
 {
@@ -9,5 +9,5 @@ run_py_script()
          --mount type=bind,src=$PROJ_DIR/data,dst=$WORK_DIR/data \
          --mount type=bind,src=$PROJ_DIR/docs,dst=$WORK_DIR/docs \
          --mount type=bind,src=$(realpath $PROJ_DIR/../wca-db/docker/mysql/.my.cnf),dst=/home/jovyan/.my.cnf \
-         --network=wca_default -w $WORK_DIR/python $CONTAINER ./$1
+         --network=wca_default -w $WORK_DIR/python $PROJ_NAME ./$1
 }
