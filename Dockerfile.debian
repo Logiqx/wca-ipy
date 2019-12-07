@@ -37,7 +37,7 @@ RUN groupadd -g ${PY_GID} ${PY_GROUP} && \
     chown ${PY_USER} /home/${PY_USER}/work
 
 # Environment variables used by the Python scripts
-ENV MYSQL_HOSTNAME=mariadb
+ENV MYSQL_HOST=mariadb
 ENV MYSQL_DATABASE=wca_ipy
 ENV MYSQL_USER=wca_ipy
 
