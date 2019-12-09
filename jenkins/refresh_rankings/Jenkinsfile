@@ -3,8 +3,7 @@ def runPyScript(pyScript) {
     sh """docker run --rm \
                      --mount type=volume,src=wca_ipy_data,dst=${PROJECT_ROOT}/data,readonly \
                      --mount type=volume,src=wca_ipy_docs,dst=${PROJECT_ROOT}/docs \
-                     -w ${PROJECT_ROOT}/python \
-                     ${IMAGE_NAME} ./""" + pyScript
+                     -w ${PROJECT_ROOT}/python ${IMAGE_NAME} ./""" + pyScript
 }
 
 pipeline {
