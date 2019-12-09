@@ -11,6 +11,8 @@ def startDatabase() {
 def stopDatabase() {
     sh """docker run --rm logiqx/aws-cli ec2 stop-instances \
                      --region ${MYSQL_REGION} --instance-ids ${MYSQL_INSTANCE}"""
+    sh """docker run --rm logiqx/aws-cli ec2 wait instance-stopped \
+                     --region ${MYSQL_REGION} --instance-ids ${MYSQL_INSTANCE}"""
 }
 
 def runPyScript(pyScript) {
