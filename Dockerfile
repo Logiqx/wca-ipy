@@ -46,5 +46,6 @@ RUN pip install --no-cache-dir sqlparse==0.3.* PyMySQL==0.9.*
 
 # Copy project files from the builder
 USER ${PY_USER}
-WORKDIR /home/${PY_USER}/work
-COPY --from=builder --chown=jovyan:jovyan /home/jovyan/work/ ./
+WORKDIR /home/${PY_USER}/work/wca-ipy
+COPY --from=builder --chown=jovyan:jovyan /home/jovyan/work/wca-ipy/* ./
+RUN mkdir data
