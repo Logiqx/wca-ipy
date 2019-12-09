@@ -10,7 +10,7 @@ def runPyScript(pyScript) {
 pipeline {
     agent any
     triggers {
-        upstream(upstreamProjects: "wca-ipy-format-extacts",
+        upstream(upstreamProjects: "wca-ipy-format-extracts",
                  threshold: hudson.model.Result.SUCCESS)
     }
     options {
