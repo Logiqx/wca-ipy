@@ -1,0 +1,41 @@
+def runPyScript(pyScript) {
+    env.PROJECT_ROOT = "${USER_HOME}/work/${IMAGE_NAME}"
+    sh """docker run --rm \
+                     --mount type=volume,src=wca_ipy_data,dst=${PROJECT_ROOT}/data,readonly \
+                     --mount type=volume,src=wca_ipy_docs,dst=${PROJECT_ROOT}/docs \
+                     -w ${PROJECT_ROOT}/python \
+                     ${IMAGE_NAME} ./""" + pyScript
+}
+
+pipeline {
+    agent any
+    triggers {
+        cron('0 */3 * * *')
+    }
+    options {
+        lock label: "Data+Docs"
+    }
+    environment {
+        IMAGE_NAME = "wca-ipy"
+        USER_HOME = '/home/jovyan'
+    }
+    stages {
+        stage('Refresh Comps') {
+            steps {
+                runPyScript('Future_Competitions.py')
+            }
+        }
+    }
+    post {
+        failure {
+            emailext(
+                to: "${EMAIL_RECIPIENTS}",
+                subject: "Failed Build: ${currentBuild.fullDisplayName}.",
+                body: """<p>FAILURE: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'</p>
+                         <p>See attachment for console output or visit this
+                            <a href=\"${env.BUILD_URL}\">link</a>.</p>""",
+                attachLog: true
+            )
+        }
+    }
+}

@@ -1,0 +1,113 @@
+def startDatabase() {
+    sh """docker run --rm logiqx/aws-cli ec2 start-instances \
+                     --region ${MYSQL_REGION} --instance-ids ${MYSQL_INSTANCE}"""
+    sh """docker run --rm logiqx/aws-cli ec2 wait instance-running \
+                     --region ${MYSQL_REGION} --instance-ids ${MYSQL_INSTANCE}"""
+    sh """docker run --mount type=bind,src=${MYSQL_CNF},dst=${USER_HOME}/.my.cnf \
+                     --rm wca-db mysqladmin ping --wait \
+                     --host=${MYSQL_HOST} --user=${MYSQL_USER} --connect_timeout=60"""
+}
+
+def stopDatabase() {
+    sh """docker run --rm logiqx/aws-cli ec2 stop-instances \
+                     --region ${MYSQL_REGION} --instance-ids ${MYSQL_INSTANCE}"""
+}
+
+def runPyScript(pyScript) {
+    env.PROJECT_ROOT = "${USER_HOME}/work/${IMAGE_NAME}"
+    sh """docker run --rm \
+                     --mount type=bind,src=${MYSQL_CNF},dst=${USER_HOME}/.my.cnf \
+                     --mount type=volume,src=wca_ipy_tst,dst=${PROJECT_ROOT}/data \
+                     -e MYSQL_HOST=${MYSQL_HOST} \
+                     -e MYSQL_DATABASE=${MYSQL_DATABASE} \
+                     -e MYSQL_USER=${MYSQL_USER} \
+                     -w ${PROJECT_ROOT}/python ${IMAGE_NAME}:${IMAGE_TAG} ./""" + pyScript
+}
+
+void setBuildStatus(String message, String state) {
+    step([
+        $class: "GitHubCommitStatusSetter",
+        reposSource: [$class: "ManuallyEnteredRepositorySource", url: "${GIT_REPO}"],
+        contextSource: [$class: "ManuallyEnteredCommitContextSource", context: "ci/jenkins"],
+        errorHandlers: [[$class: "ChangingBuildStatusErrorHandler", result: "UNSTABLE"]],
+        statusResultSource: [$class: "ConditionalStatusResultSource",
+            results: [[$class: "AnyBuildResult", message: message, state: state]]]
+    ])
+}
+
+pipeline {
+    agent any
+    triggers {
+        githubPush()
+    }
+    options {
+        lock resource: "DB"
+    }
+    environment {
+        GIT_REPO = 'https://github.com/Logiqx/wca-ipy.git'
+        IMAGE_NAME = "wca-ipy"
+        USER_HOME = '/home/jovyan'
+        MYSQL_DATABASE = 'wca_ipy_tst'
+        MYSQL_USER = 'wca_ipy_tst'
+    }
+    stages {
+        stage('Git Clone') {
+            steps {
+                git url: "${GIT_REPO}"
+            }
+        }
+        stage('Determine Tag') {
+            environment {
+                IMAGE_TAG = sh(script: 'git rev-parse --short=12 HEAD',
+                               returnStdout: true).trim()
+            }
+            stages {
+                stage('Docker Build') {
+                    steps {
+                        sh "docker build . -t ${IMAGE_NAME}:${IMAGE_TAG}"
+                    }
+                }
+                stage('Start Database') {
+                    steps {
+                        startDatabase()
+                    }
+                }
+                stage('Format Extracts') {
+                    steps {
+                        runPyScript('Format_Extracts.py')
+                    }
+                }
+                stage('Refresh Rankings') {
+                    steps {
+                        runPyScript('Indicative_Rankings.py')
+                        runPyScript('Partial_Rankings.py')
+                        runPyScript('Percentile_Rankings.py')
+                        runPyScript('Representative_Rankings.py')
+                    }
+                }
+                stage('Docker Tag') {
+                    steps {
+                        sh "docker tag $IMAGE_NAME:${IMAGE_TAG} $IMAGE_NAME:latest"
+                    }
+                }
+            }
+        }
+    }
+    post {
+        success {
+            setBuildStatus("Build succeeded", "SUCCESS")
+        }
+        failure {
+            setBuildStatus("Build failed", "FAILURE")
+            emailext(
+                to: "${EMAIL_RECIPIENTS}",
+                subject: "Failed Build: ${currentBuild.fullDisplayName}.",
+                body: """<p>FAILURE: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'</p>
+                         <p>See attachment for console output or visit this
+                            <a href=\"${env.BUILD_URL}\">link</a>.</p>""",
+                attachLog: true
+            )
+            stopDatabase()
+        }
+    }
+}
