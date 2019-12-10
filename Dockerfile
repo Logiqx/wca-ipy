@@ -36,13 +36,13 @@ RUN addgroup -g ${PY_GID} ${PY_GROUP} && \
     mkdir -p /home/${PY_USER}/work && \
     chown ${PY_USER} /home/${PY_USER}/work
 
+# Install Tini
+RUN apk add --no-cache tini=~0.18
+
 # Environment variables used by the Python scripts
 ENV MYSQL_HOST=mariadb
 ENV MYSQL_DATABASE=wca_ipy
 ENV MYSQL_USER=wca_ipy
-
-# Install Tini
-RUN apk add --no-cache tini=~0.18
 
 # Install Python libraries
 RUN pip install --no-cache-dir sqlparse==0.3.* PyMySQL==0.9.*

@@ -36,14 +36,14 @@ RUN groupadd -g ${PY_GID} ${PY_GROUP} && \
     mkdir -p /home/${PY_USER}/work && \
     chown ${PY_USER} /home/${PY_USER}/work
 
+# Install Tini
+RUN apt-get update && apt-get install -y --no-install-recommends tini=0.18.* \
+    && rm -rf /var/lib/apt/lists/*
+
 # Environment variables used by the Python scripts
 ENV MYSQL_HOST=mariadb
 ENV MYSQL_DATABASE=wca_ipy
 ENV MYSQL_USER=wca_ipy
-
-# Install Tini
-RUN apt-get update && apt-get install -y --no-install-recommends tini=0.18.* \
-    && rm -rf /var/lib/apt/lists/*
 
 # Install Python libraries
 RUN pip install --no-cache-dir beautifulsoup4==4.8.* lxml==4.4.* sqlparse==0.3.* PyMySQL==0.9.*
