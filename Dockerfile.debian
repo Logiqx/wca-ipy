@@ -47,5 +47,5 @@ RUN pip install --no-cache-dir beautifulsoup4==4.8.* lxml==4.4.* sqlparse==0.3.*
 # Copy project files from the builder
 USER ${PY_USER}
 WORKDIR /home/${PY_USER}/work/wca-ipy
-COPY --from=builder --chown=jovyan:jovyan /home/jovyan/work/wca-ipy/* ./
-RUN mkdir data
+COPY --from=builder --chown=jovyan:jovyan /home/jovyan/work/wca-ipy/ ./
+RUN mkdir data docs
