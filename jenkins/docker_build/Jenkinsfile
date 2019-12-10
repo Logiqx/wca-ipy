@@ -3,8 +3,8 @@ def startDatabase() {
                      --region ${MYSQL_REGION} --instance-ids ${MYSQL_INSTANCE}"""
     sh """docker run --rm logiqx/aws-cli ec2 wait instance-running \
                      --region ${MYSQL_REGION} --instance-ids ${MYSQL_INSTANCE}"""
-    sh """docker run --mount type=bind,src=${MYSQL_CNF},dst=${USER_HOME}/.my.cnf \
-                     --rm wca-db mysqladmin ping --wait \
+    sh """docker run --mount type=bind,src=${MYSQL_CNF},dst=/home/mysql/.my.cnf \
+                     --rm logiqx/mysql-client mysqladmin ping --wait \
                      --host=${MYSQL_HOST} --user=${MYSQL_USER} --connect_timeout=60"""
 }
 
