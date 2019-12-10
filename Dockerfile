@@ -41,6 +41,9 @@ ENV MYSQL_HOST=mariadb
 ENV MYSQL_DATABASE=wca_ipy
 ENV MYSQL_USER=wca_ipy
 
+# Install Tini
+RUN apk add --no-cache tini=~0.18
+
 # Install Python libraries
 RUN pip install --no-cache-dir sqlparse==0.3.* PyMySQL==0.9.*
 
@@ -49,3 +52,6 @@ USER ${PY_USER}
 WORKDIR /home/${PY_USER}/work/wca-ipy
 COPY --from=builder --chown=jovyan:jovyan /home/jovyan/work/wca-ipy/ ./
 RUN mkdir data docs
+
+# Wait for CMD to exit, reap zombies and perform signal forwarding
+ENTRYPOINT ["/sbin/tini", "--"]
