@@ -55,3 +55,4 @@ RUN mkdir data docs
 
 # Wait for CMD to exit, reap zombies and perform signal forwarding
 ENTRYPOINT ["/sbin/tini", "--"]
+CMD ["python"]
