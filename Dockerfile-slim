@@ -34,7 +34,7 @@ ARG PY_GID=1000
 RUN groupadd -g ${PY_GID} ${PY_GROUP} && \
     useradd -u ${PY_UID} ${PY_USER} -g ${PY_GROUP} && \
     mkdir -p /home/${PY_USER}/work && \
-    chown ${PY_USER} /home/${PY_USER}/work
+    chown -R ${PY_USER} /home/${PY_USER}
 
 # Install Tini
 RUN apt-get update && apt-get install -y --no-install-recommends tini=0.18.* \

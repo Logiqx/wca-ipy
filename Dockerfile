@@ -34,7 +34,7 @@ ARG PY_GID=1000
 RUN addgroup -g ${PY_GID} ${PY_GROUP} && \
     adduser -u ${PY_UID} --disabled-password ${PY_USER} -G ${PY_GROUP} && \
     mkdir -p /home/${PY_USER}/work && \
-    chown ${PY_USER} /home/${PY_USER}/work
+    chown -R ${PY_USER} /home/${PY_USER}
 
 # Install Tini
 RUN apk add --no-cache tini=~0.18
