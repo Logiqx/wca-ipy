@@ -43,11 +43,11 @@ pipeline {
         githubPush()
     }
     options {
-        lock resource: "DB"
+        lock resource: 'DB'
     }
     environment {
         GIT_REPO = 'https://github.com/Logiqx/wca-ipy.git'
-        IMAGE_NAME = "wca-ipy"
+        IMAGE_NAME = 'wca-ipy'
         USER_HOME = '/home/jovyan'
         MYSQL_DATABASE = 'wca_ipy_tst'
         MYSQL_USER = 'wca_ipy_tst'

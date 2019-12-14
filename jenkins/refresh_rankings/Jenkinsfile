@@ -13,10 +13,10 @@ pipeline {
                  threshold: hudson.model.Result.SUCCESS)
     }
     options {
-        lock label: "Data+Docs"
+        lock label: 'Data+Docs'
     }
     environment {
-        IMAGE_NAME = "wca-ipy"
+        IMAGE_NAME = 'wca-ipy'
         USER_HOME = '/home/jovyan'
     }
     stages {
