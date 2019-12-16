@@ -103,34 +103,20 @@ SELECT *,
     IF(numSeniorsDelta > 0, CEIL((numSeniorsLatest + 1) / (numSeniorsDelta + 1)), NULL) AS sampleFrequency
 FROM
 (
-  SELECT n1.eventId,
-    n1.numPersons AS numPersonsPrevious, n2.numPersons AS numPersonsLatest,
-    n3.numSeniors AS numSeniorsPrevious, n4.numSeniors AS numSeniorsLatest,
-    ROUND(n3.numSeniors * n2.numPersons / n1.numPersons) AS numSeniorsModel,
-    ROUND(n3.numSeniors * n2.numPersons / n1.numPersons) - n4.numSeniors AS numSeniorsDelta
+  SELECT e.eventId,
+    e.prevAverages AS numSeniorsPrevious, l.numSeniors AS numSeniorsLatest,
+    e.estAverages AS numSeniorsModel,
+    e.estAverages - l.numSeniors AS numSeniorsDelta
   -- Previous WCA averages were pre-calculated using the "Results" table
-  FROM EventStats n1
-  JOIN
-  (
-    -- Current WCA averages can uses the "Rankings" table for improved query speed
-    SELECT eventId, COUNT(*) AS numPersons
-    FROM wca.RanksAverage
-    GROUP BY eventId
-  ) AS n2 ON n2.eventId = n1.eventId
-  JOIN
-  (
-    -- Previous seniors averages uses the pre-calculated aggregate table
-    SELECT eventId, SUM(numSeniors) AS numSeniors
-    FROM SeniorAveragesPrevious
-    GROUP BY eventId
-  ) AS n3 ON n3.eventId = n1.eventId
+  FROM SeniorEstimates AS e
   JOIN
   (
     -- Latest seniors averages uses the pre-calculated aggregate table
     SELECT eventId, SUM(numSeniors) AS numSeniors
     FROM SeniorAveragesLatest
     GROUP BY eventId
-  ) AS n4 ON n4.eventId = n1.eventId
+  ) AS l ON l.eventId = e.eventId
+  WHERE ageCategory = 40
 ) AS t;
  
 ALTER TABLE EventModels ADD PRIMARY KEY (eventId);
