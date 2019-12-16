@@ -172,6 +172,7 @@ function renderTable(eventId, resultType, ageCategory, width)
 			out += '</tr>';
 			
 			var prevRank = 0;
+			var count = 0;
 
 			for (var rankIdx = 0; rankIdx < rankingObj.ranks.length; rankIdx++)
 			{
@@ -195,9 +196,12 @@ function renderTable(eventId, resultType, ageCategory, width)
 				out += '</tr>';
 
 				prevRank = rankObj.rank;
+				count += 1;
 			}
 
 			out += '</table></div>';
+			out += '<p>Estimated total number of seniors &#8776; ' + rankingObj.estimate + '</p>';
+			out += '<p>Estimated completeness of rankings &#8776; ' + (100 * count / rankingObj.estimate).toFixed(1) + '%</p>';
 		}
 	}
 	
