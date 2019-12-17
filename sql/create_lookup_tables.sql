@@ -77,3 +77,24 @@ INSERT INTO UserStatuses VALUES
 ('r', 'Registered', 'User registered for competition and has been matched via results'),
 ('p', 'Possible', 'User possible due to match on name and country'),
 ('n', 'Non-existent', 'User does not exist');
+
+/*
+    Continent Codes
+*/
+
+DROP TABLE IF EXISTS ContinentCodes;
+
+CREATE TABLE ContinentCodes
+(
+     `id` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
+     `cc` char(2) COLLATE utf8mb4_unicode_ci NOT NULL,
+     PRIMARY KEY (`id`)
+);
+
+INSERT INTO ContinentCodes VALUES
+('_Africa', 'AF'),
+('_Asia', 'AS'),
+('_Europe', 'EU'),
+('_North America', 'NA'),
+('_Oceania', 'OC'),
+('_South America', 'SA');
