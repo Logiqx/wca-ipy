@@ -105,8 +105,8 @@ FROM
 (
   SELECT e.eventId,
     e.prevAverages AS numSeniorsPrevious, l.numSeniors AS numSeniorsLatest,
-    e.estAverages AS numSeniorsModel,
-    e.estAverages - l.numSeniors AS numSeniorsDelta
+    IF(e.estAverages > l.numSeniors, e.estAverages, l.numSeniors) AS numSeniorsModel,
+    IF(e.estAverages > l.numSeniors, e.estAverages - l.numSeniors, 0) AS numSeniorsDelta
   -- Previous WCA averages were pre-calculated using the "Results" table
   FROM SeniorEstimates AS e
   JOIN
@@ -121,7 +121,14 @@ FROM
  
 ALTER TABLE EventModels ADD PRIMARY KEY (eventId);
 
--- Hack to disable upsampling - UPDATE EventModels SET sampleFrequency = NULL;
+/*
+   Fix senior estimates if they are too low
+*/
+
+UPDATE SeniorEstimates AS e
+JOIN EventModels AS m ON m.eventId = e.eventId
+SET e.estAverages = IF(estAverages > numSeniorsModel, estAverages, numSeniorsModel)
+WHERE ageCategory = 40;
 
 /*
    Create aggregation of senior results using basic upsampling
