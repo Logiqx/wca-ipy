@@ -200,8 +200,12 @@ function renderTable(eventId, resultType, ageCategory, width)
 			}
 
 			out += '</table></div>';
-			out += '<p>Estimated total number of seniors &#8776; ' + rankingObj.estimate + '</p>';
-			out += '<p>Estimated completeness of rankings &#8776; ' + (100 * count / rankingObj.estimate).toFixed(1) + '%</p>';
+
+			if (rankingObj.hasOwnProperty("estimate"))
+			{
+				out += '<p>Estimated number of seniors &#8776; ' + rankingObj.estimate + '</p>';
+				out += '<p>Estimated completeness of rankings &#8776; ' + (100 * count / rankingObj.estimate).toFixed(1) + '%</p>';
+			}
 		}
 	}
 	
