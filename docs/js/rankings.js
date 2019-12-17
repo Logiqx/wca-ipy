@@ -335,8 +335,8 @@ function renderTable(eventId, resultType, ageCategory, continentId, countryId, w
 	
 	if (continentId != "XX" || countryId != "XX")
 	{
-		out += '<p class="important">IMPORTANT: The continent and country filters do not provide any insights into missing seniors.</p>';
-		out += '<p class="important">This information can only be regarded as the relative positions of known seniors, hence the lack of any numbering.</p>';
+		out += '<p class="important">DISCLAIMER: The continent and country filters do not provide any insights into missing seniors.</p>';
+		out += '<p class="important">This information should only be regarded as the relative positions of known seniors, hence the lack of numbering.</p>';
 	}
 
 	for (var rankingIdx = 0; rankingIdx < eventObj.rankings.length; rankingIdx++)
