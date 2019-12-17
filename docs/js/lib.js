@@ -120,11 +120,12 @@ function getViewportHeight()
 }
 
 //
-// Lists of events / persons / countries to be used as indices
+// Lists of events / persons / countries / continents to be used as indices
 //
 var eventIds = [];
 var personIds = [];
 var countryIds = [];
+var continentIds = [];
 
 // Populate pseudo dictionary as an index for the events
 // Map() would be better / faster but it doesn't work on my iPad!
@@ -176,6 +177,22 @@ function getCountryIds()
 	return countryIds;
 }
 
+//
+// Populate pseudo dictionary as an index for the continents
+// Map() would be better / faster but it doesn't work on my iPad!
+//
+function getContinentIds()
+{
+	if (continentIds.length == 0)
+	{
+		for (var continentIdx = 0; continentIdx < rankings.continents.length; continentIdx++)
+		{
+			continentIds.push(rankings.continents[continentIdx].id);
+		}
+	}
+	
+	return continentIds;
+}
 
 // Determine the result types for all events - single, average or both
 //
@@ -579,10 +596,22 @@ function switchView()
 	var resultType = resultTypeElement.options[resultTypeElement.selectedIndex].value;
 	var ageCategoryElement = document.getElementById("ageCategory");
 	var ageCategory = ageCategoryElement.options[ageCategoryElement.selectedIndex].value;
+	var continentIdElement = document.getElementById("continentId");
+	var continentId = continentIdElement.options[continentIdElement.selectedIndex].value.toLowerCase();
+	var countryIdElement = document.getElementById("countryId");
+	var countryId = countryIdElement.options[countryIdElement.selectedIndex].value.toLowerCase();
 
 	// Prepare the hash
 	var hash = "#";
-	if (ageCategory > 40)
+	if (countryId != "xx")
+	{
+		hash += eventId + "-" + resultType + "-" + ageCategory + "-" + continentId + "-" + countryId;
+	}
+	else if (continentId != "xx")
+	{
+		hash += eventId + "-" + resultType + "-" + ageCategory + "-" + continentId;
+	}
+	else if (ageCategory > 40)
 	{
 		hash += eventId + "-" + resultType + "-" + ageCategory;
 	}
