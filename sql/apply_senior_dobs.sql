@@ -7,7 +7,7 @@
 */
 
 -- Start with default YMD of zero
-UPDATE Persons AS p
+UPDATE wca.Persons AS p
 SET p.year = 0,
     p.month = 0,
     p.day = 0;
