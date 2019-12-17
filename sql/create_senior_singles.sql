@@ -33,7 +33,7 @@ FROM
       TIMESTAMPDIFF(YEAR, s.dob, DATE_FORMAT(CONCAT(c.year, '-', c.month, '-', c.day), '%Y-%m-%d')) AS age_at_comp
     FROM wca.Results AS r
     INNER JOIN wca.Competitions AS c ON r.competitionId = c.id
-    INNER JOIN Seniors AS s ON s.personId = r.personId AND YEAR(dob) <= YEAR(CURDATE()) - 40 AND hidden = 'N'
+    INNER JOIN Seniors AS s ON s.personId = r.personId AND YEAR(dob) <= YEAR(CURDATE()) - 40 AND hidden = 'n'
     WHERE best > 0
     HAVING age_at_comp >= 40
   ) AS tmp_results

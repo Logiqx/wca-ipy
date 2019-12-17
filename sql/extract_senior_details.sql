@@ -14,7 +14,7 @@ FROM
     FLOOR(TIMESTAMPDIFF(YEAR, dob, DATE_FORMAT(CONCAT(c.year, '-', c.month, '-', c.day), '%Y-%m-%d')) / 10) * 10 AS ageCategory
   FROM wca.Results AS r
   INNER JOIN wca.Competitions AS c ON r.competitionId = c.id
-  INNER JOIN Seniors AS s ON s.personId = r.personId AND YEAR(dob) <= YEAR(CURDATE()) - 40 AND hidden = 'N'
+  INNER JOIN Seniors AS s ON s.personId = r.personId AND YEAR(dob) <= YEAR(CURDATE()) - 40 AND hidden = 'n'
   HAVING ageCategory >= 40
 ) AS t
 INNER JOIN Seniors AS s ON s.personId = t.personId

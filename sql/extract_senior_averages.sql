@@ -14,7 +14,7 @@ FROM
     FLOOR(TIMESTAMPDIFF(YEAR, dob, DATE_FORMAT(CONCAT(c.year, '-', c.month, '-', c.day), '%Y-%m-%d')) / 10) * 10 AS ageCategory
   FROM wca.Results AS r
   INNER JOIN wca.Competitions AS c ON c.id = r.competitionId
-  INNER JOIN Seniors AS s ON s.personId = r.personId AND YEAR(dob) <= YEAR(CURDATE()) - 40 AND hidden = 'N'
+  INNER JOIN Seniors AS s ON s.personId = r.personId AND YEAR(dob) <= YEAR(CURDATE()) - 40 AND hidden = 'n'
   WHERE average > 0
   HAVING ageCategory >= 40
 ) AS t
@@ -41,7 +41,7 @@ FROM
   ) tmp_prs
 ) AS r
 INNER JOIN Seniors AS s ON s.personId = r.personId
-WHERE r.hidden = 'N'
+WHERE r.hidden = 'n'
 ORDER BY eventId, rankNo, name;
 
 -- Extract indicative senior averages (aggregated)

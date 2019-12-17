@@ -176,7 +176,7 @@ FROM
   GROUP BY eventId, personId, age_at_comp
   UNION ALL
   -- Synthetic results are all assigned a surrogate personId
-  SELECT eventId, ROW_NUMBER() OVER() AS personId, 'Y' AS hidden, ROUND(100 * (result + (seq - 0.5) / numUnknown)) AS best_average, 40 AS age_at_comp
+  SELECT eventId, ROW_NUMBER() OVER() AS personId, 'y' AS hidden, ROUND(100 * (result + (seq - 0.5) / numUnknown)) AS best_average, 40 AS age_at_comp
   FROM
   (
     SELECT a.eventId, a.result, a.numSeniors - IFNULL(k.numSeniors, 0) AS numUnknown

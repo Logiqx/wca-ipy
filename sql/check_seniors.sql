@@ -66,7 +66,7 @@ WHERE usernum = 0;
 -- List hidden seniors (typically women)
 SELECT 'Hidden' AS label, s.*
 FROM SeniorDetails AS s
-WHERE hidden = 'Y'
+WHERE hidden = 'y'
 AND sourceId NOT IN ('D', 'H');
 
 -- Imprecise DOBs
@@ -131,10 +131,10 @@ ORDER BY numCompSeniors DESC, sourceType, hidden, accuracyType;
 -- Summarise hidden seniors (typically women)
 SELECT sourceType, hidden, accuracyType, SUM(IF(ageToday >= 40, 1, 0)) AS numSeniors, SUM(IF(ageLastComp >= 40, 1, 0)) AS numCompSeniors
 FROM SeniorDetails AS s
-WHERE hidden = 'Y'
+WHERE hidden = 'y'
 GROUP BY sourceType, hidden, accuracyType
 ORDER BY numCompSeniors DESC, sourceType, hidden, accuracyType;
 
 -- Count of "active" seniors
-SELECT COUNT(*) as numSeniors, SUM(IF(ageLastComp >= 40, 1, 0)) AS numActiveSeniors, SUM(IF(ageLastComp >= 40 AND hidden = 'N', 1, 0)) AS numListedSeniors
+SELECT COUNT(*) as numSeniors, SUM(IF(ageLastComp >= 40, 1, 0)) AS numActiveSeniors, SUM(IF(ageLastComp >= 40 AND hidden = 'n', 1, 0)) AS numListedSeniors
 FROM SeniorDetails;
