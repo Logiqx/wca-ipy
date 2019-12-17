@@ -90,7 +90,7 @@ function renderOptions(eventId, resultType, ageCategory, continentId, countryId,
 	{
 		out += " selected";
 	}
-	out += "></option>";
+	out += ">All Continents</option>";
 	for (var i = 0; i < continentIds.length; i++)
 	{
 		if (filteredContinents.indexOf(continentIds[i]) >= 0)
@@ -119,7 +119,7 @@ function renderOptions(eventId, resultType, ageCategory, continentId, countryId,
 	{
 		out += " selected";
 	}
-	out += "></option>";
+	out += ">All Countries</option>";
 	for (var i = 0; i < countryIds.length; i++)
 	{
 		if (filteredCountries.indexOf(countryIds[i]) >= 0)
@@ -335,8 +335,8 @@ function renderTable(eventId, resultType, ageCategory, continentId, countryId, w
 	
 	if (continentId != "XX" || countryId != "XX")
 	{
-		out += '<p class="important">IMPORTANT: The continent and country filters do not provide any information relating to missing seniors.</p>';
-		out += '<p class="important">This information should should only be regarded as the relative positions of known seniors, hence the lack of any numbering.</p>';
+		out += '<p class="important">IMPORTANT: The continent and country filters do not provide any insights into missing seniors.</p>';
+		out += '<p class="important">This information can only be regarded as the relative positions of known seniors, hence the lack of any numbering.</p>';
 	}
 
 	for (var rankingIdx = 0; rankingIdx < eventObj.rankings.length; rankingIdx++)
