@@ -7,6 +7,12 @@
 */
 
 /*
+   Drop Seniors
+*/
+
+DROP TABLE IF EXISTS Seniors;
+
+/*
    Senior Sources
 */
 
