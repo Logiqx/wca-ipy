@@ -34,7 +34,7 @@ h2 {
 }
 
 .dropdowns table th, .dropdowns table td {
-  padding: 3px 6px;
+  padding: 3px 6px 0px 0px;
 }
 
 .rankings table th, .rankings table td {
@@ -58,8 +58,8 @@ h2 {
     max-width: 1012px;
     margin-right: auto;
     margin-left: auto;
-    padding-right: 8px;
-    padding-left: 8px;
+    padding-right: 0px;
+    padding-left: 0px;
 }
 
 .container img {

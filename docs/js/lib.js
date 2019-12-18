@@ -96,6 +96,8 @@ function footer()
 // iPhone, iPhone 3G, iPhone 4 					portrait = 320, landscape = 480		aspect = 1:1.500
 //
 // N.B. "const" was not supported prior to IE11, hence the use of "var"
+var COMMON_LANDSCAPE = 1080;
+var COMMON_PORTRAIT = 720;
 var IPAD_LANDSCAPE = 1024;
 var IPAD_PORTRAIT = 768;
 var GALAXY_S3_LANDSCAPE = 640;
