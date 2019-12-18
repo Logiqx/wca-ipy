@@ -333,12 +333,6 @@ function renderTable(eventId, resultType, ageCategory, continentId, countryId, w
 
 	var eventObj = rankings.events[getEventIds().indexOf(eventId)];
 	
-	if (continentId != "XX" || countryId != "XX")
-	{
-		out += '<p class="important">DISCLAIMER: The continent and country filters do not provide any insights into missing seniors.</p>';
-		out += '<p class="important">This information should only be regarded as the relative positions of known seniors, hence the lack of numbering.</p>';
-	}
-
 	for (var rankingIdx = 0; rankingIdx < eventObj.rankings.length; rankingIdx++)
 	{
 		var rankingObj = eventObj.rankings[rankingIdx];
@@ -347,10 +341,7 @@ function renderTable(eventId, resultType, ageCategory, continentId, countryId, w
 		{
 			out += '<div class=\"rankings\"><table>';
 			out += '<tr>';
-			if (continentId == "XX" && countryId == "XX")
-			{
-				out += '<th class=\"rank\">Rank</th>';
-			}
+			out += '<th class=\"rank\">Rank</th>';
 			out += '<th>Person</th>';
 			if (width >= IPHONE_LANDSCAPE)
 			{
@@ -359,8 +350,13 @@ function renderTable(eventId, resultType, ageCategory, continentId, countryId, w
 			out += '<th>Result</th>';
 			out += '</tr>';
 			
-			var prevRank = 0;
+			var prevBest = 0;
 			var count = 0;
+			var ratio = 0;
+
+			var filterCount = 0;
+			var filterPrev = 0;
+			var filterAdj = 0;
 
 			for (var rankIdx = 0; rankIdx < rankingObj.ranks.length; rankIdx++)
 			{
@@ -368,14 +364,28 @@ function renderTable(eventId, resultType, ageCategory, continentId, countryId, w
 				var personObj = rankings.persons[personIds.indexOf(rankObj.id)]
 				var countryObj = rankings.countries[countryIds.indexOf(personObj.country)]
 
+				count++;
+				if (rankObj.best != prevBest)
+				{
+					ratio = rankObj.rank / count;
+				}
+
 				if ((continentId == "XX" || countryObj.continent == continentId) &&
 					(countryId == "XX" || countryObj.id == countryId))
 				{
+					filterCount++;
+
 					out += '<tr>';
-					if (continentId == "XX" && countryId == "XX")
+					if (rankObj.best != filterPrev)
 					{
-						out += '<td class=\"rank\">' + (rankObj.rank > prevRank ? rankObj.rank : '') + '</td>';
+						filterAdj = Math.max(filterAdj, (filterCount * ratio).toFixed(0) - filterCount);
+						out += '<td class=\"rank\">' + (filterCount + filterAdj) + '</td>';
 					}
+					else
+					{
+						out += '<td class=\"rank\"></td>';
+					}
+
 					var href = '<a href=\"https://www.worldcubeassociation.org/persons/' + rankObj.id + '?event=' + eventId + '\">' + personObj.name + '</a>';
 					if (width >= IPHONE_LANDSCAPE)
 					{
@@ -389,9 +399,10 @@ function renderTable(eventId, resultType, ageCategory, continentId, countryId, w
 					out += '<td class=\"result\">' + rankObj.best + '</td>';
 					out += '</tr>';
 
-					prevRank = rankObj.rank;
+					filterPrev = rankObj.best;
 				}
-				count += 1;
+
+				prevBest = rankObj.best;
 			}
 
 			out += '</table></div>';
@@ -402,6 +413,10 @@ function renderTable(eventId, resultType, ageCategory, continentId, countryId, w
 				{
 					out += '<p>Estimated number of seniors &#8776; ' + rankingObj.estimate + '</p>';
 					out += '<p>Estimated completeness of rankings &#8776; ' + (100 * count / rankingObj.estimate).toFixed(1) + '%</p>';
+				}
+				else if (ratio > 1)
+				{
+					out += '<p>NOTE: The ranks have been calculated using any existing knowledge of missing seniors (worldwide).</p>';
 				}
 			}
 		}
