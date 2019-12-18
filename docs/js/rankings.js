@@ -379,6 +379,10 @@ function renderTable(eventId, resultType, ageCategory, continentId, countryId, w
 					if (rankObj.best != filterPrev)
 					{
 						filterAdj = Math.max(filterAdj, (filterCount * ratio).toFixed(0) - filterCount);
+						if (continentId != "XX" || countryId != "XX")
+						{
+							filterAdj = filterAdj > 1 ? filterAdj - 1 : 0;
+						}
 						out += '<td class=\"rank\">' + (filterCount + filterAdj) + '</td>';
 					}
 					else
