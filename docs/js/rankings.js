@@ -9,7 +9,7 @@ function renderOptions(eventId, resultType, ageCategory, continentId, countryId,
 
 	var out = "";
 
-	if (width >= GALAXY_S3_LANDSCAPE)
+	if (width >= IPAD_PORTRAIT)
 	{
 		out += "<div class=\"dropdowns\"><p><table><tr><th>Event:</th><th>Result:</th><th>Age:</th><th>Continent:</th><th>Country:</th></tr><tr>";
 	}
@@ -73,7 +73,7 @@ function renderOptions(eventId, resultType, ageCategory, continentId, countryId,
 	}
 	out += "</select></td>";
 
-	if (width < GALAXY_S3_LANDSCAPE && width >= GALAXY_S3_PORTRAIT)
+	if (width < IPAD_PORTRAIT && width >= GALAXY_S3_PORTRAIT)
 	{
 		out += "</tr></table></p></div><div class=\"dropdowns\"><p><table><tr><th>Continent:</th><th>Country:</th></tr><tr>";
 	}
