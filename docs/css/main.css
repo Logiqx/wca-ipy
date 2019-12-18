@@ -19,12 +19,12 @@ table th {
 }
 
 h1 {
-  font-size: 30px;
+  font-size: 28px;
   font-weight: 600;
 }
 
 h2 {
-  font-size: 24px;
+  font-size: 22px;
   font-weight: 600;
 }
 
@@ -55,7 +55,7 @@ h2 {
 }
 
 .container {
-    max-width: 1012px;
+    max-width: 1200px;
     margin-right: auto;
     margin-left: auto;
     padding-right: 0px;
