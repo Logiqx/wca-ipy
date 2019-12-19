@@ -1,10 +1,11 @@
 body {
   font-family: -apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
-  font-size: 14px;
+  font-size: 15px;
   line-height: 1.5;
   word-wrap: break-word;
 }
 
+/* Use 16px font for dropdowns to ensure iPhone does not zoom */
 select {
   font-size: 16px;
 }
@@ -28,6 +29,15 @@ h2 {
   font-weight: 600;
 }
 
+a:link {
+  text-decoration: none;
+  color: #e64503;
+}
+
+a:visited {
+  color: #e64503;
+}
+
 .important {
   color: #d00000;
   font-weight: 600;
@@ -37,6 +47,35 @@ h2 {
   padding: 3px 6px 0px 0px;
 }
 
+.dropdowns table td.event {
+  width: 180px;
+}
+
+.dropdowns table td.result {
+  min-width: 85px;
+}
+
+.dropdowns table td.age {
+  min-width: 85px;
+}
+
+.dropdowns table td.continent {
+  min-width: 130px;
+}
+
+.dropdowns table td.country {
+  width: 210px;
+}
+
+.dropdowns select {
+  width: 100%;
+}
+
+.rankings table {
+  font-size: 14px;
+  width: 100%;
+}
+
 .rankings table th, .rankings table td {
   padding: 6px 13px;
   border: 1px solid #dfe2e5;
@@ -44,6 +83,10 @@ h2 {
 
 .rankings table tr:nth-child(2n) {
   background-color: #f6f8fa;
+}
+
+.rankings table tr:hover td {
+  background: LightYellow;
 }
 
 .rankings table th.rank, .rankings table td.rank {

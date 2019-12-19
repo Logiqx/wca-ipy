@@ -24,7 +24,7 @@ function renderOptions(eventId, resultType, ageCategory, continentId, countryId,
 	{
 		out += "<div class=\"dropdowns\"><table><tr><th>Event:</th>";
 	}
-	out += "<td><select id=\"eventId\" onChange=\"switchView()\">";
+	out += "<td class=\"event\"><select id=\"eventId\" onChange=\"switchView()\">";
 	for (var eventIdx = 0; eventIdx < filteredEvents.length; eventIdx++)
 	{
 		var eventObj = rankings.events[getEventIds().indexOf(filteredEvents[eventIdx])];
@@ -43,7 +43,7 @@ function renderOptions(eventId, resultType, ageCategory, continentId, countryId,
 	{
 		out += "</tr><tr><th>Result:</th>";
 	}
-	out += "<td><select id=\"resultType\" onChange=\"switchView()\">";
+	out += "<td class=\"result\"><select id=\"resultType\" onChange=\"switchView()\">";
 	for (var i = 0; i < resultTypes.length; i++)
 	{
 		out += "<option value=\"" + resultTypes[i] + "\"";
@@ -61,7 +61,7 @@ function renderOptions(eventId, resultType, ageCategory, continentId, countryId,
 	{
 		out += "</tr><tr><th>Age:</th>";
 	}
-	out += "<td><select id=\"ageCategory\" onChange=\"switchView()\">";
+	out += "<td class=\"age\"><select id=\"ageCategory\" onChange=\"switchView()\">";
 	for (var i = 0; i < ageCategories.length; i++)
 	{
 		out += "<option value=\"" + ageCategories[i] + "\"";
@@ -84,7 +84,7 @@ function renderOptions(eventId, resultType, ageCategory, continentId, countryId,
 	{
 		out += "</tr><tr><th>Continent:</th>";
 	}
-	out += "<td><select id=\"continentId\" onChange=\"switchView()\">";
+	out += "<td class=\"continent\"><select id=\"continentId\" onChange=\"switchView()\">";
 	out += "<option value=\"xx\"";
 	if (continentId == "xx")
 	{
@@ -113,7 +113,7 @@ function renderOptions(eventId, resultType, ageCategory, continentId, countryId,
 	{
 		out += "</tr><tr><th>Country:</th>";
 	}
-	out += "<td><select id=\"countryId\" onChange=\"switchView()\">";
+	out += "<td class=\"country\"><select id=\"countryId\" onChange=\"switchView()\">";
 	out += "<option value=\"xx\"";
 	if (countryId == "xx")
 	{
@@ -347,7 +347,7 @@ function renderTable(eventId, resultType, ageCategory, continentId, countryId, w
 			{
 				out += '<th>Country</th>';
 			}
-			out += '<th>Result</th>';
+			out += '<th class=\"result\">Result</th>';
 			out += '</tr>';
 			
 			var prevBest = 0;
@@ -417,7 +417,11 @@ function renderTable(eventId, resultType, ageCategory, continentId, countryId, w
 				}
 				else if (ratio > 1)
 				{
-					out += '<p>NOTE: The ranks have been calculated using any existing knowledge of missing seniors (worldwide).</p>';
+					out += '<p>NOTE: The ranks have been estimated using knowledge of missing seniors (worldwide).</p>';
+				}
+				else
+				{
+					out += '<p>NOTE: The number of seniors cannot be estimated for this continent / country.</p>';
 				}
 			}
 		}
