@@ -5,11 +5,6 @@ body {
   word-wrap: break-word;
 }
 
-/* Use 16px font for dropdowns to ensure iPhone does not zoom */
-select {
-  font-size: 16px;
-}
-
 table {
   border-collapse: collapse
 }
@@ -43,31 +38,62 @@ a:visited {
   font-weight: 600;
 }
 
-.dropdowns table th, .dropdowns table td {
+.dd16 table th, .dd16 table td {
   padding: 3px 6px 0px 0px;
 }
 
-.dropdowns table td.event {
+.dd16 table td.event {
   width: 175px;
 }
 
-.dropdowns table td.result {
+.dd16 table td.result {
   min-width: 80px;
 }
 
-.dropdowns table td.age {
+.dd16 table td.age {
   min-width: 80px;
 }
 
-.dropdowns table td.continent {
+.dd16 table td.continent {
   min-width: 130px;
 }
 
-.dropdowns table td.country {
+.dd16 table td.country {
   width: 210px;
 }
 
-.dropdowns select {
+.dd16 select {
+  /* Use 16px font for dropdowns to ensure iPhone does not zoom */
+  font-size: 16px;
+  width: 100%;
+}
+
+.dd14 table th, .dd14 table td {
+  padding: 3px 6px 0px 0px;
+}
+
+.dd14 table td.event {
+  min-width: 155px;
+}
+
+.dd14 table td.result {
+  min-width: 75px;
+}
+
+.dd14 table td.age {
+  min-width: 75px;
+}
+
+.dd14 table td.continent {
+  min-width: 115px;
+}
+
+.dd14 table td.country {
+  min-width: 180px;
+}
+
+.dd14 select {
+  font-size: 14px;
   width: 100%;
 }
 

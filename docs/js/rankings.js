@@ -6,23 +6,25 @@ function renderOptions(eventId, resultType, ageCategory, continentId, countryId,
 	var personIds = getPersonIds();
 	var countryIds = getCountryIds();
 	var continentIds = getContinentIds();
+	var dropDownClass = navigator.userAgent.indexOf("iPhone") >= 0 ? "dd16" : "dd14";
 
 	var out = "";
 
-	if (width >= COMMON_PORTRAIT)
+	if (dropDownClass == "dd16" && width >= COMMON_PORTRAIT ||
+		dropDownClass == "dd14" && width >= GALAXY_S3_LANDSCAPE)
 	{
-		out += "<div class=\"dropdowns\"><p><table><tr><th>Event:</th><th>Result:</th><th>Age:</th><th>Continent:</th><th>Country:</th></tr><tr>";
+		out += "<div class=\"" + dropDownClass + "\"><p><table><tr><th>Event:</th><th>Result:</th><th>Age:</th><th>Continent:</th><th>Country:</th></tr><tr>";
 	}
 	else if (width >= GALAXY_S3_PORTRAIT)
 	{
-		out += "<div class=\"dropdowns\"><p><table><tr><th>Event:</th><th>Result:</th><th>Age:</th></tr><tr>";
+		out += "<div class=\"" + dropDownClass + "\"><p><table><tr><th>Event:</th><th>Result:</th><th>Age:</th></tr><tr>";
 	}
 	
 	// Create select element for available events
 	var filteredEvents = filterEventIds(resultType, ageCategory, continentId, countryId);
 	if (width < GALAXY_S3_PORTRAIT)
 	{
-		out += "<div class=\"dropdowns\"><table><tr><th>Event:</th>";
+		out += "<div class=\"" + dropDownClass + "\"><table><tr><th>Event:</th>";
 	}
 	out += "<td class=\"event\"><select id=\"eventId\" onChange=\"switchView()\">";
 	for (var eventIdx = 0; eventIdx < filteredEvents.length; eventIdx++)
@@ -73,9 +75,10 @@ function renderOptions(eventId, resultType, ageCategory, continentId, countryId,
 	}
 	out += "</select></td>";
 
-	if (width < COMMON_PORTRAIT && width >= GALAXY_S3_PORTRAIT)
+	if (dropDownClass == "dd16" && width < COMMON_PORTRAIT && width >= GALAXY_S3_PORTRAIT ||
+		dropDownClass == "dd14" && width < GALAXY_S3_LANDSCAPE && width >= GALAXY_S3_PORTRAIT)
 	{
-		out += "</tr></table></p></div><div class=\"dropdowns\"><p><table><tr><th>Continent:</th><th>Country:</th></tr><tr>";
+		out += "</tr></table></p></div><div class=\"" + dropDownClass + "\"><p><table><tr><th>Continent:</th><th>Country:</th></tr><tr>";
 	}
 
 	// Create select element for available continents
