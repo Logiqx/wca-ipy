@@ -48,15 +48,15 @@ a:visited {
 }
 
 .dropdowns table td.event {
-  width: 180px;
+  width: 175px;
 }
 
 .dropdowns table td.result {
-  min-width: 85px;
+  min-width: 80px;
 }
 
 .dropdowns table td.age {
-  min-width: 85px;
+  min-width: 80px;
 }
 
 .dropdowns table td.continent {
