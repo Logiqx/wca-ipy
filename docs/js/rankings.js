@@ -390,11 +390,12 @@ function renderTable(eventId, resultType, ageCategory, continentId, countryId, w
 					if (width >= IPHONE_LANDSCAPE)
 					{
 						out += '<td>' + href + (rankObj.hasOwnProperty("age") ? ', ' + rankObj.age + '+' : '') + '</td>';
-						out += '<td>' + countryObj.name + '</td>';
+						out += '<td><i class="flag flag-' + countryObj.id + '"></i>&nbsp;' + countryObj.name + '</td>';
 					}
 					else
 					{
-						out += '<td>' + href + ', ' + countryObj.name + (rankObj.hasOwnProperty("age") ? ', ' + rankObj.age + '+' : '') + '</td>';
+						out += '<td>' + href + '<br/><i class="flag flag-' + countryObj.id + '"></i>&nbsp;' + countryObj.name +
+							(rankObj.hasOwnProperty("age") ? ', ' + rankObj.age + '+' : '') + '</td>';
 					}
 					out += '<td class=\"result\">' + rankObj.best + '</td>';
 					out += '</tr>';
