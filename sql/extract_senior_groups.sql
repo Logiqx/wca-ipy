@@ -13,11 +13,7 @@
               It is NOT practicable to determine which persons have contributed to the group means.
 */
 
-/*
-   Extract senior group means (averages)
-*/
-
-SELECT eventId, age_category, group_no, COUNT(*) AS group_size, IF(COUNT(*) >= 4, FLOOR(AVG(best)), NULL) AS group_avg
+SELECT CURDATE() AS run_date, eventId, "average" AS result, age_category, group_no, COUNT(*) AS group_size, IF(COUNT(*) >= 4, FLOOR(AVG(best)), NULL) AS group_avg
 FROM
 (
   SELECT personId, eventId, age_category, best,
@@ -50,13 +46,11 @@ FROM
     GROUP BY personId, eventId, age_category
   ) AS senior_bests
 ) AS group_bests
-GROUP BY eventId, age_category, group_no;
+GROUP BY eventId, age_category, group_no
 
-/*
-   Extract senior group means (singles)
-*/
+UNION ALL
 
-SELECT eventId, age_category, group_no, COUNT(*) AS group_size, IF(COUNT(*) >= 4, FLOOR(AVG(best)), NULL) AS group_avg
+SELECT CURDATE() AS run_date, eventId, "single" AS result, age_category, group_no, COUNT(*) AS group_size, IF(COUNT(*) >= 4, FLOOR(AVG(best)), NULL) AS group_avg
 FROM
 (
   SELECT personId, eventId, age_category, best,
