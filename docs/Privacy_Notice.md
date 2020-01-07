@@ -26,6 +26,8 @@ We currently collect and process the following information:
 - Public information from the WCA; name, nationality, gender and competition results
 - Additional information (where provided); full date of birth or partial date of birth (e.g. year and month or year alone)
 
+We do <u>not</u> hold personal information such as address, e-mail or phone number.
+
 
 
 ### How we get the information and why we have it
@@ -37,7 +39,7 @@ Most of the personal information we process is provided to us directly by you fo
 We also receive personal information indirectly, from the following sources in the following scenarios:
 
 - Request to be added to the senior rankings via a friend or family member
-- Activity via the WCA, Speedsolving.com or Facebook
+- Public activity through the WCA, Speedsolving.com or Facebook
 
 
 Under the General Data Protection Regulation (GDPR), the lawful bases we rely on for processing this information are:
@@ -50,15 +52,15 @@ Under the General Data Protection Regulation (GDPR), the lawful bases we rely on
 
 ### What we do with the information we have
 
-We use the information that we have in order to maintain unofficial rankings for the senior cubing community, produced from official WCA competition results.
+We use the information that we have in order to maintain unofficial rankings for the senior cubing community, produced from official WCA competition results. Your DOB (or partial DOB) is used to identify any applicable results at official WCA competitions.
 
-We may share information with the WCA or any other individual / body where it is in the interests of the senior cubing community.
+We may share information with the WCA or any other responsible organisation in the interests of the senior cubing community but your privacy will always be treated as the highest priority.
 
 
 
 ### How we store your information
 
-Your information is stored on a single laptop and securely backed up using [Carbonite](https://www.carbonite.com/).
+Your personal information is stored securely on a personal laptop (development), [GitHub](https://github.com/) (version control) and [AWS](https://aws.amazon.com/) (production). These environments are protected by two-factor authentication and full disk encryption.
 
 We keep your information for as long as your remain a member of the WCA. We will dispose your information via a manual removal process, if your WCA profile is removed.
 
