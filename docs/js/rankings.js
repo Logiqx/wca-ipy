@@ -346,7 +346,8 @@ function renderTable(eventId, resultType, ageCategory, continentId, countryId, w
 			out += '<div class=\"rankings\"><table>';
 			out += '<tr>';
 			out += '<th class=\"rank\">Rank</th>';
-			out += '<th>Person</th>';
+			out += '<th>Name</th>';
+			out += '<th class=\"result\">Result</th>';
 			if (width >= IPHONE_LANDSCAPE)
 			{
 				out += '<th>Citizen of</th>';
@@ -355,7 +356,6 @@ function renderTable(eventId, resultType, ageCategory, continentId, countryId, w
 			{
 				out += '<th>Competition</th>';
 			}
-			out += '<th class=\"result\">Result</th>';
 			out += '</tr>';
 			
 			var prevBest = 0;
@@ -412,6 +412,7 @@ function renderTable(eventId, resultType, ageCategory, continentId, countryId, w
 					if (width >= IPHONE_LANDSCAPE)
 					{
 						out += '<td>' + href + (rankObj.hasOwnProperty("age") ? ', ' + rankObj.age + '+' : '') + '</td>';
+						out += '<td class=\"result\">' + rankObj.best + '</td>';
 						out += '<td><i class="flag flag-' + countryObj.id + '"></i>&nbsp;' + countryObj.name + '</td>';
 
 						if (width >= IPAD_LANDSCAPE && rankings.hasOwnProperty("competitions"))
@@ -428,8 +429,8 @@ function renderTable(eventId, resultType, ageCategory, continentId, countryId, w
 					{
 						out += '<td>' + href + '<br/><i class="flag flag-' + countryObj.id + '"></i>&nbsp;' + countryObj.name +
 							(rankObj.hasOwnProperty("age") ? ', ' + rankObj.age + '+' : '') + '</td>';
+						out += '<td class=\"result\">' + rankObj.best + '</td>';
 					}
-					out += '<td class=\"result\">' + rankObj.best + '</td>';
 					out += '</tr>';
 
 					filterPrev = rankObj.best;
