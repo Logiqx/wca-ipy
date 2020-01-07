@@ -406,7 +406,8 @@ function renderTable(eventId, resultType, ageCategory, continentId, countryId, w
 							var compCountryObj = rankings.countries[countryIds.indexOf(competitionObj.country)];
 
 							out += '<td><i class="flag flag-' + compCountryObj.id + '"></i>&nbsp;' +
-								'<a href="https://www.worldcubeassociation.org/competitions/' + competitionObj.webId + '">' + competitionObj.name + '</a></td>';
+								'<a href="https://www.worldcubeassociation.org/competitions/' + competitionObj.webId + '/results/by_person#' + personObj.id + '">' +
+								competitionObj.name + '</a></td>';
 						}
 					}
 					else
