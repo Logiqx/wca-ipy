@@ -333,6 +333,7 @@ function renderTable(eventId, resultType, ageCategory, continentId, countryId, w
 	var personIds = getPersonIds();
 	var countryIds = getCountryIds();
 	var continentIds = getContinentIds();
+	var competitionIds = getCompetitionIds();
 
 	var eventObj = rankings.events[getEventIds().indexOf(eventId)];
 	
@@ -348,7 +349,11 @@ function renderTable(eventId, resultType, ageCategory, continentId, countryId, w
 			out += '<th>Person</th>';
 			if (width >= IPHONE_LANDSCAPE)
 			{
-				out += '<th>Country</th>';
+				out += '<th>Citizen of</th>';
+			}
+			if (width >= IPAD_LANDSCAPE && rankings.hasOwnProperty("competitions"))
+			{
+				out += '<th>Competition</th>';
 			}
 			out += '<th class=\"result\">Result</th>';
 			out += '</tr>';
@@ -364,8 +369,8 @@ function renderTable(eventId, resultType, ageCategory, continentId, countryId, w
 			for (var rankIdx = 0; rankIdx < rankingObj.ranks.length; rankIdx++)
 			{
 				var rankObj = rankingObj.ranks[rankIdx];
-				var personObj = rankings.persons[personIds.indexOf(rankObj.id)]
-				var countryObj = rankings.countries[countryIds.indexOf(personObj.country)]
+				var personObj = rankings.persons[personIds.indexOf(rankObj.id)];
+				var countryObj = rankings.countries[countryIds.indexOf(personObj.country)];
 
 				count++;
 				if (rankObj.best != prevBest)
@@ -394,6 +399,15 @@ function renderTable(eventId, resultType, ageCategory, continentId, countryId, w
 					{
 						out += '<td>' + href + (rankObj.hasOwnProperty("age") ? ', ' + rankObj.age + '+' : '') + '</td>';
 						out += '<td><i class="flag flag-' + countryObj.id + '"></i>&nbsp;' + countryObj.name + '</td>';
+
+						if (width >= IPAD_LANDSCAPE && rankings.hasOwnProperty("competitions"))
+						{
+							var competitionObj = rankings.competitions[competitionIds.indexOf(rankObj.competition)];
+							var compCountryObj = rankings.countries[countryIds.indexOf(competitionObj.country)];
+
+							out += '<td><i class="flag flag-' + compCountryObj.id + '"></i>&nbsp;' +
+								'<a href="https://www.worldcubeassociation.org/competitions/' + competitionObj.webId + '">' + competitionObj.name + '</a></td>';
+						}
 					}
 					else
 					{

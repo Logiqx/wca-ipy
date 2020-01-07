@@ -122,12 +122,13 @@ function getViewportHeight()
 }
 
 //
-// Lists of events / persons / countries / continents to be used as indices
+// Lists of events / persons / countries / continents / competitions to be used as indices
 //
 var eventIds = [];
 var personIds = [];
 var countryIds = [];
 var continentIds = [];
+var competitionIds = [];
 
 // Populate pseudo dictionary as an index for the events
 // Map() would be better / faster but it doesn't work on my iPad!
@@ -194,6 +195,23 @@ function getContinentIds()
 	}
 	
 	return continentIds;
+}
+
+//
+// Populate pseudo dictionary as an index for the competitions
+// Map() would be better / faster but it doesn't work on my iPad!
+//
+function getCompetitionIds()
+{
+	if (competitionIds.length == 0 && rankings.hasOwnProperty("competitions"))
+	{
+		for (var competitionIdx = 0; competitionIdx < rankings.competitions.length; competitionIdx++)
+		{
+			competitionIds.push(rankings.competitions[competitionIdx].id);
+		}
+	}
+
+	return competitionIds;
 }
 
 // Determine the result types for all events - single, average or both
