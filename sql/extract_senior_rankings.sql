@@ -54,41 +54,43 @@ FROM
 	Finish up by appending the competition id and sorting the rankings
 */
 
-SELECT eventId, resultType, ageCategory, personId, best, rankNo, competitionId
+SELECT eventId, resultType, ageCategory, personId, best, rankNo, competitionId, ageAtComp
 FROM
 (
 	-- Additional brackets added for clarity
 	(
 		-- Actual results
-		SELECT eventId, resultType, ageCategory, personId, best, rankNo, personName, competitionId
+		SELECT eventId, resultType, ageCategory, personId, best, rankNo, personName, competitionId, ageAtComp
 		FROM
 		(
 			SELECT sr.*, s.name AS personName, c.id AS competitionId,
+				FLOOR(TIMESTAMPDIFF(YEAR, dob, DATE_FORMAT(CONCAT(c.year, '-', c.month, '-', c.day), '%Y-%m-%d')) / 10) * 10 AS ageAtComp,
 				ROW_NUMBER() OVER (PARTITION BY sr.eventId, sr.resultType, sr.ageCategory, sr.personId ORDER BY c.year, c.month, c.day) AS rowNo
 			FROM Seniors AS s
 			JOIN SeniorRanks AS sr ON sr.personId = s.personId
 			JOIN wca.Results AS r ON r.eventId = sr.eventId AND r.personId = sr.personId AND r.average = sr.best
 			JOIN wca.Competitions AS c ON c.id = r.competitionId
-				AND FLOOR(TIMESTAMPDIFF(YEAR, dob, DATE_FORMAT(CONCAT(c.year, '-', c.month, '-', c.day), '%Y-%m-%d')) / 10) * 10 >= sr.ageCategory
 			WHERE resultType = 'average'
+			HAVING ageAtComp >= sr.ageCategory
 			UNION ALL
 			SELECT sr.*, s.name AS personName, c.id AS competitionId,
+				FLOOR(TIMESTAMPDIFF(YEAR, dob, DATE_FORMAT(CONCAT(c.year, '-', c.month, '-', c.day), '%Y-%m-%d')) / 10) * 10 AS ageAtComp,
 				ROW_NUMBER() OVER (PARTITION BY sr.eventId, sr.resultType, sr.ageCategory, sr.personId ORDER BY c.year, c.month, c.day) AS rowNo
 			FROM Seniors AS s
 			JOIN SeniorRanks AS sr ON sr.personId = s.personId
 			JOIN wca.Results AS r ON r.eventId = sr.eventId AND r.personId = sr.personId AND r.best = sr.best
 			JOIN wca.Competitions AS c ON c.id = r.competitionId
-				AND FLOOR(TIMESTAMPDIFF(YEAR, dob, DATE_FORMAT(CONCAT(c.year, '-', c.month, '-', c.day), '%Y-%m-%d')) / 10) * 10 >= sr.ageCategory
 			WHERE resultType = 'single'
+			HAVING ageAtComp >= sr.ageCategory
 		) AS t
 		WHERE rowNo = 1
 	)
 	UNION ALL
 	(
 		-- Fake results
-		SELECT sr.*, NULL AS personName, NULL AS competitionId
+		SELECT sr.*, NULL AS personName, NULL AS competitionId, sr.ageCategory AS ageAtComp
 		FROM SeniorRanks AS sr
 		WHERE personId LIKE 'FAKE%'
 	)
 ) AS t
-ORDER BY eventId, resultType, ageCategory, best, personName;
+ORDER BY eventId, resultType DESC, ageCategory, best, personName;
