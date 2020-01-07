@@ -111,7 +111,12 @@ a:visited {
   background-color: #f6f8fa;
 }
 
-.rankings table tr:hover td {
+.rankings table tr.highlight {
+  background: Ivory;
+  font-weight: 500;
+}
+
+.rankings table tr:hover {
   background: LightYellow;
 }
 

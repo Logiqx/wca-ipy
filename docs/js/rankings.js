@@ -383,7 +383,14 @@ function renderTable(eventId, resultType, ageCategory, continentId, countryId, w
 				{
 					filterCount++;
 
-					out += '<tr>';
+					if (rankObj.hasOwnProperty("highlight"))
+					{
+						out += '<tr class=\"highlight\">';
+					}
+					else
+					{
+						out += '<tr>';
+					}
 					if (rankObj.best != filterPrev)
 					{
 						filterAdj = Math.max(filterAdj, (filterCount * ratio).toFixed(0) - filterCount);
