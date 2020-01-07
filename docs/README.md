@@ -1,6 +1,8 @@
 ![alt text](img/logo.jpg "logo")
 ## Senior Rankings
 
+**Background**
+
 This [project](https://github.com/Logiqx/wca-ipy) started on the [SpeedSolving.com](https://www.speedsolving.com/forum/threads/how-fast-are-the-over-40s-in-competitions.54128/) forum.
 
 It provides unofficial rankings for the senior cubing community, produced from official WCA competition results. Further information is available in the [Frequently Asked Questions](FAQ.md) and [Privacy Notice](Privacy_Notice.md).
@@ -9,10 +11,9 @@ If you would like your name to be added then either contact me via [Facebook](ht
 
 **Rankings**
 
-* [Partial Rankings](Partial_Rankings.html) are incomplete but most of the fastest people are now included
-* [Indicative Rankings](Indicative_Rankings.html) give the best possible indication of your "real" world ranking
+The latest [Senior Rankings](Senior_Rankings.html) replace all of the previous rankings pages that I have produced in the past.
 
-Note: The [Legacy Rankings](Legacy_Rankings.md) are still available, just in case the above pages do not work in your browser
+For a very short period the [Legacy Rankings](Legacy_Rankings.md) will still available, just in case the latest rankings do not work in your browser.
 
 **Useful links**
 

@@ -1,9 +1,17 @@
 ![alt text](img/logo.jpg "logo")
 ## Legacy Rankings
 
-The rankings on this page are only provided in case the dynamic rankings do not work on your browser.
+The rankings on this page are only provided in case the latest rankings do not work on your browser.
+
+I am planning to clean up the project and will remove all of these pages in the near future.
 
 The list of names is still incomplete but most of the fastest people are included (see below). If you would like your name to be added then please contact me as described on the [front page](README.md).
+
+
+**Dynamic Rankings**
+
+* [Partial Rankings](Partial_Rankings.html) are incomplete but most of the fastest people are now included
+* [Indicative Rankings](Indicative_Rankings.html) give the best possible indication of your "real" world ranking
 
 **Partial Rankings**
 
