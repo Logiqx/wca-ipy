@@ -6,7 +6,7 @@
     Purpose:  Extract Events table
 */
 
-SELECT id, name, format
+SELECT id, name, `rank`, format
 FROM wca.Events AS e
-WHERE e.rank < 900
-ORDER BY e.rank;
+WHERE `rank` < 900
+ORDER BY `rank`;
