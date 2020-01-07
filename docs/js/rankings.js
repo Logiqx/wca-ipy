@@ -387,7 +387,14 @@ function renderTable(eventId, resultType, ageCategory, continentId, countryId, w
 					if (rankObj.best != filterPrev)
 					{
 						filterAdj = Math.max(filterAdj, (filterCount * ratio).toFixed(0) - filterCount);
-						out += '<td class=\"rank\">' + (filterCount + filterAdj) + '</td>';
+						if (filterAdj == 0 || continentId == "XX" && countryId == "XX")
+						{
+							out += '<td class=\"rank\">' + (filterCount + filterAdj) + '</td>';
+						}
+						else
+						{
+							out += '<td class=\"rank\">(' + (filterCount + filterAdj) + ')</td>';
+						}
 					}
 					else
 					{
@@ -430,16 +437,12 @@ function renderTable(eventId, resultType, ageCategory, continentId, countryId, w
 			{
 				if (continentId == "XX" && countryId == "XX")
 				{
-					out += '<p>Estimated number of seniors &#8776; ' + rankingObj.estimate + '</p>';
-					out += '<p>Estimated completeness of rankings &#8776; ' + (100 * count / rankingObj.estimate).toFixed(1) + '%</p>';
-				}
-				else if (ratio > 1)
-				{
-					out += '<p>NOTE: The ranks have been estimated using knowledge of missing seniors (worldwide).</p>';
+					out += '<p>Total number of seniors = ' + rankingObj.estimate + '</p>';
+					out += '<p>Overall completeness of rankings = ' + (100 * count / rankingObj.estimate).toFixed(1) + '%</p>';
 				}
 				else
 				{
-					out += '<p>NOTE: The number of seniors cannot be estimated for this continent / country.</p>';
+					out += '<p>NOTE: Bracketed rankings have been adjusted due to missing seniors worldwide.</p>';
 				}
 			}
 		}
