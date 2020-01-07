@@ -111,13 +111,17 @@ a:visited {
   background-color: #f6f8fa;
 }
 
+.rankings table tr:hover {
+  background: #ffffe0;
+}
+
 .rankings table tr.highlight {
-  background: #ffffe8;
+  background: #ffffd0;
   font-weight: 500;
 }
 
-.rankings table tr:hover {
-  background: #ffffe0;
+.rankings table tr.highlight:hover {
+  background: #ffffc0;
 }
 
 .rankings table th.rank, .rankings table td.rank {
