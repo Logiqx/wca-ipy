@@ -112,12 +112,12 @@ a:visited {
 }
 
 .rankings table tr.highlight {
-  background: Ivory;
+  background: LightYellow;
   font-weight: 500;
 }
 
 .rankings table tr:hover {
-  background: LightYellow;
+  background: LemonChiffon;
 }
 
 .rankings table th.rank, .rankings table td.rank {
