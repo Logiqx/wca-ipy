@@ -408,7 +408,7 @@ function renderTable(eventId, resultType, ageCategory, continentId, countryId, w
 						out += '<td class=\"rank\"></td>';
 					}
 
-					var href = '<a href=\"https://www.worldcubeassociation.org/persons/' + rankObj.id + '?event=' + eventId + '\">' + personObj.name + '</a>';
+					var href = '<a target=\"_blank\" href=\"https://www.worldcubeassociation.org/persons/' + rankObj.id + '?event=' + eventId + '\">' + personObj.name + '</a>';
 					if (width >= IPHONE_LANDSCAPE)
 					{
 						out += '<td>' + href + (rankObj.hasOwnProperty("age") ? ', ' + rankObj.age + '+' : '') + '</td>';
@@ -420,7 +420,7 @@ function renderTable(eventId, resultType, ageCategory, continentId, countryId, w
 							var compCountryObj = rankings.countries[countryIds.indexOf(competitionObj.country)];
 
 							out += '<td><i class="flag flag-' + compCountryObj.id + '"></i>&nbsp;' +
-								'<a href="https://www.worldcubeassociation.org/competitions/' + competitionObj.webId + '/results/by_person#' + personObj.id + '">' +
+								'<a target=\"_blank\" href="https://www.worldcubeassociation.org/competitions/' + competitionObj.webId + '/results/by_person#' + personObj.id + '">' +
 								competitionObj.name + '</a></td>';
 						}
 					}
