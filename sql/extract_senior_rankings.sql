@@ -88,7 +88,7 @@ FROM
 	UNION ALL
 	(
 		-- Fake results
-		SELECT sr.*, NULL AS personName, NULL AS competitionId, sr.ageCategory AS ageAtComp
+		SELECT sr.*, personId AS personName, 'WC2003' AS competitionId, sr.ageCategory AS ageAtComp
 		FROM SeniorRanks AS sr
 		WHERE personId LIKE 'FAKE%'
 	)
