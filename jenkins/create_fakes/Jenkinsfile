@@ -19,7 +19,6 @@ def runPyScript(pyScript) {
     env.PROJECT_ROOT = "${USER_HOME}/work/${IMAGE_NAME}"
     sh """docker run --rm \
                      --mount type=bind,src=${MYSQL_CNF},dst=${USER_HOME}/.my.cnf \
-                     --mount type=volume,src=wca_ipy_data,dst=${PROJECT_ROOT}/data \
                      -e MYSQL_HOST=${MYSQL_HOST} \
                      -e MYSQL_DATABASE=${MYSQL_DATABASE} \
                      -e MYSQL_USER=${MYSQL_USER} \
@@ -29,7 +28,7 @@ def runPyScript(pyScript) {
 pipeline {
     agent any
     triggers {
-        upstream(upstreamProjects: "wca-db-download-results,wca-ipy-create-fakes",
+        upstream(upstreamProjects: "wca-ipy-private-load-data,wca-ipy-docker-build",
                  threshold: hudson.model.Result.SUCCESS)
     }
     options {
@@ -47,17 +46,13 @@ pipeline {
                 startDatabase()
             }
         }
-        stage('Format Extracts') {
+        stage('Create Fakes') {
             steps {
-                runPyScript('Create_Extracts.py')
-                runPyScript('Format_Extracts.py')
+                runPyScript('Create_Senior_Fakes.py')
             }
         }
     }
     post {
-        always {
-            stopDatabase()
-        }
         failure {
             emailext(
                 to: "${EMAIL_RECIPIENTS}",
@@ -67,6 +62,7 @@ pipeline {
                             <a href=\"${env.BUILD_URL}\">link</a>.</p>""",
                 attachLog: true
             )
+            stopDatabase()
         }
     }
 }

@@ -79,6 +79,11 @@ pipeline {
                         startDatabase()
                     }
                 }
+                stage('Create Fakes') {
+                    steps {
+                        runPyScript('Create_Senior_Fakes.py')
+                    }
+                }
                 stage('Format Extracts') {
                     steps {
                         runPyScript('Create_Extracts.py')

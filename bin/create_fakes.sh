@@ -1,3 +1,8 @@
+# Project Env
 . $(dirname $0)/env.sh
 
-time run_py_script Create_Senior_Fakes.py
+# Explanation at https://www.peterbe.com/plog/set-ex
+set -ex
+
+# Create Fakes
+run_py_script Create_Senior_Fakes.py
