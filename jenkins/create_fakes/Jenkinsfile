@@ -32,7 +32,7 @@ pipeline {
                  threshold: hudson.model.Result.SUCCESS)
     }
     options {
-        lock label: 'DB+Data'
+        lock resource: 'DB'
     }
     environment {
         IMAGE_NAME = 'wca-ipy'
