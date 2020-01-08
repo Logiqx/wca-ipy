@@ -1,9 +1,6 @@
 # Project Env
 . $(dirname $0)/env.sh
 
-# Explanation at https://www.peterbe.com/plog/set-ex
-set -ex
-
 # Determine Tag
 IMAGE_NAME=$PROJ_NAME
 IMAGE_TAG=$(git rev-parse --short=12 HEAD)

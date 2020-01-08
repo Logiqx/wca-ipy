@@ -14,4 +14,7 @@ run_py_script()
          --network=wca_default -w $WORK_DIR/python $IMAGE_NAME:$IMAGE_TAG ./$1
 }
 
+# Explanation at https://www.peterbe.com/plog/set-ex
+set -ex
+
 cd $PROJ_DIR
