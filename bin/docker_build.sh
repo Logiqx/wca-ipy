@@ -11,6 +11,9 @@ IMAGE_TAG=$(git rev-parse --short=12 HEAD)
 # Docker Build
 DOCKER_BUILDKIT=1 docker build . -t $IMAGE_NAME:$IMAGE_TAG
 
+# Create Fakes
+run_py_script Create_Senior_Fakes.py
+
 # Format Extracts
 run_py_script Format_Extracts.py
 
