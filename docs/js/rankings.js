@@ -343,11 +343,11 @@ function renderTable(eventId, resultType, ageCategory, continentId, countryId, w
 		
 		if (rankingObj.type == resultType && rankingObj.age == ageCategory)
 		{
-			out += '<div class=\"rankings\"><table>';
+			out += '<div class="rankings"><table>';
 			out += '<tr>';
-			out += '<th class=\"rank\">Rank</th>';
+			out += '<th class="rank">Rank</th>';
 			out += '<th>Name</th>';
-			out += '<th class=\"result\">Result</th>';
+			out += '<th class="result">Result</th>';
 			if (width >= IPHONE_LANDSCAPE)
 			{
 				out += '<th>Citizen of</th>';
@@ -385,7 +385,7 @@ function renderTable(eventId, resultType, ageCategory, continentId, countryId, w
 
 					if (rankObj.hasOwnProperty("highlight"))
 					{
-						out += '<tr class=\"highlight\">';
+						out += '<tr class="highlight">';
 					}
 					else
 					{
@@ -396,23 +396,23 @@ function renderTable(eventId, resultType, ageCategory, continentId, countryId, w
 						filterAdj = Math.max(filterAdj, (filterCount * ratio).toFixed(0) - filterCount);
 						if (filterAdj == 0 || continentId == "XX" && countryId == "XX")
 						{
-							out += '<td class=\"rank\">' + (filterCount + filterAdj) + '</td>';
+							out += '<td class="rank">' + (filterCount + filterAdj) + '</td>';
 						}
 						else
 						{
-							out += '<td class=\"rank\">(' + (filterCount + filterAdj) + ')</td>';
+							out += '<td class="rank">(' + (filterCount + filterAdj) + ')</td>';
 						}
 					}
 					else
 					{
-						out += '<td class=\"rank\"></td>';
+						out += '<td class="rank"></td>';
 					}
 
-					var href = '<a target=\"_blank\" href=\"https://www.worldcubeassociation.org/persons/' + rankObj.id + '?event=' + eventId + '\">' + personObj.name + '</a>';
+					var href = '<a target="_blank" href="https://www.worldcubeassociation.org/persons/' + rankObj.id + '?event=' + eventId + '">' + personObj.name + '</a>';
 					if (width >= IPHONE_LANDSCAPE)
 					{
 						out += '<td>' + href + (rankObj.hasOwnProperty("age") ? ', ' + rankObj.age + '+' : '') + '</td>';
-						out += '<td class=\"result\">' + rankObj.best + '</td>';
+						out += '<td class="result">' + rankObj.best + '</td>';
 						out += '<td><i class="flag flag-' + countryObj.id + '"></i>&nbsp;' + countryObj.name + '</td>';
 
 						if (width >= IPAD_LANDSCAPE && rankings.hasOwnProperty("competitions"))
@@ -421,7 +421,7 @@ function renderTable(eventId, resultType, ageCategory, continentId, countryId, w
 							var compCountryObj = rankings.countries[countryIds.indexOf(competitionObj.country)];
 
 							out += '<td><i class="flag flag-' + compCountryObj.id + '"></i>&nbsp;' +
-								'<a target=\"_blank\" href="https://www.worldcubeassociation.org/competitions/' + competitionObj.webId + '/results/by_person#' + personObj.id + '">' +
+								'<a target="_blank" href="https://www.worldcubeassociation.org/competitions/' + competitionObj.webId + '/results/by_person#' + personObj.id + '">' +
 								competitionObj.name + '</a></td>';
 						}
 					}
@@ -429,7 +429,7 @@ function renderTable(eventId, resultType, ageCategory, continentId, countryId, w
 					{
 						out += '<td>' + href + '<br/><i class="flag flag-' + countryObj.id + '"></i>&nbsp;' + countryObj.name +
 							(rankObj.hasOwnProperty("age") ? ', ' + rankObj.age + '+' : '') + '</td>';
-						out += '<td class=\"result\">' + rankObj.best + '</td>';
+						out += '<td class="result">' + rankObj.best + '</td>';
 					}
 					out += '</tr>';
 
