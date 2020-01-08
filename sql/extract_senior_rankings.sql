@@ -10,7 +10,7 @@
 	Start by determining the rankings for all events / age categories
 */
 
-DROP TEMPORARY TABLE IF EXISTS SeniorRanks;
+-- DROP TEMPORARY TABLE IF EXISTS SeniorRanks;
 
 CREATE TEMPORARY TABLE SeniorRanks AS
 SELECT eventId, resultType, ageCategory, personId, best, RANK() OVER (PARTITION BY eventId, resultType, ageCategory ORDER BY best) AS rankNo
@@ -44,7 +44,7 @@ FROM
 	UNION ALL
     (
 		-- Fake results
-		SELECT sv.eventId, sv.resultType, sv.ageCategory, CONCAT('FAKE_', UPPER(sf.label)) AS personId, sf.fakeResult AS best
+		SELECT sv.eventId, sv.resultType, sv.ageCategory, CONCAT('FAKE_', UPPER(sf.label)) COLLATE utf8mb4_unicode_ci AS personId, sf.fakeResult AS best
 		FROM SeniorFakes AS sf
 		JOIN SeniorViews AS sv ON sv.viewId = sf.viewId
 	)
