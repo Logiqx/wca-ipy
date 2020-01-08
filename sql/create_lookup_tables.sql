@@ -7,10 +7,11 @@
 */
 
 /*
-   Drop Seniors
+   Drop tables with FK constraints
 */
 
 DROP TABLE IF EXISTS Seniors;
+DROP TABLE IF EXISTS Juniors;
 
 /*
    Senior Sources
@@ -95,6 +96,7 @@ INSERT INTO ContinentCodes VALUES
 ('_Africa', 'AF'),
 ('_Asia', 'AS'),
 ('_Europe', 'EU'),
+('_Multiple Continents', 'MC'),
 ('_North America', 'NA'),
 ('_Oceania', 'OC'),
 ('_South America', 'SA');
