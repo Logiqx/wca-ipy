@@ -1,8 +1,25 @@
+# Project Env
 . $(dirname $0)/env.sh
 
-set -e
+# Explanation at https://www.peterbe.com/plog/set-ex
+set -ex
 
-cd $PROJ_DIR
+# Determine Tag
+IMAGE_NAME=$PROJ_NAME
+IMAGE_TAG=$(git rev-parse --short=12 HEAD)
 
-DOCKER_BUILDKIT=1 docker build . --build-arg LOGIQX_DEBUG -t $PROJ_NAME:$(git rev-parse --short=12 HEAD)
-docker tag $PROJ_NAME:$(git rev-parse --short=12 HEAD) $PROJ_NAME:latest
+# Docker Build
+DOCKER_BUILDKIT=1 docker build . -t $IMAGE_NAME:$IMAGE_TAG
+
+# Format Extracts
+run_py_script Format_Extracts.py
+
+# Refresh Rankings
+run_py_script Senior_Rankings.py
+run_py_script Indicative_Rankings.py
+run_py_script Partial_Rankings.py
+run_py_script Percentile_Rankings.py
+run_py_script Representative_Rankings.py
+
+# Docker Tag
+docker tag $IMAGE_NAME:$IMAGE_TAG $IMAGE_NAME:latest
