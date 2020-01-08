@@ -17,12 +17,6 @@ The original list of official results only contained 11 seniors but the list was
 
 ### Senior Rankings
 
-#### What results qualify for the senior rankings?
-
-Only official results achieved after turning 40 are eligible for the over 40s rankings. The same principle applies to the over 50s, 60s, 70s, 80s rankings.
-
-It is worth noting that results after turning 50 will apply to multiple age categories. For example, official results of a 68 year old competitor will be eligible for the over 40s, over 50s and over 60s rankings.
-
 #### How many seniors have competed officially?
 
 As of Jan 2020 the number of people who have competed after turning 40 is around 2,000.
@@ -34,6 +28,18 @@ You can check the latest figures at the bottom of the [rankings](https://logiqx.
 I will require your WCA ID and DOB. If you are a member of Speedsolving.com then please provide your nickname as well.
 
 Instructions for getting your name added to this website are on the [front page](README.md) of the website.
+
+#### What results qualify for the senior rankings?
+
+Only official results achieved after turning 40 are eligible for the over 40s rankings. The same principle applies to the over 50s, 60s, 70s, 80s rankings.
+
+It is worth noting that results after turning 50 will apply to multiple age categories. For example, official results of a 68 year old competitor will be eligible for the over 40s, over 50s and over 60s rankings.
+
+#### How accurate are the rankings?
+
+The world rankings are extremely accurate because I know precisely where gaps exist in the list of known seniors. However the national and continental rankings enclosed by parenthesis should be taken with a large pinch of salt due to them being little more than vague approximations.
+
+Any national / continental rankings without parenthesis can be assumed good but the NR / CR rankings inside parenthesis may be somewhat better or worse than is reality. The NR / CR calculation considers the number of faster people who are known to be missing in the world rankings. It's by no means not perfect but it's about the best that can be done with the available data.
 
 
 
@@ -47,15 +53,15 @@ It retrieves registration data from [worldcubeassociation.org](https://www.world
 
 ### Technical
 
+#### What data do the senior rankings use?
+
+In addition to the public [WCA result export](https://www.worldcubeassociation.org/results/misc/export.html) the rankings use a bespoke [summary extract](https://github.com/Logiqx/wca-ipy/blob/master/sql/extract_senior_groups.sql) which is provided by the WCA results team. The summary extract does not identify individual competitors but it does allow the senior rankings to be padded out where there are gaps in the list of known seniors.
+
 #### What is your data privacy policy?
 
 The data privacy policy is described in the [Privacy Notice](Privacy_Notice.md).
 
 In a nutshell, we are committed to keeping your DOB well protected and it will never be given out or published by this project.
-
-#### What data do the senior rankings use?
-
-In addition to the public [WCA result export](https://www.worldcubeassociation.org/results/misc/export.html) the rankings use a bespoke [summary extract](https://github.com/Logiqx/wca-ipy/blob/master/sql/extract_senior_groups.sql) which is provided by the WCA results team. The summary extract does not identify individual competitors but it does allow the senior rankings to be padded out where there are gaps in the list of known seniors.
 
 #### How often is this website updated?
 
