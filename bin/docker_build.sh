@@ -15,6 +15,7 @@ DOCKER_BUILDKIT=1 docker build . -t $IMAGE_NAME:$IMAGE_TAG
 run_py_script Create_Senior_Fakes.py
 
 # Format Extracts
+run_py_script Create_Extracts.py
 run_py_script Format_Extracts.py
 
 # Refresh Rankings
