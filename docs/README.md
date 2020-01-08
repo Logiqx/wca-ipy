@@ -11,7 +11,8 @@ If you would like your name to be added then either contact me via [Facebook](ht
 
 **Rankings**
 
-The latest [Senior Rankings](Senior_Rankings.html) replace all of the previous rankings pages that I have produced in the past.
+* [Partial Rankings](Partial_Rankings.html) are incomplete but most of the fastest people are now included
+* [Indicative Rankings](Indicative_Rankings.html) give the best possible indication of your "real" world ranking
 
 For a very short period the [Legacy Rankings](Legacy_Rankings.md) will still available, just in case the latest rankings do not work in your browser.
 
