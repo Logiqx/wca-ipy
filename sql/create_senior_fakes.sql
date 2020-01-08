@@ -380,27 +380,29 @@ DROP TABLE IF EXISTS SeniorFakes;
 CREATE TABLE SeniorFakes AS
 (
 	-- Most artificial results are created using ranges and intervals
-	SELECT viewId, CAST(fakeResult AS signed integer) AS fakeResult, groupNo, numMissing, CONVERT('FAKE_RANGE' USING utf8) AS fakeId
+	SELECT viewId, CAST(fakeResult AS unsigned integer) AS fakeResult, groupNo, numMissing, CONVERT('FAKE_RANGE' USING utf8) AS fakeId
 	FROM
 	(
 		SELECT viewId,
-			@prevRange := groupResult - prevResult,
-			@nextRange := nextResult - groupResult,
-			@fakeRange := IFNULL(IF(@prevRange < @nextRange OR @nextRange IS NULL, @prevRange, @nextRange), 0) AS fakeRange,
-			@fakeInterval := @fakeRange / numMissing AS fakeInterval,
-			@fakeStart := ROUND(groupResult - @fakeRange / 2 + @fakeInterval / 2) AS fakeStart,
-			@fakeEnd := ROUND(groupResult + @fakeRange / 2 - @fakeInterval / 2) AS fakeEnd,
-			@fakeResult := ROUND(@fakeStart + @fakeInterval * seq) AS fakeResult,
+			ROUND((groupResult - fakeRange / 2 + fakeInterval / 2) + fakeInterval * seq) AS fakeResult,
 			groupNo, numMissing
-		FROM SeniorStatsExtra
+		FROM
+		(
+			SELECT *,
+				IFNULL(IF(groupResult - prevResult < nextResult - groupResult OR nextResult IS NULL,
+					groupResult - prevResult, nextResult - groupResult), 0) AS fakeRange,
+				IFNULL(IF(groupResult - prevResult < nextResult - groupResult OR nextResult IS NULL,
+					groupResult - prevResult, nextResult - groupResult), 0) / numMissing AS fakeInterval
+			FROM SeniorStatsExtra
+			WHERE (NOT stepNo <=> 2 AND numMissing > 0) OR (stepNo = 2 AND numMissing > 1) OR (stepNo = 2 AND groupSize < 4)
+		) AS t
 		JOIN seq_0_to_5 ON seq < numMissing
-		WHERE (NOT stepNo <=> 2 AND numMissing > 0) OR (stepNo = 2 AND numMissing > 1) OR (stepNo = 2 AND groupSize < 4)
 	) AS t
 )
 UNION ALL
 (
 	-- A small number of artificial results can be exactly calculated
-	SELECT viewId, CAST(groupResult * groupSize - totResult AS signed integer) AS fakeResult, groupNo, numMissing, CONVERT('FAKE_EXACT' USING utf8) AS fakeId
+	SELECT viewId, CAST(groupResult * groupSize - totResult AS unsigned integer) AS fakeResult, groupNo, numMissing, CONVERT('FAKE_EXACT' USING utf8) AS fakeId
 	FROM SeniorStatsExtra
 	WHERE stepNo = 2
 	AND numMissing = 1
