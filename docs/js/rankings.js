@@ -350,11 +350,11 @@ function renderTable(eventId, resultType, ageCategory, continentId, countryId, w
 			out += '<th class="result">Result</th>';
 			if (width >= IPHONE_LANDSCAPE)
 			{
-				out += '<th>Citizen of</th>';
+				out += '<th class="country">Citizen of</th>';
 			}
 			if (width >= IPAD_LANDSCAPE && rankings.hasOwnProperty("competitions"))
 			{
-				out += '<th>Competition</th>';
+				out += '<th class="competition">Competition</th>';
 			}
 			out += '</tr>';
 			

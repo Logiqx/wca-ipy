@@ -132,6 +132,14 @@ a:visited {
   text-align: right;
 }
 
+.rankings table th.country, .rankings table td.country {
+  width: 200px;
+}
+
+.rankings table th.competition, .rankings table td.competition {
+  width: 300px;
+}
+
 .container {
     max-width: 1008px;
     margin-right: auto;
