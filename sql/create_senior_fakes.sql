@@ -380,7 +380,7 @@ DROP TABLE IF EXISTS SeniorFakes;
 CREATE TABLE SeniorFakes AS
 (
 	-- Most artificial results are created using ranges and intervals
-	SELECT viewId, fakeResult, groupNo, numMissing, 'range' AS label
+	SELECT viewId, fakeResult, groupNo, numMissing, 'FAKE_RANGE' AS fakeId
 	FROM
 	(
 		SELECT viewId,
@@ -400,7 +400,7 @@ CREATE TABLE SeniorFakes AS
 UNION ALL
 (
 	-- A small number of artificial results can be exactly calculated
-	SELECT viewId, groupResult * groupSize - totResult AS fakeResult, groupNo, numMissing, 'exact'
+	SELECT viewId, groupResult * groupSize - totResult AS fakeResult, groupNo, numMissing, 'FAKE_EXACT' AS fakeId
 	FROM SeniorStatsExtra
 	WHERE stepNo = 2
 	AND numMissing = 1

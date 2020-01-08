@@ -44,7 +44,7 @@ FROM
 	UNION ALL
     (
 		-- Fake results
-		SELECT sv.eventId, sv.resultType, sv.ageCategory, CONCAT('FAKE_', UPPER(sf.label)) COLLATE utf8mb4_unicode_ci AS personId, sf.fakeResult AS best
+		SELECT sv.eventId, sv.resultType, sv.ageCategory, fakeId AS personId, fakeResult AS best
 		FROM SeniorFakes AS sf
 		JOIN SeniorViews AS sv ON sv.viewId = sf.viewId
 	)
