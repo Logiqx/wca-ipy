@@ -53,7 +53,7 @@ SELECT sv.viewId, groupNo, groupSize,
 	LAG(groupResult) OVER (PARTITION BY viewId ORDER BY groupNo) AS prevResult,
     groupResult,
 	LEAD(groupResult) OVER (PARTITION BY viewId ORDER BY groupNo) AS nextResult
-FROM wca_ipy.SeniorStats AS ss
+FROM SeniorStats AS ss
 JOIN SeniorViews AS sv ON sv.runDate = ss.runDate AND sv.eventId = ss.eventId AND sv.resultType = ss.resultType AND sv.ageCategory = ss.ageCategory
 JOIN (SELECT MAX(runDate) AS runDate FROM SeniorViews) AS t ON t.runDate = ss.runDate;
 
