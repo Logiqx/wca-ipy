@@ -44,6 +44,10 @@ ENV MYSQL_HOST=mariadb
 ENV MYSQL_DATABASE=wca_ipy
 ENV MYSQL_USER=wca_ipy
 
+# Debugging is off by default
+ARG LOGIQX_DEBUG=0
+ENV LOGIQX_DEBUG=${LOGIQX_DEBUG}
+
 # Install Python libraries
 RUN pip install --no-cache-dir sqlparse==0.3.* PyMySQL==0.9.*
 
