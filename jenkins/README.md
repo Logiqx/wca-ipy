@@ -12,15 +12,16 @@ This job generates all of the senior rankings and has the following dependencies
 
 - wca-ipy-refresh-rankings
   - wca-ipy-fomat-extracts
-    - wca-db-download-results
-      - *Schedule 10 4 \* \* \**
-      - wca-db-docker-build
-        - *GitHub trigger on wca-db repository*
-    - wca-ipy-private-load-data
-      - wca-ipy-private-docker-build
-        - *GitHub trigger on wca-ipy-private repository*
-    - wca-ipy-docker-build
-      - *GitHub trigger on wca-ipy repository*
+    - wca-ipy-create-fakes
+      - wca-db-download-results
+        - *Schedule 10 4 \* \* \**
+        - wca-db-docker-build
+          - *GitHub trigger on wca-db repository*
+      - wca-ipy-private-load-data
+        - wca-ipy-private-docker-build
+          - *GitHub trigger on wca-ipy-private repository*
+      - wca-ipy-docker-build
+        - *GitHub trigger on wca-ipy repository*
 
 To set up Jenkins the jobs should be created and run in the following order:
 
@@ -29,8 +30,9 @@ To set up Jenkins the jobs should be created and run in the following order:
 3. wca-ipy-private-docker-build
 4. wca-ipy-private-load-data
 5. wca-ipy-docker-build
-6. wca-ipy-fomat-extracts
-7. wca-ipy-refresh-rankings
+6. wca-ipy-create-fakes
+7. wca-ipy-fomat-extracts
+8. wca-ipy-refresh-rankings
 
 
 
