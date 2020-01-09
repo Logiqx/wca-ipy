@@ -6,7 +6,7 @@ IMAGE_NAME=$PROJ_NAME
 IMAGE_TAG=$(git rev-parse --short=12 HEAD)
 
 # Docker Build
-DOCKER_BUILDKIT=1 docker build . -t $IMAGE_NAME:$IMAGE_TAG
+DOCKER_BUILDKIT=1 docker build . --build-arg LOGIQX_DEBUG -t $IMAGE_NAME:$IMAGE_TAG
 
 # Create Fakes
 run_py_script Create_Senior_Fakes.py
