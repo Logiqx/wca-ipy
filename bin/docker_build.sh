@@ -8,6 +8,10 @@ IMAGE_TAG=$(git rev-parse --short=12 HEAD)
 # Docker Build
 DOCKER_BUILDKIT=1 docker build . --build-arg LOGIQX_DEBUG -t $IMAGE_NAME:$IMAGE_TAG
 
+# Test database
+MYSQL_DATABASE=wca_ipy_tst
+MYSQL_USER=wca_ipy_tst
+
 # Create Fakes
 run_py_script Create_Senior_Fakes.py
 
