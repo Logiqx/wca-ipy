@@ -8,32 +8,32 @@
 
 -- Summarise seniors by event
 SELECT eventId, resultType, ageCategory,
-	totSeniors, knownSeniors, totSeniors - knownSeniors AS missingSeniors, IFNULL(topSeniors, 0) AS topSeniors,
-	ROUND(100 * knownSeniors / totSeniors, 2) AS pctKnownSeniors,
-	ROUND(100 * (totSeniors - knownSeniors) / totSeniors, 2) AS pctMissingSeniors,
-	ROUND(100 * IFNULL(topSeniors, 0) / totSeniors, 2) AS pctTopSeniors
+    totSeniors, knownSeniors, totSeniors - knownSeniors AS missingSeniors, IFNULL(topSeniors, 0) AS topSeniors,
+    ROUND(100 * knownSeniors / totSeniors, 2) AS pctKnownSeniors,
+    ROUND(100 * (totSeniors - knownSeniors) / totSeniors, 2) AS pctMissingSeniors,
+    ROUND(100 * IFNULL(topSeniors, 0) / totSeniors, 2) AS pctTopSeniors
 FROM
 (
-	SELECT viewId, MAX(totSeniors) AS totSeniors, MAX(totRows) AS knownSeniors
+    SELECT viewId, MAX(totSeniors) AS totSeniors, MAX(totRows) AS knownSeniors
     FROM SeniorStatsExtra AS ss1
     GROUP BY viewId
 )
 AS t1
 LEFT JOIN
 (
-	SELECT ss1.viewId, MAX(totRows) AS topSeniors
-	FROM SeniorStatsExtra AS ss1
+    SELECT ss1.viewId, MAX(totRows) AS topSeniors
+    FROM SeniorStatsExtra AS ss1
     WHERE stepNo BETWEEN 1 AND 2
     AND numRows >= groupSize - 1
     AND NOT EXISTS
     (
-		SELECT 1
-		FROM SeniorStatsExtra AS ss2
-		WHERE ss2.viewId = ss1.viewId
+        SELECT 1
+        FROM SeniorStatsExtra AS ss2
+        WHERE ss2.viewId = ss1.viewId
         AND ss2.groupNo < ss1.groupNo
-		AND (NOT stepNo BETWEEN 1 AND 2 OR numRows < groupSize - 1)
-	)
-	GROUP BY viewId
+        AND (NOT stepNo BETWEEN 1 AND 2 OR numRows < groupSize - 1)
+    )
+    GROUP BY viewId
 ) AS t2 ON t2.viewId = t1.viewId
 JOIN SeniorViews AS sv on sv.viewId = t1.viewId
 WHERE eventId NOT IN ('magic', 'mmagic', '333mbo')
@@ -60,7 +60,7 @@ SELECT 'Curious row' AS label, sv.*, ss.*
 FROM SeniorStatsExtra AS ss
 JOIN SeniorViews AS sv on sv.viewId = ss.viewId
 WHERE (minRowNo IS NULL AND maxRowNo IS NOT NULL)
-	OR (minRowNo IS NOT NULL AND maxRowNo IS NULL);
+    OR (minRowNo IS NOT NULL AND maxRowNo IS NULL);
 
 -- Check where propogation of numMissing had an effect
 SELECT 'Incorrect totals' AS label, sv.*, ss.*
@@ -78,8 +78,8 @@ WHERE stepNo IS NULL;
 
 -- Check for groups with large numbers of missing seniors
 SELECT 'Unknowns' AS label, sv.*,
-	MIN(numMissing) AS minNumMissing, MAX(numMissing) AS maxNumMissing,
-	MIN(ss.groupNo) AS firstGroupNo, MIN(ss.totSeniors) AS firstTotSeniors
+    MIN(numMissing) AS minNumMissing, MAX(numMissing) AS maxNumMissing,
+    MIN(ss.groupNo) AS firstGroupNo, MIN(ss.totSeniors) AS firstTotSeniors
 FROM SeniorStatsExtra AS ss
 JOIN SeniorViews AS sv ON sv.viewId = ss.viewId
 WHERE numMissing BETWEEN 4 AND 5
