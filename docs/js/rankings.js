@@ -395,7 +395,11 @@ function renderTable(eventId, resultType, ageCategory, continentId, countryId, w
 					{
 						filterAdj = Math.max(filterAdj, filterCount * ratio - filterCount);
 
-						if (filterAdj == 0 || (continentId == "XX" && countryId == "XX"))
+						if (continentId == "XX" && countryId == "XX")
+						{
+							out += '<td class="rank">' + rankObj.rank + '</td>';
+						}
+						else if (filterAdj == 0)
 						{
 							out += '<td class="rank">' + filterCount + '</td>';
 						}
