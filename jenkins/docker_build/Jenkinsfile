@@ -87,16 +87,11 @@ pipeline {
                 stage('Format Extracts') {
                     steps {
                         runPyScript('Create_Extracts.py')
-                        runPyScript('Format_Extracts.py')
                     }
                 }
                 stage('Refresh Rankings') {
                     steps {
                         runPyScript('Senior_Rankings.py')
-                        runPyScript('Indicative_Rankings.py')
-                        runPyScript('Partial_Rankings.py')
-                        runPyScript('Percentile_Rankings.py')
-                        runPyScript('Representative_Rankings.py')
                     }
                 }
                 stage('Docker Tag') {

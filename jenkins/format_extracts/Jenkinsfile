@@ -50,7 +50,6 @@ pipeline {
         stage('Format Extracts') {
             steps {
                 runPyScript('Create_Extracts.py')
-                runPyScript('Format_Extracts.py')
             }
         }
     }

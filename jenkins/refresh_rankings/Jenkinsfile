@@ -23,10 +23,6 @@ pipeline {
         stage('Refresh Rankings') {
             steps {
                 runPyScript('Senior_Rankings.py')
-                runPyScript('Indicative_Rankings.py')
-                runPyScript('Partial_Rankings.py')
-                runPyScript('Percentile_Rankings.py')
-                runPyScript('Representative_Rankings.py')
             }
         }
     }
