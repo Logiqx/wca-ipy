@@ -22,7 +22,7 @@ def runPyScript(pyScript) {
                      -e MYSQL_HOST=${MYSQL_HOST} \
                      -e MYSQL_DATABASE=${MYSQL_DATABASE} \
                      -e MYSQL_USER=${MYSQL_USER} \
-                     -w ${PROJECT_ROOT}/python ${IMAGE_NAME} ./""" + pyScript
+                     ${IMAGE_NAME} python/""" + pyScript
 }
 
 pipeline {

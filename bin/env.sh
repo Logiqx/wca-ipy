@@ -1,6 +1,6 @@
-export PROJ_DIR=$(realpath $(dirname $0)/..)
-export PROJ_NAME=$(basename $PROJ_DIR)
-export WORK_DIR=/home/jovyan/work/$PROJ_NAME
+PROJ_DIR=$(realpath $(dirname $0)/..)
+PROJ_NAME=$(basename $PROJ_DIR)
+WORK_DIR=/home/jovyan/work/$PROJ_NAME
 
 run_py_script()
 {
@@ -10,7 +10,7 @@ run_py_script()
          --mount type=bind,src=$(realpath $PROJ_DIR/.my.cnf),dst=/home/jovyan/.my.cnf \
          -e MYSQL_DATABASE=${MYSQL_DATABASE:-wca_ipy} \
          -e MYSQL_USER=${MYSQL_USER:-wca_ipy} \
-         --network=wca_default -w $WORK_DIR/python ${PROJ_NAME}:${IMAGE_TAG:-latest} ./$1
+         --network=wca_default ${PROJ_NAME}:${IMAGE_TAG:-latest} python/$1
 }
 
 # Explanation at https://www.peterbe.com/plog/set-ex
