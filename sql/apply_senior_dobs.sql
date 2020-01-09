@@ -3,7 +3,7 @@
     Created:  2019-07-07
     Author:   Michael George / 2015GEOR02
    
-    Purpose:  Apply senior DOBs to the persons table
+    Purpose:  Apply senior DOBs to the persons table for testing purposes
 */
 
 -- Start with default YMD of zero

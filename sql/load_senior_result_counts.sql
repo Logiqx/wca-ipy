@@ -19,4 +19,4 @@ CREATE TABLE SeniorResultCounts
 );
 
 LOAD DATA LOCAL INFILE '/home/jovyan/work/wca-ipy-private/data/private/load/senior_result_counts.csv'
-INTO TABLE SeniorResultCounts FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"' IGNORE 0 LINES;
+INTO TABLE SeniorResultCounts FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"';
