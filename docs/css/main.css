@@ -112,7 +112,7 @@ a:visited {
 }
 
 .rankings table tr:hover {
-  background: #ffffe0;
+  background: #ffdab9;
 }
 
 .rankings table tr.highlight {
@@ -121,7 +121,15 @@ a:visited {
 }
 
 .rankings table tr.highlight:hover {
-  background: #ffffc0;
+  background: #ffc999;
+}
+
+.rankings table td.likely {
+  color: Silver;
+}
+
+.rankings table td.estimate {
+  color: Gainsboro;
 }
 
 .rankings table th.rank, .rankings table td.rank {

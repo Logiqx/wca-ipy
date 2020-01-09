@@ -393,14 +393,19 @@ function renderTable(eventId, resultType, ageCategory, continentId, countryId, w
 					}
 					if (rankObj.best != filterPrev)
 					{
-						filterAdj = Math.max(filterAdj, (filterCount * ratio).toFixed(0) - filterCount);
-						if (filterAdj == 0 || continentId == "XX" && countryId == "XX")
+						filterAdj = Math.max(filterAdj, filterCount * ratio - filterCount);
+
+						if (filterAdj == 0 || (continentId == "XX" && countryId == "XX"))
 						{
-							out += '<td class="rank">' + (filterCount + filterAdj) + '</td>';
+							out += '<td class="rank">' + filterCount + '</td>';
+						}
+						else if (filterAdj < 0.5)
+						{
+							out += '<td class="rank likely">(' + filterCount + ')</td>';
 						}
 						else
 						{
-							out += '<td class="rank">(' + (filterCount + filterAdj) + ')</td>';
+							out += '<td class="rank estimate">(' + (filterCount + filterAdj).toFixed(0) + ')</td>';
 						}
 					}
 					else
@@ -450,7 +455,7 @@ function renderTable(eventId, resultType, ageCategory, continentId, countryId, w
 				}
 				else
 				{
-					out += '<p>NOTE: Bracketed rankings have been adjusted due to missing seniors worldwide.</p>';
+					out += '<p>NOTE: The total number of seniors for this region is unknown. Bracketed rankings are crude estimates based on missing seniors around the world.</p>';
 				}
 			}
 		}
