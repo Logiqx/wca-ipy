@@ -47,7 +47,7 @@ Any national / continental rankings without parenthesis can be assumed good but 
 
 The [Future Competitions](Future_Competitions.html) page is updated throughout the day using the [WCA API](https://github.com/thewca/worldcubeassociation.org/wiki) and a number of additional websites that are used for competition registration.
 
-It retrieves registration data from [worldcubeassociation.org](https://www.worldcubeassociation.org/competitions), [cubingchina.com](https://cubingchina.com/competition), [cubing-tw.net](https://cubing-tw.net/event/), [zawody4event.pl](https://zawody4event.pl/#competitions), [speedcubing.pl](https://www.speedcubing.pl/), [speedcubing.nz](https://www.speedcubing.nz/), [canadiancubing.com](http://www.canadiancubing.com/Events) and [cubecomp.de](https://cubecomp.de/)
+It retrieves registration data from [worldcubeassociation.org](https://www.worldcubeassociation.org/competitions), [cubingchina.com](https://cubingchina.com/competition), [cubing-tw.net](https://cubing-tw.net/event/), [speedcubing.pl](https://www.speedcubing.pl/) and [cubecomp.de](https://cubecomp.de/). Although the code also supports [zawody4event.pl](https://zawody4event.pl/#competitions) it is unable to connect to the website from my AWS environment.
 
 
 
@@ -55,13 +55,11 @@ It retrieves registration data from [worldcubeassociation.org](https://www.world
 
 #### What data do the senior rankings use?
 
-In addition to the public [WCA result export](https://www.worldcubeassociation.org/results/misc/export.html) the rankings use a bespoke [summary extract](https://github.com/Logiqx/wca-ipy/blob/master/sql/extract_senior_groups.sql) which is provided by the WCA results team. The summary extract does not identify individual competitors but it does allow the senior rankings to be padded out where there are gaps in the list of known seniors.
+The details of known seniors along with their DOBs are acquired directly from individuals / friends / relatives / public sources and stored in a private database. In addition to the details of known seniors this project uses the public [WCA result export](https://www.worldcubeassociation.org/results/misc/export.html) and a [bespoke extract](https://github.com/Logiqx/wca-ipy/blob/master/sql/extract_senior_groups.sql) provided by the WCA results team, summarising the results for each age category. The bespoke extract does not identify individual competitors or disclose their ages / DOBs but it does allow the senior rankings to be padded appropriately where there are omissions in the list of known seniors.
 
 #### What is your data privacy policy?
 
-The data privacy policy is described in the [Privacy Notice](Privacy_Notice.md).
-
-In a nutshell, we are committed to keeping your DOB well protected and it will never be given out or published by this project.
+The data privacy policy for this project is described in the [Privacy Notice](Privacy_Notice.md). The senior rankings strive to comply with the [General Data Protection Regulation](https://en.wikipedia.org/wiki/General_Data_Protection_Regulation) (EU) which gives control to individuals over their personal data. We are committed to keeping your DOB well protected and it will never knowingly be given out or published in the public domain.
 
 #### How often is this website updated?
 
@@ -73,7 +71,7 @@ The "[Future Competitions](Future_Competitions.html)" page is updated every 3 ho
 
 Data Wrangling: [MariaDB](https://mariadb.org/), [SQL](https://en.wikipedia.org/wiki/SQL), [Python](https://www.python.org/)
 
-Web: [GitHub Pages](https://pages.github.com/), [HTML](https://en.wikipedia.org/wiki/HTML), [JavaScript](https://en.wikipedia.org/wiki/JavaScript)
+Web: [GitHub Pages](https://pages.github.com/), [HTML](https://en.wikipedia.org/wiki/HTML), [CSS](https://en.wikipedia.org/wiki/Cascading_Style_Sheets), [JavaScript](https://en.wikipedia.org/wiki/JavaScript)
 
 Infrastructure: [AWS](https://aws.amazon.com/), [Docker](https://www.docker.com/), [Terraform](https://www.terraform.io/)
 
