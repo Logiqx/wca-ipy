@@ -148,6 +148,10 @@ a:visited {
   width: 300px;
 }
 
+summary {
+  outline: none;
+}
+
 .container {
     max-width: 1008px;
     margin-right: auto;
