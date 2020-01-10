@@ -19,7 +19,7 @@ RUN jupyter nbconvert --to python python/*.ipynb && \
 # Ensure project file permissions are correct
 RUN chmod 755 python/*.py && \
     chmod 644 sql/*.sql && \
-    chmod 644 templates/*.md
+    chmod 644 templates/*.html
 
 # Create final image from Python 3 + Beautiful Soup 4 on Alpine Linux
 FROM logiqx/python-bs4:${PYTHON_VERSION}-alpine${ALPINE_VERSION}
