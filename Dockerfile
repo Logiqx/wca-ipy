@@ -10,7 +10,7 @@ FROM jupyter/base-notebook:${NOTEBOOK_VERSION} AS builder
 WORKDIR /home/jovyan/work/wca-ipy
 COPY --chown=jovyan:users python/*.*py* ./python/
 COPY --chown=jovyan:users sql/*.sql ./sql/
-COPY --chown=jovyan:users templates/*.md ./templates/
+COPY --chown=jovyan:users templates/*.html ./templates/
 
 # Convert Jupyter notebooks to regular Python scripts
 RUN jupyter nbconvert --to python python/*.ipynb && \
