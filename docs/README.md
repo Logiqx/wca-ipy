@@ -12,7 +12,7 @@ Further information is available in the [Frequently Asked Questions](FAQ.md) and
 
 ### Useful links
 
-* [Future Competitions](Future_Competitions.html) is a list of upcoming competitions with known senior competitors registered
+* [Future Competitions](/wca-ipy-www/Future_Competitions.html) is a list of upcoming competitions with known senior competitors registered
 * [Senior Cubers Worldwide](https://www.facebook.com/groups/1604105099735401) on Facebook is a great place to chat all things cubing
 * [Older Cubers Discussions](https://speedsolving.com/threads/older-cubers-discussions.37405/) on SpeedSolving.com was where it all started and is still worth a visit
 
