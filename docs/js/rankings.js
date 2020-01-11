@@ -454,7 +454,14 @@ function renderTable(eventId, resultType, ageCategory, continentId, countryId, w
 			{
 				if (continentId == "XX" && countryId == "XX")
 				{
-					out += '<p>Total number of seniors = ' + rankingObj.estimate + '</p>';
+					if (filterCount == rankingObj.estimate)
+					{
+						out += '<p>All seniors listed!</p>';
+					}
+					else
+					{
+						out += '<p>' + filterCount + ' of ' + rankingObj.estimate + ' seniors listed.</p>';
+					}
 					out += '<p>Overall completeness of rankings = ' + (100 * count / rankingObj.estimate).toFixed(1) + '%</p>';
 				}
 				else
