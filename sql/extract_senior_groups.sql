@@ -3,8 +3,8 @@
     Created:  2019-12-02
     Author:   Michael George / 2015GEOR02
 
-    Purpose:  Simple extract to facilitate the production of "Indicative Senior Rankings".
-              https://logiqx.github.io/wca-ipy/Indicative_Rankings.html
+    Purpose:  Simple extract to facilitate the production of "Senior Rankings".
+              https://logiqx.github.io/wca-ipy/Senior_Rankings.html
 
     Notes:    Written specifically for MySQL 8.0 as it requires the window function ROW_NUMBER().
               The extracts do not disclose any actual results, only means for groups of seniors.
