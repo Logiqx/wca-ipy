@@ -30,7 +30,8 @@ SET year = FLOOR(
 -- Check age categories
 SELECT FLOOR((YEAR(NOW()) - year) / 10) * 10 AS age_category, COUNT(*)
 FROM Persons
-GROUP BY age_category;
+GROUP BY age_category
+ORDER BY age_category;
 
 -- Reset to WCA defaults
 UPDATE Persons
