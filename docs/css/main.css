@@ -33,6 +33,15 @@ a:visited {
   color: #e64503;
 }
 
+ul {
+  margin: 0px 0px 10px;
+  list-style-type: none;
+}
+
+ul li {
+  margin-left: 4px;
+}
+
 .important {
   color: #d00000;
   font-weight: 600;
