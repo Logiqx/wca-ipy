@@ -12,7 +12,7 @@
 SELECT CURDATE() AS run_date, eventId, "average" AS result, age_category, countryId, COUNT(DISTINCT personId) AS num_seniors
 FROM
 (
-  SELECT p.id AS personId, p.countryId, r.eventId, r.average, TIMESTAMPDIFF(YEAR,
+  SELECT p.id AS personId, p.countryId, r.eventId, TIMESTAMPDIFF(YEAR,
 	DATE_FORMAT(CONCAT(p.year, '-', p.month, '-', p.day), '%Y-%m-%d'),
 	DATE_FORMAT(CONCAT(c.year, '-', c.month, '-', c.day), '%Y-%m-%d')) AS age_at_comp
   FROM Persons AS p USE INDEX()
@@ -34,7 +34,7 @@ UNION ALL
 SELECT CURDATE() AS run_date, eventId, "single" AS result, age_category, countryId, COUNT(DISTINCT personId) AS num_seniors
 FROM
 (
-  SELECT p.id AS personId, p.countryId, r.eventId, r.average, TIMESTAMPDIFF(YEAR,
+  SELECT p.id AS personId, p.countryId, r.eventId, TIMESTAMPDIFF(YEAR,
 	DATE_FORMAT(CONCAT(p.year, '-', p.month, '-', p.day), '%Y-%m-%d'),
 	DATE_FORMAT(CONCAT(c.year, '-', c.month, '-', c.day), '%Y-%m-%d')) AS age_at_comp
   FROM Persons AS p USE INDEX()
