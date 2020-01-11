@@ -5,6 +5,8 @@
 
     Purpose:  Simple extract to facilitate the production of "Senior Rankings".
               https://logiqx.github.io/wca-ipy/Senior_Rankings.html
+
+    Notes:    I'd like to be able to report the total number of seniors by region.
 */
 
 SELECT CURDATE() AS run_date, eventId, "average" AS result, age_category, countryId, COUNT(DISTINCT personId) AS num_seniors
