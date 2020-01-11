@@ -36,12 +36,7 @@ FROM
     JOIN
     (
       SELECT 40 AS age_category
-      UNION ALL SELECT 50
-      UNION ALL SELECT 60
-      UNION ALL SELECT 70
-      UNION ALL SELECT 80
-      UNION ALL SELECT 90
-      UNION ALL SELECT 100
+      UNION ALL SELECT 50 UNION ALL SELECT 60 UNION ALL SELECT 70 UNION ALL SELECT 80 UNION ALL SELECT 90 UNION ALL SELECT 100
     ) AS age_categories ON age_category <= age_at_comp
     GROUP BY personId, eventId, age_category
   ) AS senior_bests
@@ -73,12 +68,7 @@ FROM
     JOIN
     (
       SELECT 40 AS age_category
-      UNION ALL SELECT 50
-      UNION ALL SELECT 60
-      UNION ALL SELECT 70
-      UNION ALL SELECT 80
-      UNION ALL SELECT 90
-      UNION ALL SELECT 100
+      UNION ALL SELECT 50 UNION ALL SELECT 60 UNION ALL SELECT 70 UNION ALL SELECT 80 UNION ALL SELECT 90 UNION ALL SELECT 100
     ) AS age_categories ON age_category <= age_at_comp
     GROUP BY personId, eventId, age_category
   ) AS senior_bests
