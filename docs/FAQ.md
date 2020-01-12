@@ -5,7 +5,7 @@
 
 #### What are the senior rankings?
 
-The [Senior Rankings](Senior_Rankings.html) are the best possible indication that I can provide of your “real” world ranking amongst your peers. Non-contiguous ranks are because of unlisted / unknown seniors but the overall rankings are very accurate due to the way that they are calculated.
+The [Senior Rankings](/wca-ipy-www/Senior_Rankings.html) are the best possible indication that I can provide of your “real” world ranking amongst your peers. Non-contiguous ranks are because of unlisted / unknown seniors but the overall rankings are very accurate due to the way that they are calculated.
 
 #### Why was this project created?
 
@@ -21,7 +21,7 @@ The original list of official results only contained 11 seniors but the list was
 
 As of Jan 2020 the number of people who have competed after turning 40 is around 2,000.
 
-You can check the latest figures at the bottom of the [rankings](https://logiqx.github.io/wca-ipy/Senior_Rankings.html) page.
+You can check the latest figures at the bottom of the [rankings](/wca-ipy-www/Senior_Rankings.html) page.
 
 #### How do I get my name added?
 
@@ -45,7 +45,7 @@ Any national / continental rankings without parenthesis can be assumed good but 
 
 ### Future Competitions
 
-The [Future Competitions](Future_Competitions.html) page is updated throughout the day using the [WCA API](https://github.com/thewca/worldcubeassociation.org/wiki) and a number of additional websites that are used for competition registration.
+The [Future Competitions](/wca-ipy-www/Future_Competitions.html) page is updated throughout the day using the [WCA API](https://github.com/thewca/worldcubeassociation.org/wiki) and a number of additional websites that are used for competition registration.
 
 It retrieves registration data from [worldcubeassociation.org](https://www.worldcubeassociation.org/competitions), [cubingchina.com](https://cubingchina.com/competition), [cubing-tw.net](https://cubing-tw.net/event/), [speedcubing.pl](https://www.speedcubing.pl/) and [cubecomp.de](https://cubecomp.de/). Although the code also supports [zawody4event.pl](https://zawody4event.pl/#competitions) it is unable to connect to the website from my AWS environment.
 
@@ -65,7 +65,7 @@ The data privacy policy for this project is described in the [Privacy Notice](Pr
 
 The senior rankings are updated daily using the WCA [results export](https://www.worldcubeassociation.org/results/misc/export.html) which is published at around 0400 GMT. A daily batch job runs at 0410 GMT which downloads the latest WCA database export and refreshes the senior rankings.
 
-The "[Future Competitions](Future_Competitions.html)" page is updated every 3 hours - 0000 GMT, 0300 GMT, 0600 GMT, etc. This ensures that any registration changes are reflected promptly without the process being overly excessive.
+The "[Future Competitions](/wca-ipy-www/Future_Competitions.html)" page is updated every 3 hours - 0000 GMT, 0300 GMT, 0600 GMT, etc. This ensures that any registration changes are reflected promptly without the process being overly excessive.
 
 #### What  Technologies are Used?
 

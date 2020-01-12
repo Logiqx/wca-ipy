@@ -8,11 +8,7 @@ There is a thriving community of senior cubers and the chart below shows how off
 
 It is quite striking how the gradients of the leading edges (just left of the apexes) are nearly identical. There is a consistent separation of about 6 seconds which clearly indicates that the over 40s are unable to achieve the times of the younger members in the community. Whether this disparity is due to limited time for practice, slower rate of learning, reduced dexterity, slower reflexes or failing eyesight is unclear but it is probably due to a combination of all these factors.
 
-Knowing that they can't realistically compete with the younger competitors the senior members of the community are extremely keen to see how they rank against their peers. To this end there have been several pieces of analysis in recent years:
-
-* [Partial Over 40s Rankings](Partial_Rankings.html) was only intended to be a one-off but has been maintained since 2015
-* [Percentile Rankings](Percentile_Rankings.html) shows how times are distributed for the WCA community and the over 40s
-* [Indicative Over 40s Rankings](Indicative_Rankings.html) pads out the partial rankings, thus showing realistic rankings
+Knowing that they can't realistically compete with the younger competitors the senior members of the community are extremely keen to see how they rank against their peers. To this end there have been several pieces of analysis in recent years but the latest is known as the [Senior Rankings](/wca-ipy-www/Senior_Rankings.html).
 
 Whilst these projects are extremely popular with the senior members of the community they have their limitations and it makes sense to provide up-to-date senior rankings on the WCA website.
 
