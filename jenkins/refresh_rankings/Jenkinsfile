@@ -24,6 +24,7 @@ pipeline {
             steps {
                 runPyScript('Senior_Rankings.py')
             }
+        }
         stage('Refresh Competitions') {
             steps {
                 runPyScript('Recent_Competitions.py')
