@@ -40,6 +40,15 @@ ul li {
   margin-left: 4px;
 }
 
+ul.disc {
+  margin: 0px;
+  list-style-type: disc;
+}
+
+ul.disc  li {
+  margin-left: 0px;
+}
+
 .important {
   color: #d00000;
   font-weight: 600;
