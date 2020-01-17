@@ -394,7 +394,7 @@ CREATE TABLE SeniorFakes AS
                 IFNULL(IF(groupResult - prevResult < nextResult - groupResult OR nextResult IS NULL,
                     groupResult - prevResult, nextResult - groupResult), 0) / numMissing AS fakeInterval
             FROM SeniorStatsExtra
-            WHERE (NOT stepNo <=> 2 AND numMissing > 0) OR (stepNo = 2 AND numMissing > 1) OR (stepNo = 2 AND groupSize < 4)
+            WHERE NOT (stepNo = 2 AND numMissing = 1 AND numRows = groupSize - 1 AND groupSize >= 4)
         ) AS t
         JOIN seq_0_to_5 ON seq < numMissing
     ) AS t
@@ -406,5 +406,6 @@ UNION ALL
     FROM SeniorStatsExtra
     WHERE stepNo = 2
     AND numMissing = 1
+    AND numRows = groupSize - 1
     AND groupSize >= 4
 );
