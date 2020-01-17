@@ -54,14 +54,14 @@ LEFT JOIN SeniorStatsExtra AS ss ON ss.viewId = sb.viewId AND rowNo BETWEEN minR
 WHERE ss.viewId IS NULL;
 
 -- Check for change in totMissing
-SELECT 'totMissing', sv.*, ss2.*
+SELECT 'totMissing' AS label, sv.*, ss2.*
 FROM SeniorStatsExtra AS ss1
 JOIN SeniorStatsExtra AS ss2 ON ss2.viewId = ss1.viewId AND ss2.groupNo = ss1.groupNo + 1
 JOIN SeniorViews AS sv ON sv.viewId = ss1.viewId
 WHERE ss2.totMissing < ss1.totMissing;
 
 -- ???
-SELECT 'totMissing', sv.*, t.*
+SELECT 'totMissing' AS label, sv.*, t.*
 FROM
 (
     SELECT *, MAX(totMissing) OVER (PARTITION BY viewId ORDER BY groupNo) AS maxTotMissing
@@ -72,7 +72,7 @@ WHERE t.maxTotMissing > t.totMissing
 ORDER BY t.viewId, groupNo;
 
 -- Evaluate Overall Counts
-SELECT t.viewId, eventId, resultType, ageCategory, SUM(groupSize) AS expectedRecs, numRecs
+SELECT 'Overall count' AS label, t.viewId, eventId, resultType, ageCategory, SUM(groupSize) AS expectedRecs, numRecs
 FROM
 (
     SELECT viewId, COUNT(*) AS numRecs
