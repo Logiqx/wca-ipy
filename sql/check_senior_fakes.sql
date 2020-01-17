@@ -90,3 +90,19 @@ JOIN SeniorStatsExtra AS ss ON ss.viewId = t.viewId
 JOIN SeniorViews AS sv ON sv.viewId = t.viewId
 GROUP BY viewId
 HAVING numRecs != expectedRecs;
+
+-- Check types of fakes
+
+SELECT 'Unexpected exact' AS label, sv.*, sf.*, ss.*
+FROM SeniorFakes AS sf
+JOIN SeniorStatsExtra AS ss ON ss.viewId = sf.viewId AND ss.groupNo = sf.groupNo
+JOIN SeniorViews AS sv on sv.viewId = ss.viewId
+WHERE fakeId = 'FAKE_EXACT'
+AND (ss.stepNo != 2 OR ss.numMissing != 1 OR ss.numRows != ss.groupSize - 1 OR ss.groupSize < 4);
+
+SELECT 'Unexpected range' AS label, sv.*, sf.*, ss.*
+FROM SeniorFakes AS sf
+JOIN SeniorStatsExtra AS ss ON ss.viewId = sf.viewId AND ss.groupNo = sf.groupNo
+JOIN SeniorViews AS sv on sv.viewId = ss.viewId
+WHERE fakeId = 'FAKE_RANGE'
+AND NOT (ss.stepNo != 2 OR ss.numMissing != 1 OR ss.numRows != ss.groupSize - 1 OR ss.groupSize < 4);
