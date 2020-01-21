@@ -45,9 +45,9 @@ ALTER TABLE SeniorViews ADD UNIQUE KEY SeniorViewsCompositeKey (runDate, eventId
     Create improved senior stats table, including totals and awareness of neighbouring groups
 */
 
--- DROP TEMPORARY TABLE IF EXISTS SeniorStatsExtra;
+DROP TABLE IF EXISTS SeniorStatsExtra;
 
-CREATE TEMPORARY TABLE SeniorStatsExtra AS
+CREATE TABLE SeniorStatsExtra AS
 SELECT sv.viewId, groupNo, groupSize,
     SUM(groupSize) OVER (PARTITION BY viewId ORDER BY groupNo) AS totSeniors,
     LAG(groupResult) OVER (PARTITION BY viewId ORDER BY groupNo) AS prevResult,
@@ -63,9 +63,9 @@ ALTER TABLE SeniorStatsExtra ADD PRIMARY KEY (viewId, groupNo);
     Create table containing senior bests (averages and singles)
 */
 
--- DROP TEMPORARY TABLE IF EXISTS SeniorBests;
+DROP TABLE IF EXISTS SeniorBests;
 
-CREATE TEMPORARY TABLE SeniorBests AS
+CREATE TABLE SeniorBests AS
 SELECT viewId, ROW_NUMBER() OVER (PARTITION BY viewId ORDER BY best, personId) - 1 AS rowNo, personId, best
 FROM
 (
@@ -103,7 +103,7 @@ ALTER TABLE SeniorBests ADD PRIMARY KEY (viewId, rowNo);
     Create improved senior bests table, including rolling averages
 */
 
--- DROP TEMPORARY TABLE IF EXISTS SeniorBestsExtra;
+DROP TEMPORARY TABLE IF EXISTS SeniorBestsExtra;
 
 CREATE TEMPORARY TABLE SeniorBestsExtra AS
 SELECT viewId, rowNo, personId, best,
@@ -150,7 +150,7 @@ ALTER TABLE SeniorStatsExtra ADD
    Step 1 - Process groups with matching averages, using rolling averages of 6
 */
 
--- DROP TEMPORARY TABLE IF EXISTS SeniorGroups;
+DROP TEMPORARY TABLE IF EXISTS SeniorGroups;
 
 -- Create temporary table to speed up the step 1 processing
 CREATE TEMPORARY TABLE SeniorGroups AS
