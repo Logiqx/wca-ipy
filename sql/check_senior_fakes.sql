@@ -47,11 +47,13 @@ JOIN SeniorViews AS sv ON sv.viewId = t1.viewId
 WHERE NOT totRows = numPersons;
 
 -- List exceptions
+/*
 SELECT 'Missing result' AS label, sv.*, sb.rowNo, sb.personId, sb.best
 FROM SeniorBestsExtra AS sb
 JOIN SeniorViews AS sv ON sv.viewId = sb.viewId
 LEFT JOIN SeniorStatsExtra AS ss ON ss.viewId = sb.viewId AND rowNo BETWEEN minRowNo AND maxRowNo
 WHERE ss.viewId IS NULL;
+*/
 
 -- Check for change in totMissing
 SELECT 'totMissing' AS label, sv.*, ss2.*
