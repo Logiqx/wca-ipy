@@ -1,6 +1,6 @@
 /*
-    Script:   Extract Senior Countries
-    Created:  2020-01-11
+    Script:   Extract Senior Continents
+    Created:  2020-01-25
     Author:   Michael George / 2015GEOR02
 
     Purpose:  Simple extract to facilitate the production of "Senior Rankings".
