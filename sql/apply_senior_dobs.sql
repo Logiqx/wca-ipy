@@ -14,7 +14,7 @@ SET p.year = 0,
 
 -- Update DOB if known (or approximated)
 UPDATE wca.Persons AS p
-INNER JOIN Seniors AS s ON s.personId = p.id AND s.dob IS NOT NULL
+INNER JOIN wca_ipy.Seniors AS s ON s.personId = p.id AND s.dob IS NOT NULL
 SET p.year = DATE_FORMAT(s.dob, '%Y'),
     p.month = DATE_FORMAT(s.dob, '%m'),
     p.day = DATE_FORMAT(s.dob, '%d');
