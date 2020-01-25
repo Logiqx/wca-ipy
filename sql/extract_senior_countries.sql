@@ -36,9 +36,9 @@ FROM
 ) AS t1
 JOIN
 (
-  SELECT eventId, countryId, COUNT(DISTINCT personId) AS num_persons
+  SELECT eventId, countryId, COUNT(*) AS num_persons
   FROM RanksAverage AS r
-  JOIN Persons AS p ON p.id = r.personId
+  JOIN Persons AS p ON p.id = r.personId AND p.subid = 1
   GROUP BY eventId, countryId
 ) AS t2 ON t2.eventId = t1.eventId AND t2.countryId = t1.countryId
 WHERE num_persons >= 40 AND num_seniors > 1
@@ -71,9 +71,9 @@ FROM
 ) AS t1
 JOIN
 (
-  SELECT eventId, countryId, COUNT(DISTINCT personId) AS num_persons
+  SELECT eventId, countryId, COUNT(*) AS num_persons
   FROM RanksSingle AS r
-  JOIN Persons AS p ON p.id = r.personId
+  JOIN Persons AS p ON p.id = r.personId AND p.subid = 1
   GROUP BY eventId, countryId
 ) AS t2 ON t2.eventId = t1.eventId AND t2.countryId = t1.countryId
 WHERE num_persons >= 40 AND num_seniors > 1;
