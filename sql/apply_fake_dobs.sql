@@ -32,9 +32,3 @@ SELECT FLOOR((YEAR(NOW()) - year) / 10) * 10 AS age_category, COUNT(*)
 FROM Persons
 GROUP BY age_category
 ORDER BY age_category;
-
--- Reset to WCA defaults
-UPDATE Persons
-SET year = 1954,
-    month = 12,
-    day = 4;
