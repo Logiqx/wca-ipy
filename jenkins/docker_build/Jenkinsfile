@@ -84,6 +84,11 @@ pipeline {
                         runPyScript('Create_Senior_Fakes.py')
                     }
                 }
+                stage('Extract Counts') {
+                    steps {
+                        runPyScript('Extract_Senior_Counts.py')
+                    }
+                }
                 stage('Format Extracts') {
                     steps {
                         runPyScript('Create_Extracts.py')
