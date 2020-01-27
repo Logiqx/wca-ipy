@@ -73,7 +73,7 @@ FROM
     FROM
     (
         SELECT s.runDate, r.eventId, 'average' AS resultType, r.personId, r.average AS best,
-            TIMESTAMPDIFF(YEAR,dob, DATE_FORMAT(CONCAT(c.year, '-', c.month, '-', c.day), '%Y-%m-%d')) AS age_at_comp
+            TIMESTAMPDIFF(YEAR, dob, DATE_FORMAT(CONCAT(c.year, '-', c.month, '-', c.day), '%Y-%m-%d')) AS age_at_comp
         FROM Seniors AS p
         JOIN (SELECT MAX(runDate) AS runDate FROM SeniorStats) AS s
         JOIN wca.Results AS r ON r.personId = p.personId AND average > 0

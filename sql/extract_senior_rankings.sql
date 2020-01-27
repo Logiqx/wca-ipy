@@ -23,7 +23,7 @@ FROM
         FROM
         (
             SELECT r.eventId, 'average' AS resultType, r.personId, r.average AS best,
-                TIMESTAMPDIFF(YEAR,dob, DATE_FORMAT(CONCAT(c.year, '-', c.month, '-', c.day), '%Y-%m-%d')) AS age_at_comp
+                TIMESTAMPDIFF(YEAR, dob, DATE_FORMAT(CONCAT(c.year, '-', c.month, '-', c.day), '%Y-%m-%d')) AS age_at_comp
             FROM Seniors AS p
             JOIN wca.Results AS r ON r.personId = p.personId AND average > 0
             JOIN wca.Competitions AS c ON c.id = r.competitionId
