@@ -65,7 +65,7 @@ ALTER TABLE KnownSeniors ADD PRIMARY KEY (eventId, resultType, ageCategory, pers
     Extract counts
 */
 
-SELECT t.eventId, t.resultType, t.ageCategory, t.countryId, ws.maxRank, ws.numPersons, numSeniors, knownSeniors, numSeniors - knownSeniors AS missingSeniors
+SELECT t.eventId, t.resultType, t.ageCategory, iso2 AS country, ws.maxRank, ws.numPersons, numSeniors, knownSeniors, numSeniors - knownSeniors AS missingSeniors
 FROM
 (
 	SELECT eventId, resultType, ageCategory, countryId, COUNT(*) AS knownSeniors
@@ -73,5 +73,6 @@ FROM
     JOIN wca.Persons AS p ON p.id = personId
     GROUP BY eventId, resultType, ageCategory, countryId
 ) AS t
+JOIN wca.Countries AS c ON c.id = t.countryId
 LEFT JOIN CountryStats AS cs ON cs.eventId = t.eventId AND cs.resultType = t.resultType AND cs.ageCategory = t.ageCategory AND cs.countryId = t.countryId
 LEFT JOIN WcaStats AS ws ON ws.eventId = t.eventId AND ws.resultType = t.resultType AND ws.countryId = t.countryId;
