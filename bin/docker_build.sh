@@ -15,6 +15,9 @@ MYSQL_USER=wca_ipy_tst
 # Create Fakes
 run_py_script Create_Senior_Fakes.py
 
+# Extract Counts
+run_py_script Extract_Senior_Counts.py
+
 # Format Extracts
 run_py_script Create_Extracts.py
 
