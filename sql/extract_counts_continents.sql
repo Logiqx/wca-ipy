@@ -78,4 +78,5 @@ FROM
 ) AS t
 JOIN ContinentCodes AS cc ON cc.id = t.continentId
 LEFT JOIN ContinentStats AS cs ON cs.eventId = t.eventId AND cs.resultType = t.resultType AND cs.ageCategory = t.ageCategory AND cs.continentId = t.continentId
-LEFT JOIN WcaStats AS ws ON ws.eventId = t.eventId AND ws.resultType = t.resultType AND ws.continentId = t.continentId;
+LEFT JOIN WcaStats AS ws ON ws.eventId = t.eventId AND ws.resultType = t.resultType AND ws.continentId = t.continentId
+ORDER BY eventId, resultType, ageCategory, continent;

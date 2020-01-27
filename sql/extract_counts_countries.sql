@@ -75,4 +75,5 @@ FROM
 ) AS t
 JOIN wca.Countries AS c ON c.id = t.countryId
 LEFT JOIN CountryStats AS cs ON cs.eventId = t.eventId AND cs.resultType = t.resultType AND cs.ageCategory = t.ageCategory AND cs.countryId = t.countryId
-LEFT JOIN WcaStats AS ws ON ws.eventId = t.eventId AND ws.resultType = t.resultType AND ws.countryId = t.countryId;
+LEFT JOIN WcaStats AS ws ON ws.eventId = t.eventId AND ws.resultType = t.resultType AND ws.countryId = t.countryId
+ORDER BY eventId, resultType, ageCategory, country;
