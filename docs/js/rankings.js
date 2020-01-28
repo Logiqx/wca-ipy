@@ -358,25 +358,49 @@ function renderTable(eventId, resultType, ageCategory, continentId, countryId, w
 			}
 			out += '</tr>';
 			
-			var prevBest = 0;
-			var count = 0;
-			var ratio = 0;
+			var missing = -1;
+			var fakeRatio = 1;
+
+			if (countryId != "XX")
+			{
+				if (rankingObj.missing.countries.hasOwnProperty(countryId))
+				{
+					missing = rankingObj.missing.countries[countryId];
+
+					if (rankingObj.missing.world > 0)
+					{
+						fakeRatio =  missing / rankingObj.missing.world;
+					}
+				}
+			}
+			else if (continentId != "XX")
+			{
+				if (rankingObj.missing.continents.hasOwnProperty(continentId))
+				{
+					missing = rankingObj.missing.continents[continentId];
+
+					if (rankingObj.missing.world > 0)
+					{
+						fakeRatio = missing / rankingObj.missing.world;
+					}
+				}
+			}
+			else
+			{
+				if (rankingObj.missing.world > 0)
+				{
+					missing = rankingObj.missing.world;
+				}
+			}
 
 			var filterCount = 0;
 			var filterPrev = 0;
-			var filterAdj = 0;
 
 			for (var rankIdx = 0; rankIdx < rankingObj.ranks.length; rankIdx++)
 			{
 				var rankObj = rankingObj.ranks[rankIdx];
 				var personObj = rankings.persons[personIds.indexOf(rankObj.id)];
 				var countryObj = rankings.countries[countryIds.indexOf(personObj.country)];
-
-				count++;
-				if (rankObj.best != prevBest)
-				{
-					ratio = rankObj.rank / count;
-				}
 
 				if ((continentId == "XX" || countryObj.continent == continentId) &&
 					(countryId == "XX" || countryObj.id == countryId))
@@ -391,26 +415,12 @@ function renderTable(eventId, resultType, ageCategory, continentId, countryId, w
 					{
 						out += '<tr>';
 					}
+
 					if (rankObj.best != filterPrev)
 					{
-						filterAdj = Math.max(filterAdj, filterCount * ratio - filterCount);
+						var rank = filterCount + fakeRatio * (rankObj.rank - rankIdx - 1);
 
-						if (continentId == "XX" && countryId == "XX")
-						{
-							out += '<td class="rank">' + rankObj.rank + '</td>';
-						}
-						else if (filterAdj == 0)
-						{
-							out += '<td class="rank">' + filterCount + '</td>';
-						}
-						else if (filterAdj < 0.5)
-						{
-							out += '<td class="rank likely">(' + filterCount + ')</td>';
-						}
-						else
-						{
-							out += '<td class="rank estimate">(' + (filterCount + filterAdj).toFixed(0) + ')</td>';
-						}
+						out += '<td class="rank">' + rank.toFixed(0) + '</td>';
 					}
 					else
 					{
@@ -444,26 +454,19 @@ function renderTable(eventId, resultType, ageCategory, continentId, countryId, w
 
 					filterPrev = rankObj.best;
 				}
-
-				prevBest = rankObj.best;
 			}
 
 			out += '</table></div>';
 
-			if (rankingObj.hasOwnProperty("estimate"))
+			if (missing >= 0)
 			{
-				if (continentId == "XX" && countryId == "XX")
-				{
-					if (filterCount != rankingObj.estimate)
-					{
-						out += '<p>' + filterCount + ' of ' + rankingObj.estimate + ' seniors listed.</p>';
-					}
-					out += '<p>Overall completeness of rankings = ' + (100 * count / rankingObj.estimate).toFixed(1) + '%</p>';
-				}
-				else
-				{
-					out += '<p>NOTE: The total number of seniors for this region is unknown. Bracketed rankings are crude estimates based on missing seniors around the world.</p>';
-				}
+				out += '<p>' + filterCount + ' of ' + (filterCount + missing) + ' seniors listed.</p>';
+				out += '<p>Overall completeness of rankings = ' + (100 * filterCount / (filterCount + missing)).toFixed(1) + '%</p>';
+			}
+			else
+			{
+				out += '<p>' + filterCount + ' seniors listed.</p>';
+				out += '<p>NOTE: The actual number of seniors for this region is unknown.</p>';
 			}
 		}
 	}
