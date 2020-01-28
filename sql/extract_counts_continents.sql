@@ -130,7 +130,7 @@ WHERE missingSeniors < 0;
     Extract missing counts
 */
 
-SELECT *
+SELECT eventId, resultType, ageCategory, continent, missingSeniors
 FROM MissingContinents
 WHERE missingSeniors IS NOT NULL
 ORDER BY eventId, resultType, ageCategory, continent;

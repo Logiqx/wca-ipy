@@ -96,7 +96,7 @@ WHERE missingSeniors < 0;
     Extract missing counts
 */
 
-SELECT *
+SELECT eventId, resultType, ageCategory, missingSeniors
 FROM MissingWorld
 WHERE missingSeniors IS NOT NULL
 ORDER BY eventId, resultType, ageCategory;
