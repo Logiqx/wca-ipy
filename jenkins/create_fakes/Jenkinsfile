@@ -19,6 +19,7 @@ def runPyScript(pyScript) {
     env.PROJECT_ROOT = "${USER_HOME}/work/${IMAGE_NAME}"
     sh """docker run --rm \
                      --mount type=bind,src=${MYSQL_CNF},dst=${USER_HOME}/.my.cnf \
+                     --mount type=volume,src=wca_ipy_data,dst=${PROJECT_ROOT}/data \
                      -e MYSQL_HOST=${MYSQL_HOST} \
                      -e MYSQL_DATABASE=${MYSQL_DATABASE} \
                      -e MYSQL_USER=${MYSQL_USER} \
@@ -32,7 +33,7 @@ pipeline {
                  threshold: hudson.model.Result.SUCCESS)
     }
     options {
-        lock resource: 'DB'
+        lock resource: 'DB+Data'
     }
     environment {
         IMAGE_NAME = 'wca-ipy'
