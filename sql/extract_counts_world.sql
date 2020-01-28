@@ -60,9 +60,12 @@ JOIN seq_40_to_100_step_10 ON seq <= age_at_comp;
 ALTER TABLE KnownSeniors ADD PRIMARY KEY (eventId, resultType, ageCategory, personId);
 
 /*
-    Extract counts
+    Calculate missing counts
 */
 
+DROP TABLE IF EXISTS MissingWorld;
+
+CREATE TABLE MissingWorld AS
 SELECT t1.eventId, t1.resultType, t1.ageCategory, maxRank, numPersons, numSeniors, knownSeniors, numSeniors - knownSeniors AS missingSeniors
 FROM 
 (
@@ -76,5 +79,24 @@ LEFT JOIN
     FROM SeniorStats
     GROUP BY eventId, resultType, ageCategory
 ) AS t2 ON t2.eventId = t1.eventId AND t2.resultType = t1.resultType AND t2.ageCategory = t1.ageCategory
-LEFT JOIN WcaStats AS ws ON ws.eventId = t1.eventId AND ws.resultType = t1.resultType
+LEFT JOIN WcaStats AS ws ON ws.eventId = t1.eventId AND ws.resultType = t1.resultType;
+
+ALTER TABLE MissingWorld ADD PRIMARY KEY (eventId, resultType, ageCategory);
+
+/*
+    Patch missing counts
+*/
+
+-- Count cannot be negative
+UPDATE MissingWorld
+SET missingSeniors = 0
+WHERE missingSeniors < 0;
+
+/*
+    Extract missing counts
+*/
+
+SELECT *
+FROM MissingWorld
+WHERE missingSeniors IS NOT NULL
 ORDER BY eventId, resultType, ageCategory;

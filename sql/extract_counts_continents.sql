@@ -64,9 +64,12 @@ JOIN seq_40_to_100_step_10 ON seq <= age_at_comp;
 ALTER TABLE KnownSeniors ADD PRIMARY KEY (eventId, resultType, ageCategory, personId);
 
 /*
-    Extract counts
+    Calculate missing counts
 */
 
+DROP TABLE IF EXISTS MissingContinents;
+
+CREATE TABLE MissingContinents AS
 SELECT t.eventId, t.resultType, t.ageCategory, cc.cc AS continent, ws.maxRank, ws.numPersons, numSeniors, knownSeniors, numSeniors - knownSeniors AS missingSeniors
 FROM 
 (
@@ -78,5 +81,56 @@ FROM
 ) AS t
 JOIN ContinentCodes AS cc ON cc.id = t.continentId
 LEFT JOIN ContinentStats AS cs ON cs.eventId = t.eventId AND cs.resultType = t.resultType AND cs.ageCategory = t.ageCategory AND cs.continentId = t.continentId
-LEFT JOIN WcaStats AS ws ON ws.eventId = t.eventId AND ws.resultType = t.resultType AND ws.continentId = t.continentId
+LEFT JOIN WcaStats AS ws ON ws.eventId = t.eventId AND ws.resultType = t.resultType AND ws.continentId = t.continentId;
+
+ALTER TABLE MissingContinents ADD PRIMARY KEY (eventId, resultType, ageCategory, continent);
+
+/*
+    Patch missing counts
+*/
+
+-- Count cannot be negative
+UPDATE MissingContinents
+SET missingSeniors = 0
+WHERE missingSeniors < 0;
+
+-- Propagate "none missing" from world to continent
+UPDATE MissingContinents AS mc
+JOIN MissingWorld AS mw ON mw.eventId = mc.eventId AND mw.resultType = mc.resultType AND mw.ageCategory = mc.ageCategory
+SET mc.missingSeniors = 0
+WHERE mc.missingSeniors IS NULL
+AND mw.missingSeniors = 0;
+
+-- Propagate "none missing" from younger age categories
+UPDATE MissingContinents AS mc1
+JOIN MissingContinents AS mc2 ON mc2.eventId = mc1.eventId AND mc2.resultType = mc1.resultType AND mc2.ageCategory < mc1.ageCategory AND mc2.continent = mc1.continent
+SET mc1.missingSeniors = 0
+WHERE mc1.missingSeniors IS NULL
+AND mc2.missingSeniors = 0;
+
+-- Handle supressions - only 1 senior in the WCA DB
+UPDATE MissingContinents
+SET missingSeniors = 0
+WHERE missingSeniors IS NULL
+AND numPersons >= 40
+AND knownSeniors > 0;
+
+-- Finish using an estimate of the number of seniors in the continent
+UPDATE MissingContinents AS mc
+JOIN MissingWorld AS mw ON mw.eventId = mc.eventId AND mw.resultType = mc.resultType AND mw.ageCategory = mc.ageCategory
+SET mc.missingSeniors = CEIL(mc.numPersons / mw.numPersons * mw.numSeniors) - mc.knownSeniors
+WHERE mc.missingSeniors IS NULL;
+
+-- Count cannot be negative (patch estimations in last step)
+UPDATE MissingContinents
+SET missingSeniors = 0
+WHERE missingSeniors < 0;
+
+/*
+    Extract missing counts
+*/
+
+SELECT *
+FROM MissingContinents
+WHERE missingSeniors IS NOT NULL
 ORDER BY eventId, resultType, ageCategory, continent;

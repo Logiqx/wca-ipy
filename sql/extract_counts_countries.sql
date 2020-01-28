@@ -62,18 +62,76 @@ JOIN seq_40_to_100_step_10 ON seq <= age_at_comp;
 ALTER TABLE KnownSeniors ADD PRIMARY KEY (eventId, resultType, ageCategory, personId);
 
 /*
-    Extract counts
+    Calculate missing counts
 */
 
+DROP TABLE IF EXISTS MissingCountries;
+
+CREATE TABLE MissingCountries AS
 SELECT t.eventId, t.resultType, t.ageCategory, iso2 AS country, ws.maxRank, ws.numPersons, numSeniors, knownSeniors, numSeniors - knownSeniors AS missingSeniors
 FROM
 (
-	SELECT eventId, resultType, ageCategory, countryId, COUNT(*) AS knownSeniors
+    SELECT eventId, resultType, ageCategory, countryId, COUNT(*) AS knownSeniors
     FROM KnownSeniors
     JOIN wca.Persons AS p ON p.id = personId
     GROUP BY eventId, resultType, ageCategory, countryId
 ) AS t
 JOIN wca.Countries AS c ON c.id = t.countryId
 LEFT JOIN CountryStats AS cs ON cs.eventId = t.eventId AND cs.resultType = t.resultType AND cs.ageCategory = t.ageCategory AND cs.countryId = t.countryId
-LEFT JOIN WcaStats AS ws ON ws.eventId = t.eventId AND ws.resultType = t.resultType AND ws.countryId = t.countryId
+LEFT JOIN WcaStats AS ws ON ws.eventId = t.eventId AND ws.resultType = t.resultType AND ws.countryId = t.countryId;
+
+ALTER TABLE MissingCountries ADD PRIMARY KEY (eventId, resultType, ageCategory, country);
+
+/*
+    Patch missing counts
+*/
+
+-- Count cannot be negative
+UPDATE MissingCountries
+SET missingSeniors = 0
+WHERE missingSeniors < 0;
+
+-- Propagate "none missing" from continent to country
+UPDATE MissingCountries AS mc1
+JOIN wca.Countries AS c ON c.iso2 = mc1.country
+JOIN ContinentCodes AS cc ON cc.id = c.continentId
+JOIN MissingContinents AS mc2 ON mc2.eventId = mc1.eventId AND mc2.resultType = mc1.resultType AND mc2.ageCategory = mc1.ageCategory AND mc2.continent = cc.cc
+SET mc1.missingSeniors = 0
+WHERE mc1.missingSeniors IS NULL
+AND mc2.missingSeniors = 0;
+
+-- Propagate "none missing" from younger age categories
+UPDATE MissingCountries AS mc1
+JOIN MissingCountries AS mc2 ON mc2.eventId = mc1.eventId AND mc2.resultType = mc1.resultType AND mc2.ageCategory < mc1.ageCategory AND mc2.country = mc1.country
+SET mc1.missingSeniors = 0
+WHERE mc1.missingSeniors IS NULL
+AND mc2.missingSeniors = 0;
+
+-- Handle supressions - only 1 senior in the WCA DB
+UPDATE MissingCountries
+SET missingSeniors = 0
+WHERE missingSeniors IS NULL
+AND numPersons >= 40
+AND knownSeniors > 0;
+
+-- Finish using an estimate of the number of seniors in the country
+UPDATE MissingCountries AS mc1
+JOIN wca.Countries AS c ON c.iso2 = mc1.country
+JOIN ContinentCodes AS cc ON cc.id = c.continentId
+JOIN MissingContinents AS mc2 ON mc2.eventId = mc1.eventId AND mc2.resultType = mc1.resultType AND mc2.ageCategory = mc1.ageCategory AND mc2.continent = cc.cc
+SET mc1.missingSeniors = CEIL(mc1.numPersons / mc2.numPersons * mc2.numSeniors) - mc1.knownSeniors
+WHERE mc1.missingSeniors IS NULL;
+
+-- Count cannot be negative (patch estimations in last step)
+UPDATE MissingCountries
+SET missingSeniors = 0
+WHERE missingSeniors < 0;
+
+/*
+    Extract missing counts
+*/
+
+SELECT *
+FROM MissingCountries
+WHERE missingSeniors IS NOT NULL
 ORDER BY eventId, resultType, ageCategory, country;
