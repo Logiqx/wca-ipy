@@ -393,6 +393,7 @@ function renderTable(eventId, resultType, ageCategory, continentId, countryId, w
 				}
 			}
 
+			var fakeCount = 0;
 			var filterCount = 0;
 			var filterPrev = 0;
 
@@ -401,6 +402,11 @@ function renderTable(eventId, resultType, ageCategory, continentId, countryId, w
 				var rankObj = rankingObj.ranks[rankIdx];
 				var personObj = rankings.persons[personIds.indexOf(rankObj.id)];
 				var countryObj = rankings.countries[countryIds.indexOf(personObj.country)];
+
+				if (rankObj.id.startsWith("FAKE"))
+				{
+					fakeCount++;
+				}
 
 				if ((continentId == "XX" || countryObj.continent == continentId) &&
 					(countryId == "XX" || countryObj.id == countryId))
@@ -416,9 +422,24 @@ function renderTable(eventId, resultType, ageCategory, continentId, countryId, w
 						out += '<tr>';
 					}
 
+					if (rankObj.id.startsWith("FAKE"))
+					{
+						fakeCount--;
+						missing--;
+					}
+
 					if (rankObj.best != filterPrev)
 					{
-						var rank = filterCount + fakeRatio * (rankObj.rank - rankIdx - 1);
+						var rank = 0;
+
+						if (fakeCount > 0)
+						{
+							rank = filterCount + fakeRatio * fakeCount;
+						}
+						else
+						{
+							rank = filterCount + fakeRatio * (rankObj.rank - rankIdx - 1);
+						}
 
 						out += '<td class="rank">' + rank.toFixed(0) + '</td>';
 					}
