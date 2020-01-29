@@ -5,7 +5,6 @@ function renderOptions(eventId, resultType, ageCategory, continentId, countryId,
 {
 	var personIds = getPersonIds();
 	var countryIds = getCountryIds();
-	var continentIds = getContinentIds();
 	var dropDownClass = navigator.userAgent.indexOf("iPhone") >= 0 ? "dd16" : "dd14";
 
 	var out = "";
@@ -332,7 +331,6 @@ function renderTable(eventId, resultType, ageCategory, continentId, countryId, w
 
 	var personIds = getPersonIds();
 	var countryIds = getCountryIds();
-	var continentIds = getContinentIds();
 	var competitionIds = getCompetitionIds();
 
 	var eventObj = rankings.events[getEventIds().indexOf(eventId)];

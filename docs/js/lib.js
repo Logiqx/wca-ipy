@@ -127,7 +127,6 @@ function getViewportHeight()
 var eventIds = [];
 var personIds = [];
 var countryIds = [];
-var continentIds = [];
 var competitionIds = [];
 
 // Populate pseudo dictionary as an index for the events
@@ -178,23 +177,6 @@ function getCountryIds()
 	}
 	
 	return countryIds;
-}
-
-//
-// Populate pseudo dictionary as an index for the continents
-// Map() would be better / faster but it doesn't work on my iPad!
-//
-function getContinentIds()
-{
-	if (continentIds.length == 0)
-	{
-		for (var continentIdx = 0; continentIdx < rankings.continents.length; continentIdx++)
-		{
-			continentIds.push(rankings.continents[continentIdx].id);
-		}
-	}
-	
-	return continentIds;
 }
 
 //
