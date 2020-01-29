@@ -466,27 +466,53 @@ function renderTable(eventId, resultType, ageCategory, continentId, countryId, w
 						out += '<td class="rank"></td>';
 					}
 
-					var href = '<a target="_blank" href="https://www.worldcubeassociation.org/persons/' + rankObj.id + '?event=' + eventId + '">' + personObj.name + '</a>';
+					var href = personObj.name;
+					if (!rankObj.id.startsWith("FAKE"))
+					{
+						href = '<a target="_blank" href="https://www.worldcubeassociation.org/persons/' + rankObj.id + '?event=' + eventId + '">' + personObj.name + '</a>';
+					}
+
 					if (width >= IPHONE_LANDSCAPE)
 					{
 						out += '<td>' + href + (rankObj.hasOwnProperty("age") ? ', ' + rankObj.age + '+' : '') + '</td>';
 						out += '<td class="result">' + rankObj.best + '</td>';
-						out += '<td><i class="flag flag-' + countryObj.id + '"></i>&nbsp;' + countryObj.name + '</td>';
+						if (!rankObj.id.startsWith("FAKE"))
+						{
+							out += '<td><i class="flag flag-' + countryObj.id + '"></i>&nbsp;' + countryObj.name + '</td>';
+						}
+						else
+						{
+							out += '<td></td>';
+						}
 
 						if (width >= IPAD_LANDSCAPE && rankings.hasOwnProperty("competitions"))
 						{
 							var competitionObj = rankings.competitions[competitionIdx[rankObj.competition]];
 							var compCountryObj = rankings.countries[countryIdx[competitionObj.country]];
 
-							out += '<td><i class="flag flag-' + compCountryObj.id + '"></i>&nbsp;' +
-								'<a target="_blank" href="https://www.worldcubeassociation.org/competitions/' + competitionObj.webId + '/results/by_person#' + personObj.id + '">' +
-								competitionObj.name + '</a></td>';
+							if (!rankObj.id.startsWith("FAKE"))
+							{
+								out += '<td><i class="flag flag-' + compCountryObj.id + '"></i>&nbsp;' +
+									'<a target="_blank" href="https://www.worldcubeassociation.org/competitions/' + competitionObj.webId + '/results/by_person#' + personObj.id + '">' +
+									competitionObj.name + '</a></td>';
+							}
+							else
+							{
+								out += '<td></td>';
+							}
 						}
 					}
 					else
 					{
-						out += '<td>' + href + '<br/><i class="flag flag-' + countryObj.id + '"></i>&nbsp;' + countryObj.name +
-							(rankObj.hasOwnProperty("age") ? ', ' + rankObj.age + '+' : '') + '</td>';
+						if (!rankObj.id.startsWith("FAKE"))
+						{
+							out += '<td>' + href + '<br/><i class="flag flag-' + countryObj.id + '"></i>&nbsp;' + countryObj.name +
+								(rankObj.hasOwnProperty("age") ? ', ' + rankObj.age + '+' : '') + '</td>';
+						}
+						else
+						{
+							out += '<td>' + href + '</td>';
+						}
 						out += '<td class="result">' + rankObj.best + '</td>';
 					}
 					out += '</tr>';
