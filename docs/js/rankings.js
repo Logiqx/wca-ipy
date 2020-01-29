@@ -3,8 +3,8 @@
 //
 function renderOptions(eventId, resultType, ageCategory, continentId, countryId, width)
 {
-	var personIds = getPersonIds();
-	var countryIds = getCountryIds();
+	var eventIdx = getEventIdx();
+
 	var dropDownClass = navigator.userAgent.indexOf("iPhone") >= 0 ? "dd16" : "dd14";
 
 	var out = "";
@@ -26,9 +26,9 @@ function renderOptions(eventId, resultType, ageCategory, continentId, countryId,
 		out += "<div class=\"" + dropDownClass + "\"><table><tr><th>Event:</th>";
 	}
 	out += "<td class=\"event\"><select id=\"eventId\" onChange=\"switchView()\">";
-	for (var eventIdx = 0; eventIdx < filteredEvents.length; eventIdx++)
+	for (var i = 0; i < filteredEvents.length; i++)
 	{
-		var eventObj = rankings.events[getEventIds().indexOf(filteredEvents[eventIdx])];
+		var eventObj = rankings.events[eventIdx[filteredEvents[i]]];
 		out += "<option value=\"" + eventObj.id + "\"";
 		if (eventObj.id == eventId)
 		{
@@ -122,9 +122,9 @@ function renderOptions(eventId, resultType, ageCategory, continentId, countryId,
 		out += " selected";
 	}
 	out += ">All Countries</option>";
-	for (var i = 0; i < countryIds.length; i++)
+	for (var i = 0; i < rankings.countries.length; i++)
 	{
-		if (filteredCountries.indexOf(countryIds[i]) >= 0)
+		if (filteredCountries.indexOf(rankings.countries[i].id) >= 0)
 		{
 			var countryObj = rankings.countries[i];
 
@@ -148,6 +148,9 @@ function filterEventIds(resultType, ageCategory, continentId, countryId)
 {
 	var eventIds = [];
 
+	var personIdx = getPersonIdx();
+	var countryIdx = getCountryIdx();
+
 	for (var eventIdx = 0; eventIdx < rankings.events.length; eventIdx++)
 	{
 		var eventObj = rankings.events[eventIdx];
@@ -161,8 +164,8 @@ function filterEventIds(resultType, ageCategory, continentId, countryId)
 				for (var rankIdx = 0; rankIdx < rankingObj.ranks.length; rankIdx++)
 				{
 					var rankObj = rankingObj.ranks[rankIdx];
-					var personObj = rankings.persons[personIds.indexOf(rankObj.id)]
-					var countryObj = rankings.countries[countryIds.indexOf(personObj.country)]
+					var personObj = rankings.persons[personIdx[rankObj.id]];
+					var countryObj = rankings.countries[countryIdx[personObj.country]];
 
 					if ((continentId == "XX" || countryObj.continent == continentId) &&
 						(countryId == "XX" || personObj.country == countryId))
@@ -190,7 +193,11 @@ function filterResultTypes(eventId, ageCategory, continentId, countryId)
 {
 	var resultTypes = [];
 	
-	var eventObj = rankings.events[getEventIds().indexOf(eventId)];
+	var eventIdx = getEventIdx();
+	var personIdx = getPersonIdx();
+	var countryIdx = getCountryIdx();
+
+	var eventObj = rankings.events[eventIdx[eventId]];
 	
 	for (var rankingIdx = 0; rankingIdx < eventObj.rankings.length; rankingIdx++)
 	{
@@ -201,8 +208,8 @@ function filterResultTypes(eventId, ageCategory, continentId, countryId)
 			for (var rankIdx = 0; rankIdx < rankingObj.ranks.length; rankIdx++)
 			{
 				var rankObj = rankingObj.ranks[rankIdx];
-				var personObj = rankings.persons[personIds.indexOf(rankObj.id)]
-				var countryObj = rankings.countries[countryIds.indexOf(personObj.country)]
+				var personObj = rankings.persons[personIdx[rankObj.id]];
+				var countryObj = rankings.countries[countryIdx[personObj.country]];
 
 				if ((continentId == "XX" || countryObj.continent == continentId) &&
 					(countryId == "XX" || personObj.country == countryId))
@@ -229,7 +236,11 @@ function filterAgeCategories(eventId, resultType, continentId, countryId)
 {
 	var ageCategories = [];
 	
-	var eventObj = rankings.events[getEventIds().indexOf(eventId)];
+	var eventIdx = getEventIdx();
+	var personIdx = getPersonIdx();
+	var countryIdx = getCountryIdx();
+
+	var eventObj = rankings.events[eventIdx[eventId]];
 	
 	for (var rankingIdx = 0; rankingIdx < eventObj.rankings.length; rankingIdx++)
 	{
@@ -240,8 +251,8 @@ function filterAgeCategories(eventId, resultType, continentId, countryId)
 			for (var rankIdx = 0; rankIdx < rankingObj.ranks.length; rankIdx++)
 			{
 				var rankObj = rankingObj.ranks[rankIdx];
-				var personObj = rankings.persons[personIds.indexOf(rankObj.id)]
-				var countryObj = rankings.countries[countryIds.indexOf(personObj.country)]
+				var personObj = rankings.persons[personIdx[rankObj.id]];
+				var countryObj = rankings.countries[countryIdx[personObj.country]];
 
 				if ((continentId == "XX" || countryObj.continent == continentId) &&
 					(countryId == "XX" || personObj.country == countryId))
@@ -263,7 +274,11 @@ function filterContinents(eventId, resultType, ageCategory, countryId)
 {
 	var continents = [];
 
-	var eventObj = rankings.events[getEventIds().indexOf(eventId)];
+	var eventIdx = getEventIdx();
+	var personIdx = getPersonIdx();
+	var countryIdx = getCountryIdx();
+
+	var eventObj = rankings.events[eventIdx[eventId]];
 
 	for (var rankingIdx = 0; rankingIdx < eventObj.rankings.length; rankingIdx++)
 	{
@@ -274,8 +289,8 @@ function filterContinents(eventId, resultType, ageCategory, countryId)
 			for (var rankIdx = 0; rankIdx < rankingObj.ranks.length; rankIdx++)
 			{
 				var rankObj = rankingObj.ranks[rankIdx];
-				var personObj = rankings.persons[personIds.indexOf(rankObj.id)]
-				var countryObj = rankings.countries[countryIds.indexOf(personObj.country)]
+				var personObj = rankings.persons[personIdx[rankObj.id]];
+				var countryObj = rankings.countries[countryIdx[personObj.country]];
 
 				if ((countryId == "XX" || personObj.country == countryId) &&
 					continents.indexOf(countryObj.continent) < 0)
@@ -296,7 +311,11 @@ function filterCountries(eventId, resultType, ageCategory, continentId)
 {
 	var countries = [];
 
-	var eventObj = rankings.events[getEventIds().indexOf(eventId)];
+	var eventIdx = getEventIdx();
+	var personIdx = getPersonIdx();
+	var countryIdx = getCountryIdx();
+
+	var eventObj = rankings.events[eventIdx[eventId]];
 
 	for (var rankingIdx = 0; rankingIdx < eventObj.rankings.length; rankingIdx++)
 	{
@@ -307,8 +326,8 @@ function filterCountries(eventId, resultType, ageCategory, continentId)
 			for (var rankIdx = 0; rankIdx < rankingObj.ranks.length; rankIdx++)
 			{
 				var rankObj = rankingObj.ranks[rankIdx];
-				var personObj = rankings.persons[personIds.indexOf(rankObj.id)]
-				var countryObj = rankings.countries[countryIds.indexOf(personObj.country)]
+				var personObj = rankings.persons[personIdx[rankObj.id]];
+				var countryObj = rankings.countries[countryIdx[personObj.country]];
 
 				if ((continentId == "XX" || countryObj.continent == continentId) &&
 					countries.indexOf(countryObj.id) < 0)
@@ -329,11 +348,12 @@ function renderTable(eventId, resultType, ageCategory, continentId, countryId, w
 {
 	var out = "";
 
-	var personIds = getPersonIds();
-	var countryIds = getCountryIds();
-	var competitionIds = getCompetitionIds();
+	var eventIdx = getEventIdx();
+	var personIdx = getPersonIdx();
+	var countryIdx = getCountryIdx();
+	var competitionIdx = getCompetitionIdx();
 
-	var eventObj = rankings.events[getEventIds().indexOf(eventId)];
+	var eventObj = rankings.events[eventIdx[eventId]];
 	
 	for (var rankingIdx = 0; rankingIdx < eventObj.rankings.length; rankingIdx++)
 	{
@@ -398,8 +418,8 @@ function renderTable(eventId, resultType, ageCategory, continentId, countryId, w
 			for (var rankIdx = 0; rankIdx < rankingObj.ranks.length; rankIdx++)
 			{
 				var rankObj = rankingObj.ranks[rankIdx];
-				var personObj = rankings.persons[personIds.indexOf(rankObj.id)];
-				var countryObj = rankings.countries[countryIds.indexOf(personObj.country)];
+				var personObj = rankings.persons[personIdx[rankObj.id]];
+				var countryObj = rankings.countries[countryIdx[personObj.country]];
 
 				if (rankObj.id.startsWith("FAKE"))
 				{
@@ -455,8 +475,8 @@ function renderTable(eventId, resultType, ageCategory, continentId, countryId, w
 
 						if (width >= IPAD_LANDSCAPE && rankings.hasOwnProperty("competitions"))
 						{
-							var competitionObj = rankings.competitions[competitionIds.indexOf(rankObj.competition)];
-							var compCountryObj = rankings.countries[countryIds.indexOf(competitionObj.country)];
+							var competitionObj = rankings.competitions[competitionIdx[rankObj.competition]];
+							var compCountryObj = rankings.countries[countryIdx[competitionObj.country]];
 
 							out += '<td><i class="flag flag-' + compCountryObj.id + '"></i>&nbsp;' +
 								'<a target="_blank" href="https://www.worldcubeassociation.org/competitions/' + competitionObj.webId + '/results/by_person#' + personObj.id + '">' +
@@ -501,20 +521,20 @@ function renderRankings(hashParts, width)
 	// Initialisation
 	var out = "";
 	
-	// Array is used instead of Map() which doesn't work on my iPad
-	var eventIds = getEventIds();
+	// Psuedo dictionary
+	var eventIdx = getEventIdx();
 	
 	// Determine the event
-	var eventId = hashParts[0].length > 0 ? hashParts[0] : eventIds[0];
-	var resultType = hashParts.length > 1 && hashParts[1].length > 0 ? hashParts[1].toLowerCase() : getResultTypes()[0];
+	var eventId = hashParts[0].length > 0 ? hashParts[0] : rankings.events[0].id;
+	var resultType = hashParts.length > 1 && hashParts[1].length > 0 ? hashParts[1].toLowerCase() : "single";
 	var ageCategory = hashParts.length > 2 && hashParts[2].length > 0 ? hashParts[2] : "40";
 	var continentId = hashParts.length > 3 && hashParts[3].length > 0 ? hashParts[3].toUpperCase() : "XX";
 	var countryId = hashParts.length > 4 && hashParts[4].length > 0 ? hashParts[4].toUpperCase() : "XX";
 	
 	// Check if the event exists
-	if (eventIds.indexOf(eventId) >= 0)
+	if (eventIdx.hasOwnProperty(eventId) >= 0)
 	{
-		var eventObj = rankings.events[eventIds.indexOf(eventId)];
+		var eventObj = rankings.events[eventIdx[eventId]];
 
 		document.title = eventObj.name + " - Over " + ageCategory + "s";
 

@@ -124,105 +124,84 @@ function getViewportHeight()
 //
 // Lists of events / persons / countries / continents / competitions to be used as indices
 //
-var eventIds = [];
-var personIds = [];
-var countryIds = [];
-var competitionIds = [];
+var eventIdx = null;
+var personIdx = null;
+var countryIdx = null;
+var competitionIdx = null;
 
 // Populate pseudo dictionary as an index for the events
-// Map() would be better / faster but it doesn't work on my iPad!
+// Map() may be better / faster but it doesn't work on my iPad!
 //
-function getEventIds()
+function getEventIdx()
 {
-	if (eventIds.length == 0)
+	if (eventIdx == null)
 	{
-		for (var eventIdx = 0; eventIdx < rankings.events.length; eventIdx++)
+		eventIdx = {}
+
+		for (var i = 0; i < rankings.events.length; i++)
 		{
-			eventIds.push(rankings.events[eventIdx].id);
+			eventIdx[rankings.events[i].id] = i;
 		}
 	}
 	
-	return eventIds;
+	return eventIdx;
 }
 
 //
 // Populate pseudo dictionary as an index for the persons
-// Map() would be better / faster but it doesn't work on my iPad!
+// Map() may be better / faster but it doesn't work on my iPad!
 //
-function getPersonIds()
+function getPersonIdx()
 {
-	if (personIds.length == 0)
+	if (personIdx == null)
 	{
-		for (var personIdx = 0; personIdx < rankings.persons.length; personIdx++)
+		personIdx = {}
+
+		for (var i = 0; i < rankings.persons.length; i++)
 		{
-			personIds.push(rankings.persons[personIdx].id);
+			personIdx[rankings.persons[i].id] = i;
 		}
 	}
 	
-	return personIds;
+	return personIdx;
 }
 
 //
 // Populate pseudo dictionary as an index for the countries
-// Map() would be better / faster but it doesn't work on my iPad!
+// Map() may be better / faster but it doesn't work on my iPad!
 //
-function getCountryIds()
+function getCountryIdx()
 {
-	if (countryIds.length == 0)
+	if (countryIdx == null)
 	{
-		for (var countryIdx = 0; countryIdx < rankings.countries.length; countryIdx++)
+		countryIdx = {}
+
+		for (var i = 0; i < rankings.countries.length; i++)
 		{
-			countryIds.push(rankings.countries[countryIdx].id);
+			countryIdx[rankings.countries[i].id] = i;
 		}
 	}
 	
-	return countryIds;
+	return countryIdx;
 }
 
 //
 // Populate pseudo dictionary as an index for the competitions
-// Map() would be better / faster but it doesn't work on my iPad!
+// Map() may be better / faster but it doesn't work on my iPad!
 //
-function getCompetitionIds()
+function getCompetitionIdx()
 {
-	if (competitionIds.length == 0 && rankings.hasOwnProperty("competitions"))
+	if (competitionIdx == null)
 	{
-		for (var competitionIdx = 0; competitionIdx < rankings.competitions.length; competitionIdx++)
+		competitionIdx = {}
+
+		for (var i = 0; i < rankings.competitions.length; i++)
 		{
-			competitionIds.push(rankings.competitions[competitionIdx].id);
+			competitionIdx[rankings.competitions[i].id] = i;
 		}
 	}
 
-	return competitionIds;
-}
-
-// Determine the result types for all events - single, average or both
-//
-function getResultTypes()
-{
-	var resultTypes = [];
-
-	for (var eventIdx = 0; eventIdx < rankings.events.length; eventIdx++)
-	{
-		var eventObj = rankings.events[eventIdx];
-
-		for (var rankingIdx = 0; rankingIdx < eventObj.rankings.length; rankingIdx++)
-		{
-			var rankingObj = eventObj.rankings[rankingIdx];
-
-			if (resultTypes.indexOf(rankingObj.type) < 0)
-			{
-				resultTypes.push(rankingObj.type)
-			}
-		}
-	}
-
-	if (resultTypes.indexOf("average") >= 0 && resultTypes.indexOf("single") >= 0)
-	{
-		resultTypes = ["single", "average"];
-	}
-
-	return resultTypes;
+	return competitionIdx;
 }
 
 //
@@ -336,15 +315,19 @@ function renderPage(hash)
 		// Is the render required?
 		if (renderRequired)
 		{
+			// Pseudo dictionaries
+			var eventIdx = getEventIdx();
+			var personIdx = getPersonIdx();
+
 			// Interpret the location hash to determine the required view
 			var hashParts = hash.substring(1).split("-");
 
 			// Call the appropriate rendering function
-			if (hashParts[0].length == 0 || getEventIds().indexOf(hashParts[0]) >= 0)
+			if (hashParts[0].length == 0 || eventIdx.hasOwnProperty(hashParts[0]))
 			{
 				renderRankings(hashParts, width);
 			}
-			else if (hashParts[0] == "random" || getPersonIds().indexOf(hashParts[0]) >= 0)
+			else if (hashParts[0] == "random" || personIdx.hasOwnProperty(hashParts[0]))
 			{
 				renderPerson(hashParts, width);
 			}
@@ -617,7 +600,7 @@ function switchView()
 	{
 		hash += eventId + "-" + resultType + "-" + ageCategory;
 	}
-	else if (resultType != getResultTypes()[0])
+	else if (resultType != "single")
 	{
 		hash += eventId + "-" + resultType;
 	}
@@ -635,9 +618,12 @@ function switchView()
 			throw "Chrome/5.0";
 		}
 		
+		// Pseudo dictionary
+		var eventIdx = getEventIdx();
+
 		// Prepare state
 		var obj = { "hash": hash, "xOffset": window.pageXOffset, "yOffset": window.pageYOffset };
-		var title = rankings.events[eventIds.indexOf(eventId)] + " - " + selectElement.options[selectElement.selectedIndex].text;
+		var title = rankings.events[eventIdx[eventId]] + " - " + selectElement.options[selectElement.selectedIndex].text;
 		var url = hash;
 		
 		// Push state to history
