@@ -367,7 +367,7 @@ function renderTable(eventId, resultType, ageCategory, continentId, countryId, w
 				{
 					missing = rankingObj.missing.countries[countryId];
 
-					if (rankingObj.missing.world > 0)
+					if (rankingObj.missing.hasOwnProperty("world") && rankingObj.missing.world > 0)
 					{
 						fakeRatio =  missing / rankingObj.missing.world;
 					}
@@ -379,7 +379,7 @@ function renderTable(eventId, resultType, ageCategory, continentId, countryId, w
 				{
 					missing = rankingObj.missing.continents[continentId];
 
-					if (rankingObj.missing.world > 0)
+					if (rankingObj.missing.hasOwnProperty("world") && rankingObj.missing.world > 0)
 					{
 						fakeRatio = missing / rankingObj.missing.world;
 					}
@@ -387,7 +387,7 @@ function renderTable(eventId, resultType, ageCategory, continentId, countryId, w
 			}
 			else
 			{
-				if (rankingObj.missing.world > 0)
+				if (rankingObj.missing.hasOwnProperty("world"))
 				{
 					missing = rankingObj.missing.world;
 				}
