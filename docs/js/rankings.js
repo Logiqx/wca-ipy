@@ -94,12 +94,12 @@ function renderOptions(eventId, resultType, ageCategory, continentId, countryId,
 		out += " selected";
 	}
 	out += ">All Continents</option>";
-	for (var i = 0; i < continentIds.length; i++)
+	for (var i = 0; i < rankings.continents.length; i++)
 	{
-		if (filteredContinents.indexOf(continentIds[i]) >= 0)
-		{
-			var continentObj = rankings.continents[i];
+		var continentObj = rankings.continents[i];
 
+		if (filteredContinents.indexOf(rankings.continents[i].id) >= 0)
+		{
 			out += "<option value=\"" + rankings.continents[i].id + "\"";
 			if (rankings.continents[i].id == continentId)
 			{
