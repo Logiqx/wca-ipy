@@ -198,6 +198,10 @@ function getCompetitionIdx()
 		for (var i = 0; i < rankings.competitions.length; i++)
 		{
 			competitionIdx[rankings.competitions[i].id] = i;
+
+			// Process competition date whilst we are here!
+			var today = new Date();
+			rankings.competitions[i].age = (today - Date.parse(rankings.competitions[i].startDate)) / 86400000
 		}
 	}
 

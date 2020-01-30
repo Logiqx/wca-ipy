@@ -370,7 +370,7 @@ function renderTable(eventId, resultType, ageCategory, continentId, countryId, w
 			{
 				out += '<th class="country">Citizen of</th>';
 			}
-			if (width >= IPAD_LANDSCAPE && rankings.hasOwnProperty("competitions"))
+			if (width >= IPAD_LANDSCAPE)
 			{
 				out += '<th class="competition">Competition</th>';
 			}
@@ -429,9 +429,11 @@ function renderTable(eventId, resultType, ageCategory, continentId, countryId, w
 				if ((continentId == "XX" || countryObj.continent == continentId) &&
 					(countryId == "XX" || countryObj.id == countryId))
 				{
+					var competitionObj = rankings.competitions[competitionIdx[rankObj.competition]];
+
 					filterCount++;
 
-					if (rankObj.hasOwnProperty("highlight"))
+					if (competitionObj.age <= 91)
 					{
 						out += '<tr class="highlight">';
 					}
@@ -485,9 +487,8 @@ function renderTable(eventId, resultType, ageCategory, continentId, countryId, w
 							out += '<td></td>';
 						}
 
-						if (width >= IPAD_LANDSCAPE && rankings.hasOwnProperty("competitions"))
+						if (width >= IPAD_LANDSCAPE)
 						{
-							var competitionObj = rankings.competitions[competitionIdx[rankObj.competition]];
 							var compCountryObj = rankings.countries[countryIdx[competitionObj.country]];
 
 							if (!rankObj.id.startsWith("FAKE"))
