@@ -11,6 +11,23 @@
               A group size of 6 seniors has been chosen because it typically relates to >500 persons.
               A group mean of NULL is returned if the last group contains less than 4 seniors.
               It is NOT practicable to determine which persons have contributed to the group means.
+
+    Ruby:     The SQL within this comment is more suitable for use within the API controller.
+
+              - Execute for each age category (40, 50, 60 ... 100) and result type (best / average).
+              - Calculate averages for each group of 6 records in the result set.
+              - If the last group has less than 4 records, return the count but not the average.
+
+              SELECT eventId, MIN(#{column_name}) AS best
+              FROM Persons AS p
+              JOIN Results AS r ON r.personId = p.id
+              JOIN Competitions AS c ON c.id = r.competitionId
+              WHERE p.year > 0 AND p.year <= YEAR(CURDATE()) - #{age_category}
+              AND subid = 1
+              AND #{column_name} > 0
+              AND TIMESTAMPDIFF(YEAR, DATE_FORMAT(CONCAT(p.year, '-', p.month, '-', p.day), '%Y-%m-%d'), start_date) >= #{age_category}
+              GROUP BY eventId, personId
+              ORDER BY eventId, best
 */
 
 SELECT CURDATE() AS run_date, eventId, "average" AS result, age_category, group_no, COUNT(*) AS group_size, IF(COUNT(*) >= 4, FLOOR(AVG(best)), NULL) AS group_avg
@@ -26,7 +43,7 @@ FROM
       SELECT r.personId, r.eventId, r.average, TIMESTAMPDIFF(YEAR,
         DATE_FORMAT(CONCAT(p.year, '-', p.month, '-', p.day), '%Y-%m-%d'),
         DATE_FORMAT(CONCAT(c.year, '-', c.month, '-', c.day), '%Y-%m-%d')) AS age_at_comp
-      FROM Persons AS p USE INDEX()
+      FROM Persons AS p
       JOIN Results AS r ON r.personId = p.id AND average > 0
       JOIN Competitions AS c ON c.id = r.competitionId
       WHERE p.year > 0 AND p.year <= YEAR(CURDATE()) - 40
@@ -58,7 +75,7 @@ FROM
       SELECT r.personId, r.eventId, r.best, TIMESTAMPDIFF(YEAR,
         DATE_FORMAT(CONCAT(p.year, '-', p.month, '-', p.day), '%Y-%m-%d'),
         DATE_FORMAT(CONCAT(c.year, '-', c.month, '-', c.day), '%Y-%m-%d')) AS age_at_comp
-      FROM Persons AS p USE INDEX()
+      FROM Persons AS p
       JOIN Results AS r ON r.personId = p.id AND best > 0
       JOIN Competitions AS c ON c.id = r.competitionId
       WHERE p.year > 0 AND p.year <= YEAR(CURDATE()) - 40
