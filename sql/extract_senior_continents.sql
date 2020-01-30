@@ -9,6 +9,30 @@
     Notes:    I'd like to be able to report the total number of seniors by region.
               The WHERE clauses roughly halve the result set, removing any potentially PII.
               The dropped records can be viewed using the commented out WHERE clauses.
+
+    Ruby:     The SQL within this comment is more suitable for use within the API controller.
+
+              - Execute for each age category (40, 50, 60 ... 100) and result type (best / average).
+              - Supress results where num_seniors = 1 or num_persons < 40 (see below).
+
+              SELECT eventId, continentId, COUNT(DISTINCT personId) AS num_seniors
+              FROM Persons AS p
+              JOIN Results AS r ON r.personId = p.id
+              JOIN Competitions AS c ON c.id = r.competitionId
+              JOIN Countries AS c2 ON c2.id = p.countryId
+              WHERE p.year > 0 AND p.year <= YEAR(CURDATE()) - 40
+              AND #{column_name} > 0
+              AND subid = 1
+              AND TIMESTAMPDIFF(YEAR, DATE_FORMAT(CONCAT(p.year, '-', p.month, '-', p.day), '%Y-%m-%d'), start_date) >= 40
+              GROUP BY eventId, continentId
+
+              - The following query only needs to be run once per result type (best / average)
+
+              SELECT eventId, continentId, COUNT(*) AS num_persons
+              FROM #{table_name} AS r
+              JOIN Persons AS p ON p.id = r.personId AND p.subid = 1
+              JOIN Countries AS c ON c.id = p.countryId
+              GROUP BY eventId, continentId
 */
 
 SELECT t1.*, num_persons, ROUND(100 * num_seniors / num_persons, 2) AS pct_senior
@@ -20,7 +44,7 @@ FROM
     SELECT personId, continentId, eventId, TIMESTAMPDIFF(YEAR,
       DATE_FORMAT(CONCAT(p.year, '-', p.month, '-', p.day), '%Y-%m-%d'),
       DATE_FORMAT(CONCAT(c.year, '-', c.month, '-', c.day), '%Y-%m-%d')) AS age_at_comp
-    FROM Persons AS p USE INDEX()
+    FROM Persons AS p
     JOIN Results AS r ON r.personId = p.id AND average > 0
     JOIN Competitions AS c ON c.id = r.competitionId
     JOIN Countries AS c2 ON c2.id = p.countryId
@@ -57,7 +81,7 @@ FROM
     SELECT personId, continentId, eventId, TIMESTAMPDIFF(YEAR,
       DATE_FORMAT(CONCAT(p.year, '-', p.month, '-', p.day), '%Y-%m-%d'),
       DATE_FORMAT(CONCAT(c.year, '-', c.month, '-', c.day), '%Y-%m-%d')) AS age_at_comp
-    FROM Persons AS p USE INDEX()
+    FROM Persons AS p
     JOIN Results AS r ON r.personId = p.id AND best > 0
     JOIN Competitions AS c ON c.id = r.competitionId
     JOIN Countries AS c2 ON c2.id = p.countryId
