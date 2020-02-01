@@ -471,7 +471,8 @@ function renderTable(eventId, resultType, ageCategory, continentId, countryId, w
 					var href = personObj.name;
 					if (!rankObj.id.startsWith("FAKE"))
 					{
-						href = '<a target="_blank" href="https://www.worldcubeassociation.org/persons/' + rankObj.id + '?event=' + eventId + '">' + personObj.name + '</a>';
+						href = '<a target="_blank" href="https://www.worldcubeassociation.org/persons/' + rankObj.id + '?event=' + eventId + '">' +
+							(personObj.hasOwnProperty("deceased") ? '&#8224; ' : '') + personObj.name + '</a>';
 					}
 
 					if (width >= IPHONE_LANDSCAPE)
