@@ -40,9 +40,8 @@ FROM
   SELECT CURDATE() AS run_date, eventId, "average" AS result, age_category, countryId, COUNT(DISTINCT personId) AS num_seniors
   FROM
   (
-    SELECT personId, p.countryId, eventId, TIMESTAMPDIFF(YEAR,
-      DATE_FORMAT(CONCAT(p.year, '-', p.month, '-', p.day), '%Y-%m-%d'),
-      DATE_FORMAT(CONCAT(c.year, '-', c.month, '-', c.day), '%Y-%m-%d')) AS age_at_comp
+    SELECT personId, p.countryId, eventId,
+      TIMESTAMPDIFF(YEAR, DATE_FORMAT(CONCAT(p.year, '-', p.month, '-', p.day), '%Y-%m-%d'), start_date) AS age_at_comp
     FROM Persons AS p
     JOIN Results AS r ON r.personId = p.id AND average > 0
     JOIN Competitions AS c ON c.id = r.competitionId AND end_date <= DATE_ADD(UTC_DATE(), INTERVAL -12 DAY)
@@ -75,9 +74,8 @@ FROM
   SELECT CURDATE() AS run_date, eventId, "single" AS result, age_category, countryId, COUNT(DISTINCT personId) AS num_seniors
   FROM
   (
-    SELECT personId, p.countryId, eventId, TIMESTAMPDIFF(YEAR,
-      DATE_FORMAT(CONCAT(p.year, '-', p.month, '-', p.day), '%Y-%m-%d'),
-      DATE_FORMAT(CONCAT(c.year, '-', c.month, '-', c.day), '%Y-%m-%d')) AS age_at_comp
+    SELECT personId, p.countryId, eventId,
+      TIMESTAMPDIFF(YEAR, DATE_FORMAT(CONCAT(p.year, '-', p.month, '-', p.day), '%Y-%m-%d'), start_date) AS age_at_comp
     FROM Persons AS p
     JOIN Results AS r ON r.personId = p.id AND best > 0
     JOIN Competitions AS c ON c.id = r.competitionId AND end_date <= DATE_ADD(UTC_DATE(), INTERVAL -12 DAY)
