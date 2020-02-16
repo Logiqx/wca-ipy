@@ -17,12 +17,12 @@
               - Execute for each age category (40, 50, 60 ... 100) and result type (best / average).
               - Calculate averages for each group of 6 records in the result set.
               - If the last group has less than 4 records, return the count but not the average.
-              - n.b. cutoff_date = UTC_DATE() minus 12 days
+              - n.b. cutoff_date = UTC_DATE() minus 10 days
 
               SELECT eventId, MIN(#{column_name}) AS best
               FROM Persons AS p
               JOIN Results AS r ON r.personId = p.id
-              JOIN Competitions AS c ON c.id = r.competitionId AND end_date <= #{cutoff_date}
+              JOIN Competitions AS c ON c.id = r.competitionId AND end_date < #{cutoff_date}
               WHERE p.year > 0 AND p.year <= YEAR(UTC_DATE()) - #{age_category}
               AND subid = 1
               AND #{column_name} > 0
@@ -31,7 +31,7 @@
               ORDER BY eventId, best
 */
 
-SELECT DATE_ADD(UTC_DATE(), INTERVAL -12 DAY) AS cutoff_date, eventId, "average" AS result, age_category, group_no,
+SELECT DATE_ADD(UTC_DATE(), INTERVAL -10 DAY) AS cutoff_date, eventId, "average" AS result, age_category, group_no,
   COUNT(*) AS group_size, IF(COUNT(*) >= 4, FLOOR(AVG(best)), NULL) AS group_avg
 FROM
 (
@@ -46,7 +46,7 @@ FROM
         TIMESTAMPDIFF(YEAR, DATE_FORMAT(CONCAT(p.year, '-', p.month, '-', p.day), '%Y-%m-%d'), start_date) AS age_at_comp
       FROM Persons AS p
       JOIN Results AS r ON r.personId = p.id AND average > 0
-      JOIN Competitions AS c ON c.id = r.competitionId AND end_date <= DATE_ADD(UTC_DATE(), INTERVAL -12 DAY)
+      JOIN Competitions AS c ON c.id = r.competitionId AND end_date < DATE_ADD(UTC_DATE(), INTERVAL -10 DAY)
       WHERE p.year > 0 AND p.year <= YEAR(UTC_DATE()) - 40
       AND p.subid = 1
       HAVING age_at_comp >= 40
@@ -63,7 +63,7 @@ GROUP BY eventId, age_category, group_no
 
 UNION ALL
 
-SELECT DATE_ADD(UTC_DATE(), INTERVAL -12 DAY) AS cutoff_date, eventId, "single" AS result, age_category, group_no,
+SELECT DATE_ADD(UTC_DATE(), INTERVAL -10 DAY) AS cutoff_date, eventId, "single" AS result, age_category, group_no,
   COUNT(*) AS group_size, IF(COUNT(*) >= 4, FLOOR(AVG(best)), NULL) AS group_avg
 FROM
 (
@@ -78,7 +78,7 @@ FROM
         TIMESTAMPDIFF(YEAR, DATE_FORMAT(CONCAT(p.year, '-', p.month, '-', p.day), '%Y-%m-%d'), start_date) AS age_at_comp
       FROM Persons AS p
       JOIN Results AS r ON r.personId = p.id AND best > 0
-      JOIN Competitions AS c ON c.id = r.competitionId AND end_date <= DATE_ADD(UTC_DATE(), INTERVAL -12 DAY)
+      JOIN Competitions AS c ON c.id = r.competitionId AND end_date < DATE_ADD(UTC_DATE(), INTERVAL -10 DAY)
       WHERE p.year > 0 AND p.year <= YEAR(UTC_DATE()) - 40
       AND p.subid = 1
       HAVING age_at_comp >= 40

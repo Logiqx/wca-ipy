@@ -14,12 +14,12 @@
 
               - Execute for each age category (40, 50, 60 ... 100) and result type (best / average).
               - Supress results where num_seniors = 1 or num_persons < 40 (see below).
-              - n.b. cutoff_date = UTC_DATE() minus 12 days
+              - n.b. cutoff_date = UTC_DATE() minus 10 days
 
               SELECT eventId, p.countryId, COUNT(DISTINCT personId) AS num_seniors
               FROM Persons AS p
               JOIN Results AS r ON r.personId = p.id
-              JOIN Competitions AS c ON c.id = r.competitionId AND end_date <= #{cutoff_date}
+              JOIN Competitions AS c ON c.id = r.competitionId AND end_date < #{cutoff_date}
               WHERE p.year > 0 AND p.year <= YEAR(CURDATE()) - 40
               AND #{column_name} > 0
               AND subid = 1
@@ -37,14 +37,14 @@
 SELECT t1.*, num_persons, ROUND(100 * num_seniors / num_persons, 2) AS pct_senior
 FROM
 (
-  SELECT CURDATE() AS run_date, eventId, "average" AS result, age_category, countryId, COUNT(DISTINCT personId) AS num_seniors
+  SELECT DATE_ADD(UTC_DATE(), INTERVAL -10 DAY) AS cutoff_date, eventId, "average" AS result, age_category, countryId, COUNT(DISTINCT personId) AS num_seniors
   FROM
   (
     SELECT personId, p.countryId, eventId,
       TIMESTAMPDIFF(YEAR, DATE_FORMAT(CONCAT(p.year, '-', p.month, '-', p.day), '%Y-%m-%d'), start_date) AS age_at_comp
     FROM Persons AS p
     JOIN Results AS r ON r.personId = p.id AND average > 0
-    JOIN Competitions AS c ON c.id = r.competitionId AND end_date <= DATE_ADD(UTC_DATE(), INTERVAL -12 DAY)
+    JOIN Competitions AS c ON c.id = r.competitionId AND end_date < DATE_ADD(UTC_DATE(), INTERVAL -10 DAY)
     WHERE p.year > 0 AND p.year <= YEAR(CURDATE()) - 40
     AND p.subid = 1
     HAVING age_at_comp >= 40
@@ -71,14 +71,14 @@ UNION ALL
 SELECT t1.*, num_persons, ROUND(100 * num_seniors / num_persons, 2) AS pct_senior
 FROM
 (
-  SELECT CURDATE() AS run_date, eventId, "single" AS result, age_category, countryId, COUNT(DISTINCT personId) AS num_seniors
+  SELECT DATE_ADD(UTC_DATE(), INTERVAL -10 DAY) AS cutoff_date, eventId, "single" AS result, age_category, countryId, COUNT(DISTINCT personId) AS num_seniors
   FROM
   (
     SELECT personId, p.countryId, eventId,
       TIMESTAMPDIFF(YEAR, DATE_FORMAT(CONCAT(p.year, '-', p.month, '-', p.day), '%Y-%m-%d'), start_date) AS age_at_comp
     FROM Persons AS p
     JOIN Results AS r ON r.personId = p.id AND best > 0
-    JOIN Competitions AS c ON c.id = r.competitionId AND end_date <= DATE_ADD(UTC_DATE(), INTERVAL -12 DAY)
+    JOIN Competitions AS c ON c.id = r.competitionId AND end_date < DATE_ADD(UTC_DATE(), INTERVAL -10 DAY)
     WHERE p.year > 0 AND p.year <= YEAR(CURDATE()) - 40
     AND p.subid = 1
     HAVING age_at_comp >= 40
