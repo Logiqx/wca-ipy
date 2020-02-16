@@ -10,15 +10,16 @@
               The WHERE clauses roughly halve the result set, removing any potentially PII.
               The dropped records can be viewed using the commented out WHERE clauses.
 
-    Ruby:     The SQL within this comment is more suitable for use within the API controller.
+    Rails:    The SQL within this comment is more suitable for use within the API controller.
 
               - Execute for each age category (40, 50, 60 ... 100) and result type (best / average).
               - Supress results where num_seniors = 1 or num_persons < 40 (see below).
+              - n.b. cutoff_date = UTC_DATE() minus 12 days
 
               SELECT eventId, continentId, COUNT(DISTINCT personId) AS num_seniors
               FROM Persons AS p
               JOIN Results AS r ON r.personId = p.id
-              JOIN Competitions AS c ON c.id = r.competitionId
+              JOIN Competitions AS c ON c.id = r.competitionId AND end_date <= #{cutoff_date}
               JOIN Countries AS c2 ON c2.id = p.countryId
               WHERE p.year > 0 AND p.year <= YEAR(CURDATE()) - 40
               AND #{column_name} > 0
@@ -41,12 +42,11 @@ FROM
   SELECT CURDATE() AS run_date, eventId, "average" AS result, age_category, continentId, COUNT(DISTINCT personId) AS num_seniors
   FROM
   (
-    SELECT personId, continentId, eventId, TIMESTAMPDIFF(YEAR,
-      DATE_FORMAT(CONCAT(p.year, '-', p.month, '-', p.day), '%Y-%m-%d'),
-      DATE_FORMAT(CONCAT(c.year, '-', c.month, '-', c.day), '%Y-%m-%d')) AS age_at_comp
+    SELECT personId, continentId, eventId,
+      TIMESTAMPDIFF(YEAR, DATE_FORMAT(CONCAT(p.year, '-', p.month, '-', p.day), '%Y-%m-%d'), start_date) AS age_at_comp
     FROM Persons AS p
     JOIN Results AS r ON r.personId = p.id AND average > 0
-    JOIN Competitions AS c ON c.id = r.competitionId
+    JOIN Competitions AS c ON c.id = r.competitionId AND end_date <= DATE_ADD(UTC_DATE(), INTERVAL -12 DAY)
     JOIN Countries AS c2 ON c2.id = p.countryId
     WHERE p.year > 0 AND p.year <= YEAR(CURDATE()) - 40
     AND p.subid = 1
@@ -78,12 +78,11 @@ FROM
   SELECT CURDATE() AS run_date, eventId, "single" AS result, age_category, continentId, COUNT(DISTINCT personId) AS num_seniors
   FROM
   (
-    SELECT personId, continentId, eventId, TIMESTAMPDIFF(YEAR,
-      DATE_FORMAT(CONCAT(p.year, '-', p.month, '-', p.day), '%Y-%m-%d'),
-      DATE_FORMAT(CONCAT(c.year, '-', c.month, '-', c.day), '%Y-%m-%d')) AS age_at_comp
+    SELECT personId, continentId, eventId,
+      TIMESTAMPDIFF(YEAR, DATE_FORMAT(CONCAT(p.year, '-', p.month, '-', p.day), '%Y-%m-%d'), start_date) AS age_at_comp
     FROM Persons AS p
     JOIN Results AS r ON r.personId = p.id AND best > 0
-    JOIN Competitions AS c ON c.id = r.competitionId
+    JOIN Competitions AS c ON c.id = r.competitionId AND end_date <= DATE_ADD(UTC_DATE(), INTERVAL -12 DAY)
     JOIN Countries AS c2 ON c2.id = p.countryId
     WHERE p.year > 0 AND p.year <= YEAR(CURDATE()) - 40
     AND p.subid = 1
