@@ -44,7 +44,7 @@ FROM
     FROM Seniors AS p
     JOIN wca.Results AS r ON r.personId = p.personId AND average > 0
     JOIN wca.Competitions AS c ON c.id = r.competitionId AND DATE_FORMAT(CONCAT(c.year + IF(c.endMonth < c.month, 1, 0), '-', c.endMonth, '-', c.endDay), '%Y-%m-%d') < @runDate
-    WHERE YEAR(dob) <= YEAR(CURDATE()) - 40
+    WHERE YEAR(dob) <= YEAR(UTC_DATE()) - 40
     AND accuracyId NOT IN ('x', 'y')
     HAVING age_at_comp >= 40
     UNION ALL
@@ -53,7 +53,7 @@ FROM
     FROM Seniors AS p
     JOIN wca.Results AS r ON r.personId = p.personId AND best > 0
     JOIN wca.Competitions AS c ON c.id = r.competitionId AND DATE_FORMAT(CONCAT(c.year + IF(c.endMonth < c.month, 1, 0), '-', c.endMonth, '-', c.endDay), '%Y-%m-%d') < @runDate
-    WHERE YEAR(dob) <= YEAR(CURDATE()) - 40
+    WHERE YEAR(dob) <= YEAR(UTC_DATE()) - 40
     AND accuracyId NOT IN ('x', 'y')
     HAVING age_at_comp >= 40
 ) AS t

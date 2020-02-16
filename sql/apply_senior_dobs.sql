@@ -28,7 +28,7 @@ SELECT FLOOR(TIMESTAMPDIFF(YEAR,
 FROM Persons AS p
 JOIN Results AS r ON r.personId = p.id AND best > 0
 JOIN Competitions AS c ON c.id = r.competitionId
-WHERE p.year > 0 AND p.year <= YEAR(CURDATE()) - 40
+WHERE p.year > 0 AND p.year <= YEAR(UTC_DATE()) - 40
 AND p.subid = 1
 GROUP BY age_category
 ORDER BY age_category;

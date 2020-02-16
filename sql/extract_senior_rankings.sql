@@ -27,7 +27,7 @@ FROM
             FROM Seniors AS p
             JOIN wca.Results AS r ON r.personId = p.personId AND average > 0
             JOIN wca.Competitions AS c ON c.id = r.competitionId
-            WHERE YEAR(dob) <= YEAR(CURDATE()) - 40
+            WHERE YEAR(dob) <= YEAR(UTC_DATE()) - 40
             HAVING age_at_comp >= 40
             UNION ALL
             SELECT r.eventId, 'single' AS resultType, r.personId, r.best,
@@ -35,7 +35,7 @@ FROM
             FROM Seniors AS p
             JOIN wca.Results AS r ON r.personId = p.personId AND best > 0
             JOIN wca.Competitions AS c ON c.id = r.competitionId
-            WHERE YEAR(dob) <= YEAR(CURDATE()) - 40
+            WHERE YEAR(dob) <= YEAR(UTC_DATE()) - 40
             HAVING age_at_comp >= 40
         ) AS t
         JOIN seq_40_to_100_step_10 ON seq <= age_at_comp

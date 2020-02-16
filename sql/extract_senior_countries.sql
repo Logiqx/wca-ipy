@@ -20,7 +20,7 @@
               FROM Persons AS p
               JOIN Results AS r ON r.personId = p.id
               JOIN Competitions AS c ON c.id = r.competitionId AND end_date < #{cutoff_date}
-              WHERE p.year > 0 AND p.year <= YEAR(CURDATE()) - 40
+              WHERE p.year > 0 AND p.year <= YEAR(UTC_DATE()) - 40
               AND #{column_name} > 0
               AND subid = 1
               AND TIMESTAMPDIFF(YEAR, DATE_FORMAT(CONCAT(p.year, '-', p.month, '-', p.day), '%Y-%m-%d'), start_date) >= 40
@@ -45,7 +45,7 @@ FROM
     FROM Persons AS p
     JOIN Results AS r ON r.personId = p.id AND average > 0
     JOIN Competitions AS c ON c.id = r.competitionId AND end_date < DATE_ADD(UTC_DATE(), INTERVAL -10 DAY)
-    WHERE p.year > 0 AND p.year <= YEAR(CURDATE()) - 40
+    WHERE p.year > 0 AND p.year <= YEAR(UTC_DATE()) - 40
     AND p.subid = 1
     HAVING age_at_comp >= 40
   ) AS senior_results
@@ -79,7 +79,7 @@ FROM
     FROM Persons AS p
     JOIN Results AS r ON r.personId = p.id AND best > 0
     JOIN Competitions AS c ON c.id = r.competitionId AND end_date < DATE_ADD(UTC_DATE(), INTERVAL -10 DAY)
-    WHERE p.year > 0 AND p.year <= YEAR(CURDATE()) - 40
+    WHERE p.year > 0 AND p.year <= YEAR(UTC_DATE()) - 40
     AND p.subid = 1
     HAVING age_at_comp >= 40
   ) AS senior_results

@@ -11,5 +11,5 @@ FROM Seniors AS p
 JOIN wca.Results AS r ON r.personId = p.personId
 JOIN wca.Competitions AS c ON c.id = r.competitionId
 	AND TIMESTAMPDIFF(YEAR, dob, DATE_FORMAT(CONCAT(c.year, '-', c.month, '-', c.day), '%Y-%m-%d')) >= 40
-	AND TIMESTAMPDIFF(DAY, CURDATE(), DATE_FORMAT(CONCAT(c.year + IF(c.endMonth < c.month, 1, 0), '-', c.endMonth, '-', c.endDay), '%Y-%m-%d')) >= -91
+	AND TIMESTAMPDIFF(DAY, UTC_DATE(), DATE_FORMAT(CONCAT(c.year + IF(c.endMonth < c.month, 1, 0), '-', c.endMonth, '-', c.endDay), '%Y-%m-%d')) >= -91
 ORDER BY competitionId, personId;
