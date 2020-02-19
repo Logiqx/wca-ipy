@@ -14,48 +14,80 @@
 
     Rails:    The SQL within this comment is more suitable for use within the API controller.
 
+              - Firstly, determine cutoff_date using the following SQL.
+
+              SELECT MIN(end_date)
+              FROM Competitions
+              WHERE results_posted_at IS NULL OR results_posted_at > UTC_DATE()
+
               - Execute for each age category (40, 50, 60 ... 100) and result type (best / average).
               - Calculate averages for each group of 6 records in the result set.
               - If the last group has less than 4 records, return the count but not the average.
-              - n.b. cutoff_date = UTC_DATE() minus 10 days
 
+              WITH seniors(id, dob) AS
+              (
+                SELECT p.id, DATE(CONCAT_WS('-', p.year, p.month, p.day))
+                FROM Persons AS p USE INDEX()
+                WHERE p.year > 0 AND p.year <= YEAR(UTC_DATE()) - #{age_category}
+                AND p.subid = 1
+              )
               SELECT eventId, MIN(#{column_name}) AS best
-              FROM Persons AS p
+              FROM possible_seniors AS p
               JOIN Results AS r ON r.personId = p.id
-              JOIN Competitions AS c ON c.id = r.competitionId AND end_date < #{cutoff_date}
-              WHERE p.year > 0 AND p.year <= YEAR(UTC_DATE()) - #{age_category}
-              AND subid = 1
-              AND #{column_name} > 0
-              AND TIMESTAMPDIFF(YEAR, DATE_FORMAT(CONCAT(p.year, '-', p.month, '-', p.day), '%Y-%m-%d'), start_date) >= #{age_category}
+              JOIN Competitions AS c ON c.id = r.competitionId
+              WHERE #{column_name} > 0
+              AND TIMESTAMPDIFF(YEAR, dob, start_date) >= #{age_category}
+              AND end_date < #{cutoff_date}
               GROUP BY eventId, personId
               ORDER BY eventId, best
 */
 
-SELECT DATE_ADD(UTC_DATE(), INTERVAL -10 DAY) AS cutoff_date, eventId, "average" AS result, age_category, group_no,
+-- Note: SELECT * FROM (...) is only for the benefit of phpMyAdmin. It is not required by other SQL clients.
+
+SELECT * FROM
+(
+
+WITH possible_seniors AS
+(
+  SELECT p.id, DATE(CONCAT_WS('-', p.year, p.month, p.day)) AS dob
+  FROM Persons AS p USE INDEX()
+  WHERE p.year > 0 AND p.year <= YEAR(UTC_DATE()) - 40
+  AND p.subid = 1
+),
+
+competition_cutoff AS
+(
+  SELECT MIN(end_date) AS cutoff_date
+  FROM Competitions
+  WHERE results_posted_at IS NULL OR results_posted_at > UTC_DATE()
+),
+
+age_categories(age_category) AS
+(
+  SELECT 40 AS age_category UNION ALL SELECT 50 UNION ALL SELECT 60 UNION ALL SELECT 70 UNION ALL SELECT 80 UNION ALL SELECT 90 UNION ALL SELECT 100
+)
+
+SELECT cutoff_date, eventId, "average" AS result, age_category, group_no,
   COUNT(*) AS group_size, IF(COUNT(*) >= 4, FLOOR(AVG(best)), NULL) AS group_avg
 FROM
 (
-  SELECT personId, eventId, age_category, best,
+  SELECT cutoff_date, eventId, age_category, best,
          FLOOR((ROW_NUMBER() OVER (PARTITION BY eventId, age_category ORDER BY best) - 1) / 6) AS group_no
   FROM
   (
-    SELECT personId, eventId, age_category, MIN(average) AS best
+    SELECT cutoff_date, personId, eventId, age_category, MIN(average) AS best
     FROM
     (
-      SELECT r.personId, r.eventId, r.average,
-        TIMESTAMPDIFF(YEAR, DATE_FORMAT(CONCAT(p.year, '-', p.month, '-', p.day), '%Y-%m-%d'), start_date) AS age_at_comp
-      FROM Persons AS p
-      JOIN Results AS r ON r.personId = p.id AND average > 0
-      JOIN Competitions AS c ON c.id = r.competitionId AND end_date < DATE_ADD(UTC_DATE(), INTERVAL -10 DAY)
-      WHERE p.year > 0 AND p.year <= YEAR(UTC_DATE()) - 40
-      AND p.subid = 1
+      SELECT cutoff_date, personId, eventId, average, TIMESTAMPDIFF(YEAR, dob, start_date) AS age_at_comp
+      FROM possible_seniors AS p
+      JOIN Results AS r ON r.personId = p.id
+      JOIN Competitions AS c ON c.id = r.competitionId
+      JOIN competition_cutoff
+      WHERE average > 0
+      AND end_date < cutoff_date
       HAVING age_at_comp >= 40
     ) AS senior_results
-    JOIN
-    (
-      SELECT 40 AS age_category
-      UNION ALL SELECT 50 UNION ALL SELECT 60 UNION ALL SELECT 70 UNION ALL SELECT 80 UNION ALL SELECT 90 UNION ALL SELECT 100
-    ) AS age_categories ON age_category <= age_at_comp
+    JOIN age_categories ON age_category <= age_at_comp
     GROUP BY personId, eventId, age_category
   ) AS senior_bests
 ) AS group_bests
@@ -63,32 +95,30 @@ GROUP BY eventId, age_category, group_no
 
 UNION ALL
 
-SELECT DATE_ADD(UTC_DATE(), INTERVAL -10 DAY) AS cutoff_date, eventId, "single" AS result, age_category, group_no,
+SELECT cutoff_date, eventId, "single" AS result, age_category, group_no,
   COUNT(*) AS group_size, IF(COUNT(*) >= 4, FLOOR(AVG(best)), NULL) AS group_avg
 FROM
 (
-  SELECT personId, eventId, age_category, best,
+  SELECT cutoff_date, eventId, age_category, best,
          FLOOR((ROW_NUMBER() OVER (PARTITION BY eventId, age_category ORDER BY best) - 1) / 6) AS group_no
   FROM
   (
-    SELECT personId, eventId, age_category, MIN(best) AS best
+    SELECT cutoff_date, personId, eventId, age_category, MIN(best) AS best
     FROM
     (
-      SELECT r.personId, r.eventId, r.best,
-        TIMESTAMPDIFF(YEAR, DATE_FORMAT(CONCAT(p.year, '-', p.month, '-', p.day), '%Y-%m-%d'), start_date) AS age_at_comp
-      FROM Persons AS p
-      JOIN Results AS r ON r.personId = p.id AND best > 0
-      JOIN Competitions AS c ON c.id = r.competitionId AND end_date < DATE_ADD(UTC_DATE(), INTERVAL -10 DAY)
-      WHERE p.year > 0 AND p.year <= YEAR(UTC_DATE()) - 40
-      AND p.subid = 1
+      SELECT cutoff_date, personId, eventId, best, TIMESTAMPDIFF(YEAR, dob, start_date) AS age_at_comp
+      FROM possible_seniors AS p
+      JOIN Results AS r ON r.personId = p.id
+      JOIN Competitions AS c ON c.id = r.competitionId
+      JOIN competition_cutoff
+      WHERE best > 0
+      AND end_date < cutoff_date
       HAVING age_at_comp >= 40
     ) AS senior_results
-    JOIN
-    (
-      SELECT 40 AS age_category
-      UNION ALL SELECT 50 UNION ALL SELECT 60 UNION ALL SELECT 70 UNION ALL SELECT 80 UNION ALL SELECT 90 UNION ALL SELECT 100
-    ) AS age_categories ON age_category <= age_at_comp
+    JOIN age_categories ON age_category <= age_at_comp
     GROUP BY personId, eventId, age_category
   ) AS senior_bests
 ) AS group_bests
-GROUP BY eventId, age_category, group_no;
+GROUP BY eventId, age_category, group_no
+
+) AS t;
