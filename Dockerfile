@@ -1,7 +1,7 @@
 # Base image versions
 ARG NOTEBOOK_VERSION=c39518a3252f
 ARG PYTHON_VERSION=3.8
-ARG ALPINE_VERSION=3.10
+ARG ALPINE_VERSION=3.11
 
 # Jupyter notebook image is used as the builder
 FROM jupyter/base-notebook:${NOTEBOOK_VERSION} AS builder
@@ -21,8 +21,8 @@ RUN chmod 755 python/*.py && \
     chmod 644 sql/*.sql && \
     chmod 644 templates/*.html
 
-# Create final image from Python 3 + Beautiful Soup 4 on Alpine Linux
-FROM logiqx/python-bs4:${PYTHON_VERSION}-alpine${ALPINE_VERSION}
+# Create final image from Python 3 + lxml
+FROM logiqx/python-lxml:${PYTHON_VERSION}-alpine${ALPINE_VERSION}
 
 # Note: Jovian is a fictional native inhabitant of the planet Jupiter
 ARG PY_USER=jovyan
@@ -49,7 +49,7 @@ ARG LOGIQX_DEBUG=0
 ENV LOGIQX_DEBUG=${LOGIQX_DEBUG}
 
 # Install Python libraries
-RUN pip install --no-cache-dir sqlparse==0.3.* PyMySQL==0.9.*
+RUN pip install --no-cache-dir beautifulsoup4==4.8.* sqlparse==0.3.* PyMySQL==0.9.*
 
 # Copy project files from the builder
 USER ${PY_USER}
