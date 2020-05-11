@@ -9,11 +9,6 @@
     Notes:    Simple counts for each event / age category
 */
 
--- Note: SELECT * FROM (...) is only for the benefit of phpMyAdmin. It is not required by other SQL clients.
-
-SELECT * FROM
-(
-
 WITH possible_seniors AS
 (
   SELECT p.id, DATE(CONCAT_WS('-', p.year, p.month, p.day)) AS dob
@@ -65,5 +60,4 @@ FROM
 ) AS senior_results
 JOIN age_categories ON age_category <= age_at_comp
 GROUP BY eventId, age_category
-
-) AS t;
+;

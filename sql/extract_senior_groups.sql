@@ -42,11 +42,6 @@
               ORDER BY eventId, best
 */
 
--- Note: SELECT * FROM (...) is only for the benefit of phpMyAdmin. It is not required by other SQL clients.
-
-SELECT * FROM
-(
-
 WITH possible_seniors AS
 (
   SELECT p.id, DATE(CONCAT_WS('-', p.year, p.month, p.day)) AS dob
@@ -120,5 +115,4 @@ FROM
   ) AS senior_bests
 ) AS group_bests
 GROUP BY eventId, age_category, group_no
-
-) AS t;
+;
