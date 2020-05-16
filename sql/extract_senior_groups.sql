@@ -42,6 +42,11 @@
               ORDER BY eventId, best
 */
 
+-- Note: SELECT * FROM (...) is only for the benefit of phpMyAdmin. It is not required by other SQL clients.
+
+SELECT * FROM
+(
+
 WITH possible_seniors AS
 (
   SELECT p.id, DATE(CONCAT_WS('-', p.year, p.month, p.day)) AS dob
@@ -52,6 +57,8 @@ WITH possible_seniors AS
 
 competition_cutoff AS
 (
+  -- If this extract times out, please try a simple cutoff_date (-10 days) which doesn't query the Competitions table
+  -- SELECT DATE_ADD(UTC_DATE(), INTERVAL -10 DAY) AS cutoff_date
   SELECT MIN(end_date) AS cutoff_date
   FROM Competitions
   WHERE results_posted_at IS NULL OR results_posted_at > UTC_DATE()
@@ -115,4 +122,5 @@ FROM
   ) AS senior_bests
 ) AS group_bests
 GROUP BY eventId, age_category, group_no
-;
+
+) AS t;
