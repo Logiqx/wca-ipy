@@ -79,6 +79,7 @@ LEFT JOIN
 (
     SELECT eventId, resultType, ageCategory, SUM(groupSize) AS numSeniors
     FROM SeniorStats
+    WHERE runDate = @runDate
     GROUP BY eventId, resultType, ageCategory
 ) AS t2 ON t2.eventId = t1.eventId AND t2.resultType = t1.resultType AND t2.ageCategory = t1.ageCategory
 LEFT JOIN WcaStats AS ws ON ws.eventId = t1.eventId AND ws.resultType = t1.resultType;
