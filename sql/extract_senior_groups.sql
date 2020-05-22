@@ -57,11 +57,7 @@ WITH possible_seniors AS
 
 competition_cutoff AS
 (
-  -- If this extract times out, please try a simple cutoff_date (-10 days) which doesn't query the Competitions table
-  -- SELECT DATE_ADD(UTC_DATE(), INTERVAL -10 DAY) AS cutoff_date
-  SELECT MIN(end_date) AS cutoff_date
-  FROM Competitions
-  WHERE results_posted_at IS NULL OR results_posted_at > UTC_DATE()
+  SELECT DATE_ADD(UTC_DATE(), INTERVAL -10 DAY) AS cutoff_date
 ),
 
 age_categories(age_category) AS

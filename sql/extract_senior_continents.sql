@@ -58,9 +58,7 @@ WITH possible_seniors AS
 
 competition_cutoff AS
 (
-  SELECT MIN(end_date) AS cutoff_date
-  FROM Competitions
-  WHERE results_posted_at IS NULL OR results_posted_at > UTC_DATE()
+  SELECT DATE_ADD(UTC_DATE(), INTERVAL -10 DAY) AS cutoff_date
 ),
 
 age_categories(age_category) AS
