@@ -37,6 +37,8 @@ LEFT JOIN
 ) AS t2 ON t2.viewId = t1.viewId
 JOIN SeniorViews AS sv on sv.viewId = t1.viewId
 WHERE eventId NOT IN ('magic', 'mmagic', '333mbo')
+-- AND ageCategory = 40 -- can comment out
+-- AND resultType = 'average' -- can comment out
 ORDER BY eventId, ageCategory, resultType DESC;
 
 -- Check for matching results (commonplace)
