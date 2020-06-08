@@ -23,8 +23,8 @@ SET p.year = DATE_FORMAT(s.dob, '%Y'),
 
 -- Check age categories
 SELECT FLOOR(TIMESTAMPDIFF(YEAR,
-	DATE_FORMAT(CONCAT(p.year, '-', p.month, '-', p.day), '%Y-%m-%d'),
-	DATE_FORMAT(CONCAT(c.year, '-', c.month, '-', c.day), '%Y-%m-%d')) / 10) * 10 AS age_category, COUNT(DISTINCT p.id)
+	STR_TO_DATE(CONCAT(p.year, '-', p.month, '-', p.day), '%Y-%m-%d'),
+	STR_TO_DATE(CONCAT(c.year, '-', c.month, '-', c.day), '%Y-%m-%d')) / 10) * 10 AS age_category, COUNT(DISTINCT p.id)
 FROM Persons AS p
 JOIN Results AS r ON r.personId = p.id AND best > 0
 JOIN Competitions AS c ON c.id = r.competitionId

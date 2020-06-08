@@ -73,21 +73,21 @@ FROM
     FROM
     (
         SELECT s.runDate, r.eventId, 'average' AS resultType, r.personId, r.average AS best,
-            TIMESTAMPDIFF(YEAR, dob, DATE_FORMAT(CONCAT(c.year, '-', c.month, '-', c.day), '%Y-%m-%d')) AS age_at_comp
+            TIMESTAMPDIFF(YEAR, dob, STR_TO_DATE(CONCAT(c.year, '-', c.month, '-', c.day), '%Y-%m-%d')) AS age_at_comp
         FROM Seniors AS p
         JOIN (SELECT MAX(runDate) AS runDate FROM SeniorStats) AS s
         JOIN wca.Results AS r ON r.personId = p.personId AND average > 0
-        JOIN wca.Competitions AS c ON c.id = r.competitionId AND DATE_FORMAT(CONCAT(c.year, '-', c.month, '-', c.day), '%Y-%m-%d') < s.runDate
+        JOIN wca.Competitions AS c ON c.id = r.competitionId AND STR_TO_DATE(CONCAT(c.year, '-', c.month, '-', c.day), '%Y-%m-%d') < s.runDate
         WHERE YEAR(dob) <= YEAR(UTC_DATE()) - 40
         AND accuracyId NOT IN ('x', 'y')
         HAVING age_at_comp >= 40
         UNION ALL
         SELECT s.runDate, r.eventId, 'single' AS resultType, r.personId, r.best,
-            TIMESTAMPDIFF(YEAR, dob, DATE_FORMAT(CONCAT(c.year, '-', c.month, '-', c.day), '%Y-%m-%d')) AS age_at_comp
+            TIMESTAMPDIFF(YEAR, dob, STR_TO_DATE(CONCAT(c.year, '-', c.month, '-', c.day), '%Y-%m-%d')) AS age_at_comp
         FROM Seniors AS p
         JOIN (SELECT MAX(runDate) AS runDate FROM SeniorStats) AS s
         JOIN wca.Results AS r ON r.personId = p.personId AND best > 0
-        JOIN wca.Competitions AS c ON c.id = r.competitionId AND DATE_FORMAT(CONCAT(c.year, '-', c.month, '-', c.day), '%Y-%m-%d') < s.runDate
+        JOIN wca.Competitions AS c ON c.id = r.competitionId AND STR_TO_DATE(CONCAT(c.year, '-', c.month, '-', c.day), '%Y-%m-%d') < s.runDate
         WHERE YEAR(dob) <= YEAR(UTC_DATE()) - 40
         AND accuracyId NOT IN ('x', 'y')
         HAVING age_at_comp >= 40

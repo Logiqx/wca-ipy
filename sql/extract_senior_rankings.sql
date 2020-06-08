@@ -23,7 +23,7 @@ FROM
         FROM
         (
             SELECT r.eventId, 'average' AS resultType, r.personId, r.average AS best,
-                TIMESTAMPDIFF(YEAR, dob, DATE_FORMAT(CONCAT(c.year, '-', c.month, '-', c.day), '%Y-%m-%d')) AS age_at_comp
+                TIMESTAMPDIFF(YEAR, dob, STR_TO_DATE(CONCAT(c.year, '-', c.month, '-', c.day), '%Y-%m-%d')) AS age_at_comp
             FROM Seniors AS p
             JOIN wca.Results AS r ON r.personId = p.personId AND average > 0
             JOIN wca.Competitions AS c ON c.id = r.competitionId
@@ -31,7 +31,7 @@ FROM
             HAVING age_at_comp >= 40
             UNION ALL
             SELECT r.eventId, 'single' AS resultType, r.personId, r.best,
-                TIMESTAMPDIFF(YEAR, dob, DATE_FORMAT(CONCAT(c.year, '-', c.month, '-', c.day), '%Y-%m-%d')) AS age_at_comp
+                TIMESTAMPDIFF(YEAR, dob, STR_TO_DATE(CONCAT(c.year, '-', c.month, '-', c.day), '%Y-%m-%d')) AS age_at_comp
             FROM Seniors AS p
             JOIN wca.Results AS r ON r.personId = p.personId AND best > 0
             JOIN wca.Competitions AS c ON c.id = r.competitionId
@@ -64,7 +64,7 @@ FROM
         FROM
         (
             SELECT sr.*, s.name AS personName, c.id AS competitionId,
-                FLOOR(TIMESTAMPDIFF(YEAR, dob, DATE_FORMAT(CONCAT(c.year, '-', c.month, '-', c.day), '%Y-%m-%d')) / 10) * 10 AS ageAtComp,
+                FLOOR(TIMESTAMPDIFF(YEAR, dob, STR_TO_DATE(CONCAT(c.year, '-', c.month, '-', c.day), '%Y-%m-%d')) / 10) * 10 AS ageAtComp,
                 ROW_NUMBER() OVER (PARTITION BY sr.eventId, sr.resultType, sr.ageCategory, sr.personId ORDER BY c.year, c.month, c.day) AS rowNo
             FROM Seniors AS s
             JOIN SeniorRanks AS sr ON sr.personId = s.personId
@@ -74,7 +74,7 @@ FROM
             HAVING ageAtComp >= sr.ageCategory
             UNION ALL
             SELECT sr.*, s.name AS personName, c.id AS competitionId,
-                FLOOR(TIMESTAMPDIFF(YEAR, dob, DATE_FORMAT(CONCAT(c.year, '-', c.month, '-', c.day), '%Y-%m-%d')) / 10) * 10 AS ageAtComp,
+                FLOOR(TIMESTAMPDIFF(YEAR, dob, STR_TO_DATE(CONCAT(c.year, '-', c.month, '-', c.day), '%Y-%m-%d')) / 10) * 10 AS ageAtComp,
                 ROW_NUMBER() OVER (PARTITION BY sr.eventId, sr.resultType, sr.ageCategory, sr.personId ORDER BY c.year, c.month, c.day) AS rowNo
             FROM Seniors AS s
             JOIN SeniorRanks AS sr ON sr.personId = s.personId

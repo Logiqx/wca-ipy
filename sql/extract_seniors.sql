@@ -13,7 +13,7 @@ SET s.name = p.name, s.countryId = p.countryId, s.gender = p.gender;
 SELECT t.personId, s.name AS personName, c.iso2 AS country, s.username, s.usernum, MAX(t.ageCategory) AS ageCategory, s.hidden, IFNULL(s.userId, 0) AS userId, s.deceased
 FROM
 (
-    SELECT s.personId, FLOOR(TIMESTAMPDIFF(YEAR, dob, DATE_FORMAT(CONCAT(c.year, '-', c.month, '-', c.day), '%Y-%m-%d')) / 10) * 10 AS ageCategory
+    SELECT s.personId, FLOOR(TIMESTAMPDIFF(YEAR, dob, STR_TO_DATE(CONCAT(c.year, '-', c.month, '-', c.day), '%Y-%m-%d')) / 10) * 10 AS ageCategory
     FROM Seniors AS s
     JOIN wca.Results AS r ON r.personId = s.personId
     JOIN wca.Competitions AS c ON c.id = r.competitionId

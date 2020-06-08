@@ -31,7 +31,7 @@
               WHERE p.year > 0 AND p.year <= YEAR(UTC_DATE()) - 40
               AND #{column_name} > 0
               AND subid = 1
-              AND TIMESTAMPDIFF(YEAR, DATE_FORMAT(CONCAT(p.year, '-', p.month, '-', p.day), '%Y-%m-%d'), start_date) >= 40
+              AND TIMESTAMPDIFF(YEAR, STR_TO_DATE(CONCAT(p.year, '-', p.month, '-', p.day), '%Y-%m-%d'), start_date) >= 40
               GROUP BY eventId, continentId
 
               - The following query only needs to be run once per result type (best / average)
