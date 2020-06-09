@@ -225,14 +225,18 @@ JOIN
     SELECT ss1.viewId, ss1.groupNo
     FROM SeniorStatsExtra AS ss1
     JOIN SeniorStatsExtra AS ss2 ON ss2.viewId = ss1.viewId AND ss2.groupNo = ss1.groupNo - 1
+    JOIN SeniorStatsExtra AS ss3 ON ss3.viewId = ss1.viewId AND ss3.groupNo = ss1.groupNo + 1
     WHERE ss1.minResult < ss1.groupResult - (ss1.groupResult - ss1.prevResult) * 0.8
     AND ss2.prevResult IS NOT NULL AND ss2.stepNo IS NULL
+    AND NOT ss3.stepNo <=> 1
     UNION
     SELECT ss1.viewId, ss1.groupNo
     FROM SeniorStatsExtra AS ss1
     JOIN SeniorStatsExtra AS ss2 ON ss2.viewId = ss1.viewId AND ss2.groupNo = ss1.groupNo + 1
+    JOIN SeniorStatsExtra AS ss3 ON ss3.viewId = ss1.viewId AND ss3.groupNo = ss1.groupNo - 1
     WHERE ss1.maxResult > ss1.groupResult + (ss1.nextResult - ss1.groupResult) * 0.8
     AND ss2.nextResult IS NOT NULL AND ss2.stepNo IS NULL
+    AND NOT ss3.stepNo <=> 1
 ) AS t ON t.viewId = ss.viewId AND t.groupNo = ss.groupNo
 SET minRowNo = NULL, maxRowNo = NULL, minResult = NULL, maxResult = NULL, stepNo = NULL;
 
