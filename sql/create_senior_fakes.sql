@@ -344,6 +344,15 @@ JOIN
 SET ss.totResult = t.totResult, ss.avgResult = t.avgResult, ss.numRows = t.numRows, ss.totRows = t.totRows,
     ss.numMissing = ss.groupSize - t.numRows, ss.totMissing = ss.totSeniors - t.totRows;
 
+-- Patch stepNo where last group has a matching average (i.e. essentially step 1 but <6 rows)
+UPDATE SeniorStatsExtra
+SET stepNo = 1
+WHERE nextResult IS NULL
+AND avgResult = groupResult
+AND numRows = groupSize
+AND groupSize >= 4
+AND stepNo > 1;
+
 -- Ensure that total missing is not negative
 UPDATE SeniorStatsExtra
 SET totMissing = 0
