@@ -1,7 +1,7 @@
 # Base image versions
-ARG NOTEBOOK_VERSION=c39518a3252f
-ARG PYTHON_VERSION=3.8
-ARG ALPINE_VERSION=3.11
+ARG NOTEBOOK_VERSION=notebook-6.2.0
+ARG PYTHON_VERSION=3.9
+ARG ALPINE_VERSION=3.12
 
 # Jupyter notebook image is used as the builder
 FROM jupyter/base-notebook:${NOTEBOOK_VERSION} AS builder
@@ -37,7 +37,7 @@ RUN addgroup -g ${PY_GID} ${PY_GROUP} && \
     chown -R ${PY_USER} /home/${PY_USER}
 
 # Install Tini
-RUN apk add --no-cache tini=~0.18
+RUN apk add --no-cache tini=~0.19
 
 # Environment variables used by the Python scripts
 ENV MYSQL_HOST=mariadb
@@ -49,7 +49,10 @@ ARG LOGIQX_DEBUG=0
 ENV LOGIQX_DEBUG=${LOGIQX_DEBUG}
 
 # Install Python libraries
-RUN pip install --no-cache-dir beautifulsoup4==4.8.* sqlparse==0.3.* PyMySQL==0.9.*
+RUN pip install --no-cache-dir \
+    beautifulsoup4==4.9.* \
+    PyMySQL==1.0.* \
+    sqlparse==0.4.*
 
 # Copy project files from the builder
 USER ${PY_USER}

@@ -1,6 +1,6 @@
 # Base image versions
-ARG NOTEBOOK_VERSION=c39518a3252f
-ARG PYTHON_VERSION=3.8
+ARG NOTEBOOK_VERSION=notebook-6.2.0
+ARG PYTHON_VERSION=3.9
 ARG DEBIAN_VERSION=buster
 
 # Jupyter notebook image is used as the builder
@@ -50,7 +50,10 @@ ARG LOGIQX_DEBUG=0
 ENV LOGIQX_DEBUG=${LOGIQX_DEBUG}
 
 # Install Python libraries
-RUN pip install --no-cache-dir beautifulsoup4==4.8.* sqlparse==0.3.* PyMySQL==0.9.*
+RUN pip install --no-cache-dir \
+    beautifulsoup4==4.9.* \
+    PyMySQL==1.0.* \
+    sqlparse==0.4.*
 
 # Copy project files from the builder
 USER ${PY_USER}
