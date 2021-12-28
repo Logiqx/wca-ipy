@@ -21,8 +21,8 @@ RUN chmod 755 python/*.py && \
     chmod 644 sql/*.sql && \
     chmod 644 templates/*.html
 
-# Create final image from Python 3 + lxml
-FROM python:${PYTHON_VERSION}-alpine${ALPINE_VERSION}
+# Create final image from Python 3 + lxml (Alpine Linux)
+FROM logiqx/python-lxml:${PYTHON_VERSION}-alpine${ALPINE_VERSION}
 
 # Note: Jovian is a fictional native inhabitant of the planet Jupiter
 ARG PY_USER=jovyan
@@ -51,7 +51,6 @@ ENV LOGIQX_DEBUG=${LOGIQX_DEBUG}
 # Install Python libraries
 RUN pip install --no-cache-dir \
     beautifulsoup4==4.10.* \
-    lxml==4.7.* \
     PyMySQL==1.0.* \
     sqlparse==0.4.*
 

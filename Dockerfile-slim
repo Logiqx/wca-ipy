@@ -21,7 +21,7 @@ RUN chmod 755 python/*.py && \
     chmod 644 sql/*.sql && \
     chmod 644 templates/*.html
 
-# Create final image from Python 3 + lxml
+# Create final image from Python 3 (Debian Slim)
 FROM python:${PYTHON_VERSION}-slim-${DEBIAN_VERSION}
 
 # Note: Jovian is a fictional native inhabitant of the planet Jupiter
