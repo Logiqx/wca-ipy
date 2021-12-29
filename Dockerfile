@@ -1,7 +1,7 @@
 # Base image versions
 ARG NOTEBOOK_VERSION=notebook-6.2.0
-ARG PYTHON_VERSION=3.9
-ARG ALPINE_VERSION=3.12
+ARG PYTHON_VERSION=3.10
+ARG ALPINE_VERSION=3.15
 
 # Jupyter notebook image is used as the builder
 FROM jupyter/base-notebook:${NOTEBOOK_VERSION} AS builder
