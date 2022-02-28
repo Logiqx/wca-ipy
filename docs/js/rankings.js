@@ -390,6 +390,12 @@ function renderTable(eventId, resultType, ageCategory, continentId, countryId, w
 						fakeRatio =  missing / rankingObj.missing.world;
 					}
 				}
+				else
+				{
+					// Assume the worst case which is 1 person missing... due to being excluded from WCA country_stats
+					// Leave "missing" as -1 so that the uncertainty is highlighted at the bottom of the page
+					fakeRatio =  1 / rankingObj.missing.world;
+				}
 			}
 			else if (continentId != "XX")
 			{
@@ -401,6 +407,12 @@ function renderTable(eventId, resultType, ageCategory, continentId, countryId, w
 					{
 						fakeRatio = missing / rankingObj.missing.world;
 					}
+				}
+				else
+				{
+					// Assume the worst case which is 1 person missing... due to being excluded from WCA continent_stats
+					// Leave "missing" as -1 so that the uncertainty is highlighted at the bottom of the page
+					fakeRatio =  1 / rankingObj.missing.world;
 				}
 			}
 			else
