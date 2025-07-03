@@ -381,7 +381,7 @@ function renderTable(eventId, resultType, ageCategory, continentId, countryId, w
 
 			if (countryId != "XX")
 			{
-				if (rankingObj.missing.countries.hasOwnProperty(countryId))
+				if (rankingObj.missing.countries && rankingObj.missing.countries.hasOwnProperty(countryId))
 				{
 					missing = rankingObj.missing.countries[countryId];
 
@@ -399,7 +399,7 @@ function renderTable(eventId, resultType, ageCategory, continentId, countryId, w
 			}
 			else if (continentId != "XX")
 			{
-				if (rankingObj.missing.continents.hasOwnProperty(continentId))
+				if (rankingObj.missing.continents && rankingObj.missing.continents.hasOwnProperty(continentId))
 				{
 					missing = rankingObj.missing.continents[continentId];
 
