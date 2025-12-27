@@ -29,3 +29,22 @@ run_py_script Recent_Competitions.py
 
 # Docker Tag
 docker tag $IMAGE_NAME:$IMAGE_TAG $IMAGE_NAME:latest
+
+# Revert to the default database and user
+MYSQL_DATABASE=
+MYSQL_USER=
+
+# Create Fakes
+run_py_script Create_Senior_Fakes.py
+
+# Extract Counts
+run_py_script Extract_Senior_Counts.py
+
+# Format Extracts
+run_py_script Create_Extracts.py
+
+# Refresh Rankings
+run_py_script Senior_Rankings.py
+
+# Refresh Competitions
+run_py_script Recent_Competitions.py
