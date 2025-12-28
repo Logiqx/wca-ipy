@@ -7,6 +7,6 @@
 */
 
 SELECT id, name, `rank`, format
-FROM wca.Events AS e
+FROM wca.events AS e
 WHERE `rank` < 900
 ORDER BY `rank`;

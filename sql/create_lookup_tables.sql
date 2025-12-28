@@ -11,15 +11,18 @@
 */
 
 DROP TABLE IF EXISTS Seniors;
+DROP TABLE IF EXISTS seniors;
 DROP TABLE IF EXISTS Juniors;
+DROP TABLE IF EXISTS juniors;
 
 /*
    Senior Sources
 */
 
 DROP TABLE IF EXISTS SeniorSources;
+DROP TABLE IF EXISTS senior_sources;
 
-CREATE TABLE SeniorSources
+CREATE TABLE senior_sources
 (
      `id` char(1) COLLATE utf8mb4_unicode_ci NOT NULL,
      `type` varchar(10) COLLATE utf8mb4_unicode_ci,
@@ -27,7 +30,7 @@ CREATE TABLE SeniorSources
      PRIMARY KEY (`id`)
 );
 
-INSERT INTO SeniorSources VALUES
+INSERT INTO senior_sources VALUES
 ('c', 'Contacted', 'Contacted via Messenger after being found or spotted'),
 ('d', 'Derived', 'Derived from other sources (e.g. old WCA statistics)'),
 ('f', 'Found', 'Found DOB or YOB on Speedsolving.com, Facebook, etc'),
@@ -40,8 +43,9 @@ INSERT INTO SeniorSources VALUES
 */
 
 DROP TABLE IF EXISTS SeniorAccuracies;
+DROP TABLE IF EXISTS senior_accuracies;
 
-CREATE TABLE SeniorAccuracies
+CREATE TABLE senior_accuracies
 (
      `id` char(1) COLLATE utf8mb4_unicode_ci NOT NULL,
      `type` varchar(10) COLLATE utf8mb4_unicode_ci,
@@ -49,7 +53,7 @@ CREATE TABLE SeniorAccuracies
      PRIMARY KEY (`id`)
 );
 
-INSERT INTO SeniorAccuracies VALUES
+INSERT INTO senior_accuracies VALUES
 ('d', 'Day', 'Precise DOB'),
 ('f', 'Fake', 'Fake DOB to exclude earlier competitions'),
 ('m', 'Month', 'Month of birth - e.g. 1972-07-31 for July 1972'),
@@ -63,8 +67,9 @@ INSERT INTO SeniorAccuracies VALUES
 */
 
 DROP TABLE IF EXISTS UserStatuses;
+DROP TABLE IF EXISTS user_statuses;
 
-CREATE TABLE UserStatuses
+CREATE TABLE user_statuses
 (
      `id` char(1) COLLATE utf8mb4_unicode_ci NOT NULL,
      `type` varchar(12) COLLATE utf8mb4_unicode_ci,
@@ -72,7 +77,7 @@ CREATE TABLE UserStatuses
      PRIMARY KEY (`id`)
 );
 
-INSERT INTO UserStatuses VALUES
+INSERT INTO user_statuses VALUES
 ('c', 'Confirmed', 'User has been confirmed by delegate'),
 ('u', 'Unconfirmed', 'User has yet to be be confirmed by delegate'),
 ('r', 'Registered', 'User registered for competition and has been matched via results'),
@@ -84,15 +89,16 @@ INSERT INTO UserStatuses VALUES
 */
 
 DROP TABLE IF EXISTS ContinentCodes;
+DROP TABLE IF EXISTS continent_codes;
 
-CREATE TABLE ContinentCodes
+CREATE TABLE continent_codes
 (
      `id` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
      `cc` char(2) COLLATE utf8mb4_unicode_ci NOT NULL,
      PRIMARY KEY (`id`)
 );
 
-INSERT INTO ContinentCodes VALUES
+INSERT INTO continent_codes VALUES
 ('_Africa', 'AF'),
 ('_Asia', 'AS'),
 ('_Europe', 'EU'),

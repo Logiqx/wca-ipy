@@ -7,25 +7,26 @@
 */
 
 DROP VIEW IF EXISTS SeniorDetails;
+DROP VIEW IF EXISTS senior_details;
 
-CREATE VIEW SeniorDetails AS
-SELECT s.personId, s.name, s.countryId, s.gender, s.dob, s.hidden, s.deceased,
-    MIN(STR_TO_DATE(CONCAT(c.year, '-', c.month, '-', c.day), '%Y-%m-%d')) AS firstComp,
-    MAX(STR_TO_DATE(CONCAT(c.year, '-', c.month, '-', c.day), '%Y-%m-%d')) AS lastComp,
-    COUNT(DISTINCT r.competitionId) AS numComps,
-    MAX(TIMESTAMPDIFF(YEAR, STR_TO_DATE(CONCAT(LEFT(s.personId, 4), '-01-01'), '%Y-%m-%d'), STR_TO_DATE(CONCAT(c.year, '-01-01'), '%Y-%m-%d')) + 1) AS yearsCompeting,
-    MIN(TIMESTAMPDIFF(YEAR, s.dob, STR_TO_DATE(CONCAT(c.year, '-', c.month, '-', c.day), '%Y-%m-%d'))) AS ageFirstComp,
-    MAX(TIMESTAMPDIFF(YEAR, s.dob, STR_TO_DATE(CONCAT(c.year, '-', c.month, '-', c.day), '%Y-%m-%d'))) AS ageLastComp,
-    TIMESTAMPDIFF(YEAR, s.dob, NOW()) AS ageToday,
-    s.accuracyId, s.sourceId, s.userStatusId,
-    sa.type AS accuracyType, ss.type AS sourceType, us.type AS userStatus,
-    s.userId, u.avatar, s.username, s.usernum, s.email, s.facebook, s.youtube, s.comment
-FROM Seniors AS s
-JOIN SeniorSources ss ON ss.id = s.sourceId
-JOIN SeniorAccuracies sa ON sa.id = s.accuracyId
-JOIN UserStatuses us ON us.id = s.userStatusId
-JOIN wca.Results AS r ON r.personId = s.personId
-JOIN wca.Competitions AS c ON c.id = r.competitionId
-LEFT JOIN wca_dev.users u ON u.id = s.userId
-GROUP BY s.personId
-ORDER BY lastComp DESC, numComps DESC, yearsCompeting DESC;
+CREATE VIEW senior_details AS
+SELECT s.wca_id, s.name, s.country_id, s.gender, s.dob, s.hidden, s.deceased,
+    MIN(STR_TO_DATE(CONCAT(c.year, '-', c.month, '-', c.day), '%Y-%m-%d')) AS first_comp,
+    MAX(STR_TO_DATE(CONCAT(c.year, '-', c.month, '-', c.day), '%Y-%m-%d')) AS last_comp,
+    COUNT(DISTINCT r.competition_id) AS num_comps,
+    MAX(TIMESTAMPDIFF(YEAR, STR_TO_DATE(CONCAT(LEFT(s.wca_id, 4), '-01-01'), '%Y-%m-%d'), STR_TO_DATE(CONCAT(c.year, '-01-01'), '%Y-%m-%d')) + 1) AS years_competing,
+    MIN(TIMESTAMPDIFF(YEAR, s.dob, STR_TO_DATE(CONCAT(c.year, '-', c.month, '-', c.day), '%Y-%m-%d'))) AS age_first_comp,
+    MAX(TIMESTAMPDIFF(YEAR, s.dob, STR_TO_DATE(CONCAT(c.year, '-', c.month, '-', c.day), '%Y-%m-%d'))) AS age_last_comp,
+    TIMESTAMPDIFF(YEAR, s.dob, NOW()) AS age_today,
+    s.accuracy_id, s.source_id, s.user_status_id,
+    sa.type AS accuracy_type, ss.type AS source_type, us.type AS user_status,
+    s.user_id, u.current_avatar_id, s.username, s.usernum, s.email, s.facebook, s.youtube, s.comment
+FROM seniors AS s
+JOIN senior_sources ss ON ss.id = s.source_id
+JOIN senior_accuracies sa ON sa.id = s.accuracy_id
+JOIN user_statuses us ON us.id = s.user_status_id
+JOIN wca.results AS r ON r.person_id = s.wca_id
+JOIN wca.competitions AS c ON c.id = r.competition_id
+LEFT JOIN wca_dev.users u ON u.id = s.user_id
+GROUP BY s.wca_id
+ORDER BY last_comp DESC, num_comps DESC, years_competing DESC;

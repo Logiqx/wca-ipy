@@ -10,101 +10,101 @@
    Sanity checks
 */
 
--- NULL groupResult implies pre-processing was incomplete
+-- NULL group_result implies pre-processing was incomplete
 SELECT 'Poor pre-processing' AS label, sv.*, ss.*
-FROM SeniorStatsExtra AS ss
-JOIN SeniorViews AS sv ON sv.viewId = ss.viewId
-WHERE groupResult IS NULL;
+FROM senior_stats_extra AS ss
+JOIN senior_views AS sv ON sv.view_id = ss.view_id
+WHERE group_result IS NULL;
 
--- Check numRows always matches row numbers
-SELECT 'Incorrect numRows' AS label, sv.*, ss.*
-FROM SeniorStatsExtra AS ss
-JOIN SeniorViews AS sv on sv.viewId = ss.viewId
-WHERE numRows != maxRowNo - minRowNo + 1;
+-- Check num_rows always matches row numbers
+SELECT 'Incorrect num_rows' AS label, sv.*, ss.*
+FROM senior_stats_extra AS ss
+JOIN senior_views AS sv on sv.view_id = ss.view_id
+WHERE num_rows != max_row_no - min_row_no + 1;
 
 -- Check last row
 SELECT 'Incorrect totals' AS label, sv.*, ss.*
-FROM SeniorStatsExtra AS ss
-JOIN SeniorViews AS sv on sv.viewId = ss.viewId
-WHERE nextResult IS NULL
-AND totSeniors != totRows + totMissing;
+FROM senior_stats_extra AS ss
+JOIN senior_views AS sv on sv.view_id = ss.view_id
+WHERE next_result IS NULL
+AND tot_seniors != tot_rows + tot_missing;
 
 -- Check totals of the two tables
-SELECT 'Incorrect count' AS label, sv.*, t1.viewId, t1.totRows, t2.numPersons
+SELECT 'Incorrect count' AS label, sv.*, t1.view_id, t1.tot_rows, t2.num_persons
 FROM
 (
-    SELECT ss.viewId, SUM(numRows) AS totRows
-    FROM SeniorStatsExtra AS ss
-    GROUP BY viewId
+    SELECT ss.view_id, SUM(num_rows) AS tot_rows
+    FROM senior_stats_extra AS ss
+    GROUP BY view_id
 ) AS t1
 JOIN
 (
-    SELECT viewId, COUNT(DISTINCT personId) AS numPersons
-    FROM SeniorBests
-    GROUP BY viewId
-) AS t2 ON t2.viewId = t1.viewId
-JOIN SeniorViews AS sv ON sv.viewId = t1.viewId
-WHERE NOT totRows = numPersons;
+    SELECT view_id, COUNT(DISTINCT wca_id) AS num_persons
+    FROM senior_bests
+    GROUP BY view_id
+) AS t2 ON t2.view_id = t1.view_id
+JOIN senior_views AS sv ON sv.view_id = t1.view_id
+WHERE NOT tot_rows = num_persons;
 
 -- List exceptions
 /*
-SELECT 'Missing result' AS label, sv.*, sb.rowNo, sb.personId, sb.best
-FROM SeniorBestsExtra AS sb
-JOIN SeniorViews AS sv ON sv.viewId = sb.viewId
-LEFT JOIN SeniorStatsExtra AS ss ON ss.viewId = sb.viewId AND rowNo BETWEEN minRowNo AND maxRowNo
-WHERE ss.viewId IS NULL;
+SELECT 'Missing result' AS label, sv.*, sb.row_no, sb.wca_id, sb.best
+FROM senior_bests_extra AS sb
+JOIN senior_views AS sv ON sv.view_id = sb.view_id
+LEFT JOIN senior_stats_extra AS ss ON ss.view_id = sb.view_id AND row_no BETWEEN min_row_no AND max_row_no
+WHERE ss.view_id IS NULL;
 */
 
--- Check for change in totMissing
-SELECT 'totMissing' AS label, sv.*, ss2.*
-FROM SeniorStatsExtra AS ss1
-JOIN SeniorStatsExtra AS ss2 ON ss2.viewId = ss1.viewId AND ss2.groupNo = ss1.groupNo + 1
-JOIN SeniorViews AS sv ON sv.viewId = ss1.viewId
-WHERE ss2.totMissing < ss1.totMissing;
+-- Check for change in tot_missing
+SELECT 'tot_missing' AS label, sv.*, ss2.*
+FROM senior_stats_extra AS ss1
+JOIN senior_stats_extra AS ss2 ON ss2.view_id = ss1.view_id AND ss2.group_no = ss1.group_no + 1
+JOIN senior_views AS sv ON sv.view_id = ss1.view_id
+WHERE ss2.tot_missing < ss1.tot_missing;
 
 -- ???
-SELECT 'totMissing' AS label, sv.*, t.*
+SELECT 'tot_missing' AS label, sv.*, t.*
 FROM
 (
-    SELECT *, MAX(totMissing) OVER (PARTITION BY viewId ORDER BY groupNo) AS maxTotMissing
-    FROM SeniorStatsExtra
+    SELECT *, MAX(tot_missing) OVER (PARTITION BY view_id ORDER BY group_no) AS max_tot_missing
+    FROM senior_stats_extra
 ) AS t
-JOIN SeniorViews AS sv ON sv.viewId = t.viewId
-WHERE t.maxTotMissing > t.totMissing
-ORDER BY t.viewId, groupNo;
+JOIN senior_views AS sv ON sv.view_id = t.view_id
+WHERE t.max_tot_missing > t.tot_missing
+ORDER BY t.view_id, group_no;
 
 -- Evaluate Overall Counts
-SELECT 'Overall count' AS label, t.viewId, eventId, resultType, ageCategory, SUM(groupSize) AS expectedRecs, numRecs
+SELECT 'Overall count' AS label, t.view_id, event_id, result_type, age_category, SUM(group_size) AS expected_recs, num_recs
 FROM
 (
-    SELECT viewId, COUNT(*) AS numRecs
+    SELECT view_id, COUNT(*) AS num_recs
     FROM
     (
-        SELECT viewId, fakeResult AS best, 'fake' AS label
-        FROM SeniorFakes
+        SELECT view_id, fake_result AS best, 'fake' AS label
+        FROM senior_fakes
         UNION ALL
-        SELECT viewId, best, 'real' AS label
-        FROM SeniorBests
+        SELECT view_id, best, 'real' AS label
+        FROM senior_bests
     ) AS t
-    GROUP BY viewId
+    GROUP BY view_id
 ) AS t
-JOIN SeniorStatsExtra AS ss ON ss.viewId = t.viewId
-JOIN SeniorViews AS sv ON sv.viewId = t.viewId
-GROUP BY viewId
-HAVING numRecs != expectedRecs;
+JOIN senior_stats_extra AS ss ON ss.view_id = t.view_id
+JOIN senior_views AS sv ON sv.view_id = t.view_id
+GROUP BY view_id
+HAVING num_recs != expected_recs;
 
 -- Check types of fakes
 
 SELECT 'Unexpected exact' AS label, sv.*, sf.*, ss.*
-FROM SeniorFakes AS sf
-JOIN SeniorStatsExtra AS ss ON ss.viewId = sf.viewId AND ss.groupNo = sf.groupNo
-JOIN SeniorViews AS sv on sv.viewId = ss.viewId
-WHERE fakeId = 'FAKE_EXACT'
-AND (ss.stepNo != 2 OR ss.numMissing != 1 OR ss.numRows != ss.groupSize - 1 OR ss.groupSize < 4);
+FROM senior_fakes AS sf
+JOIN senior_stats_extra AS ss ON ss.view_id = sf.view_id AND ss.group_no = sf.group_no
+JOIN senior_views AS sv on sv.view_id = ss.view_id
+WHERE fake_id = 'FAKE_EXACT'
+AND (ss.step_no != 2 OR ss.num_missing != 1 OR ss.num_rows != ss.group_size - 1 OR ss.group_size < 4);
 
 SELECT 'Unexpected range' AS label, sv.*, sf.*, ss.*
-FROM SeniorFakes AS sf
-JOIN SeniorStatsExtra AS ss ON ss.viewId = sf.viewId AND ss.groupNo = sf.groupNo
-JOIN SeniorViews AS sv on sv.viewId = ss.viewId
-WHERE fakeId = 'FAKE_RANGE'
-AND NOT (ss.stepNo != 2 OR ss.numMissing != 1 OR ss.numRows != ss.groupSize - 1 OR ss.groupSize < 4);
+FROM senior_fakes AS sf
+JOIN senior_stats_extra AS ss ON ss.view_id = sf.view_id AND ss.group_no = sf.group_no
+JOIN senior_views AS sv on sv.view_id = ss.view_id
+WHERE fake_id = 'FAKE_RANGE'
+AND NOT (ss.step_no != 2 OR ss.num_missing != 1 OR ss.num_rows != ss.group_size - 1 OR ss.group_size < 4);

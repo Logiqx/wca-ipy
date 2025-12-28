@@ -11,128 +11,131 @@
 */
 
 -- DROP TEMPORARY TABLE IF EXISTS WcaStats;
+-- DROP TEMPORARY TABLE IF EXISTS wca_stats;
 
-CREATE TEMPORARY TABLE WcaStats AS
+CREATE TEMPORARY TABLE wca_stats AS
 (
-  SELECT eventId, 'average' AS resultType, continentId, COUNT(*) AS numPersons, MAX(continentRank) AS maxRank
-  FROM wca.RanksAverage AS r
-  JOIN wca.Persons AS p ON p.id = r.personId AND p.subid = 1
-  JOIN wca.Countries AS c ON c.id = p.countryId
-  GROUP BY eventId, continentId
+  SELECT event_id, 'average' AS result_type, continent_id, COUNT(*) AS num_persons, MAX(continent_rank) AS max_rank
+  FROM wca.ranks_average AS r
+  JOIN wca.persons AS p ON p.wca_id = r.person_id AND p.sub_id = 1
+  JOIN wca.countries AS c ON c.id = p.country_id
+  GROUP BY event_id, continent_id
  )
  UNION ALL
  (
-  SELECT eventId, 'single' AS resultType, continentId, COUNT(*) AS numPersons, MAX(continentRank) AS maxRank
-  FROM wca.RanksSingle AS r
-  JOIN wca.Persons AS p ON p.id = r.personId AND p.subid = 1
-  JOIN wca.Countries AS c ON c.id = p.countryId
-  GROUP BY eventId, continentId
+  SELECT event_id, 'single' AS result_type, continent_id, COUNT(*) AS num_persons, MAX(continent_rank) AS max_rank
+  FROM wca.ranks_single AS r
+  JOIN wca.persons AS p ON p.wca_id = r.person_id AND p.sub_id = 1
+  JOIN wca.countries AS c ON c.id = p.country_id
+  GROUP BY event_id, continent_id
 );
 
-ALTER TABLE WcaStats ADD PRIMARY KEY (eventId, resultType, continentId);
+ALTER TABLE wca_stats ADD PRIMARY KEY (event_id, result_type, continent_id);
 
 /*
     Determine known seniors
 */
 
-SET @runDate = (SELECT MAX(runDate) FROM ContinentStats);
+SET @run_date = (SELECT MAX(run_date) FROM continent_stats);
 
 -- DROP TEMPORARY TABLE IF EXISTS KnownSeniors;
+-- DROP TEMPORARY TABLE IF EXISTS known_seniors;
 
-CREATE TEMPORARY TABLE KnownSeniors AS
-SELECT DISTINCT eventId, CONVERT(resultType USING utf8) AS resultType, seq AS ageCategory, personId
+CREATE TEMPORARY TABLE known_seniors AS
+SELECT DISTINCT event_id, CONVERT(result_type USING utf8) AS result_type, seq AS age_category, person_id
 FROM
 (
-    SELECT r.eventId, 'average' AS resultType, r.personId,
+    SELECT r.event_id, 'average' AS result_type, r.person_id,
         TIMESTAMPDIFF(YEAR, dob, STR_TO_DATE(CONCAT(c.year, '-', c.month, '-', c.day), '%Y-%m-%d')) AS age_at_comp
-    FROM Seniors AS p
-    JOIN wca.Results AS r ON r.personId = p.personId AND average > 0
-    JOIN wca.Competitions AS c ON c.id = r.competitionId AND STR_TO_DATE(CONCAT(c.year + IF(c.endMonth < c.month, 1, 0), '-', c.endMonth, '-', c.endDay), '%Y-%m-%d') < @runDate
+    FROM seniors AS p
+    JOIN wca.results AS r ON r.person_id = p.wca_id AND average > 0
+    JOIN wca.competitions AS c ON c.id = r.competition_id AND STR_TO_DATE(CONCAT(c.year + IF(c.end_month < c.month, 1, 0), '-', c.end_month, '-', c.end_day), '%Y-%m-%d') < @run_date
     WHERE YEAR(dob) <= YEAR(UTC_DATE()) - 40
-    AND accuracyId NOT IN ('x', 'y')
+    AND accuracy_id NOT IN ('x', 'y')
     HAVING age_at_comp >= 40
     UNION ALL
-    SELECT r.eventId, 'single' AS resultType, r.personId,
+    SELECT r.event_id, 'single' AS result_type, r.person_id,
         TIMESTAMPDIFF(YEAR, dob, STR_TO_DATE(CONCAT(c.year, '-', c.month, '-', c.day), '%Y-%m-%d')) AS age_at_comp
-    FROM Seniors AS p
-    JOIN wca.Results AS r ON r.personId = p.personId AND best > 0
-    JOIN wca.Competitions AS c ON c.id = r.competitionId AND STR_TO_DATE(CONCAT(c.year + IF(c.endMonth < c.month, 1, 0), '-', c.endMonth, '-', c.endDay), '%Y-%m-%d') < @runDate
+    FROM seniors AS p
+    JOIN wca.results AS r ON r.person_id = p.wca_id AND best > 0
+    JOIN wca.competitions AS c ON c.id = r.competition_id AND STR_TO_DATE(CONCAT(c.year + IF(c.end_month < c.month, 1, 0), '-', c.end_month, '-', c.end_day), '%Y-%m-%d') < @run_date
     WHERE YEAR(dob) <= YEAR(UTC_DATE()) - 40
-    AND accuracyId NOT IN ('x', 'y')
+    AND accuracy_id NOT IN ('x', 'y')
     HAVING age_at_comp >= 40
 ) AS t
 JOIN seq_40_to_100_step_10 ON seq <= age_at_comp;
 
-ALTER TABLE KnownSeniors ADD PRIMARY KEY (eventId, resultType, ageCategory, personId);
+ALTER TABLE known_seniors ADD PRIMARY KEY (event_id, result_type, age_category, person_id);
 
 /*
     Calculate missing counts
 */
 
 DROP TABLE IF EXISTS MissingContinents;
+DROP TABLE IF EXISTS missing_continents;
 
-CREATE TABLE MissingContinents AS
-SELECT t.eventId, t.resultType, t.ageCategory, cc.cc AS continent, ws.maxRank, ws.numPersons, numSeniors, knownSeniors, numSeniors - knownSeniors AS missingSeniors
+CREATE TABLE missing_continents AS
+SELECT t.event_id, t.result_type, t.age_category, cc.cc AS continent, ws.max_rank, ws.num_persons, num_seniors, known_seniors, num_seniors - known_seniors AS missing_seniors
 FROM 
 (
-    SELECT eventId, resultType, ageCategory, continentId, COUNT(*) AS knownSeniors
-    FROM KnownSeniors
-    JOIN wca.Persons AS p ON p.id = personId
-    JOIN wca.Countries AS c ON c.id = p.countryId
-    GROUP BY eventId, resultType, ageCategory, continentId
+    SELECT event_id, result_type, age_category, continent_id, COUNT(*) AS known_seniors
+    FROM known_seniors AS ks
+    JOIN wca.persons AS p ON p.wca_id = ks.person_id
+    JOIN wca.countries AS c ON c.id = p.country_id
+    GROUP BY event_id, result_type, age_category, continent_id
 ) AS t
-JOIN ContinentCodes AS cc ON cc.id = t.continentId
-LEFT JOIN ContinentStats AS cs ON cs.eventId = t.eventId AND cs.resultType = t.resultType AND cs.ageCategory = t.ageCategory AND cs.continentId = t.continentId
-LEFT JOIN WcaStats AS ws ON ws.eventId = t.eventId AND ws.resultType = t.resultType AND ws.continentId = t.continentId;
+JOIN continent_codes AS cc ON cc.id = t.continent_id
+LEFT JOIN continent_stats AS cs ON cs.event_id = t.event_id AND cs.result_type = t.result_type AND cs.age_category = t.age_category AND cs.continent_id = t.continent_id
+LEFT JOIN wca_stats AS ws ON ws.event_id = t.event_id AND ws.result_type = t.result_type AND ws.continent_id = t.continent_id;
 
-ALTER TABLE MissingContinents ADD PRIMARY KEY (eventId, resultType, ageCategory, continent);
+ALTER TABLE missing_continents ADD PRIMARY KEY (event_id, result_type, age_category, continent);
 
 /*
     Patch missing counts
 */
 
 -- Count cannot be negative
-UPDATE MissingContinents
-SET missingSeniors = 0
-WHERE missingSeniors < 0;
+UPDATE missing_continents
+SET missing_seniors = 0
+WHERE missing_seniors < 0;
 
 -- Propagate "none missing" from world to continent
-UPDATE MissingContinents AS mc
-JOIN MissingWorld AS mw ON mw.eventId = mc.eventId AND mw.resultType = mc.resultType AND mw.ageCategory = mc.ageCategory
-SET mc.missingSeniors = 0
-WHERE mc.missingSeniors IS NULL
-AND mw.missingSeniors = 0;
+UPDATE missing_continents AS mc
+JOIN missing_world AS mw ON mw.event_id = mc.event_id AND mw.result_type = mc.result_type AND mw.age_category = mc.age_category
+SET mc.missing_seniors = 0
+WHERE mc.missing_seniors IS NULL
+AND mw.missing_seniors = 0;
 
 -- Propagate "none missing" from younger age categories
-UPDATE MissingContinents AS mc1
-JOIN MissingContinents AS mc2 ON mc2.eventId = mc1.eventId AND mc2.resultType = mc1.resultType AND mc2.ageCategory < mc1.ageCategory AND mc2.continent = mc1.continent
-SET mc1.missingSeniors = 0
-WHERE mc1.missingSeniors IS NULL
-AND mc2.missingSeniors = 0;
+UPDATE missing_continents AS mc1
+JOIN missing_continents AS mc2 ON mc2.event_id = mc1.event_id AND mc2.result_type = mc1.result_type AND mc2.age_category < mc1.age_category AND mc2.continent = mc1.continent
+SET mc1.missing_seniors = 0
+WHERE mc1.missing_seniors IS NULL
+AND mc2.missing_seniors = 0;
 
 -- Handle supressions - only 1 senior in the WCA DB
-UPDATE MissingContinents
-SET missingSeniors = 0
-WHERE missingSeniors IS NULL
-AND numPersons >= 40
-AND knownSeniors > 0;
+UPDATE missing_continents
+SET missing_seniors = 0
+WHERE missing_seniors IS NULL
+AND num_persons >= 40
+AND known_seniors > 0;
 
 -- Finish using an estimate of the number of seniors in the continent
-UPDATE MissingContinents AS mc
-JOIN MissingWorld AS mw ON mw.eventId = mc.eventId AND mw.resultType = mc.resultType AND mw.ageCategory = mc.ageCategory
-SET mc.missingSeniors = CEIL(mc.numPersons / mw.numPersons * mw.numSeniors) - mc.knownSeniors
-WHERE mc.missingSeniors IS NULL;
+UPDATE missing_continents AS mc
+JOIN missing_world AS mw ON mw.event_id = mc.event_id AND mw.result_type = mc.result_type AND mw.age_category = mc.age_category
+SET mc.missing_seniors = CEIL(mc.num_persons / mw.num_persons * mw.num_seniors) - mc.known_seniors
+WHERE mc.missing_seniors IS NULL;
 
 -- Count cannot be negative (patch estimations in last step)
-UPDATE MissingContinents
-SET missingSeniors = 0
-WHERE missingSeniors < 0;
+UPDATE missing_continents
+SET missing_seniors = 0
+WHERE missing_seniors < 0;
 
 /*
     Extract missing counts
 */
 
-SELECT eventId, resultType, ageCategory, continent, missingSeniors
-FROM MissingContinents
-WHERE missingSeniors IS NOT NULL
-ORDER BY eventId, resultType, ageCategory, continent;
+SELECT event_id, result_type, age_category, continent, missing_seniors
+FROM missing_continents
+WHERE missing_seniors IS NOT NULL
+ORDER BY event_id, result_type, age_category, continent;

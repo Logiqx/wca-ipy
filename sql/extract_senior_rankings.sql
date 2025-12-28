@@ -11,42 +11,43 @@
 */
 
 -- DROP TEMPORARY TABLE IF EXISTS SeniorRanks;
+-- DROP TEMPORARY TABLE IF EXISTS senior_ranks;
 
-CREATE TEMPORARY TABLE SeniorRanks AS
-SELECT eventId, resultType, ageCategory, personId, best, RANK() OVER (PARTITION BY eventId, resultType, ageCategory ORDER BY best) AS rankNo
+CREATE TEMPORARY TABLE senior_ranks AS
+SELECT event_id, result_type, age_category, person_id, best, RANK() OVER (PARTITION BY event_id, result_type, age_category ORDER BY best) AS rank_no
 FROM
 (
     -- Additional brackets added for clarity
     (
         -- Actual results
-        SELECT eventId, resultType, seq AS ageCategory, personId, MIN(best) AS best
+        SELECT event_id, result_type, seq AS age_category, person_id, MIN(best) AS best
         FROM
         (
-            SELECT r.eventId, 'average' AS resultType, r.personId, r.average AS best,
+            SELECT r.event_id, 'average' AS result_type, r.person_id, r.average AS best,
                 TIMESTAMPDIFF(YEAR, dob, STR_TO_DATE(CONCAT(c.year, '-', c.month, '-', c.day), '%Y-%m-%d')) AS age_at_comp
-            FROM Seniors AS p
-            JOIN wca.Results AS r ON r.personId = p.personId AND average > 0
-            JOIN wca.Competitions AS c ON c.id = r.competitionId
+            FROM seniors AS p
+            JOIN wca.results AS r ON r.person_id = p.wca_id AND average > 0
+            JOIN wca.competitions AS c ON c.id = r.competition_id
             WHERE YEAR(dob) <= YEAR(UTC_DATE()) - 40
             HAVING age_at_comp >= 40
             UNION ALL
-            SELECT r.eventId, 'single' AS resultType, r.personId, r.best,
+            SELECT r.event_id, 'single' AS result_type, r.person_id, r.best,
                 TIMESTAMPDIFF(YEAR, dob, STR_TO_DATE(CONCAT(c.year, '-', c.month, '-', c.day), '%Y-%m-%d')) AS age_at_comp
-            FROM Seniors AS p
-            JOIN wca.Results AS r ON r.personId = p.personId AND best > 0
-            JOIN wca.Competitions AS c ON c.id = r.competitionId
+            FROM seniors AS p
+            JOIN wca.results AS r ON r.person_id = p.wca_id AND best > 0
+            JOIN wca.competitions AS c ON c.id = r.competition_id
             WHERE YEAR(dob) <= YEAR(UTC_DATE()) - 40
             HAVING age_at_comp >= 40
         ) AS t
         JOIN seq_40_to_100_step_10 ON seq <= age_at_comp
-        GROUP BY eventId, resultType, ageCategory, personId
+        GROUP BY event_id, result_type, age_category, person_id
     )
     UNION ALL
     (
         -- Fake results
-        SELECT sv.eventId, sv.resultType, sv.ageCategory, fakeId AS personId, fakeResult AS best
-        FROM SeniorFakes AS sf
-        JOIN SeniorViews AS sv ON sv.viewId = sf.viewId
+        SELECT sv.event_id, sv.result_type, sv.age_category, fake_id AS person_id, fake_result AS best
+        FROM senior_fakes AS sf
+        JOIN senior_views AS sv ON sv.view_id = sf.view_id
     )
 ) AS t;
 
@@ -54,43 +55,43 @@ FROM
     Finish up by appending the competition id and sorting the rankings
 */
 
-SELECT eventId, resultType, ageCategory, personId, best, rankNo, competitionId, ageAtComp
+SELECT event_id, result_type, age_category, person_id, best, rank_no, competition_id, age_at_comp
 FROM
 (
     -- Additional brackets added for clarity
     (
         -- Actual results
-        SELECT eventId, resultType, ageCategory, personId, best, rankNo, personName, competitionId, ageAtComp
+        SELECT event_id, result_type, age_category, person_id, best, rank_no, person_name, competition_id, age_at_comp
         FROM
         (
-            SELECT sr.*, s.name AS personName, c.id AS competitionId,
-                FLOOR(TIMESTAMPDIFF(YEAR, dob, STR_TO_DATE(CONCAT(c.year, '-', c.month, '-', c.day), '%Y-%m-%d')) / 10) * 10 AS ageAtComp,
-                ROW_NUMBER() OVER (PARTITION BY sr.eventId, sr.resultType, sr.ageCategory, sr.personId ORDER BY c.year, c.month, c.day) AS rowNo
-            FROM Seniors AS s
-            JOIN SeniorRanks AS sr ON sr.personId = s.personId
-            JOIN wca.Results AS r ON r.eventId = sr.eventId AND r.personId = sr.personId AND r.average = sr.best
-            JOIN wca.Competitions AS c ON c.id = r.competitionId
-            WHERE resultType = 'average'
-            HAVING ageAtComp >= sr.ageCategory
+            SELECT sr.*, s.name AS person_name, c.id AS competition_id,
+                FLOOR(TIMESTAMPDIFF(YEAR, dob, STR_TO_DATE(CONCAT(c.year, '-', c.month, '-', c.day), '%Y-%m-%d')) / 10) * 10 AS age_at_comp,
+                ROW_NUMBER() OVER (PARTITION BY sr.event_id, sr.result_type, sr.age_category, sr.person_id ORDER BY c.year, c.month, c.day) AS row_no
+            FROM seniors AS s
+            JOIN senior_ranks AS sr ON sr.person_id = s.wca_id
+            JOIN wca.results AS r ON r.event_id = sr.event_id AND r.person_id = sr.person_id AND r.average = sr.best
+            JOIN wca.competitions AS c ON c.id = r.competition_id
+            WHERE result_type = 'average'
+            HAVING age_at_comp >= sr.age_category
             UNION ALL
-            SELECT sr.*, s.name AS personName, c.id AS competitionId,
-                FLOOR(TIMESTAMPDIFF(YEAR, dob, STR_TO_DATE(CONCAT(c.year, '-', c.month, '-', c.day), '%Y-%m-%d')) / 10) * 10 AS ageAtComp,
-                ROW_NUMBER() OVER (PARTITION BY sr.eventId, sr.resultType, sr.ageCategory, sr.personId ORDER BY c.year, c.month, c.day) AS rowNo
-            FROM Seniors AS s
-            JOIN SeniorRanks AS sr ON sr.personId = s.personId
-            JOIN wca.Results AS r ON r.eventId = sr.eventId AND r.personId = sr.personId AND r.best = sr.best
-            JOIN wca.Competitions AS c ON c.id = r.competitionId
-            WHERE resultType = 'single'
-            HAVING ageAtComp >= sr.ageCategory
+            SELECT sr.*, s.name AS person_name, c.id AS competition_id,
+                FLOOR(TIMESTAMPDIFF(YEAR, dob, STR_TO_DATE(CONCAT(c.year, '-', c.month, '-', c.day), '%Y-%m-%d')) / 10) * 10 AS age_at_comp,
+                ROW_NUMBER() OVER (PARTITION BY sr.event_id, sr.result_type, sr.age_category, sr.person_id ORDER BY c.year, c.month, c.day) AS row_no
+            FROM seniors AS s
+            JOIN senior_ranks AS sr ON sr.person_id = s.wca_id
+            JOIN wca.results AS r ON r.event_id = sr.event_id AND r.person_id = sr.person_id AND r.best = sr.best
+            JOIN wca.competitions AS c ON c.id = r.competition_id
+            WHERE result_type = 'single'
+            HAVING age_at_comp >= sr.age_category
         ) AS t
-        WHERE rowNo = 1
+        WHERE row_no = 1
     )
     UNION ALL
     (
         -- Fake results
-        SELECT sr.*, personId AS personName, 'WC2003' AS competitionId, sr.ageCategory AS ageAtComp
-        FROM SeniorRanks AS sr
-        WHERE personId LIKE 'FAKE%'
+        SELECT sr.*, person_id AS person_name, 'WC2003' AS competition_id, sr.age_category AS age_at_comp
+        FROM senior_ranks AS sr
+        WHERE person_id LIKE 'FAKE%'
     )
 ) AS t
-ORDER BY eventId, resultType DESC, ageCategory, best, personName;
+ORDER BY event_id, result_type DESC, age_category, best, person_name;

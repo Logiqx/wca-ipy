@@ -6,14 +6,14 @@
     Purpose:  Extract name, country, age category and details for speedsolving.com
 */
 
-UPDATE Seniors AS s
-JOIN wca.Persons AS p ON p.id = s.personId AND p.subid = 1
-SET s.name = p.name, s.countryId = p.countryId, s.gender = p.gender;
+UPDATE seniors AS s
+JOIN wca.persons AS p ON p.wca_id = s.wca_id AND p.sub_id = 1
+SET s.name = p.name, s.country_id = p.country_id, s.gender = p.gender;
 
-SELECT s.personId, s.name AS personName, c.iso2 AS country, s.username, s.usernum,
-		FLOOR(TIMESTAMPDIFF(YEAR, dob, NOW()) / 10) * 10 AS ageCategory,
-		s.hidden, IFNULL(s.userId, 0) AS userId, s.deceased
-FROM Seniors AS s
-INNER JOIN wca.Countries AS c ON c.id = s.countryId
-HAVING ageCategory >= 40
-ORDER BY personId;
+SELECT s.wca_id, s.name AS person_name, c.iso2 AS country, s.username, s.usernum,
+		FLOOR(TIMESTAMPDIFF(YEAR, dob, NOW()) / 10) * 10 AS age_category,
+		s.hidden, IFNULL(s.user_id, 0) AS user_id, s.deceased
+FROM seniors AS s
+INNER JOIN wca.countries AS c ON c.id = s.country_id
+HAVING age_category >= 40
+ORDER BY wca_id;

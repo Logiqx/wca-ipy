@@ -6,10 +6,10 @@
     Purpose:  Extract list of recent competitions with senior participation
 */
 
-SELECT DISTINCT r.competitionId, r.personId
-FROM Seniors AS p
-JOIN wca.Results AS r ON r.personId = p.personId
-JOIN wca.Competitions AS c ON c.id = r.competitionId
+SELECT DISTINCT r.competition_id, r.person_id
+FROM seniors AS p
+JOIN wca.results AS r ON r.person_id = p.wca_id
+JOIN wca.competitions AS c ON c.id = r.competition_id
 	AND TIMESTAMPDIFF(YEAR, dob, STR_TO_DATE(CONCAT(c.year, '-', c.month, '-', c.day), '%Y-%m-%d')) >= 40
-	AND TIMESTAMPDIFF(DAY, UTC_DATE(), STR_TO_DATE(CONCAT(c.year + IF(c.endMonth < c.month, 1, 0), '-', c.endMonth, '-', c.endDay), '%Y-%m-%d')) >= -91
-ORDER BY competitionId, personId;
+	AND TIMESTAMPDIFF(DAY, UTC_DATE(), STR_TO_DATE(CONCAT(c.year + IF(c.end_month < c.month, 1, 0), '-', c.end_month, '-', c.end_day), '%Y-%m-%d')) >= -91
+ORDER BY competition_id, wca_id;

@@ -7,6 +7,6 @@
 */
 
 SELECT cc.cc AS id, c.name
-FROM wca.Continents AS c
-JOIN ContinentCodes AS cc ON cc.id = c.id
+FROM wca.continents AS c
+JOIN continent_codes AS cc ON cc.id = c.id
 ORDER BY name;

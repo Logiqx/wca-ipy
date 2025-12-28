@@ -3,10 +3,10 @@
     Created:  2020-01-06
     Author:   Michael George / 2015GEOR02
 
-    Purpose:  Extract Countries table
+    Purpose:  Extract countries table
 */
 
-SELECT c.iso2 AS id, c.name, cc.cc AS continentId
-FROM wca.Countries AS c
-JOIN ContinentCodes AS cc ON cc.id = c.continentId
+SELECT c.iso2 AS id, c.name, cc.cc AS continent_id
+FROM wca.countries AS c
+JOIN continent_codes AS cc ON cc.id = c.continent_id
 ORDER BY name;

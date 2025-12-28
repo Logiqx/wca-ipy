@@ -9,7 +9,7 @@
 */
 
 -- Apply random DOB
-UPDATE Persons
+UPDATE persons
 SET year = FLOOR(
       YEAR(NOW()) - 1 -
       (
@@ -29,6 +29,6 @@ SET year = FLOOR(
 
 -- Check age categories
 SELECT FLOOR((YEAR(NOW()) - year) / 10) * 10 AS age_category, COUNT(*)
-FROM Persons
+FROM persons
 GROUP BY age_category
 ORDER BY age_category;
