@@ -27,10 +27,10 @@
               FROM persons AS p
               JOIN results AS r ON r.person_id = p.wca_id
               JOIN competitions AS c ON c.id = r.competition_id AND end_date < #{cutoff_date}
-              WHERE p.year > 0 AND p.year <= YEAR(UTC_DATE()) - 40
+              WHERE YEAR(dob) <= YEAR(UTC_DATE()) - 40
               AND #{column_name} > 0
               AND sub_id = 1
-              AND TIMESTAMPDIFF(YEAR, STR_TO_DATE(CONCAT(p.year, '-', p.month, '-', p.day), '%Y-%m-%d'), start_date) >= 40
+              AND TIMESTAMPDIFF(YEAR, dob, start_date) >= 40
               GROUP BY event_id, country_id
 
               - The following query only needs to be run once per result type (best / average)
@@ -48,10 +48,10 @@ SELECT * FROM
 
 WITH possible_seniors AS
 (
-  SELECT p.wca_id, country_id, DATE(CONCAT_WS('-', p.year, p.month, p.day)) AS dob
-  FROM persons AS p USE INDEX()
-  WHERE p.year > 0 AND p.year <= YEAR(UTC_DATE()) - 40
-  AND p.sub_id = 1
+  SELECT wca_id, country_id, dob
+  FROM persons USE INDEX()
+  WHERE YEAR(dob) <= YEAR(UTC_DATE()) - 40
+  AND sub_id = 1
 ),
 
 competition_cutoff AS

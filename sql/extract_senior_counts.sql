@@ -16,10 +16,10 @@ SELECT * FROM
 
 WITH possible_seniors AS
 (
-  SELECT p.wca_id, DATE(CONCAT_WS('-', p.year, p.month, p.day)) AS dob
-  FROM persons AS p USE INDEX()
-  WHERE p.year > 0 AND p.year <= YEAR(UTC_DATE()) - 40
-  AND p.sub_id = 1
+  SELECT wca_id, dob
+  FROM persons USE INDEX()
+  WHERE YEAR(dob) <= YEAR(UTC_DATE()) - 40
+  AND sub_id = 1
 ),
 
 competition_cutoff AS
