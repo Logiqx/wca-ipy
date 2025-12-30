@@ -6,6 +6,10 @@
     Purpose:  Apply default DOB to everyone in the WCA database (public export) for testing purposes
 */
 
+USE wca;
+
+SET SQL_SAFE_UPDATES = 0;
+
 -- Reset to WCA defaults
 UPDATE persons
 SET year = 1954,

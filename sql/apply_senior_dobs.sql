@@ -8,6 +8,8 @@
 
 USE wca;
 
+SET SQL_SAFE_UPDATES = 0;
+
 -- Start with default YMD of zero
 UPDATE persons AS p
 SET p.year = 0,
