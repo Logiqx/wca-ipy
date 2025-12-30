@@ -16,29 +16,29 @@
               - Firstly, determine cutoff_date using the following SQL.
 
               SELECT MIN(end_date)
-              FROM Competitions
+              FROM competitions
               WHERE results_posted_at IS NULL OR results_posted_at > UTC_DATE()
 
               - Execute for each age category (40, 50, 60 ... 100) and result type (best / average).
               - Supress results where num_seniors = 1 or num_persons < 40 (see below).
               - n.b. cutoff_date = UTC_DATE() minus 10 days
 
-              SELECT eventId, p.countryId, COUNT(DISTINCT personId) AS num_seniors
-              FROM Persons AS p
-              JOIN Results AS r ON r.personId = p.id
-              JOIN Competitions AS c ON c.id = r.competitionId AND end_date < #{cutoff_date}
+              SELECT event_id, p.country_id, COUNT(DISTINCT person_id) AS num_seniors
+              FROM persons AS p
+              JOIN results AS r ON r.person_id = p.wca_id
+              JOIN competitions AS c ON c.id = r.competition_id AND end_date < #{cutoff_date}
               WHERE p.year > 0 AND p.year <= YEAR(UTC_DATE()) - 40
               AND #{column_name} > 0
-              AND subid = 1
+              AND sub_id = 1
               AND TIMESTAMPDIFF(YEAR, STR_TO_DATE(CONCAT(p.year, '-', p.month, '-', p.day), '%Y-%m-%d'), start_date) >= 40
-              GROUP BY eventId, countryId
+              GROUP BY event_id, country_id
 
               - The following query only needs to be run once per result type (best / average)
 
-              SELECT eventId, countryId, COUNT(*) AS num_persons
+              SELECT event_id, country_id, COUNT(*) AS num_persons
               FROM #{table_name} AS r
-              JOIN Persons AS p ON p.id = r.personId AND p.subid = 1
-              GROUP BY eventId, countryId
+              JOIN persons AS p ON p.wca_id = r.person_id AND p.sub_id = 1
+              GROUP BY event_id, country_id
 */
 
 -- Note: SELECT * FROM (...) is only for the benefit of phpMyAdmin. It is not required by other SQL clients.
@@ -48,10 +48,10 @@ SELECT * FROM
 
 WITH possible_seniors AS
 (
-  SELECT p.id, countryId, DATE(CONCAT_WS('-', p.year, p.month, p.day)) AS dob
-  FROM Persons AS p USE INDEX()
+  SELECT p.wca_id, country_id, DATE(CONCAT_WS('-', p.year, p.month, p.day)) AS dob
+  FROM persons AS p USE INDEX()
   WHERE p.year > 0 AND p.year <= YEAR(UTC_DATE()) - 40
-  AND p.subid = 1
+  AND p.sub_id = 1
 ),
 
 competition_cutoff AS
@@ -67,28 +67,28 @@ age_categories(age_category) AS
 SELECT t1.*, num_persons, ROUND(100 * num_seniors / num_persons, 2) AS pct_senior
 FROM
 (
-  SELECT cutoff_date, eventId, "average" AS result, age_category, countryId, COUNT(DISTINCT personId) AS num_seniors
+  SELECT cutoff_date, event_id, "average" AS result, age_category, country_id, COUNT(DISTINCT person_id) AS num_seniors
   FROM
   (
-    SELECT cutoff_date, personId, p.countryId, eventId, TIMESTAMPDIFF(YEAR, dob, start_date) AS age_at_comp
+    SELECT cutoff_date, person_id, p.country_id, event_id, TIMESTAMPDIFF(YEAR, dob, start_date) AS age_at_comp
     FROM possible_seniors AS p
-    JOIN Results AS r ON r.personId = p.id
-    JOIN Competitions AS c ON c.id = r.competitionId
+    JOIN results AS r ON r.person_id = p.wca_id
+    JOIN competitions AS c ON c.id = r.competition_id
     JOIN competition_cutoff
     WHERE average > 0
     AND end_date < cutoff_date
     HAVING age_at_comp >= 40
   ) AS senior_results
   JOIN age_categories ON age_category <= age_at_comp
-  GROUP BY eventId, age_category, countryId
+  GROUP BY event_id, age_category, country_id
 ) AS t1
 JOIN
 (
-  SELECT eventId, countryId, COUNT(*) AS num_persons
-  FROM RanksAverage AS r
-  JOIN Persons AS p ON p.id = r.personId AND p.subid = 1
-  GROUP BY eventId, countryId
-) AS t2 ON t2.eventId = t1.eventId AND t2.countryId = t1.countryId
+  SELECT event_id, country_id, COUNT(*) AS num_persons
+  FROM ranks_average AS r
+  JOIN persons AS p ON p.wca_id = r.person_id AND p.sub_id = 1
+  GROUP BY event_id, country_id
+) AS t2 ON t2.event_id = t1.event_id AND t2.country_id = t1.country_id
 WHERE num_persons >= 40 AND num_seniors > 1
 
 UNION ALL
@@ -96,28 +96,28 @@ UNION ALL
 SELECT t1.*, num_persons, ROUND(100 * num_seniors / num_persons, 2) AS pct_senior
 FROM
 (
-  SELECT cutoff_date, eventId, "single" AS result, age_category, countryId, COUNT(DISTINCT personId) AS num_seniors
+  SELECT cutoff_date, event_id, "single" AS result, age_category, country_id, COUNT(DISTINCT person_id) AS num_seniors
   FROM
   (
-    SELECT cutoff_date, personId, p.countryId, eventId, TIMESTAMPDIFF(YEAR, dob, start_date) AS age_at_comp
+    SELECT cutoff_date, person_id, p.country_id, event_id, TIMESTAMPDIFF(YEAR, dob, start_date) AS age_at_comp
     FROM possible_seniors AS p
-    JOIN Results AS r ON r.personId = p.id
-    JOIN Competitions AS c ON c.id = r.competitionId
+    JOIN results AS r ON r.person_id = p.wca_id
+    JOIN competitions AS c ON c.id = r.competition_id
     JOIN competition_cutoff
     WHERE best > 0
     AND end_date < cutoff_date
     HAVING age_at_comp >= 40
   ) AS senior_results
   JOIN age_categories ON age_category <= age_at_comp
-  GROUP BY eventId, age_category, countryId
+  GROUP BY event_id, age_category, country_id
 ) AS t1
 JOIN
 (
-  SELECT eventId, countryId, COUNT(*) AS num_persons
-  FROM RanksSingle AS r
-  JOIN Persons AS p ON p.id = r.personId AND p.subid = 1
-  GROUP BY eventId, countryId
-) AS t2 ON t2.eventId = t1.eventId AND t2.countryId = t1.countryId
+  SELECT event_id, country_id, COUNT(*) AS num_persons
+  FROM ranks_single AS r
+  JOIN persons AS p ON p.wca_id = r.person_id AND p.sub_id = 1
+  GROUP BY event_id, country_id
+) AS t2 ON t2.event_id = t1.event_id AND t2.country_id = t1.country_id
 WHERE num_persons >= 40 AND num_seniors > 1
 
 ) AS t;

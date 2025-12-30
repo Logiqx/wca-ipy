@@ -16,10 +16,10 @@ SELECT * FROM
 
 WITH possible_seniors AS
 (
-  SELECT p.id, DATE(CONCAT_WS('-', p.year, p.month, p.day)) AS dob
-  FROM Persons AS p USE INDEX()
+  SELECT p.wca_id, DATE(CONCAT_WS('-', p.year, p.month, p.day)) AS dob
+  FROM persons AS p USE INDEX()
   WHERE p.year > 0 AND p.year <= YEAR(UTC_DATE()) - 40
-  AND p.subid = 1
+  AND p.sub_id = 1
 ),
 
 competition_cutoff AS
@@ -32,36 +32,36 @@ age_categories(age_category) AS
   SELECT 40 AS age_category UNION ALL SELECT 50 UNION ALL SELECT 60 UNION ALL SELECT 70 UNION ALL SELECT 80 UNION ALL SELECT 90 UNION ALL SELECT 100
 )
 
-SELECT cutoff_date, eventId, "average" AS result, age_category, COUNT(DISTINCT personId) AS num_seniors
+SELECT cutoff_date, event_id, "average" AS result, age_category, COUNT(DISTINCT person_id) AS num_seniors
 FROM
 (
-  SELECT cutoff_date, personId, eventId, TIMESTAMPDIFF(YEAR, dob, start_date) AS age_at_comp
+  SELECT cutoff_date, person_id, event_id, TIMESTAMPDIFF(YEAR, dob, start_date) AS age_at_comp
   FROM possible_seniors AS p
-  JOIN Results AS r ON r.personId = p.id
-  JOIN Competitions AS c ON c.id = r.competitionId
+  JOIN results AS r ON r.person_id = p.wca_id
+  JOIN competitions AS c ON c.id = r.competition_id
   JOIN competition_cutoff
   WHERE average > 0
   AND end_date < cutoff_date
   HAVING age_at_comp >= 40
 ) AS senior_results
 JOIN age_categories ON age_category <= age_at_comp
-GROUP BY eventId, age_category
+GROUP BY event_id, age_category
 
 UNION ALL
 
-SELECT cutoff_date, eventId, "single" AS result, age_category, COUNT(DISTINCT personId) AS num_seniors
+SELECT cutoff_date, event_id, "single" AS result, age_category, COUNT(DISTINCT person_id) AS num_seniors
 FROM
 (
-  SELECT cutoff_date, personId, eventId, TIMESTAMPDIFF(YEAR, dob, start_date) AS age_at_comp
+  SELECT cutoff_date, person_id, event_id, TIMESTAMPDIFF(YEAR, dob, start_date) AS age_at_comp
   FROM possible_seniors AS p
-  JOIN Results AS r ON r.personId = p.id
-  JOIN Competitions AS c ON c.id = r.competitionId
+  JOIN results AS r ON r.person_id = p.wca_id
+  JOIN competitions AS c ON c.id = r.competition_id
   JOIN competition_cutoff
   WHERE best > 0
   AND end_date < cutoff_date
   HAVING age_at_comp >= 40
 ) AS senior_results
 JOIN age_categories ON age_category <= age_at_comp
-GROUP BY eventId, age_category
+GROUP BY event_id, age_category
 
 ) AS t;
