@@ -8,9 +8,11 @@
     Approach: Generate random numbers and allocate to age categories resembling actual WCA data
 */
 
+SET SQL_SAFE_UPDATES = 0;
+
 -- Apply random DOB
 UPDATE persons
-SET year = FLOOR(
+SET dob = STR_TO_DATE(CONCAT(FLOOR(
       YEAR(NOW()) - 1 -
       (
         CASE
@@ -23,9 +25,7 @@ SET year = FLOOR(
           WHEN RAND() * 10000 < 400 THEN 20
           ELSE 10
         END
-      ) - RAND() * 10),
-    month = FLOOR(1 + RAND() * 12),
-    day = FLOOR(1 + RAND() * 28);
+      ) - RAND() * 10), '-', FLOOR(1 + RAND() * 12), '-', FLOOR(1 + RAND() * 28)), '%Y-%m-%d');
 
 -- Check age categories
 SELECT FLOOR((YEAR(NOW()) - year) / 10) * 10 AS age_category, COUNT(*)

@@ -11,12 +11,12 @@ DROP VIEW IF EXISTS senior_details;
 
 CREATE VIEW senior_details AS
 SELECT s.wca_id, s.name, s.country_id, s.gender, s.dob, s.hidden, s.deceased,
-    MIN(STR_TO_DATE(CONCAT(c.year, '-', c.month, '-', c.day), '%Y-%m-%d')) AS first_comp,
-    MAX(STR_TO_DATE(CONCAT(c.year, '-', c.month, '-', c.day), '%Y-%m-%d')) AS last_comp,
+    MIN(c.start_date) AS first_comp,
+    MAX(c.start_date) AS last_comp,
     COUNT(DISTINCT r.competition_id) AS num_comps,
-    MAX(TIMESTAMPDIFF(YEAR, STR_TO_DATE(CONCAT(LEFT(s.wca_id, 4), '-01-01'), '%Y-%m-%d'), STR_TO_DATE(CONCAT(c.year, '-01-01'), '%Y-%m-%d')) + 1) AS years_competing,
-    MIN(TIMESTAMPDIFF(YEAR, s.dob, STR_TO_DATE(CONCAT(c.year, '-', c.month, '-', c.day), '%Y-%m-%d'))) AS age_first_comp,
-    MAX(TIMESTAMPDIFF(YEAR, s.dob, STR_TO_DATE(CONCAT(c.year, '-', c.month, '-', c.day), '%Y-%m-%d'))) AS age_last_comp,
+    MAX(TIMESTAMPDIFF(YEAR, STR_TO_DATE(CONCAT(LEFT(s.wca_id, 4), '-01-01'), '%Y-%m-%d'), STR_TO_DATE(CONCAT(YEAR(c.start_date), '-01-01'), '%Y-%m-%d')) + 1) AS years_competing,
+    MIN(TIMESTAMPDIFF(YEAR, s.dob, c.start_date)) AS age_first_comp,
+    MAX(TIMESTAMPDIFF(YEAR, s.dob, c.start_date)) AS age_last_comp,
     TIMESTAMPDIFF(YEAR, s.dob, NOW()) AS age_today,
     s.accuracy_id, s.source_id, s.user_status_id,
     sa.type AS accuracy_type, ss.type AS source_type, us.type AS user_status,

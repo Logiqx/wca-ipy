@@ -12,6 +12,4 @@ SET SQL_SAFE_UPDATES = 0;
 
 -- Reset to WCA defaults
 UPDATE persons
-SET year = 1954,
-    month = 12,
-    day = 4;
+SET dob = '1954-12-04';

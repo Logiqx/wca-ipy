@@ -46,19 +46,19 @@ SELECT DISTINCT event_id, CONVERT(result_type USING utf8) AS result_type, seq AS
 FROM
 (
     SELECT r.event_id, 'average' AS result_type, r.person_id,
-        TIMESTAMPDIFF(YEAR, dob, STR_TO_DATE(CONCAT(c.year, '-', c.month, '-', c.day), '%Y-%m-%d')) AS age_at_comp
+        TIMESTAMPDIFF(YEAR, dob, c.start_date) AS age_at_comp
     FROM seniors AS p
     JOIN wca.results AS r ON r.person_id = p.wca_id AND average > 0
-    JOIN wca.competitions AS c ON c.id = r.competition_id AND STR_TO_DATE(CONCAT(c.year + IF(c.end_month < c.month, 1, 0), '-', c.end_month, '-', c.end_day), '%Y-%m-%d') < @run_date
+    JOIN wca.competitions AS c ON c.id = r.competition_id AND c.end_date < @run_date
     WHERE YEAR(dob) <= YEAR(UTC_DATE()) - 40
     AND accuracy_id NOT IN ('x', 'y')
     HAVING age_at_comp >= 40
     UNION ALL
     SELECT r.event_id, 'single' AS result_type, r.person_id,
-        TIMESTAMPDIFF(YEAR, dob, STR_TO_DATE(CONCAT(c.year, '-', c.month, '-', c.day), '%Y-%m-%d')) AS age_at_comp
+        TIMESTAMPDIFF(YEAR, dob, c.start_date) AS age_at_comp
     FROM seniors AS p
     JOIN wca.results AS r ON r.person_id = p.wca_id AND best > 0
-    JOIN wca.competitions AS c ON c.id = r.competition_id AND STR_TO_DATE(CONCAT(c.year + IF(c.end_month < c.month, 1, 0), '-', c.end_month, '-', c.end_day), '%Y-%m-%d') < @run_date
+    JOIN wca.competitions AS c ON c.id = r.competition_id AND c.end_date < @run_date
     WHERE YEAR(dob) <= YEAR(UTC_DATE()) - 40
     AND accuracy_id NOT IN ('x', 'y')
     HAVING age_at_comp >= 40
