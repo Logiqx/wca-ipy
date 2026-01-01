@@ -20,7 +20,7 @@ SELECT s.wca_id, s.name, s.country_id, s.gender, s.dob, s.hidden, s.deceased,
     TIMESTAMPDIFF(YEAR, s.dob, NOW()) AS age_today,
     s.accuracy_id, s.source_id, s.user_status_id,
     sa.type AS accuracy_type, ss.type AS source_type, us.type AS user_status,
-    s.user_id, u.current_avatar_id, s.username, s.usernum, s.email, s.facebook, s.youtube, s.comment
+    s.user_id, u.current_avatar_id, s.ss_user_name, s.ss_user_num, s.email, s.facebook, s.youtube, s.comment
 FROM seniors AS s
 JOIN senior_sources ss ON ss.id = s.source_id
 JOIN senior_accuracies sa ON sa.id = s.accuracy_id

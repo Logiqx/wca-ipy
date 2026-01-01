@@ -10,7 +10,7 @@ UPDATE seniors AS s
 JOIN wca.persons AS p ON p.wca_id = s.wca_id AND p.sub_id = 1
 SET s.name = p.name, s.country_id = p.country_id, s.gender = p.gender;
 
-SELECT s.wca_id, s.name AS person_name, c.iso2 AS country, s.username, s.usernum,
+SELECT s.wca_id, s.name AS person_name, c.iso2 AS country, s.ss_user_name, s.ss_user_num,
 		FLOOR(TIMESTAMPDIFF(YEAR, dob, NOW()) / 10) * 10 AS age_category,
 		s.hidden, IFNULL(s.user_id, 0) AS user_id, s.deceased
 FROM seniors AS s
