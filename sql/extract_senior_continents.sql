@@ -10,37 +10,6 @@
               The WHERE clauses roughly halve the result set, removing any potentially PII.
               The filtered / discarded records can be viewed by tweaking the WHERE clauses
               "num_persons >= 40 AND num_seniors > 1" to "(num_persons < 40 OR num_seniors = 1)"
-
-    Rails:    The SQL within this comment is more suitable for use within the API controller.
-
-              - Firstly, determine cutoff_date using the following SQL.
-
-              SELECT MIN(end_date)
-              FROM competitions
-              WHERE results_posted_at IS NULL OR results_posted_at > UTC_DATE()
-
-              - Execute for each age category (40, 50, 60 ... 100) and result type (best / average).
-              - Supress results where num_seniors = 1 or num_persons < 40 (see below).
-              - n.b. cutoff_date = UTC_DATE() minus 10 days
-
-              SELECT event_id, continent_id, COUNT(DISTINCT person_id) AS num_seniors
-              FROM persons AS p
-              JOIN results AS r ON r.person_id = p.wca_id
-              JOIN competitions AS c ON c.id = r.competition_id AND end_date < #{cutoff_date}
-              JOIN countries AS c2 ON c2.id = p.country_id
-              WHERE YEAR(dob) <= YEAR(UTC_DATE()) - 40
-              AND #{column_name} > 0
-              AND sub_id = 1
-              AND TIMESTAMPDIFF(YEAR, dob, start_date) >= 40
-              GROUP BY event_id, continent_id
-
-              - The following query only needs to be run once per result type (best / average)
-
-              SELECT event_id, continent_id, COUNT(*) AS num_persons
-              FROM #{table_name} AS r
-              JOIN persons AS p ON p.wca_id = r.person_id AND p.sub_id = 1
-              JOIN countries AS c ON c.id = p.country_id
-              GROUP BY event_id, continent_id
 */
 
 -- Note: SELECT * FROM (...) is only for the benefit of phpMyAdmin. It is not required by other SQL clients.

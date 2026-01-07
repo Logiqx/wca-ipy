@@ -11,35 +11,6 @@
               A group size of 6 seniors has been chosen because it typically relates to >500 persons.
               A group mean of NULL is returned if the last group contains less than 4 seniors.
               It is NOT practicable to determine which persons have contributed to the group means.
-
-    Rails:    The SQL within this comment is more suitable for use within the API controller.
-
-              - Firstly, determine cutoff_date using the following SQL.
-
-              SELECT MIN(end_date)
-              FROM competitions
-              WHERE results_posted_at IS NULL OR results_posted_at > UTC_DATE()
-
-              - Execute for each age category (40, 50, 60 ... 100) and result type (best / average).
-              - Calculate averages for each group of 6 records in the result set.
-              - If the last group has less than 4 records, return the count but not the average.
-
-              WITH possible_seniors(id, dob) AS
-              (
-                SELECT wca_id, dob
-                FROM persons USE INDEX()
-                WHERE YEAR(dob) <= YEAR(UTC_DATE()) - #{age_category}
-                AND sub_id = 1
-              )
-              SELECT event_id, MIN(#{column_name}) AS best
-              FROM possible_seniors AS p
-              JOIN results AS r ON r.person_id = p.wca_id
-              JOIN competitions AS c ON c.id = r.competition_id
-              WHERE #{column_name} > 0
-              AND TIMESTAMPDIFF(YEAR, dob, start_date) >= #{age_category}
-              AND end_date < #{cutoff_date}
-              GROUP BY event_id, person_id
-              ORDER BY event_id, best
 */
 
 -- Note: SELECT * FROM (...) is only for the benefit of phpMyAdmin. It is not required by other SQL clients.
