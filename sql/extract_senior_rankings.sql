@@ -29,6 +29,7 @@ FROM
             JOIN wca.results AS r ON r.person_id = p.wca_id AND average > 0
             JOIN wca.competitions AS c ON c.id = r.competition_id
             WHERE YEAR(dob) <= YEAR(UTC_DATE()) - 40
+            AND hidden <> 'x'
             HAVING age_at_comp >= 40
             UNION ALL
             SELECT r.event_id, 'single' AS result_type, r.person_id, r.best,
@@ -37,6 +38,7 @@ FROM
             JOIN wca.results AS r ON r.person_id = p.wca_id AND best > 0
             JOIN wca.competitions AS c ON c.id = r.competition_id
             WHERE YEAR(dob) <= YEAR(UTC_DATE()) - 40
+            AND hidden <> 'x'
             HAVING age_at_comp >= 40
         ) AS t
         JOIN seq_40_to_100_step_10 ON seq <= age_at_comp
