@@ -12,4 +12,5 @@ JOIN wca.results AS r ON r.person_id = p.wca_id
 JOIN wca.competitions AS c ON c.id = r.competition_id
 	AND TIMESTAMPDIFF(YEAR, dob, c.start_date) >= 40
 	AND TIMESTAMPDIFF(DAY, UTC_DATE(), c.end_date) >= -91
+WHERE hidden <> 'x'
 ORDER BY competition_id, wca_id;

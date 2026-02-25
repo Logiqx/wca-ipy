@@ -15,5 +15,6 @@ SELECT s.wca_id, s.name AS person_name, c.iso2 AS country, s.ss_user_name, s.ss_
 		s.hidden, IFNULL(s.user_id, 0) AS user_id, s.deceased
 FROM seniors AS s
 INNER JOIN wca.countries AS c ON c.id = s.country_id
+WHERE hidden <> 'x'
 HAVING age_category >= 40
 ORDER BY wca_id;
